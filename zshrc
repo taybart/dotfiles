@@ -35,4 +35,6 @@ fi
 # Aliases
 alias v="vim"
 alias notes="vim ~/Documents/notes.txt"
+alias gs="git status"
+alias gcm="git commit -m"
 
