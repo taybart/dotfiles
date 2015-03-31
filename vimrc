@@ -1,132 +1,59 @@
 execute pathogen#infect()
-set rtp+=/usr/local/go/misc/vim
-set shell=zsh\ --login
-filetype plugin indent on
 syntax on
+filetype plugin indent on
 
 colorscheme Tomorrow-Night-Eighties
 
-" The Leader
-let mapleader = "\<Space>"
-nnoremap <leader>Q :q!<CR>
-nnoremap <Leader>w :w<cr>
-nnoremap <Leader>a :!rubocop -a %<CR>
-nnoremap <leader>q :wq<CR>
-nnoremap <leader>R :RainbowParenthesesToggle<Enter>
-nnoremap <leader>o :CtrlP<CR>
-nnoremap <leader>f /
-nnoremap <leader>n :bn<CR>
-nnoremap <leader>p :bp<CR>
-nnoremap <leader>d :bd<CR>
-nnoremap <leader>h :set hlsearch!<CR>
-nnoremap <leader>b :Gblame<CR>
-nnoremap <leader>gh :Gbrowse<CR>
-nnoremap <Leader>s :call RunNearestSpec()<CR>
-nnoremap <Leader>t :w<CR>:call RunAllSpecs()<CR>
-nnoremap <Leader>1 :colo Tomorrow-Night-Eighties<CR>
-nnoremap <Leader>2 :colo Tomorrow<CR>
-
-
 " Use relative number in normal mode and absolute number in insert mode
-set relativenumber
 set number
-set hidden
+set relativenumber
+set hlsearch
+" Airline
+let g:airline_theme="molokai"
+let g:airline#extensions#tabline#enabled = 1
 
-" Because my pinky can't handle reaching esc
+" Autocmds
+" close nerdtree if its the last buffer
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | 
+" autoopen nerdtree in no files
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Keymaps
+let mapleader = "\<Space>"
+nnoremap <leader>o :CtrlP<CR>
+noremap <leader>f :NERDTreeToggle<CR>
+" Commenting blocks of code.
+autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
+autocmd FileType sh,ruby,python   let b:comment_leader = '# '
+autocmd FileType conf,fstab       let b:comment_leader = '# '
+autocmd FileType tex              let b:comment_leader = '% '
+autocmd FileType mail             let b:comment_leader = '> '
+autocmd FileType vim              let b:comment_leader = '" '
+noremap <leader>/ :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <leader>? :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
 imap kj <Esc>
 imap jk <Esc>
 
-let g:airline#extensions#tabline#enabled = 1
+" habit breaking
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeMapOpenInTab  = '<c-t>'
-let NERDTreeMapOpenSplit  = '<c-x>'
-let NERDTreeMapOpenVSplit = '<c-v>'
-map <C-t> :NERDTreeToggle<CR>
-autocmd BufRead,BufNewFile *.md setlocal spell
-autocmd BufRead,BufNewFile *.md setlocal textwidth=80
-
-" Easy copy pasting
-map <F2> :.!pbcopy<CR><CR>
-map <F3> :r !pbpaste<CR>
-
-let g:vim_markdown_folding_disabled=1
-
-" Completion suggestions
-inoremap <C-@> <C-n>
-
-" FuzzyFile search basic setup
-let g:ctrlp_map = ''
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-
-"" ==========  These come from Mislav (http://mislav.uniqpath.com/2011/12/vim-revisited/)  ==========
-set nocompatible                " choose no compatibility with legacy vi
-syntax enable
-set encoding=utf-8
-set showcmd                     " display incomplete commands
-filetype plugin indent on       " load file type plugins + indentation
-
-"" Whitespace
-set nowrap                      " don't wrap lines
-set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
-set expandtab                   " use spaces, not tabs (optional)
-set backspace=indent,eol,start  " backspace through everything in insert mode
-
-"" Searching
-set hlsearch                    " highlight matches
-set incsearch                   " incremental searching
-
-"" ==========  These come from JoshCheek (https://github.com/joshcheek/dotfiles)  ==========
-set nobackup                                        " no backup files
-set nowritebackup                                   " only in case you don't want a backup file while editing
-set noswapfile                                      " no swap files
-set scrolloff=4                                     " adds top/bottom buffer between cursor and window
-set cursorline                                      " colours the line the cursor is on
-
-" easier navigation between split windows
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
-" Emacs/Readline keybindings for commandline mode
-" http://tiswww.case.edu/php/chet/readline/readline.html#SEC4
-" many of these taken from vimacs http://www.vim.org/scripts/script.php?script_id=300
-"
-" navigation
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-f> <Right>
-cnoremap <C-b> <Left>
-cnoremap <Esc>b <S-Left> " commenting out b/c makes it pause
-cnoremap <Esc>f <S-Right>
-cnoremap <M-b> <S-Left>
-cnoremap <M-f> <S-Right>
-" editing
-cnoremap <M-p> <Up>
-cnoremap <M-n> <Down>
-cnoremap <C-k> <C-f>d$<C-c><End>
-cnoremap <C-y> <C-r><C-o>"
-cnoremap <C-d> <Right><C-h>
+" Tabs
+set expandtab
 
 "" strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
-  " Preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " Do the business:
-  %s/\s\+$//e
-  " Clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
+	"Preparation: save last search, and cursor position.
+	let _s=@/
+	let l = line(".")
+	let c = col(".")
+	" Do the business:
+	%s/\s\+$//e
+	" Clean up: restore previous search history, and cursor position
+	let @/=_s
+	call cursor(l, c)
 endfunction
 autocmd FileType c,cpp,py,go,html,erb,rb autocmd BufWritePre :call <SID>StripTrailingWhitespaces()
-
-" replaces %/ with current directory, and %% with current file
-cmap %/ <C-R>=expand("%:p:h")."/"<CR>
-cmap %% <C-R>=expand("%")<CR>
-

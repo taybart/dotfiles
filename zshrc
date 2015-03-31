@@ -1,40 +1,58 @@
 # Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
+# Set name of the theme to load. ~/.oh-my-zsh/themes/
 ZSH_THEME="robbyrussell"
 
-# Settings
+# Disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+#export EDITOR=vim
+# Enable command auto-correction.
 ENABLE_CORRECTION="true"
 
+# Plugins (plugins can be found in ~/.oh-my-zsh/plugins/*)
+plugins=(git rails)
 
-### User configuration ###
-# Variables
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin"
-export EDITOR='vim'
+# User configuration
+export PATH="/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+alias ohmyzsh="vim ~/.oh-my-zsh"
+
+# Git Aliases
+alias gs="git status"
+alias gd="git diff --patience --ignore-space-change"
+alias gcb="git checkout -b"
+alias gb="git branch"
+alias ga="git add"
+alias gh="git hist"
+alias be="bundle exec"
+alias gm="git checkout master"
+alias gcm="git commit -m"
+
+# Open according to suffix
+alias -s rb=vim
+alias -s go=vim
+alias -s html=open
+
+# Random Aliases
+alias ls="ls -l"
+alias notes="vim ~/Documents/notes.txt"
+alias v="vim"
 
 source $ZSH/oh-my-zsh.sh
 
+# Setup zsh-autosuggestions
+source ~/.zsh-autosuggestions/autosuggestions.zsh
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-PLATFORM=$(uname)
-if [[ $PLATFORM == 'Linux' ]]; then
-  plugins=(git sudo)
-  alias ls="ls -l --color"
-else
-  plugins=(brew git osx sudo vagrant)
-  alias ls="ls -G -l"
-fi
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+# Enable autosuggestions automatically
+zle-line-init() {
+    zle autosuggest-start
+}
 
-# Aliases
-alias v="vim"
-alias notes="vim ~/Documents/notes.txt"
-alias gs="git status"
-alias gcm="git commit -m"
+zle -N zle-line-init
+
+# use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
+# zsh-autosuggestions is designed to be unobtrusive)
+bindkey '^T' autosuggest-toggle
 
