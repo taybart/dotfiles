@@ -8,6 +8,11 @@ colorscheme Tomorrow-Night-Eighties
 set number
 set relativenumber
 set hlsearch
+
+" wrapping
+" set wrap
+" set linebreak
+" set nolist  " list disables linebreak
 " Airline
 let g:airline_theme="molokai"
 let g:airline#extensions#tabline#enabled = 1
@@ -18,10 +23,21 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " autoopen nerdtree in no files
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" no beeps
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+        autocmd GUIEnter * set visualbell t_vb=
+endif
+
+
 " Keymaps
 let mapleader = "\<Space>"
 nnoremap <leader>o :CtrlP<CR>
 noremap <leader>f :NERDTreeToggle<CR>
+noremap <leader>h :noh<CR>
+noremap <leader>c "+y<CR>
+imap kj <Esc>
+imap jk <Esc>
 " Commenting blocks of code.
 autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
 autocmd FileType sh,ruby,python   let b:comment_leader = '# '
@@ -32,14 +48,6 @@ autocmd FileType vim              let b:comment_leader = '" '
 noremap <leader>/ :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <leader>? :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
-imap kj <Esc>
-imap jk <Esc>
-
-" habit breaking
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
 
 " Tabs
 set expandtab
