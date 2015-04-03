@@ -43,7 +43,13 @@ alias ls="ls -l"
 alias notes="vim ~/Documents/notes.txt"
 alias v="vim"
 alias mpv="mpv -no-border"
-#alias ranger="rg"
+alias ranger="if [ -z "$RANGER_LEVEL" ]
+        then
+                ranger
+        else
+                exit
+        fi
+"
 alias zshrc="vim ~/.zshrc && . ~/.zshrc"
 
 source $ZSH/oh-my-zsh.sh
@@ -60,12 +66,3 @@ fi
 zle -N fancy-ctrl-z
 
 bindkey '^Z' fancy-ctrl-z
-
-rang() {
-        if [ -z "$RANGER_LEVEL" ]
-        then
-                ranger
-        else
-                exit
-        fi
-}
