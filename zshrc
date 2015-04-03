@@ -9,9 +9,14 @@ ZSH_THEME="robbyrussell"
 export EDITOR=vim
 # Enable command auto-correction.
 ENABLE_CORRECTION="true"
-
+platform=$(uname) 
 # Plugins (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(brew git osx sudo vagrant)
+if [ "$platform" = "Darwin" ]
+then
+        plugins=(brew git osx sudo vagrant)
+else
+        plugins=(git sudo)
+fi
 
 
 # User configuration
@@ -38,8 +43,8 @@ alias ls="ls -l"
 alias notes="vim ~/Documents/notes.txt"
 alias v="vim"
 alias mpv="mpv -no-border"
-alias ranger="rg"
-alias zshrc="vim ~/.zshrc"
+#alias ranger="rg"
+alias zshrc="vim ~/.zshrc && . ~/.zshrc"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -56,7 +61,7 @@ zle -N fancy-ctrl-z
 
 bindkey '^Z' fancy-ctrl-z
 
-rg() {
+rang() {
         if [ -z "$RANGER_LEVEL" ]
         then
                 ranger
