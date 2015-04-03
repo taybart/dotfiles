@@ -1,7 +1,7 @@
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
-
+ 
 colorscheme Tomorrow-Night-Eighties
 
 " Use relative number in normal mode and absolute number in insert mode
@@ -29,15 +29,26 @@ if has('autocmd')
         autocmd GUIEnter * set visualbell t_vb=
 endif
 
+autocmd InsertEnter * set timeoutlen=100
+autocmd InsertLeave * set timeoutlen=1000 
+
 
 " Keymaps
-let mapleader = "\<Space>"
-nnoremap <leader>o :CtrlP<CR>
-noremap <leader>f :NERDTreeToggle<CR>
-noremap <leader>h :noh<CR>
-noremap <leader>c "+y<CR>
 imap kj <Esc>
 imap jk <Esc>
+
+let mapleader = "\<Space>"
+nnoremap <eader>o :CtrlP<CR>
+nnoremap <Leader>f :NERDTreeToggle<CR>
+nnoremap <Leader>h :noh<CR>
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+map q: :q
+
 " Commenting blocks of code.
 autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
 autocmd FileType sh,ruby,python   let b:comment_leader = '# '
@@ -45,10 +56,10 @@ autocmd FileType conf,fstab       let b:comment_leader = '# '
 autocmd FileType tex              let b:comment_leader = '% '
 autocmd FileType mail             let b:comment_leader = '> '
 autocmd FileType vim              let b:comment_leader = '" '
-noremap <leader>/ :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <leader>? :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+nnoremap <leader>/ :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+nnoremap <leader>? :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
-
+ 
 " Tabs
 set expandtab
 

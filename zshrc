@@ -6,16 +6,19 @@ ZSH_THEME="robbyrussell"
 
 # Disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
-#export EDITOR=vim
+export EDITOR=vim
 # Enable command auto-correction.
 ENABLE_CORRECTION="true"
 
 # Plugins (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git rails)
+plugins=(brew git osx sudo vagrant)
+
 
 # User configuration
-export PATH="/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+#export PATH="/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin"
+#
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
@@ -30,29 +33,34 @@ alias be="bundle exec"
 alias gm="git checkout master"
 alias gcm="git commit -m"
 
-# Open according to suffix
-alias -s rb=vim
-alias -s go=vim
-alias -s html=open
-
 # Random Aliases
 alias ls="ls -l"
 alias notes="vim ~/Documents/notes.txt"
 alias v="vim"
+alias mpv="mpv -no-border"
+alias ranger="rg"
+alias zshrc="vim ~/.zshrc"
 
 source $ZSH/oh-my-zsh.sh
 
-# Setup zsh-autosuggestions
-source ~/.zsh-autosuggestions/autosuggestions.zsh
-
-# Enable autosuggestions automatically
-zle-line-init() {
-    zle autosuggest-start
+fancy-ctrl-z () {
+if [[ $#BUFFER -eq 0 ]]; then
+        BUFFER="fg"
+        zle accept-line
+else
+        zle push-input
+        zle clear-screen
+fi
 }
+zle -N fancy-ctrl-z
 
-zle -N zle-line-init
+bindkey '^Z' fancy-ctrl-z
 
-# use ctrl+t to toggle autosuggestions(hopefully this wont be needed as
-# zsh-autosuggestions is designed to be unobtrusive)
-bindkey '^T' autosuggest-toggle
-
+rg() {
+        if [ -z "$RANGER_LEVEL" ]
+        then
+                ranger
+        else
+                exit
+        fi
+}
