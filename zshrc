@@ -19,6 +19,7 @@ then
 else
         plugins=(git sudo)
         alias ls="ls -l --color"
+        alias update="sudo apt-get update && sudo apt-get upgrade"
 fi
 
 
