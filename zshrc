@@ -4,6 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. ~/.oh-my-zsh/themes/
 ZSH_THEME="robbyrussell"
 
+source $ZSH/oh-my-zsh.sh
 # Disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 export EDITOR=vim
@@ -14,8 +15,10 @@ platform=$(uname)
 if [ "$platform" = "Darwin" ]
 then
         plugins=(brew git osx sudo vagrant)
+        alias ls="ls -G -l"
 else
         plugins=(git sudo)
+        alias ls="ls -l --color"
 fi
 
 
@@ -39,7 +42,6 @@ alias gm="git checkout master"
 alias gcm="git commit -m"
 
 # Random Aliases
-alias ls="ls -l"
 alias notes="vim ~/Documents/notes.txt"
 alias v="vim"
 alias mpv="mpv -no-border"
@@ -52,7 +54,6 @@ alias ranger="if [ -z "$RANGER_LEVEL" ]
 "
 alias zshrc="vim ~/.zshrc && . ~/.zshrc"
 
-source $ZSH/oh-my-zsh.sh
 
 fancy-ctrl-z () {
 if [[ $#BUFFER -eq 0 ]]; then
