@@ -2,7 +2,8 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
  
-colorscheme Tomorrow-Night-Eighties
+" colorscheme Tomorrow-Night-Eighties
+colorscheme Benokai 
 
 " Use relative number in normal mode and absolute number in insert mode
 set number
@@ -41,6 +42,7 @@ let mapleader = "\<Space>"
 nnoremap <eader>o :CtrlP<CR>
 nnoremap <Leader>f :NERDTreeToggle<CR>
 nnoremap <Leader>h :noh<CR>
+nnoremap <Leader><Leader> :bn<CR>
 vmap <Leader>y "+y
 vmap <Leader>d "+d
 nmap <Leader>p "+p
