@@ -1,0 +1,195 @@
+# vim:filetype=i3
+set $mod Mod1
+
+set $lime      #9FBC00
+set $darklime  #505e00
+set $blue      #131D24
+set $lightblue #232D34
+set $lightgray #DDEEDD
+set $darkgray  #444444
+set $white     #FFFFFF
+set $urgentred #B33A3A
+
+
+set $default_gaps_inner 0 
+set $default_gaps_outer 0
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
+
+#smart_borders no_gaps
+
+workspace_auto_back_and_forth yes
+force_display_urgency_hint 0 ms
+
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font pango:DejaVu Sans Mono, Icons 0
+#                       BORDER     BACKGROUND TEXT   INDICATOR
+client.focused          $lime      $lime      $white $lime
+client.unfocused        $darkgray  $darklime  $white $darklime
+client.focused_inactive $darkgray  $darklime  $white $darklime
+client.urgent           $urgentred $urgentred $white $urgentred
+
+floating_modifier $mod
+bindsym $mod+Return exec gnome-terminal 
+
+bindsym $mod+q kill
+
+bindsym $mod+d exec dmenu_run -i -p "Search:" -nb "$blue" -nf "$lightgray" -sb "$lightblue" -sf "$lime"
+bindsym $mod+Shift+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -p "Search:" -nb "$blue" -nf "$lightgray" -sb "$lightblue" -sf "$lime"'
+
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+bindsym $mod+f fullscreen
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+bindsym $mod+Tab workspace back_and_forth
+
+bindsym $mod+Control+Shift+Left move window to workspace prev
+bindsym $mod+Control+Shift+Right move window to workspace next
+
+bindsym $mod+Control+Shift+Prior move container to output left
+bindsym $mod+Control+Shift+Next move container to output right
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+# nautilus
+bindsym $mod+n exec --no-startup-id nautilus --browser --no-desktop
+
+# resize window (you can also use the mouse for that)
+set $mode_resize  resize
+bindsym $mod+r mode "$mode_resize"
+mode "$mode_resize" {
+        bindsym Left resize shrink width 1 px or 1 ppt
+        bindsym Down resize grow height 1 px or 1 ppt
+        bindsym Up resize shrink height 1 px or 1 ppt
+        bindsym Right resize grow width 1 px or 1 ppt
+
+        bindsym Shift+Left resize shrink width 5 px or 5 ppt
+        bindsym Shift+Down resize grow height 5 px or 5 ppt
+        bindsym Shift+Up resize shrink height 5 px or 5 ppt
+        bindsym Shift+Right resize grow width 5 px or 5 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|d|0 (local), Shift + +|-|d|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|d|0 (local), Shift + +|-|d|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+        bindsym d     gaps inner current set $default_gaps_inner
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+        bindsym Shift+d     gaps inner all set $default_gaps_inner
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+        bindsym d     gaps outer current set $default_gaps_outer
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+        bindsym Shift+d     gaps outer all set $default_gaps_outer
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+# fix graphics glitch
+for_window [class="^.*"] border pixel 1
+
+# dialogs
+for_window [class="(?i)gsimplecal"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+
+
+bar {
+        status_command i3status 
+        position bottom
+        font pango:Terminus, Icons 8
+        strip_workspace_numbers yes
+        height 20
+        colors {
+                statusline         $lightgray
+                background         $blue
+                separator          $lime
+
+#                                  BORDER     BACKGROUND TEXT
+                focused_workspace  $lightblue $lightblue $lime 
+                inactive_workspace $blue      $blue      $white
+                urgent_workspace   $urgentred $urgentred $white
+        }
+}
+
+
+# for GTK support
+exec --no-startup-id gnome-settings-daemon
+
+# start network-manager
+exec nm-applet
+
+exec_always --no-startup-id feh --bg-center $HOME/pictures/wallpaper.jpg
