@@ -40,7 +40,7 @@ alias ga="git add"
 alias gh="git hist"
 alias be="bundle exec"
 alias gm="git checkout master"
-alias gcm="git commit -m"
+alias gcm="git commit -a -m"
 
 # Random Aliases
 alias notes="vim ~/Documents/notes.txt"
