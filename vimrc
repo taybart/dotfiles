@@ -2,8 +2,8 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
  
-" colorscheme Tomorrow-Night-Eighties
-colorscheme Benokai 
+colorscheme Tomorrow-Night-Eighties
+" colorscheme Benokai 
 
 " Use relative number in normal mode and absolute number in insert mode
 set number

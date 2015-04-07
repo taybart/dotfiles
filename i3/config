@@ -34,7 +34,7 @@ bindsym $mod+Return exec gnome-terminal
 
 bindsym $mod+q kill
 
-bindsym $mod+d exec dmenu_run -i -p "Search:" -nb "$blue" -nf "$lightgray" -sb "$lightblue" -sf "$lime"
+bindsym $mod+d exec dmenu_extended_run -i -p "Search:" -nb "$blue" -nf "$lightgray" -sb "$lightblue" -sf "$lime"
 bindsym $mod+Shift+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -p "Search:" -nb "$blue" -nf "$lightgray" -sb "$lightblue" -sf "$lime"'
 
 bindsym $mod+Left focus left
@@ -192,4 +192,4 @@ exec --no-startup-id gnome-settings-daemon
 # start network-manager
 exec nm-applet
 
-exec_always --no-startup-id feh --bg-center $HOME/pictures/wallpaper.jpg
+exec_always --no-startup-id feh --bg-center $HOME/pictures/wallpaper.png
