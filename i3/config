@@ -94,6 +94,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
+bindsym $mod+Shift+E exit
 # nautilus
 bindsym $mod+n exec --no-startup-id nautilus --browser --no-desktop
 
@@ -161,7 +162,6 @@ mode "$mode_gaps_outer" {
 for_window [class="^.*"] border pixel 1
 
 # dialogs
-for_window [class="(?i)gsimplecal"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
