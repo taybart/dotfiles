@@ -64,7 +64,7 @@ nnoremap <leader>? :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR
  
 " Tabs
 set expandtab
-
+set tabstop=2
 "" strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
 	"Preparation: save last search, and cursor position.
