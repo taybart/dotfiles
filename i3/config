@@ -24,9 +24,9 @@ force_display_urgency_hint 0 ms
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:DejaVu Sans Mono, Icons 0
 #                       BORDER     BACKGROUND TEXT   INDICATOR
-client.focused          $lime      $lime      $white $lime
-client.unfocused        $darkgray  $darklime  $white $darklime
-client.focused_inactive $darkgray  $darklime  $white $darklime
+client.focused          $lime      $darklime  $white $lime
+client.unfocused        $darkgray  $blue      $white $darklime
+client.focused_inactive $darkgray  $blue      $white $darklime
 client.urgent           $urgentred $urgentred $white $urgentred
 
 floating_modifier $mod
@@ -94,6 +94,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
+bindsym $mod+Shift+E exit
 # nautilus
 bindsym $mod+n exec --no-startup-id nautilus --browser --no-desktop
 
@@ -106,10 +107,10 @@ mode "$mode_resize" {
         bindsym Up resize shrink height 1 px or 1 ppt
         bindsym Right resize grow width 1 px or 1 ppt
 
-        bindsym Shift+Left resize shrink width 5 px or 5 ppt
-        bindsym Shift+Down resize grow height 5 px or 5 ppt
-        bindsym Shift+Up resize shrink height 5 px or 5 ppt
-        bindsym Shift+Right resize grow width 5 px or 5 ppt
+        bindsym Shift+Left resize shrink width 10 px or 10 ppt
+        bindsym Shift+Down resize grow height 10 px or 10 ppt
+        bindsym Shift+Up resize shrink height 10 px or 10 ppt
+        bindsym Shift+Right resize grow width 10 px or 10 ppt
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -158,10 +159,10 @@ mode "$mode_gaps_outer" {
 }
 
 # fix graphics glitch
-for_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] floating enable
 
 # dialogs
-for_window [class="(?i)gsimplecal"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
