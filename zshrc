@@ -1,3 +1,4 @@
+# https://gitorious.org/topmenu/pages/Home
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -40,7 +41,7 @@ alias ga="git add"
 alias gh="git hist"
 alias be="bundle exec"
 alias gm="git checkout master"
-alias gcm="git commit -a -m"
+alias gcm="git commit -m"
 
 # Random Aliases
 alias notes="vim ~/Documents/notes.txt"
