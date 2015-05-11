@@ -10,7 +10,7 @@ set number
 set relativenumber
 set hlsearch
 
-
+"
 function! RangeChooser()
         let temp = tempname()
         exec 'silent !ranger --choosefiles=' . shellescape(temp)
@@ -36,18 +36,11 @@ endfunction
 
 
 
-" wrapping
-" set wrap
-" set linebreak
-" set nolist  " list disables linebreak
-" Airline
 let g:airline_theme="molokai"
 let g:airline#extensions#tabline#enabled = 1
 
 " Autocmds
 " close nerdtree if its the last buffer
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | 
-" autoopen nerdtree in no files
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | :call RangeChooser() | endif
 " no beeps
@@ -60,7 +53,7 @@ autocmd InsertEnter * set timeoutlen=100
 autocmd InsertLeave * set timeoutlen=1000 
 
 
-" Keymaps
+" ---------------------------Keymaps-----------------------------------------------------------
 imap jk <Esc>
 imap kj <Esc>
 vmap jk <Esc>
@@ -73,7 +66,6 @@ nnoremap <Leader><Leader> :bn<CR>
 nnoremap <Leader>sp :set paste<CR>
 nnoremap <Leader>sn :set nopaste<CR>
 nnoremap <Leader>q :wq<CR>
-nnoremap <Leader>t :set tw=100<CR>
 
 vmap <Leader>y "+y
 vmap <Leader>d "+d
@@ -85,7 +77,9 @@ vnoremap y "+y
 map q: :q
 nmap j gj
 nmap k gk
-" Commenting blocks of code.
+" ---------------------------------------------------------------------------------------------- 
+
+" --------------------------------------Commenting--------------------------------------------- 
 autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
 autocmd FileType sh,ruby,python   let b:comment_leader = '# '
 autocmd FileType conf,fstab       let b:comment_leader = '# '
@@ -94,6 +88,7 @@ autocmd FileType mail             let b:comment_leader = '> '
 autocmd FileType vim              let b:comment_leader = '" '
 nnoremap <leader>/ :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 nnoremap <leader>? :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+" ---------------------------------------------------------------------------------------------- 
 
  
 " Tabs
