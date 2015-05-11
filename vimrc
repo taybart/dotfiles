@@ -49,7 +49,7 @@ let g:airline#extensions#tabline#enabled = 1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | 
 " autoopen nerdtree in no files
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | :call RangeChooser() | endif
 " no beeps
 set noerrorbells visualbell t_vb=
 if has('autocmd')
