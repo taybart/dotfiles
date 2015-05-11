@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo gpg notes.note.gpg
+rm notes.note.gpg
+vim notes.note
+sudo gpg -c notes.note
+rm notes.note

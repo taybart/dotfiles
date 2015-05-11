@@ -26,7 +26,7 @@ fi
 
 # User configuration
 #export PATH="/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin"
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin"
 #
 #export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 

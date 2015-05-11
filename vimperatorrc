@@ -1,3 +1,4 @@
 colorscheme twily 
 imap jk <ESC> 
-nnoremap j jjjj
+" nnoremap j jjjj
+" nnoremap k kkkk
