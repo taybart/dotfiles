@@ -10,6 +10,32 @@ set number
 set relativenumber
 set hlsearch
 
+
+function! RangeChooser()
+        let temp = tempname()
+        exec 'silent !ranger --choosefiles=' . shellescape(temp)
+        if !filereadable(temp)
+                redraw!
+                " Nothing to read
+                return
+        endif
+        let names = readfile(temp)
+        if empty(names)
+                redraw!
+                " Nothing to open
+                return
+        endif
+        " Edit the first item.
+        exec 'edit ' . fnameescape(names[0])
+        " Add any remaining items to the arg list/buffer list
+        for name in names[1:]
+                exec 'argadd ' . fnameescape(name)
+        endfor
+        redraw!
+endfunction
+
+
+
 " wrapping
 " set wrap
 " set linebreak
@@ -35,22 +61,30 @@ autocmd InsertLeave * set timeoutlen=1000
 
 
 " Keymaps
-imap kj <Esc>
 imap jk <Esc>
+imap kj <Esc>
+vmap jk <Esc>
 
 let mapleader = "\<Space>"
-nnoremap <eader>o :CtrlP<CR>
-nnoremap <Leader>f :NERDTreeToggle<CR>
+nnoremap <Leader>o :CtrlP<CR>
+nnoremap <Leader>f :call RangeChooser()<CR>
 nnoremap <Leader>h :noh<CR>
 nnoremap <Leader><Leader> :bn<CR>
+nnoremap <Leader>sp :set paste<CR>
+nnoremap <Leader>sn :set nopaste<CR>
+nnoremap <Leader>q :wq<CR>
+nnoremap <Leader>t :set tw=100<CR>
+
 vmap <Leader>y "+y
 vmap <Leader>d "+d
 nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
+vnoremap y "+y
 map q: :q
-
+nmap j gj
+nmap k gk
 " Commenting blocks of code.
 autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
 autocmd FileType sh,ruby,python   let b:comment_leader = '# '
