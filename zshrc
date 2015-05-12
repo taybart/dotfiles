@@ -11,7 +11,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR=vim
 # Enable command auto-correction.
 ENABLE_CORRECTION="true"
-platform=$(uname) 
+platform=$(uname)
 # Plugins (plugins can be found in ~/.oh-my-zsh/plugins/*)
 if [ "$platform" = "Darwin" ]
 then
@@ -57,6 +57,7 @@ alias ranger="if [ -z "$RANGER_LEVEL" ]
 alias zshrc="vim ~/.zshrc && . ~/.zshrc"
 alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
 alias xup="xrdb ~/.Xresources"
+alias hangups="hangups --col-scheme solarized-dark"
 
 fancy-ctrl-z () {
 if [[ $#BUFFER -eq 0 ]]; then
