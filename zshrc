@@ -15,12 +15,13 @@ platform=$(uname)
 # Plugins (plugins can be found in ~/.oh-my-zsh/plugins/*)
 if [ "$platform" = "Darwin" ]
 then
-        plugins=(brew git osx sudo vagrant)
+        plugins=(brew git osx sudo vagrant zsh-syntax-highlighting)
         alias ls="ls -G -l"
 else
-        plugins=(git sudo)
+        plugins=(git sudo zsh-syntax-highlighting)
         alias ls="ls -l --color"
         alias update="sudo apt-get update && sudo apt-get upgrade"
+        alias ccat="pygmentize -g"
 fi
 
 
