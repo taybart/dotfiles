@@ -2,4 +2,6 @@ colorscheme twily
 imap jk <ESC> 
 " nnoremap j jjjj
 " nnoremap k kkkk
-:set defsearch=g
+set autocomplete
+set complete=g
+set defsearch=g
