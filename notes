@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo notes.note.gpg
+sudo gpg notes.note.gpg
 sudo rm notes.note.gpg
 sudo vim notes.note
 sudo gpg -c notes.note
