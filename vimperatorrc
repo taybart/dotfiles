@@ -1,10 +1,12 @@
 colorscheme twily 
+set autocomplete
+set defsearch=g
+set wildoptions=auto
+
 imap jk <ESC> 
 nnoremap j jjjj
 nnoremap k kkkk
-nnoremap t :tabopen g 
-set autocomplete
-set defsearch=g
+
 "javascript to hide statusbar
 noremap <silent> <F8> :js toggle_bottombar()<CR>
 noremap : :js toggle_bottombar('on')<CR>:
@@ -17,6 +19,7 @@ cnoremap <CR> <CR>:js toggle_bottombar('off')<CR>
 cnoremap <Esc> <Esc>:js toggle_bottombar('off')<CR>
 
 :js << EOF
+
 function toggle_bottombar(p) {
     var bb = document.getElementById('liberator-bottombar');
     if (!bb)
