@@ -45,7 +45,8 @@ alias gm="git checkout master"
 alias gcm="git commit -m"
 
 # Random Aliases
-alias notes="vim ~/.notes.txt"
+alias notes="vim ~/.notes"
+alias ennotes="~/.dotfiles/notes"
 alias v="vim"
 alias mpv="mpv -no-border"
 alias ranger="if [ -z "$RANGER_LEVEL" ]
