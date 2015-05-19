@@ -4,7 +4,8 @@ filetype plugin indent on
  
 colorscheme Tomorrow-Night-Eighties
 " colorscheme Benokai 
-
+" for system clipboard buffer
+set clipboard=unnamed 
 " Use relative number in normal mode and absolute number in insert mode
 set number
 set relativenumber
