@@ -22,6 +22,7 @@ else
         alias ls="ls -l --color"
         alias update="sudo apt-get update && sudo apt-get upgrade"
         alias ccat="pygmentize -g"
+        alias install="sudo apt-get install"
 fi
 
 
