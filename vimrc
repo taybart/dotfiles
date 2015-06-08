@@ -2,10 +2,12 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
  
-colorscheme Tomorrow-Night-Eighties
+" colorscheme Tomorrow-Night-Eighties
 " colorscheme Benokai 
 " for system clipboard buffer
 set clipboard=unnamed 
+set mouse=a
+set ttymouse=xterm2
 " Use relative number in normal mode and absolute number in insert mode
 set number
 set relativenumber

@@ -1,0 +1,55 @@
+! ------------------------------------------------------------------------------
+! --- ~/.Xresources ------------------------------------------------------------
+! ------------------------------------------------------------------------------
+rofi.terminal: urxvt
+
+
+URxvt.thickness: 1
+URxvt.scrollBar: off
+URxvt.geometry: 110x30
+URxvt.borderLess: False 
+URxvt*internalBorder: 0
+
+URxvt.urgentOnBell: True
+URxvt.visualBell: False
+
+URxvt.letterSpace: -1
+
+URxvt*iconFile: /usr/share/icons/Numix-Circle/48x48/apps/utilities_terminal.svg 
+URxvt*font: xft:Monospace:pixelsize=14
+URxvt*perl-ext-common: default,clipboard
+
+!FG & BG
+URxvt*background:         #D4CDCA
+URxvt*foreground:         #8F8F8F
+
+!BLACK
+URxvt*color0:             #6B6B6B
+URxvt*color8:             #828282
+!RED
+URxvt*color1:             #A35861
+URxvt*color9:             #DB5858
+!GREEN
+URxvt*color2:             #558F51
+URxvt*color10:            #43B23D
+!YELLOW
+URxvt*color3:             #9C7854
+URxvt*color11:            #BA9D22
+!BLUE
+URxvt*color4:             #598499
+URxvt*color12:            #7FA5EB
+!MAGENTA
+URxvt*color5:             #A86897
+URxvt*color13:            #E36FB8
+!CYAN
+URxvt*color6:             #478F89
+URxvt*color14:            #25B8C2
+!WHITE
+URxvt*color7:             #919191
+URxvt*color15:            #A4A4A4
+
+! ------------------------------------------------------------------------------
+! --- end of terminal colors section -------------------------------------------
+! ------------------------------------------------------------------------------
+
+
