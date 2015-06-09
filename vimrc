@@ -4,6 +4,8 @@ filetype plugin indent on
  
 " colorscheme Tomorrow-Night-Eighties
 " colorscheme Benokai 
+let g:airline_theme="understated"
+let g:airline#extensions#tabline#enabled = 1
 " for system clipboard buffer
 set clipboard=unnamed 
 set mouse=a
@@ -12,8 +14,18 @@ set ttymouse=xterm2
 set number
 set relativenumber
 set hlsearch
+" Autocmds
+" close nerdtree if its the last buffer
+autocmd StdinReadPre * let s:std_in=1
+" no beeps
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+        autocmd GUIEnter * set visualbell t_vb=
+endif
 
-"
+autocmd InsertEnter * set timeoutlen=100
+autocmd InsertLeave * set timeoutlen=1000 
+
 function! RangeChooser()
         let temp = tempname()
         exec 'silent !ranger --choosefiles=' . shellescape(temp)
@@ -36,24 +48,11 @@ function! RangeChooser()
         endfor
         redraw!
 endfunction
-
-
-
-let g:airline_theme="molokai"
-let g:airline#extensions#tabline#enabled = 1
-
-" Autocmds
-" close nerdtree if its the last buffer
-autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | :call RangeChooser() | endif
-" no beeps
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-        autocmd GUIEnter * set visualbell t_vb=
-endif
 
-autocmd InsertEnter * set timeoutlen=100
-autocmd InsertLeave * set timeoutlen=1000 
+
+
+
 
 
 " ---------------------------Keymaps-----------------------------------------------------------
