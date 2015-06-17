@@ -7,7 +7,7 @@ rofi.terminal: urxvt
 URxvt.thickness: 1
 URxvt.scrollBar: off
 URxvt.geometry: 110x30
-URxvt.borderLess: False 
+URxvt.borderLess: True 
 URxvt*internalBorder: 0
 
 URxvt.urgentOnBell: True

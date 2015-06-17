@@ -5,6 +5,10 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. ~/.oh-my-zsh/themes/
 ZSH_THEME="robbyrussell"
 
+# Vi kebindings
+bindkey -v
+bindkey -M viins 'jk' vi-cmd-mode
+
 source $ZSH/oh-my-zsh.sh
 # Disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -50,13 +54,16 @@ alias notes="vim ~/.notes"
 alias ennotes="~/.dotfiles/notes"
 alias v="vim"
 alias mpv="mpv -no-border"
-alias ranger="if [ -z "$RANGER_LEVEL" ]
+if [ -z "$TMUX" ]
+then
+        alias ranger="if [ -z "$RANGER_LEVEL" ]
         then
-                ranger
+                /usr/local/bin/ranger
         else
                 exit
         fi
 "
+fi
 alias zshrc="vim ~/.zshrc && . ~/.zshrc"
 alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
 alias xup="xrdb ~/.Xresources"
