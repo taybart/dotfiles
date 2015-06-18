@@ -2,13 +2,29 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 " ---------------- Look ------------------------
-colorscheme Tomorrow-Night-Eighties
+colorscheme Tomorrow-Night 
+
 let g:airline_theme="understated"
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets ------------------------
 " Use system clipboard buffer
-" set clipboard=unnamed 
+if has('unnamedplus')
+  " By default, Vim will not use the system clipboard when yanking/pasting to
+  " the default register. This option makes Vim use the system default
+  " clipboard.
+  " Note that on X11, there are _two_ system clipboards: the "standard" one, and
+  " the selection/mouse-middle-click one. Vim sees the standard one as register
+  " '+' (and this option makes Vim use it by default) and the selection one as
+  " '*'.
+" See :h 'clipboard' for details.
+  set clipboard=unnamedplus,unnamed
+else
+  " Vim now also uses the selection system clipboard for default yank/paste.
+  set clipboard+=unnamed
+endif
+
 set mouse=a
 set ttymouse=xterm2
 
@@ -17,6 +33,9 @@ set number
 set relativenumber
 set hlsearch
 
+" Paren/bracket matching
+" set showmatch
+
 " Tabs
 set tabstop=4
 set softtabstop=4
@@ -24,54 +43,81 @@ set shiftwidth=4
 set expandtab
 
 " Color column
-set colorcolumn=80
+set colorcolumn=0
 highlight ColorColumn ctermbg=darkgray
 
 " Buffers
 set hidden
 
-"Folding
+" Project vimrc files
+set exrc
+set secure
+
+" Folding
 set foldmethod=indent       " automatically fold by indent level
 set nofoldenable            " ... but have folds open by default
+
+" Custom togglelist commands
+let g:toggle_list_no_mappings=1
+
 "--------------------------- Autocmds -----------------------------------------
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |:NERDTreeToggle|endif
-autocmd StdinReadPre * let s:std_in=1
-" no beeps
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-	autocmd GUIEnter * set visualbell t_vb=
-endif
+augroup vimrc_autocmd
+    autocmd!
+    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |:NERDTreeToggle|endif
+    autocmd StdinReadPre * let s:std_in=1
+    " no beeps
+    set noerrorbells visualbell t_vb=
+    if has('autocmd')
+        autocmd GUIEnter * set visualbell t_vb=
+    endif
 
-autocmd InsertEnter * set timeoutlen=100
-autocmd InsertLeave * set timeoutlen=1000 
+    autocmd InsertEnter * set timeoutlen=100
+    autocmd InsertLeave * set timeoutlen=1000 
 
-" autocmd QuickFixCmdPost [^l]* nested cwindow
-" autocmd QuickFixCmdPost    l* nested lwindow
+    autocmd QuickFixCmdPost [^l]* nested cwindow
+    autocmd QuickFixCmdPost    l* nested lwindow
+    au BufReadPost quickfix setlocal colorcolumn=0
 
+    autocmd FileType h,c,cpp,py,go,html,erb,rb autocmd BufWritePre :call <SID>StripTrailingWhitespaces()
+
+    autocmd WinEnter * call NERDTreeQuit()
+augroup END
 " --------------------------- Keymaps -----------------------------------------
 imap jk <Esc>
 imap kj <Esc>
-vmap jk <Esc>
 let mapleader = "\<Space>"
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>f :NERDTreeToggle<CR>
+nnoremap <script> <silent> <F7> :call ToggleQuickfixList()<CR>
+nnoremap <script> <silent> <F6> :call ToggleLocationList()<CR>
+nmap <F8> :TagbarToggle<CR>
+
 nnoremap <Leader>nh :noh<CR>
+
 nnoremap <Leader>sp :set paste<CR>
 nnoremap <Leader>sn :set nopaste<CR>
+
 nmap <Leader>l :bnext<CR>
 nmap <Leader>h :bprevious<CR>
-nmap <leader>q :bp <BAR> bd #<CR>
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-vnoremap y "+y
-map q: :q
+nmap <Leader>q :bp <BAR> bd #<CR>
+
+nnoremap <Leader>e :cnext<CR>
+nmap <Leader>L :set colorcolumn=80<CR>
+
+nmap <Leader>F :NERDTreeFind<CR>
+
+" Copy/paste
+vmap <Leader>y "*y
+vmap <Leader>d "*d
+nmap <Leader>p "*p
+nmap <Leader>P "*P
+vmap <Leader>p "*p
+vmap <Leader>P "*P
+"vnoremap y "*y
+
+" Allow for innerline navagation
 nmap j gj
 nmap k gk
-nmap <F8> :TagbarToggle<CR>
 
 let g:tmux_navigator_no_mappings = 1
 
@@ -81,17 +127,24 @@ nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
-" ------------------------------Commenting------------------------------------- 
-autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
-autocmd FileType sh,ruby,python   let b:comment_leader = '# '
-autocmd FileType conf,fstab       let b:comment_leader = '# '
-autocmd FileType tex              let b:comment_leader = '% '
-autocmd FileType mail             let b:comment_leader = '> '
-autocmd FileType vim              let b:comment_leader = '" '
-autocmd FileType vim              let b:comment_leader = '" '
-nnoremap <leader>/ :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-nnoremap <leader>? :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
+" This command will allow us to save a file we don't have permission to save
+" *after* we have already opened it. Super useful.
+cnoremap w!! w !sudo tee % >/dev/null
+
+cnoremap <c-j> <down>
+cnoremap <c-k> <up>
+
+noremap <m-j> 15gj
+noremap <m-k> 15gk
+
+" These create newlines like o and O but stay in normal mode
+nnoremap <silent> zj o<Esc>k
+nnoremap <silent> zk O<Esc>j
+
+
+" Switch to the directory of the open buffer
+noremap <leader>cd :cd %:p:h<cr>
 
 
 " ------------------------- Strip trailing whitespace -------------------------
@@ -106,7 +159,6 @@ function! <SID>StripTrailingWhitespaces()
 	let @/=_s
 	call cursor(l, c)
 endfunction
-autocmd FileType c,cpp,py,go,html,erb,rb autocmd BufWritePre :call <SID>StripTrailingWhitespaces()
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
   redir => buffersoutput
@@ -130,7 +182,6 @@ function! NERDTreeQuit()
     quitall
   endif
 endfunction
-autocmd WinEnter * call NERDTreeQuit()
 " -------------------- NERDTree previews -----------------------
 let g:nerd_preview_enabled = 0
 let g:preview_last_buffer  = 0
