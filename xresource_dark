@@ -7,7 +7,7 @@ rofi.terminal: urxvt
 URxvt.thickness: 1
 URxvt.scrollBar: off
 URxvt.geometry: 110x30
-URxvt.borderLess: True 
+URxvt.borderLess: False 
 URxvt*internalBorder: 0
 
 URxvt.urgentOnBell: True
@@ -18,34 +18,53 @@ URxvt.letterSpace: -1
 URxvt*iconFile: /usr/share/icons/Numix-Circle/48x48/apps/utilities_terminal.svg 
 URxvt*font: xft:Monospace:pixelsize=14
 URxvt*perl-ext-common: default,clipboard
+! ! Tomorrow Night
+ URxvt.foreground:  #c5c8c6
+ URxvt.background:  #1d1f21
+ URxvt.cursorColor: #aeafad
+ URxvt.color0:      #000000
+ URxvt.color1:      #912226
+ URxvt.color2:      #778900
+ URxvt.color3:      #ae7b00
+ URxvt.color4:      #1d2594
+ URxvt.color5:      #682a9b
+ URxvt.color6:      #2b6651
+ URxvt.color7:      #929593
+ URxvt.color8:      #666666
+ URxvt.color9:      #cc6666
+ URxvt.color10:     #b5bd68
+ URxvt.color11:     #f0c674
+ URxvt.color12:     #81a2be
+ URxvt.color13:     #b294bb
+ URxvt.color14:     #8abeb7
+ URxvt.color15:     #ecebec
+/* *foreground:                          #eddcd3 */
+/* *background:                          #181512 */
 
-*foreground:                          #eddcd3
-*background:                          #181512
-
-! Black                               Black !
-*color0:                              #252525
-*color8:                              #454545
-! Red                                 Red   !
-*color1:                              #CD546C
-*color9:                              #EF545F
-! Green                               Green !
-*color2:                              #A5AF86
-*color10:                             #BDC79E
-! Yellow                              Yellow!
-*color3:                              #CD7860
-*color11:                             #E88773
-! Blue                                Blue  !
-*color4:                              #7A9388
-*color12:                             #94B1A3
-! Magenta                             Magenta
-*color5:                              #917154
-*color13:                             #989584
-! Cyan                                Cyan  !
-*color6:                              #767D75
-*color14:                             #9DA69E
-! White                               White !
-*color7:                              #C2C2A8
-*color15:                             #DBDAC1
+/* ! Black                               Black ! */
+/* *color0:                              #252525 */
+/* *color8:                              #454545 */
+/* ! Red                                 Red   ! */
+/* *color1:                              #CD546C */
+/* *color9:                              #EF545F */
+/* ! Green                               Green ! */
+/* *color2:                              #A5AF86 */
+/* *color10:                             #BDC79E */
+/* ! Yellow                              Yellow! */
+/* *color3:                              #CD7860 */
+/* *color11:                             #E88773 */
+/* ! Blue                                Blue  ! */
+/* *color4:                              #7A9388 */
+/* *color12:                             #94B1A3 */
+/* ! Magenta                             Magenta */
+/* *color5:                              #917154 */
+/* *color13:                             #989584 */
+/* ! Cyan                                Cyan  ! */
+/* *color6:                              #767D75 */
+/* *color14:                             #9DA69E */
+/* ! White                               White ! */
+/* *color7:                              #C2C2A8 */
+/* *color15:                             #DBDAC1 */
 ! ------------------------------------------------------------------------------
 ! --- end of terminal colors section -------------------------------------------
 ! ------------------------------------------------------------------------------

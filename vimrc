@@ -8,7 +8,7 @@ let g:airline_theme="understated"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
-" --------------- Sets ------------------------
+" --------------- Sets/lets ---------------------
 " Use system clipboard buffer
 if has('unnamedplus')
   " By default, Vim will not use the system clipboard when yanking/pasting to
@@ -60,6 +60,14 @@ set nofoldenable            " ... but have folds open by default
 " Custom togglelist commands
 let g:toggle_list_no_mappings=1
 
+" Pyclewn
+let g:pyclewn_python="python3"
+let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
+
+"gvim
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -99,7 +107,7 @@ nnoremap <Leader>sn :set nopaste<CR>
 
 nmap <Leader>l :bnext<CR>
 nmap <Leader>h :bprevious<CR>
-nmap <Leader>q :bp <BAR> bd #<CR>
+nmap <Leader>d :bp <BAR> bd #<CR>
 
 nnoremap <Leader>e :cnext<CR>
 nmap <Leader>L :set colorcolumn=80<CR>
