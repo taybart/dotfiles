@@ -19,16 +19,15 @@ platform=$(uname)
 # Plugins (plugins can be found in ~/.oh-my-zsh/plugins/*)
 if [ "$platform" = "Darwin" ]
 then
-        plugins=(brew git osx sudo vagrant zsh-syntax-highlighting)
+        plugins=(brew git osx sudo vagrant)
         alias ls="ls -G -l"
 else
-        plugins=(git sudo zsh-syntax-highlighting)
+        plugins=(git sudo)
         alias ls="ls -l --color"
         alias update="sudo apt-get update && sudo apt-get upgrade"
         alias ccat="pygmentize -g"
         alias install="sudo apt-get install"
 fi
-
 
 # User configuration
 #export PATH="/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin"
@@ -53,6 +52,7 @@ alias gcm="git commit -m"
 alias notes="vim ~/.notes"
 alias ennotes="~/.dotfiles/notes"
 alias v="vim"
+alias q="exit"
 alias mpv="mpv -no-border"
 if [ -z "$TMUX" ]
 then

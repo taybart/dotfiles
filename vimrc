@@ -9,6 +9,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets/lets ---------------------
+set shell=/bin/bash
 " Use system clipboard buffer
 if has('unnamedplus')
   " By default, Vim will not use the system clipboard when yanking/pasting to
@@ -64,10 +65,58 @@ let g:toggle_list_no_mappings=1
 let g:pyclewn_python="python3"
 let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
 
+
+" Airline 
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+" old vim-powerline symbols
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = '⭡'
+
+" Promptline
+let g:promptline_theme = 'airline'
+let airline#extensions#promptline#snapshot_file = "~/.shell_prompt.sh"
+let airline#extensions#promptline#color_template = 'normal'
+let airline#extensions#promptline#color_template = 'insert'
+let airline#extensions#promptline#color_template = 'visual'
+let airline#extensions#promptline#color_template = 'replace'
+
 "gvim
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
+
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -113,6 +162,8 @@ nnoremap <Leader>e :cnext<CR>
 nmap <Leader>L :set colorcolumn=80<CR>
 
 nmap <Leader>F :NERDTreeFind<CR>
+
+nmap <Leader>s :shell<CR>
 
 " Copy/paste
 vmap <Leader>y "*y
