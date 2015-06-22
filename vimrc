@@ -26,6 +26,10 @@ else
   set clipboard+=unnamed
 endif
 
+set hlsearch!
+
+
+
 set mouse=a
 set ttymouse=xterm2
 
@@ -149,7 +153,7 @@ nnoremap <script> <silent> <F7> :call ToggleQuickfixList()<CR>
 nnoremap <script> <silent> <F6> :call ToggleLocationList()<CR>
 nmap <F8> :TagbarToggle<CR>
 
-nnoremap <Leader>nh :noh<CR>
+nnoremap <Leader>nh :set hlsearch!<CR>
 
 nnoremap <Leader>sp :set paste<CR>
 nnoremap <Leader>sn :set nopaste<CR>
