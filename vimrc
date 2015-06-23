@@ -14,22 +14,21 @@ let g:airline#extensions#tabbar#enabled = 1
 set shell=/bin/bash
 " Use system clipboard buffer
 if has('unnamedplus')
-  " By default, Vim will not use the system clipboard when yanking/pasting to
-  " the default register. This option makes Vim use the system default
-  " clipboard.
-  " Note that on X11, there are _two_ system clipboards: the "standard" one, and
-  " the selection/mouse-middle-click one. Vim sees the standard one as register
-  " '+' (and this option makes Vim use it by default) and the selection one as
-  " '*'.
-" See :h 'clipboard' for details.
-  set clipboard=unnamedplus,unnamed
+    " By default, Vim will not use the system clipboard when yanking/pasting to
+    " the default register. This option makes Vim use the system default
+    " clipboard.
+    " Note that on X11, there are _two_ system clipboards: the "standard" one, and
+    " the selection/mouse-middle-click one. Vim sees the standard one as register
+    " '+' (and this option makes Vim use it by default) and the selection one as
+    " '*'.
+    " See :h 'clipboard' for details.
+    set clipboard=unnamedplus,unnamed
 else
-  " Vim now also uses the selection system clipboard for default yank/paste.
-  set clipboard+=unnamed
+    " Vim now also uses the selection system clipboard for default yank/paste.
+    set clipboard+=unnamed
 endif
 
 set hlsearch!
-
 
 
 set mouse=a
@@ -66,6 +65,8 @@ set nofoldenable            " ... but have folds open by default
 
 " Custom togglelist commands
 let g:toggle_list_no_mappings=1
+" GitGutter
+let g:gitgutter_map_keys = 0
 
 " Pyclewn
 let g:pyclewn_python="python3"
@@ -73,42 +74,21 @@ let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
 
 
 " Airline 
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+" let g:airline_powerline_fonts = 1
+let s:uname = system("echo -n \"$(uname)\"")
+if !v:shell_error && s:uname == "Darwin"
+  " old vim-powerline symbols
+  let g:airline_left_sep = '⮀'
+  let g:airline_left_alt_sep = '⮁'
+  let g:airline_right_sep = '⮂'
+  let g:airline_right_alt_sep = '⮃'
+  let g:airline_symbols.branch = '⭠'
+  let g:airline_symbols.readonly = '⭤'
+  let g:airline_symbols.linenr = '⭡'
 endif
 
-" unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
-
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-
-" old vim-powerline symbols
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
+" YankRing
+let g:yankring_history_file = '.yankring'
 
 " Promptline
 let g:promptline_theme = 'airline'
@@ -145,6 +125,11 @@ augroup vimrc_autocmd
 
     autocmd WinEnter * call NERDTreeQuit()
 augroup END
+
+" augroup myvimrc
+"     au!
+"     au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+" augroup END
 " --------------------------- Keymaps -----------------------------------------
 imap jk <Esc>
 imap kj <Esc>
@@ -169,7 +154,11 @@ nmap <Leader>L :set colorcolumn=80<CR>
 
 nmap <Leader>F :NERDTreeFind<CR>
 
-nmap <Leader>s :shell<CR>
+nmap <Leader>s /
+
+" Quickly open/reload vim
+nnoremap <leader>ev :e $MYVIMRC<CR>  
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Copy/paste
 vmap <Leader>y "*y
@@ -211,93 +200,95 @@ nnoremap <silent> zk O<Esc>j
 " Switch to the directory of the open buffer
 noremap <leader>cd :cd %:p:h<cr>
 
+cnoremap W w
+cnoremap Q q
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
-	"Preparation: save last search, and cursor position.
-	let _s=@/
-	let l = line(".")
-	let c = col(".")
-	" Do the business:
-	%s/\s\+$//e
-	" Clean up: restore previous search history, and cursor position
-	let @/=_s
-	call cursor(l, c)
+    "Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
 endfunction
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
-  redir => buffersoutput
-  silent buffers
-  redir END
-"                     1BufNo  2Mods.     3File           4LineNo
-  let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
-  let windowfound = 0
+    redir => buffersoutput
+    silent buffers
+    redir END
+    "                     1BufNo  2Mods.     3File           4LineNo
+    let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
+    let windowfound = 0
 
-  for bline in split(buffersoutput, "\n")
-    let m = matchlist(bline, pattern)
+    for bline in split(buffersoutput, "\n")
+        let m = matchlist(bline, pattern)
 
-    if (len(m) > 0)
-      if (m[2] =~ '..a..')
-        let windowfound = 1
-      endif
+        if (len(m) > 0)
+            if (m[2] =~ '..a..')
+                let windowfound = 1
+            endif
+        endif
+    endfor
+
+    if (!windowfound)
+        quitall
     endif
-  endfor
-
-  if (!windowfound)
-    quitall
-  endif
 endfunction
 " -------------------- NERDTree previews -----------------------
 let g:nerd_preview_enabled = 0
 let g:preview_last_buffer  = 0
 
 function! NerdTreePreview()
-  " Only on nerdtree window
-  if (&ft ==# 'nerdtree')
-    " Get filename
-    let l:filename = substitute(getline("."), "^\\s\\+\\|\\s\\+$","","g")
+    " Only on nerdtree window
+    if (&ft ==# 'nerdtree')
+        " Get filename
+        let l:filename = substitute(getline("."), "^\\s\\+\\|\\s\\+$","","g")
 
-    " Preview if it is not a folder
-    let l:lastchar = strpart(l:filename, strlen(l:filename) - 1, 1)
-    if (l:lastchar != "/" && strpart(l:filename, 0 ,2) != "..")
+        " Preview if it is not a folder
+        let l:lastchar = strpart(l:filename, strlen(l:filename) - 1, 1)
+        if (l:lastchar != "/" && strpart(l:filename, 0 ,2) != "..")
 
-      let l:store_buffer_to_close = 1
-      if (bufnr(l:filename) > 0)
-        " Don't close if the buffer is already open
-        let l:store_buffer_to_close = 0
-      endif
+            let l:store_buffer_to_close = 1
+            if (bufnr(l:filename) > 0)
+                " Don't close if the buffer is already open
+                let l:store_buffer_to_close = 0
+            endif
 
-      " Do preview
-      execute "normal go"
+            " Do preview
+            execute "normal go"
 
-      " Close previews buffer
-      if (g:preview_last_buffer > 0)
-        execute "bwipeout " . g:preview_last_buffer
+            " Close previews buffer
+            if (g:preview_last_buffer > 0)
+                execute "bwipeout " . g:preview_last_buffer
+                let g:preview_last_buffer = 0
+            endif
+
+            " Set last buffer to close it later
+            if (l:store_buffer_to_close)
+                let g:preview_last_buffer = bufnr(l:filename)
+            endif
+        endif
+    elseif (g:preview_last_buffer > 0)
+        " Close last previewed buffer
         let g:preview_last_buffer = 0
-      endif
-
-      " Set last buffer to close it later
-      if (l:store_buffer_to_close)
-        let g:preview_last_buffer = bufnr(l:filename)
-      endif
     endif
-  elseif (g:preview_last_buffer > 0)
-    " Close last previewed buffer
-    let g:preview_last_buffer = 0
-  endif
 endfunction
 
 function! NerdPreviewToggle()
-  if (g:nerd_preview_enabled)
-    let g:nerd_preview_enabled = 0
-    augroup nerdpreview
-      autocmd!
-      augroup END
-  else
-    let g:nerd_preview_enabled = 1
-    augroup nerdpreview
-      autocmd!
-      autocmd CursorMoved * nested call NerdTreePreview()
-    augroup END
-  endif
+    if (g:nerd_preview_enabled)
+        let g:nerd_preview_enabled = 0
+        augroup nerdpreview
+            autocmd!
+        augroup END
+    else
+        let g:nerd_preview_enabled = 1
+        augroup nerdpreview
+            autocmd!
+            autocmd CursorMoved * nested call NerdTreePreview()
+        augroup END
+    endif
 endfunction

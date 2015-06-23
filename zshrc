@@ -6,8 +6,8 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 
 # Vi kebindings
-bindkey -v
-bindkey -M viins 'jk' vi-cmd-mode
+#bindkey -v
+#bindkey -M viins 'jk' vi-cmd-mode
 
 source $ZSH/oh-my-zsh.sh
 # Disable auto-setting terminal title.
@@ -22,7 +22,7 @@ then
         plugins=(brew git osx sudo vagrant)
         alias ls="ls -G -l"
 else
-        plugins=(git sudo)
+        plugins=(git sudo vi-mode)
         alias ls="ls -l --color"
         alias update="sudo apt-get update && sudo apt-get upgrade"
         alias ccat="pygmentize -g"
@@ -33,7 +33,7 @@ fi
 #export PATH="/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin"
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin"
 #
-#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
@@ -92,3 +92,17 @@ fi
 
 
 chpwd_functions=(${chpwd_functions[@]} "check_git")
+# define function that retrieves and runs last command
+function run-again {
+    # get previous history item
+    zle up-history
+    # confirm command
+    zle accept-line
+}
+
+# define run-again widget from function of the same name
+zle -N run-again
+# bind widget to Ctrl+X in viins mode
+bindkey -M viins '^i' run-again 
+# bind widget to Ctrl+X in vicmd mode
+bindkey -M vicmd '^i' run-again
