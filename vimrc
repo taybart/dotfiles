@@ -87,6 +87,9 @@ let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
 " let g:airline_powerline_fonts = 1
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Darwin"
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
   " old vim-powerline symbols
   let g:airline_left_sep = '⮀'
   let g:airline_left_alt_sep = '⮁'
