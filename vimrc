@@ -4,14 +4,23 @@ filetype plugin indent on
 scriptencoding utf-8
 set encoding=utf-8
 " ---------------- Look ------------------------
-colorscheme Tomorrow-Night 
+colorscheme corporation
 
 let g:airline_theme="understated"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets/lets ---------------------
+
+"if has("gui_running")
+    highlight Pmenu guibg=brown gui=bold
+"else
+    "highlight Pmenu ctermfg=15 ctermbg=0
+"endif
+
 set shell=/bin/bash
+set cursorline
+"set cursorcolumn
 " Use system clipboard buffer
 if has('unnamedplus')
     " By default, Vim will not use the system clipboard when yanking/pasting to
@@ -60,8 +69,8 @@ set exrc
 set secure
 
 " Folding
-set foldmethod=indent       " automatically fold by indent level
-set nofoldenable            " ... but have folds open by default
+set foldmethod=manual       
+set nofoldenable            " Have folds open by default
 
 " Custom togglelist commands
 let g:toggle_list_no_mappings=1
@@ -74,6 +83,7 @@ let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
 
 
 " Airline 
+
 " let g:airline_powerline_fonts = 1
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Darwin"
@@ -90,18 +100,17 @@ endif
 " YankRing
 let g:yankring_history_file = '.yankring'
 
-" Promptline
-let g:promptline_theme = 'airline'
-let airline#extensions#promptline#snapshot_file = "~/.shell_prompt.sh"
-let airline#extensions#promptline#color_template = 'normal'
-let airline#extensions#promptline#color_template = 'insert'
-let airline#extensions#promptline#color_template = 'visual'
-let airline#extensions#promptline#color_template = 'replace'
+" Tmux
+let g:tmux_navigator_no_mappings = 1
+
+" ctags
+set tags=tags;
 
 "gvim
-set guioptions-=T  "remove toolbar
+"set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
+
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -126,82 +135,74 @@ augroup vimrc_autocmd
     autocmd WinEnter * call NERDTreeQuit()
 augroup END
 
-" augroup myvimrc
-"     au!
-"     au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-" augroup END
 " --------------------------- Keymaps -----------------------------------------
-imap jk <Esc>
-imap kj <Esc>
 let mapleader = "\<Space>"
-nnoremap <Leader>o :CtrlP<CR>
+
+" NERDTree
 nnoremap <Leader>f :NERDTreeToggle<CR>
+
+" Quickfix, Location, and Tagbar
 nnoremap <script> <silent> <F7> :call ToggleQuickfixList()<CR>
 nnoremap <script> <silent> <F6> :call ToggleLocationList()<CR>
 nmap <F8> :TagbarToggle<CR>
 
+" Turn off highlighted searching 
 nnoremap <Leader>nh :set hlsearch!<CR>
 
+nnoremap gd <c-]>
+
+" Setting and removing paste mode
+" need a better way though but too lazy
 nnoremap <Leader>sp :set paste<CR>
 nnoremap <Leader>sn :set nopaste<CR>
 
+" Buffer control
 nmap <Leader>l :bnext<CR>
 nmap <Leader>h :bprevious<CR>
 nmap <Leader>d :bp <BAR> bd #<CR>
 
-nnoremap <Leader>e :cnext<CR>
-nmap <Leader>L :set colorcolumn=80<CR>
-
-nmap <Leader>F :NERDTreeFind<CR>
-
-nmap <Leader>s /
-
-" Quickly open/reload vim
-nnoremap <leader>ev :e $MYVIMRC<CR>  
-nnoremap <leader>sv :source $MYVIMRC<CR>
-
 " Copy/paste
-vmap <Leader>y "*y
-vmap <Leader>d "*d
-nmap <Leader>p "*p
-nmap <Leader>P "*P
-vmap <Leader>p "*p
-vmap <Leader>P "*P
+"vmap <Leader>y "*y
+"vmap <Leader>d "*d
+"nmap <Leader>p "*p
+"nmap <Leader>P "*P
+"vmap <Leader>p "*p
+"vmap <Leader>P "*P
 "vnoremap y "*y
 
-" Allow for innerline navagation
-nmap j gj
-nmap k gk
-
-let g:tmux_navigator_no_mappings = 1
-
+" tmux integration
 nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
-
 " This command will allow us to save a file we don't have permission to save
-" *after* we have already opened it. Super useful.
+" *after* we have already opened it.
 cnoremap w!! w !sudo tee % >/dev/null
 
+" ------Make shit easier-----
+nmap <Leader>s /
+" Easy escape from insert
+imap jk <Esc>
+" Allow for innerline navagation
+nmap j gj
+nmap k gk
+" Allow for homerow up and down in command mode
 cnoremap <c-j> <down>
 cnoremap <c-k> <up>
-
-noremap <m-j> 15gj
-noremap <m-k> 15gk
-
+" Faster down and up
+noremap <c-j> 15gj
+noremap <c-k> 15gk
+" Quickly open/reload vim
+nnoremap <leader>ev :e $MYVIMRC<CR>  
+nnoremap <leader>sv :source $MYVIMRC<CR>
+" Anoying accidental shifting
+cnoremap W w
+cnoremap Q q
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
-
-
-" Switch to the directory of the open buffer
-noremap <leader>cd :cd %:p:h<cr>
-
-cnoremap W w
-cnoremap Q q
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
