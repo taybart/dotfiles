@@ -4,9 +4,13 @@ filetype plugin indent on
 scriptencoding utf-8
 set encoding=utf-8
 " ---------------- Look ------------------------
+let s:uname = system("echo -n \"$(uname)\"")
+if !v:shell_error && s:uname == "Darwin"
+colorscheme Tomorrow-Night
+else
 colorscheme corporation
-
-let g:airline_theme="understated"
+endif
+"let g:airline_theme="understated"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
