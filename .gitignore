@@ -1,2 +1,4 @@
 oh-my-zsh/
 vim/.netrwhist
+*.swp
+vim/bundle/
