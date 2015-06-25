@@ -3,6 +3,8 @@ set autocomplete
 set defsearch=g
 set wildoptions=auto
 
+set hintchars=hjklasdfgyuiopqwertnmzxcvb
+
 imap jk <ESC> 
 nnoremap j jjjj
 nnoremap k kkkk
