@@ -1,72 +1,41 @@
 ! ------------------------------------------------------------------------------
 ! --- ~/.Xresources ------------------------------------------------------------
 ! ------------------------------------------------------------------------------
-rofi.terminal: urxvt
+rofi.terminal: xterm 
 
+xterm*termName: xterm-256color
+XTerm*thickness: 1
+XTerm*scrollBar: off
+XTerm*geometry: 110x30
+XTerm*borderLess: False 
+XTerm*internalBorder: 0
+XTerm*locale: true
 
-URxvt.thickness: 1
-URxvt.scrollBar: off
-URxvt.geometry: 110x30
-URxvt.borderLess: False 
-URxvt*internalBorder: 0
+XTerm*urgentOnBell: True
+XTerm*visualBell: False
 
-URxvt.urgentOnBell: True
-URxvt.visualBell: False
+XTerm*letterSpace: -1
 
-URxvt.letterSpace: -1
-
-URxvt*iconFile: /usr/share/icons/Numix-Circle/48x48/apps/utilities_terminal.svg 
-URxvt*font: xft:Monospace:pixelsize=14
-URxvt*perl-ext-common: default,clipboard
+XTerm*iconFile: /usr/share/icons/Numix-Circle/48x48/apps/utilities_terminal.svg 
+XTerm*faceName: xft:Monospace:pixelsize=13
+XTerm*perl-ext-common: default,clipboard
 ! ! Tomorrow Night
- URxvt.foreground:  #c5c8c6
- URxvt.background:  #1d1f21
- URxvt.cursorColor: #aeafad
- URxvt.color0:      #000000
- URxvt.color1:      #912226
- URxvt.color2:      #778900
- URxvt.color3:      #ae7b00
- URxvt.color4:      #1d2594
- URxvt.color5:      #682a9b
- URxvt.color6:      #2b6651
- URxvt.color7:      #929593
- URxvt.color8:      #666666
- URxvt.color9:      #cc6666
- URxvt.color10:     #b5bd68
- URxvt.color11:     #f0c674
- URxvt.color12:     #81a2be
- URxvt.color13:     #b294bb
- URxvt.color14:     #8abeb7
- URxvt.color15:     #ecebec
-/* *foreground:                          #eddcd3 */
-/* *background:                          #181512 */
-
-/* ! Black                               Black ! */
-/* *color0:                              #252525 */
-/* *color8:                              #454545 */
-/* ! Red                                 Red   ! */
-/* *color1:                              #CD546C */
-/* *color9:                              #EF545F */
-/* ! Green                               Green ! */
-/* *color2:                              #A5AF86 */
-/* *color10:                             #BDC79E */
-/* ! Yellow                              Yellow! */
-/* *color3:                              #CD7860 */
-/* *color11:                             #E88773 */
-/* ! Blue                                Blue  ! */
-/* *color4:                              #7A9388 */
-/* *color12:                             #94B1A3 */
-/* ! Magenta                             Magenta */
-/* *color5:                              #917154 */
-/* *color13:                             #989584 */
-/* ! Cyan                                Cyan  ! */
-/* *color6:                              #767D75 */
-/* *color14:                             #9DA69E */
-/* ! White                               White ! */
-/* *color7:                              #C2C2A8 */
-/* *color15:                             #DBDAC1 */
-! ------------------------------------------------------------------------------
-! --- end of terminal colors section -------------------------------------------
-! ------------------------------------------------------------------------------
-
-
+ XTerm*foreground:  #c5c8c6
+ XTerm*background:  #1d1f21
+ XTerm*cursorColor: #aeafad
+ XTerm*color0:      #000000
+ XTerm*color1:      #912226
+ XTerm*color2:      #778900
+ XTerm*color3:      #ae7b00
+ XTerm*color4:      #1d2594
+ XTerm*color5:      #682a9b
+ XTerm*color6:      #2b6651
+ XTerm*color7:      #929593
+ XTerm*color8:      #666666
+ XTerm*color9:      #cc6666
+ XTerm*color10:     #b5bd68
+ XTerm*color11:     #f0c674
+ XTerm*color12:     #81a2be
+ XTerm*color13:     #b294bb
+ XTerm*color14:     #8abeb7
+ XTerm*color15:     #ecebec
