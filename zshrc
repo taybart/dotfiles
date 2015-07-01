@@ -71,11 +71,18 @@ then
         alias ls="ls -G -l"
 else
         plugins=(git sudo vi-mode)
-        alias ls="ls -l --color"
+        alias ls="ls -l --color --block-size=M"
         alias update="sudo apt-get update && sudo apt-get upgrade"
         alias ccat="pygmentize -g"
         alias install="sudo apt-get install"
+        alias remove="sudo apt-get autoremove"
+        alias noise="play -n synth 60:00 brownnoise"
         xmodmap ~/.xmodmap > /dev/null 2>&1 
+        compton -b --backend glx --vsync opengl-swc
+        alias goto=google_app_func
+        google_app_func() {
+            google-chrome --app=$1
+        }
 fi
 
 # Exports

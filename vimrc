@@ -3,6 +3,7 @@ syntax on
 filetype plugin indent on
 scriptencoding utf-8
 set encoding=utf-8
+set t_Co=16
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Darwin"
