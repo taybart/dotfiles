@@ -116,7 +116,7 @@ let g:tmux_navigator_no_mappings = 1
 set tags=tags;
 
 "gvim
-"set guioptions-=T  "remove toolbar
+set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
