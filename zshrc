@@ -5,37 +5,33 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. ~/.oh-my-zsh/themes/
 ZSH_THEME="robbyrussell"
 
-# Vi kebindings
-#bindkey -v
-#bindkey -M viins 'jk' vi-cmd-mode
-
-source $ZSH/oh-my-zsh.sh
-# Disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-export EDITOR=vim
 # Enable command auto-correction.
 ENABLE_CORRECTION="true"
+
+# Check for platform
 platform=$(uname)
-# Plugins (plugins can be found in ~/.oh-my-zsh/plugins/*)
-if [ "$platform" = "Darwin" ]
-then
-        plugins=(brew git osx sudo vagrant)
-        alias ls="ls -G -l"
-else
-        plugins=(git sudo vi-mode)
-        alias ls="ls -l --color"
-        alias update="sudo apt-get update && sudo apt-get upgrade"
-        alias ccat="pygmentize -g"
-        alias install="sudo apt-get install"
-fi
 
-# User configuration
-#export PATH="/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin"
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin"
-#
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+source $ZSH/oh-my-zsh.sh
 
-alias ohmyzsh="vim ~/.oh-my-zsh"
+# Allow for functions in the prompt.
+setopt PROMPT_SUBST
+
+# Autoload zsh functions.
+fpath=(~/.zsh/functions $fpath)
+autoload -U ~/.zsh/functions/*(:t)
+ 
+# Enable auto-execution of functions.
+typeset -ga preexec_functions
+typeset -ga precmd_functions
+typeset -ga chpwd_functions
+ 
+# Append git functions needed for prompt.
+preexec_functions+='preexec_update_git_vars'
+precmd_functions+='precmd_update_git_vars'
+chpwd_functions+='chpwd_update_git_vars'
+
+local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ %s)"
+PROMPT='${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(prompt_git_info)%{$fg_bold[blue]%} % %{$reset_color%}'
 
 # Git Aliases
 alias gs="git status"
@@ -48,12 +44,17 @@ alias be="bundle exec"
 alias gm="git checkout master"
 alias gcm="git commit -m"
 
-# Random Aliases
+# Aliases
 alias notes="vim ~/.notes"
 alias ennotes="~/.dotfiles/notes"
 alias v="vim"
 alias q="exit"
 alias mpv="mpv -no-border"
+alias zshrc="vim ~/.zshrc && . ~/.zshrc"
+alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
+alias xup="xrdb ~/.Xresources"
+alias hangups="hangups --col-scheme solarized-dark"
+alias ohmyzsh="vim ~/.oh-my-zsh"
 if [ -z "$TMUX" ]
 then
         alias ranger="if [ -z "$RANGER_LEVEL" ]
@@ -64,45 +65,27 @@ then
         fi
 "
 fi
-alias zshrc="vim ~/.zshrc && . ~/.zshrc"
-alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
-alias xup="xrdb ~/.Xresources"
-alias hangups="hangups --col-scheme solarized-dark"
-
-fancy-ctrl-z () {
-if [[ $#BUFFER -eq 0 ]]; then
-        BUFFER="fg"
-        zle accept-line
+if [ "$platform" = "Darwin" ]
+then
+        plugins=(brew git osx sudo vagrant)
+        alias ls="ls -G -l"
 else
-        zle push-input
-        zle clear-screen
+        plugins=(git sudo vi-mode)
+        alias ls="ls -l --color --block-size=M"
+        alias update="sudo apt-get update && sudo apt-get upgrade"
+        alias ccat="pygmentize -g"
+        alias install="sudo apt-get install"
+        alias remove="sudo apt-get autoremove"
+        alias noise="play -n synth 60:00 brownnoise"
+        xmodmap ~/.xmodmap > /dev/null 2>&1 
+        compton -b --backend glx --vsync opengl-swc
+        alias goto=google_app_func
+        google_app_func() {
+            google-chrome --app=$1
+        }
 fi
-}
-zle -N fancy-ctrl-z
 
-bindkey '^Z' fancy-ctrl-z
+# Exports
+export EDITOR=vim
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin:$HOME/.rvm/bin"
 
-
-
-function check_git() {
-if [ -d .git ]; then
-        ~/.dotfiles/git_checker
-fi
-}
-
-
-chpwd_functions=(${chpwd_functions[@]} "check_git")
-# define function that retrieves and runs last command
-function run-again {
-    # get previous history item
-    zle up-history
-    # confirm command
-    zle accept-line
-}
-
-# define run-again widget from function of the same name
-zle -N run-again
-# bind widget to Ctrl+X in viins mode
-bindkey -M viins '^i' run-again 
-# bind widget to Ctrl+X in vicmd mode
-bindkey -M vicmd '^i' run-again

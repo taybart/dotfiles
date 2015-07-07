@@ -3,12 +3,14 @@ syntax on
 filetype plugin indent on
 scriptencoding utf-8
 set encoding=utf-8
+"set t_Co=16
+set t_Co=256
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Darwin"
 colorscheme Tomorrow-Night
 else
-colorscheme corporation
+colorscheme Tomorrow-Night
 endif
 "let g:airline_theme="understated"
 let g:airline#extensions#tabline#enabled = 1
@@ -114,7 +116,7 @@ let g:tmux_navigator_no_mappings = 1
 set tags=tags;
 
 "gvim
-"set guioptions-=T  "remove toolbar
+set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
