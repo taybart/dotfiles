@@ -7,14 +7,14 @@ rofi.terminal: xterm
 XTerm*thickness: 1
 XTerm*scrollBar: off
 XTerm*geometry: 110x30
-XTerm*borderLess: True 
+XTerm*borderLess: True
 XTerm*internalBorder: 0
 XTerm*urgentOnBell: True
 XTerm*visualBell: False
 XTerm*letterSpace: -1
 XTerm*locale: True
 
-XTerm*iconFile: /usr/share/icons/Numix-Circle/48x48/apps/utilities_terminal.svg 
+XTerm*iconFile: /usr/share/icons/Numix-Circle/48x48/apps/utilities_terminal.svg
 XTerm*faceName: xft:Monospace:pixelsize=13
 XTerm*perl-ext-common: default,clipboard
 
