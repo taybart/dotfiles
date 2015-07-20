@@ -1,0 +1,14 @@
+style "whisker-menu-numix-dark-theme"
+{
+base[NORMAL] = "#2B2B2B"
+base[ACTIVE] = "#D64937"
+text[NORMAL] = "#ccc"
+text[ACTIVE] = "#fff"
+bg[NORMAL] = "#2B2B2B"
+bg[ACTIVE] = "#D64937"
+bg[PRELIGHT] = "#D64937"
+fg[NORMAL] = "#ccc"
+fg[ACTIVE] = "#fff"
+fg[PRELIGHT] = "#fff"
+}
+widget "whiskermenu-window*" style "whisker-menu-numix-dark-theme"
