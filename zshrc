@@ -78,7 +78,7 @@ else
         alias remove="sudo apt-get autoremove"
         alias noise="play -n synth 60:00 brownnoise"
         xmodmap ~/.xmodmap > /dev/null 2>&1 
-        compton -b --backend glx --vsync opengl-swc
+        compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
         alias goto=google_app_func
         google_app_func() {
             google-chrome --app=$1
