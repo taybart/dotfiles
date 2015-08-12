@@ -213,6 +213,7 @@ cnoremap Q q
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 
+noremap <leader>sw :%s/\s\+$//<CR>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
