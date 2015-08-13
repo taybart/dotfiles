@@ -75,7 +75,7 @@ set exrc
 set secure
 
 " Folding
-set foldmethod=manual       
+set foldmethod=manual
 set nofoldenable            " Have folds open by default
 
 " Custom togglelist commands
@@ -88,7 +88,7 @@ let g:pyclewn_python="python3"
 let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
 
 
-" Airline 
+" Airline
 
 " let g:airline_powerline_fonts = 1
 let s:uname = system("echo -n \"$(uname)\"")
@@ -133,7 +133,7 @@ augroup vimrc_autocmd
     endif
 
     autocmd InsertEnter * set timeoutlen=100
-    autocmd InsertLeave * set timeoutlen=1000 
+    autocmd InsertLeave * set timeoutlen=1000
 
     autocmd QuickFixCmdPost [^l]* nested cwindow
     autocmd QuickFixCmdPost    l* nested lwindow
@@ -155,7 +155,7 @@ nnoremap <script> <silent> <F7> :call ToggleQuickfixList()<CR>
 nnoremap <script> <silent> <F6> :call ToggleLocationList()<CR>
 nmap <F8> :TagbarToggle<CR>
 
-" Turn off highlighted searching 
+" Turn off highlighted searching
 nnoremap <Leader>nh :set hlsearch!<CR>
 
 nnoremap gd <c-]>
@@ -194,6 +194,9 @@ cnoremap w!! w !sudo tee % >/dev/null
 nmap <Leader>s /
 " Easy escape from insert
 imap jk <Esc>
+imap JK <Esc>
+imap kj <Esc>
+imap KJ <Esc>
 " Allow for innerline navagation
 nmap j gj
 nmap k gk
@@ -204,16 +207,20 @@ cnoremap <c-k> <up>
 noremap <c-j> 15gj
 noremap <c-k> 15gk
 " Quickly open/reload vim
-nnoremap <leader>ev :e $MYVIMRC<CR>  
+nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
-" Anoying accidental shifting
+" Annoying accidental shifting
 cnoremap W w
 cnoremap Q q
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 
-noremap <leader>sw :%s/\s\+$//<CR>
+" Fix all indents
+nnoremap <leader>tf mzgg=G`z
+"
+" Get rid of the fucking stupid OCD whitespace
+nnoremap <leader>sw :%s/\s\+$//<CR>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
