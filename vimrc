@@ -5,6 +5,7 @@ scriptencoding utf-8
 set encoding=utf-8
 "set t_Co=16
 set t_Co=256
+set autowrite
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Darwin"
@@ -120,7 +121,8 @@ set tags=tags;
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
-
+" NERDTree
+let NERDTreeIgnore=['\.o$','\.d$', '\~$']
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -191,7 +193,7 @@ nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 cnoremap w!! w !sudo tee % >/dev/null
 
 " ------Make shit easier-----
-nmap <Leader>s /
+nmap <Leader>s :NERDTreeFind<CR>
 " Easy escape from insert
 imap jk <Esc>
 imap JK <Esc>
