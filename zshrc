@@ -19,12 +19,12 @@ setopt PROMPT_SUBST
 # Autoload zsh functions.
 fpath=(~/.zsh/functions $fpath)
 autoload -U ~/.zsh/functions/*(:t)
- 
+
 # Enable auto-execution of functions.
 typeset -ga preexec_functions
 typeset -ga precmd_functions
 typeset -ga chpwd_functions
- 
+
 # Append git functions needed for prompt.
 preexec_functions+='preexec_update_git_vars'
 precmd_functions+='precmd_update_git_vars'
@@ -57,36 +57,36 @@ alias hangups="hangups --col-scheme solarized-dark"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 if [ -z "$TMUX" ]
 then
-        alias ranger="if [ -z "$RANGER_LEVEL" ]
-        then
-                /usr/local/bin/ranger
-        else
-                exit
-        fi
+    alias ranger="if [ -z "$RANGER_LEVEL" ]
+then
+    /usr/local/bin/ranger
+else
+    exit
+fi
 "
 fi
 if [ "$platform" = "Darwin" ]
 then
-        plugins=(brew git osx sudo vagrant)
-        alias ls="ls -G -l"
+    plugins=(brew git osx sudo vagrant)
+    alias ls="ls -G -l"
 else
-        plugins=(git sudo vi-mode)
-        alias ls="ls -l --color --block-size=M"
-        alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
-        alias ccat="pygmentize -g"
-        alias install="sudo apt-get install"
-        alias remove="sudo apt-get autoremove"
-        alias noise="play -n synth 60:00 brownnoise"
-        alias reboot="sudo reboot"
-        xmodmap /home/taylor/.xmodmap > /dev/null 2>&1 
-        compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
-        alias goto=google_app_func
-        google_app_func() {
-            chromium-browser --app=http://$1 > /dev/null 2>&1 &
-        }
+    plugins=(git sudo vi-mode)
+    alias ls="ls -l --color --block-size=M"
+    alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
+    alias ccat="pygmentize -g"
+    alias install="sudo apt-get install"
+    alias remove="sudo apt-get autoremove"
+    alias noise="play -n synth 60:00 brownnoise"
+    alias reboot="sudo reboot"
+    alias grep="grep -Ins --color"
+    xmodmap /home/taylor/.xmodmap > /dev/null 2>&1 
+    compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
+    alias goto=google_app_func
+    google_app_func() {
+        chromium-browser --app=http://$1 > /dev/null 2>&1 &
+    }
 fi
 
 # Exports
 export EDITOR=vim
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin:$HOME/.rvm/bin"
-

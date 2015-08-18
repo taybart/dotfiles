@@ -222,7 +222,7 @@ nnoremap <silent> zk O<Esc>j
 nnoremap <leader>tf mzgg=G`z
 "
 " Get rid of the fucking stupid OCD whitespace
-nnoremap <leader>sw :%s/\s\+$//<CR>
+nnoremap <leader>w :%s/\s\+$//<CR>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
