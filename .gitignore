@@ -1,5 +1,5 @@
 oh-my-zsh/
 vim/.netrwhist
 *.swp
-copy_buffer
-history
+ranger/copy_buffer
+ranger/history
