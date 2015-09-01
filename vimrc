@@ -228,12 +228,13 @@ cnoremap Q q
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 " Fix all indents
-<<<<<<< HEAD
-nnoremap <leader>tf mzgg=G`z
+nnoremap <leader>t<CR> mzgg=G`z
 " Get rid of the fucking stupid OCD whitespace
-nnoremap <leader>w :%s/\s\+$//<CR>
-" Jump to matching bracets
-"nnoremap <leader>% :MtaJumpToOtherTag<cr>
+nnoremap <leader>w<CR> :%s/\s\+$//<CR>
+" Toggle git gutter when it starts getting pissed
+cnoremap git :GitGutterToggle<CR>
+" Fix json files
+cnoremap fixjson %!python -m json.tool<CR>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
@@ -246,18 +247,6 @@ function! <SID>StripTrailingWhitespaces()
     let @/=_s
     call cursor(l, c)
 endfunction
-=======
-nnoremap <leader>t<CR> mzgg=G`z
-"
-" Get rid of the fucking stupid OCD whitespace
-nnoremap <leader>w<CR> :%s/\s\+$//<CR>
-
-" Toggle git gutter when it starts getting pissed
-nnoremap <leader>git :GitGutterToggle<CR>
-
-" Fix json files
-cnoremap fixjson %!python -m json.tool<CR>
->>>>>>> 1243522d8e36fe3df36e58e488bd067e18cf1c5d
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
     redir => buffersoutput
