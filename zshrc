@@ -49,6 +49,7 @@ alias notes="vim ~/.notes"
 alias ennotes="~/.dotfiles/notes"
 alias v="vim"
 alias q="exit"
+alias :q="exit"
 alias mpv="mpv -no-border"
 alias zshrc="vim ~/.zshrc && . ~/.zshrc"
 alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
@@ -78,7 +79,6 @@ else
     alias remove="sudo apt-get autoremove"
     alias noise="play -n synth 60:00 brownnoise"
     alias reboot="sudo reboot"
-    #alias grep="grep -Ins --color --exclude=\"tags\""
     alias grep="grep"
     xmodmap /home/taylor/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
