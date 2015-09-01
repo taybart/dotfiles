@@ -217,12 +217,12 @@ cnoremap Q q
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
-
 " Fix all indents
 nnoremap <leader>tf mzgg=G`z
-"
 " Get rid of the fucking stupid OCD whitespace
 nnoremap <leader>w :%s/\s\+$//<CR>
+" Jump to matching bracets
+"nnoremap <leader>% :MtaJumpToOtherTag<cr>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.

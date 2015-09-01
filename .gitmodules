@@ -74,3 +74,6 @@
 	path = vim/bundle/vim-windowswap
 	url = https://github.com/wesQ3/vim-windowswap.git
     ignore = dirty
+[submodule "vim/bundle/MatchTagAlways"]
+	path = vim/bundle/MatchTagAlways
+	url = https://github.com/Valloric/MatchTagAlways.git
