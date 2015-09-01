@@ -227,18 +227,26 @@ cnoremap Q q
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
-
 " Fix all indents
 nnoremap <leader>t<CR> mzgg=G`z
-"
 " Get rid of the fucking stupid OCD whitespace
 nnoremap <leader>w<CR> :%s/\s\+$//<CR>
-
 " Toggle git gutter when it starts getting pissed
-nnoremap <leader>git :GitGutterToggle<CR>
-
+cnoremap git :GitGutterToggle<CR>
 " Fix json files
 cnoremap fixjson %!python -m json.tool<CR>
+" ------------------------- Strip trailing whitespace -------------------------
+function! <SID>StripTrailingWhitespaces()
+    "Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
     redir => buffersoutput
