@@ -123,6 +123,16 @@ set guioptions-=L  "remove left-hand scroll bar
 
 " NERDTree
 let NERDTreeIgnore=['\.o$','\.d$', '\~$']
+
+" GCC
+set errorformat^=%-G%f:%l:\ warning:%m
+set errorformat^=%-G%f:%l:\ note:%m
+
+" Git gutter
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+let g:gitgutter_max_signs = 500
+let g:gitgutter_escape_grep = 1
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -141,7 +151,7 @@ augroup vimrc_autocmd
     autocmd QuickFixCmdPost    l* nested lwindow
     au BufReadPost quickfix setlocal colorcolumn=0
 
-    autocmd FileType h,c,cpp,py,go,html,erb,rb autocmd BufWritePre :call <SID>StripTrailingWhitespaces()
+    autocmd FileType h,c,cpp,py,go,html,erb,rb autocmd BufWritePre <buffer> StripWhitespace
 
     autocmd WinEnter * call NERDTreeQuit()
 augroup END
@@ -172,52 +182,53 @@ nmap <Leader>l :bnext<CR>
 nmap <Leader>h :bprevious<CR>
 nmap <Leader>d :bp <BAR> bd #<CR>
 
-" Copy/paste
-"vmap <Leader>y "*y
-"vmap <Leader>d "*d
-"nmap <Leader>p "*p
-"nmap <Leader>P "*P
-"vmap <Leader>p "*p
-"vmap <Leader>P "*P
-"vnoremap y "*y
+nmap <Leader>e<CR> :cnext<CR>
 
 " tmux integration
-nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+nmap <silent> <c-h> :TmuxNavigateLeft<cr>
+nmap <silent> <c-m> :TmuxNavigateDown<cr>
+nmap <silent> <c-u> :TmuxNavigateUp<cr>
+nmap <silent> <c-l> :TmuxNavigateRight<cr>
+nmap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
 " This command will allow us to save a file we don't have permission to save
 " *after* we have already opened it.
 cnoremap w!! w !sudo tee % >/dev/null
 
 " ------Make shit easier-----
-nmap <Leader>s :NERDTreeFind<CR>
+nmap <Leader>s<CR> :NERDTreeFind<CR>
+
 " Easy escape from insert
 imap jk <Esc>
 imap JK <Esc>
 imap kj <Esc>
 imap KJ <Esc>
+
 " Allow for innerline navagation
 nmap j gj
 nmap k gk
+
 " Allow for homerow up and down in command mode
 cnoremap <c-j> <down>
 cnoremap <c-k> <up>
+
 " Faster down and up
-noremap <c-j> 15gj
-noremap <c-k> 15gk
+nmap <c-j> 15gj
+nmap <c-k> 15gk
+
 " Quickly open/reload vim
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
+
 " Annoying accidental shifting
 cnoremap W w
 cnoremap Q q
+
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 " Fix all indents
+<<<<<<< HEAD
 nnoremap <leader>tf mzgg=G`z
 " Get rid of the fucking stupid OCD whitespace
 nnoremap <leader>w :%s/\s\+$//<CR>
@@ -235,6 +246,18 @@ function! <SID>StripTrailingWhitespaces()
     let @/=_s
     call cursor(l, c)
 endfunction
+=======
+nnoremap <leader>t<CR> mzgg=G`z
+"
+" Get rid of the fucking stupid OCD whitespace
+nnoremap <leader>w<CR> :%s/\s\+$//<CR>
+
+" Toggle git gutter when it starts getting pissed
+nnoremap <leader>git :GitGutterToggle<CR>
+
+" Fix json files
+cnoremap fixjson %!python -m json.tool<CR>
+>>>>>>> 1243522d8e36fe3df36e58e488bd067e18cf1c5d
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
     redir => buffersoutput
