@@ -1,2 +1,2 @@
 #!/bin/sh
-google-chrome --app='http://www.youtube.com/watch_popup?v=$1'
+google-chrome --app='http://www.youtube.com/watch_popup?v='$1
