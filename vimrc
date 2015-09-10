@@ -9,20 +9,19 @@ set autowrite
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Darwin"
-colorscheme Tomorrow-Night
+    colorscheme Tomorrow-Night
 else
-colorscheme Tomorrow-Night
+    colorscheme Tomorrow-Night
 endif
-"let g:airline_theme="understated"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets/lets ---------------------
 
 "if has("gui_running")
-    highlight Pmenu guibg=brown gui=bold
+highlight Pmenu guibg=brown gui=bold
 "else
-    "highlight Pmenu ctermfg=15 ctermbg=0
+"highlight Pmenu ctermfg=15 ctermbg=0
 "endif
 
 set shell=/bin/bash
@@ -94,17 +93,17 @@ let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
 " let g:airline_powerline_fonts = 1
 let s:uname = system("echo -n \"$(uname)\"")
 if !v:shell_error && s:uname == "Darwin"
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
-  " old vim-powerline symbols
-  let g:airline_left_sep = '⮀'
-  let g:airline_left_alt_sep = '⮁'
-  let g:airline_right_sep = '⮂'
-  let g:airline_right_alt_sep = '⮃'
-  let g:airline_symbols.branch = '⭠'
-  let g:airline_symbols.readonly = '⭤'
-  let g:airline_symbols.linenr = '⭡'
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+    " old vim-powerline symbols
+    let g:airline_left_sep = '⮀'
+    let g:airline_left_alt_sep = '⮁'
+    let g:airline_right_sep = '⮂'
+    let g:airline_right_alt_sep = '⮃'
+    let g:airline_symbols.branch = '⭠'
+    let g:airline_symbols.readonly = '⭤'
+    let g:airline_symbols.linenr = '⭡'
 endif
 
 " YankRing
@@ -213,8 +212,8 @@ cnoremap <c-j> <down>
 cnoremap <c-k> <up>
 
 " Faster down and up
-nmap <c-j> 15gj
-nmap <c-k> 15gk
+nnoremap <c-j> 15gj
+nnoremap <c-k> 15gk
 
 " Quickly open/reload vim
 nnoremap <leader>ev :e $MYVIMRC<CR>
@@ -324,3 +323,8 @@ function! NerdPreviewToggle()
         augroup END
     endif
 endfunction
+
+" Execute local vimrc
+if has("gui_running")
+    source ~/.vimrc.loc
+endif
