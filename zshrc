@@ -80,7 +80,7 @@ else
     alias noise="play -n synth 60:00 brownnoise"
     alias reboot="sudo reboot"
     alias grep="grep"
-    xmodmap /home/taylor/.xmodmap > /dev/null 2>&1
+    xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
 fi
 
