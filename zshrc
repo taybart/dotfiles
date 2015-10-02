@@ -30,7 +30,7 @@ preexec_functions+='preexec_update_git_vars'
 precmd_functions+='precmd_update_git_vars'
 chpwd_functions+='chpwd_update_git_vars'
 
-local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ %s)"
+local ret_status="%(?:%{$fg_bold[green]%}%m➜ :%{$fg_bold[red]%}%m➜ %s)"
 PROMPT='${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(prompt_git_info)%{$fg_bold[blue]%} % %{$reset_color%}'
 
 # Git Aliases
