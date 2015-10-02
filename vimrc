@@ -234,6 +234,9 @@ nnoremap <leader>w<CR> :%s/\s\+$//<CR>
 cnoremap git :GitGutterToggle<CR>
 " Fix json files
 cnoremap fixjson %!python -m json.tool<CR>
+nnoremap <Leader>q" ciw""<Esc>P
+nnoremap <Leader>q' ciw''<Esc>P
+nnoremap <Leader>qd daW"=substitute(@@,"'\\\|\"","","g")<CR>P
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
