@@ -132,6 +132,8 @@ let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 let g:gitgutter_max_signs = 500
 let g:gitgutter_escape_grep = 1
+
+
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -153,6 +155,8 @@ augroup vimrc_autocmd
     autocmd FileType h,c,cpp,py,go,html,erb,rb autocmd BufWritePre <buffer> StripWhitespace
 
     autocmd WinEnter * call NERDTreeQuit()
+
+    autocmd BufEnter * call rc:syncTree()
 augroup END
 
 " --------------------------- Keymaps -----------------------------------------
@@ -178,6 +182,7 @@ nnoremap <Leader>sn :set nopaste<CR>
 
 " Buffer control
 nmap <Leader>l :bnext<CR>
+nmap <Leader>n :bnext<CR>
 nmap <Leader>h :bprevious<CR>
 nmap <Leader>d :bp <BAR> bd #<CR>
 
@@ -331,3 +336,17 @@ endfunction
 if has("gui_running")
     source ~/.vimrc.loc
 endif
+
+" -------------------- NERDTree linking ------------------------
+" returns true iff is NERDTree open/active
+function! rc:isNTOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
+function! rc:syncTree()
+  if &modifiable && rc:isNTOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
