@@ -156,7 +156,7 @@ augroup vimrc_autocmd
 
     autocmd WinEnter * call NERDTreeQuit()
 
-    autocmd BufEnter * call rc:syncTree()
+    "autocmd BufEnter * call rc:syncTree()
 augroup END
 
 " --------------------------- Keymaps -----------------------------------------
@@ -204,6 +204,7 @@ nmap <Leader>s<CR> :NERDTreeFind<CR>
 
 " Easy escape from insert
 imap jk <Esc>
+imap jK <Esc>
 imap JK <Esc>
 imap kj <Esc>
 imap KJ <Esc>
@@ -224,7 +225,8 @@ nnoremap <c-k> 15gk
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
-" Annoying accidental shifting
+" Idiot proofing
+cnoremap w' w
 cnoremap W w
 cnoremap Q q
 
