@@ -80,6 +80,7 @@ else
     alias noise="play -n synth 60:00 brownnoise"
     alias reboot="sudo reboot"
     alias grep="grep"
+    alias suball="mosquitto_sub -t '#'"
     xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
 fi
