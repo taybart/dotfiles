@@ -58,7 +58,7 @@ alias hangups="hangups --col-scheme solarized-dark"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 #if [ -z "$TMUX" ]
 #then
-    alias ranger="if [ -z "$RANGER_LEVEL" ]
+alias ranger="if [ -z "$RANGER_LEVEL" ]
 then
     /usr/local/bin/ranger
 else
@@ -83,6 +83,10 @@ else
     alias suball="mosquitto_sub -t '#'"
     xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
+    if [[ -n $SSH_CONNECTION && -z $TMUX ]] ; then
+        echo -e "\n\nAvailable tmux sessions: "
+        tmux ls
+    fi
 fi
 
 # Exports
