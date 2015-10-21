@@ -18,6 +18,8 @@ let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets/lets ---------------------
 
+" Set word wrapping
+set whichwrap+=<,>,h,l,[,]
 "if has("gui_running")
 highlight Pmenu guibg=brown gui=bold
 "else

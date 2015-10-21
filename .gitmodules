@@ -81,3 +81,6 @@
 	path = vim/bundle/vim-better-whitespace
 	url = https://github.com/ntpeters/vim-better-whitespace.git
     ignore = dirty
+[submodule "vim/bundle/vim-python-pep8-indent"]
+	path = vim/bundle/vim-python-pep8-indent
+	url = https://github.com/hynek/vim-python-pep8-indent.git
