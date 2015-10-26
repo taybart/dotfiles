@@ -156,7 +156,6 @@ augroup vimrc_autocmd
 
     autocmd WinEnter * call NERDTreeQuit()
 
-    "autocmd BufEnter * call rc:syncTree()
 augroup END
 
 " --------------------------- Keymaps -----------------------------------------
@@ -335,23 +334,4 @@ function! NerdPreviewToggle()
             autocmd CursorMoved * nested call NerdTreePreview()
         augroup END
     endif
-endfunction
-
-" Execute local vimrc
-if has("gui_running")
-    source ~/.vimrc.loc
-endif
-
-" -------------------- NERDTree linking ------------------------
-" returns true iff is NERDTree open/active
-function! rc:isNTOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
-function! rc:syncTree()
-  if &modifiable && rc:isNTOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
 endfunction
