@@ -42,7 +42,7 @@ if has('unnamedplus')
     set clipboard=unnamedplus,unnamed
 else
     " Vim now also uses the selection system clipboard for default yank/paste.
-    set clipboard+=unnamed
+    set clipboard=unnamed
 endif
 
 set hlsearch!
@@ -135,6 +135,8 @@ let g:gitgutter_eager = 0
 let g:gitgutter_max_signs = 500
 let g:gitgutter_escape_grep = 1
 
+" HTML Autocomplete tags
+iabbrev <// </<C-X><C-O>
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -249,6 +251,10 @@ nnoremap <leader>q' ciw''<Esc>P
 nnoremap <leader>qd daW"=substitute(@@,"'\\\|\"","","g")<CR>P
 " Run python scripts
 nnoremap <leader>py :!python %<CR>
+" For local replace
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+" For global replace
+nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
