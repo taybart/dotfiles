@@ -1,5 +1,4 @@
 colorscheme solarized-dark
-set defsearch=g
 set complete=Ssh
 set wildmode=list:longest,list:full
 
