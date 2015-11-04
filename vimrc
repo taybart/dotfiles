@@ -222,7 +222,9 @@ cnoremap <c-k> <up>
 
 " Faster down and up
 nnoremap <c-j> 15gj
+vnoremap <c-j> 15gj
 nnoremap <c-k> 15gk
+vnoremap <c-k> 15gk
 
 " Quickly open/reload vim
 nnoremap <leader>ev :e $MYVIMRC<CR>
@@ -254,6 +256,9 @@ nnoremap <leader>py :!python %<CR>
 nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 " For global replace
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+" End and beg of line easier
+nnoremap H ^
+nnoremap L $
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
