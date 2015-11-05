@@ -82,6 +82,7 @@ else
     alias grep="grep"
     alias sa="mosquitto_sub -t '#'"
     alias attach="tmux attach -t"
+    eval "$(thefuck --alias fuck)"
     xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
     if [[ -n $SSH_CONNECTION && -z $TMUX ]] ; then
