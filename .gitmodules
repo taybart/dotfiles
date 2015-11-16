@@ -58,10 +58,6 @@
 	path = vim/bundle/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
     ignore = dirty
-[submodule "vim/bundle/vim-gitgutter"]
-	path = vim/bundle/vim-gitgutter
-	url = https://github.com/airblade/vim-gitgutter.git
-    ignore = dirty
 [submodule "vim/bundle/command-t"]
 	path = vim/bundle/command-t
 	url = https://github.com/wincent/command-t.git
@@ -84,9 +80,12 @@
 [submodule "vim/bundle/vim-python-pep8-indent"]
 	path = vim/bundle/vim-python-pep8-indent
 	url = https://github.com/hynek/vim-python-pep8-indent.git
+    ignore = dirty
 [submodule "vim/bundle/vim-coffee-script"]
 	path = vim/bundle/vim-coffee-script
 	url = https://github.com/kchmck/vim-coffee-script.git
+    ignore = dirty
 [submodule "vim/bundle/vim-jade"]
 	path = vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade.git
+    ignore = dirty
