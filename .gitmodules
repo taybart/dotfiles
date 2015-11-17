@@ -73,6 +73,7 @@
 [submodule "vim/bundle/MatchTagAlways"]
 	path = vim/bundle/MatchTagAlways
 	url = https://github.com/Valloric/MatchTagAlways.git
+    ignore = dirty
 [submodule "vim/bundle/vim-better-whitespace"]
 	path = vim/bundle/vim-better-whitespace
 	url = https://github.com/ntpeters/vim-better-whitespace.git
