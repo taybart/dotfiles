@@ -1,4 +1,5 @@
 execute pathogen#infect()
+execute pathogen#helptags()
 syntax on
 filetype plugin indent on
 scriptencoding utf-8
@@ -17,7 +18,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets/lets ---------------------
-
+" Shiftwidth
+set shiftwidth=2
+" Smart indent
+set smartindent
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
 "if has("gui_running")
@@ -136,8 +140,11 @@ let g:gitgutter_max_signs = 500
 let g:gitgutter_escape_grep = 1
 
 " HTML Autocomplete tags
-iabbrev <// </<C-X><C-O>
+iabbrev <// </<c-x><c-o>
 
+" Python mode
+let g:pymode_rope = 0
+let g:pymode_lint_cwindow = 0
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -243,7 +250,7 @@ nnoremap <leader>t<CR> mzgg=G`z
 " Get rid of the fucking stupid OCD whitespace
 nnoremap <leader>w<CR> :%s/\s\+$//<CR>
 " Toggle git gutter when it starts getting pissed
-cnoremap git :GitGutterToggle<CR>
+cnoremap toggit :GitGutterToggle<CR>
 " Fix json files
 cnoremap fixjson %!python -m json.tool<CR>
 " Quoting
@@ -259,6 +266,10 @@ nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 " End and beg of line easier
 nnoremap H ^
 nnoremap L $
+" Emacs indent
+nnoremap <Tab> ==
+" Code jumping
+nnoremap <leader>jp /jumptag<CR>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
