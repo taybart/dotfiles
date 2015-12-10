@@ -21,7 +21,7 @@ let g:airline#extensions#tabbar#enabled = 1
 " Shiftwidth
 set shiftwidth=2
 " Smart indent
-set smartindent
+"set smartindent
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
 "if has("gui_running")
@@ -209,6 +209,12 @@ nmap <silent> <c-\> :TmuxNavigatePrevious<cr>
 " *after* we have already opened it.
 cnoremap w!! w !sudo tee % >/dev/null
 
+" Copy paste between session
+vmap <silent> ,y y:new<CR>:call setline(1,getregtype())<CR>o<Esc>P:wq! ~/reg.txt<CR>
+nmap <silent> ,y :new<CR>:call setline(1,getregtype())<CR>o<Esc>P:wq! ~/reg.txt<CR>
+map <silent> ,p :sview ~/reg.txt<CR>"zdddG:q!<CR>:call setreg('"', @", @z)<CR>p
+map <silent> ,P :sview ~/reg.txt<CR>"zdddG:q!<CR>:call setreg('"', @", @z)<CR>P
+
 " ------Make shit easier-----
 nmap <Leader>s<CR> :NERDTreeFind<CR>
 
@@ -236,6 +242,8 @@ vnoremap <c-k> 15gk
 " Quickly open/reload vim
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
+" Switch NERDTree to right
+nnoremap <leader>nswp :let NERDTreeWinPos="right"<CR>
 
 " Idiot proofing
 cnoremap w' w
@@ -246,9 +254,9 @@ cnoremap Q q
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 " Fix all indents
-nnoremap <leader>t<CR> mzgg=G`z
+nnoremap <leader>t<CR> mzgg=G`z:w<CR>
 " Get rid of the fucking stupid OCD whitespace
-nnoremap <leader>w<CR> :%s/\s\+$//<CR>
+nnoremap <leader>w<CR> :%s/\s\+$//<CR>:w<CR>
 " Toggle git gutter when it starts getting pissed
 cnoremap toggit :GitGutterToggle<CR>
 " Fix json files
