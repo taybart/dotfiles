@@ -95,3 +95,8 @@ export EDITOR=vim
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin:$HOME/.rvm/bin"
 export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
 export DISABLE_AUTO_TITLE=true
+
+# Local zshrc
+if [ -f $HOME/.zshrc.local ]; then
+    . $HOME/.zshrc.local
+fi
