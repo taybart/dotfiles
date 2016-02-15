@@ -9,11 +9,7 @@ set t_Co=256
 set autowrite
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
-if !v:shell_error && s:uname == "Darwin"
-    colorscheme Tomorrow-Night
-else
-    colorscheme Tomorrow-Night
-endif
+colorscheme Tomorrow-Night
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
@@ -21,7 +17,7 @@ let g:airline#extensions#tabbar#enabled = 1
 " Shiftwidth
 set shiftwidth=2
 " Smart indent
-"set smartindent
+set smartindent
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
 "if has("gui_running")
@@ -119,7 +115,7 @@ let g:yankring_history_file = '.yankring'
 let g:tmux_navigator_no_mappings = 1
 
 " ctags
-set tags=tags;
+set tags=tags
 
 "gvim
 "set guioptions-=T  "remove toolbar
@@ -169,6 +165,34 @@ augroup vimrc_autocmd
 
 augroup END
 
+" Don't save backups of *.gpg files
+set backupskip+=*.gpg
+" To avoid that parts of the file is saved to .viminfo when yanking or
+" deleting, empty the 'viminfo' option.
+set viminfo=
+
+augroup encrypted
+    au!
+    " Disable swap files, and set binary file format before reading the file
+    autocmd BufReadPre,FileReadPre *.gpg
+                \ setlocal noswapfile bin
+    " Decrypt the contents after reading the file, reset binary file format
+    " and run any BufReadPost autocmds matching the file name without the .gpg
+    " extension
+    autocmd BufReadPost,FileReadPost *.gpg
+                \ execute "'[,']!gpg --decrypt --default-recipient-self" |
+                \ setlocal nobin |
+                \ execute "doautocmd BufReadPost " . expand("%:r")
+    " Set binary file format and encrypt the contents before writing the file
+    autocmd BufWritePre,FileWritePre *.gpg
+                \ setlocal bin |
+                \ '[,']!gpg --encrypt --default-recipient-self
+    " After writing the file, do an :undo to revert the encryption in the
+    " buffer, and reset binary file format
+    autocmd BufWritePost,FileWritePost *.gpg
+                \ silent u |
+                \ setlocal nobin
+augroup END
 " --------------------------- Keymaps -----------------------------------------
 let mapleader = "\<Space>"
 
@@ -209,12 +233,6 @@ nmap <silent> <c-\> :TmuxNavigatePrevious<cr>
 " *after* we have already opened it.
 cnoremap w!! w !sudo tee % >/dev/null
 
-" Copy paste between session
-vmap <silent> ,y y:new<CR>:call setline(1,getregtype())<CR>o<Esc>P:wq! ~/reg.txt<CR>
-nmap <silent> ,y :new<CR>:call setline(1,getregtype())<CR>o<Esc>P:wq! ~/reg.txt<CR>
-map <silent> ,p :sview ~/reg.txt<CR>"zdddG:q!<CR>:call setreg('"', @", @z)<CR>p
-map <silent> ,P :sview ~/reg.txt<CR>"zdddG:q!<CR>:call setreg('"', @", @z)<CR>P
-
 " ------Make shit easier-----
 nmap <Leader>s<CR> :NERDTreeFind<CR>
 
@@ -242,8 +260,6 @@ vnoremap <c-k> 15gk
 " Quickly open/reload vim
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
-" Switch NERDTree to right
-nnoremap <leader>nswp :let NERDTreeWinPos="right"<CR>
 
 " Idiot proofing
 cnoremap w' w
@@ -257,8 +273,6 @@ nnoremap <silent> zk O<Esc>j
 nnoremap <leader>t<CR> mzgg=G`z:w<CR>
 " Get rid of the fucking stupid OCD whitespace
 nnoremap <leader>w<CR> :%s/\s\+$//<CR>:w<CR>
-" Toggle git gutter when it starts getting pissed
-cnoremap toggit :GitGutterToggle<CR>
 " Fix json files
 cnoremap fixjson %!python -m json.tool<CR>
 " Quoting
