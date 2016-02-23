@@ -43,6 +43,7 @@ alias gh="git hist"
 alias be="bundle exec"
 alias gm="git checkout master"
 alias gcm="git commit -m"
+alias gitrmdel="git status -s | grep -E '^ D' | cut -d ' ' -f3 | xargs git add --all"
 
 # Aliases
 alias notes="vim ~/.notes"
