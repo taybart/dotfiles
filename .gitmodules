@@ -90,3 +90,6 @@
 	path = vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade.git
     ignore = dirty
+[submodule "vim/bundle/vim-airline-themes"]
+	path = vim/bundle/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
