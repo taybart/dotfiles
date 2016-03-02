@@ -292,6 +292,9 @@ nnoremap L $
 nnoremap <Tab> ==
 " Code jumping
 nnoremap <leader>jp /jumptag<CR>
+" Remove upper/lowercase in visual mode.
+vnoremap u <Esc>
+vnoremap U <Esc>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
