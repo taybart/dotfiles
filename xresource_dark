@@ -1,9 +1,32 @@
 ! ------------------------------------------------------------------------------
 ! --- ~/.Xresources ------------------------------------------------------------
 ! ------------------------------------------------------------------------------
-rofi.terminal: xterm
 
-xterm*termName: xterm-256color
+! ------------------- Rofi -------------------
+rofi.terminal: xterm
+rofi.modi: window,run
+
+! ------ Appearance ------
+rofi.opacity: 100
+rofi.location: 0
+rofi.lines: 5
+rofi.eh: 2
+rofi.width: 1020
+rofi.padding: 10
+rofi.line-margin: 3
+rofi.hide-scrollbar: true
+rofi.sidebar-mode: true
+rofi.color-enabled: true
+
+! State:           'bg',    'fg',    'bgalt', 'hlbg',  'hlfg'
+rofi.color-window: #262626, #222222
+rofi.color-normal: #222222, #666666, #222222, #262626, #DDDDDD
+rofi.color-urgent: #333333, #666666, #222222, #262626, #DDDDDD
+rofi.color-active: #333333, #666666, #222222, #262626, #DDDDDD
+
+
+! ------------------- XTerm -------------------
+XTerm*termName: xterm-256color
 XTerm*thickness: 1
 XTerm*scrollBar: off
 XTerm*geometry: 110x30
@@ -14,7 +37,8 @@ XTerm*fastScroll: True
 XTerm*urgentOnBell: True
 XTerm*visualBell: False
 
-XTerm*faceName: xft:Monospace:pixelsize=14
+!XTerm*faceName: xft:Monospace:pixelsize=12
+XTerm*faceName: Inconsolata:pixelsize=13
 
 XTerm*vt100.translations: #override \
         Shift <KeyPress> Up:      scroll-back(1, line) \n\
@@ -43,46 +67,3 @@ XTerm*color12:     #81a2be
 XTerm*color13:     #b294bb
 XTerm*color14:     #8abeb7
 XTerm*color15:     #ecebec
-
-
-
-URxvt*thickness: 1
-URxvt*scrollBar: off
-URxvt*geometry: 110x30
-URxvt*borderLess: False
-URxvt*internalBorder: 0
-URxvt*locale: True
-URxvt*fastScroll: True
-URxvt*urgentOnBell: True
-URxvt*visualBell: False
-
-URxvt*iconFile: /usr/share/icons/Numix-Circle/48x48/apps/utilities_terminal.svg
-URxvt*font: xft:Monospace:pixelsize=13
-
-URxvt*vt100.translations: #override \
-        Shift <KeyPress> Up:      scroll-back(1, line) \n\
-        Shift <KeyPress> Down:    scroll-forw(1, line) \n\
-        Shift <KeyPress> Insert:  string(0x1b) string(0x5b) string(2;2~) \n\
-        Ctrl Shift <KeyPress> C:  select-end(PRIMARY,CLIPBOARD,CUT_BUFFER0) \n\
-        Ctrl Shift <KeyPress> V:  insert-selection(CLIPBOARD, CUT_BUFFER0, PRIMARY)
-
-! ! Tomorrow Night
-URxvt*foreground:  #c5c8c6
-URxvt*background:  #1d1f21
-URxvt*cursorColor: #aeafad
-URxvt*color0:      #000000
-URxvt*color1:      #912226
-URxvt*color2:      #778900
-URxvt*color3:      #ae7b00
-URxvt*color4:      #1d2594
-URxvt*color5:      #682a9b
-URxvt*color6:      #2b6651
-URxvt*color7:      #929593
-URxvt*color8:      #666666
-URxvt*color9:      #cc6666
-URxvt*color10:     #b5bd68
-URxvt*color11:     #f0c674
-URxvt*color12:     #81a2be
-URxvt*color13:     #b294bb
-URxvt*color14:     #8abeb7
-URxvt*color15:     #ecebec
