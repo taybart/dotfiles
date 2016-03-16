@@ -2,13 +2,13 @@ if exists("b:current_syntax")
     finish
 endif
 
-syntax keyword vantiqIdentKeyword RULE var
+syntax keyword vantiqIdentKeyword RULE PROCEDURE var return
 syntax keyword vantiqStructsKeyword if for
 syntax keyword vantiqNullKeyword null Null NULL
 syntax match vantiqParen    "("
 syntax match vantiqFunction     "\w\+\s*(" contains=vantiqParen
 syntax match vantiqObjKey     "\w\+\s*:"
-syntax keyword vantiqSQLKeyword TIMEOUT INTO SERIES BEFORE AND WHERE WHEN AS INSERT UPDATE PUBLISH OCCURS ON WITHIN CONSTRAIN
+syntax keyword vantiqSQLKeyword TIMEOUT DROP SOURCE TYPE INTO WITH CREATE SERIES BEFORE AND WHERE WHEN AS INSERT UPDATE PUBLISH OCCURS ON WITHIN CONSTRAIN
 syntax match vantiqComment "\/\/.*$"
 syntax region vantiqString start='"' end='"'
 syntax match vantiqNumber '\s\d\+'

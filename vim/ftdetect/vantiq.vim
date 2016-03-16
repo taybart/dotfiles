@@ -1,1 +1,1 @@
-au BufNewFile,BufRead *.rule set filetype=vantiq
+au BufNewFile,BufRead *.rule,*.proc set filetype=vantiq
