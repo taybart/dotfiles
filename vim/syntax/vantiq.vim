@@ -8,10 +8,10 @@ syntax keyword vantiqNullKeyword null Null NULL
 syntax match vantiqParen    "("
 syntax match vantiqFunction     "\w\+\s*(" contains=vantiqParen
 syntax match vantiqObjKey     "\w\+\s*:"
-syntax keyword vantiqSQLKeyword WHEN AS INSERT UPDATE PUBLISH OCCURS ON
+syntax keyword vantiqSQLKeyword TIMEOUT INTO SERIES BEFORE AND WHERE WHEN AS INSERT UPDATE PUBLISH OCCURS ON WITHIN CONSTRAIN
 syntax match vantiqComment "\/\/.*$"
 syntax region vantiqString start='"' end='"'
-syntax match vantiqNumber '\d\+'
+syntax match vantiqNumber '\s\d\+'
 syntax match vantiqNumber '[-+]\d\+'
 
 highlight def link vantiqIdentKeyword Identifier
