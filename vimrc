@@ -14,8 +14,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets/lets ---------------------
-" Shiftwidth
-set shiftwidth=2
 " Smart indent
 set smartindent
 " Set word wrapping
@@ -60,9 +58,9 @@ set hlsearch
 " set showmatch
 
 " Tabs
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 
 " Color column
@@ -141,6 +139,10 @@ iabbrev <// </<c-x><c-o>
 " Python mode
 let g:pymode_rope = 0
 let g:pymode_lint_cwindow = 0
+
+" JSX syntax in JS files
+let g:jsx_ext_required = 0
+let g:javascript_enable_domhtmlcss = 1
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
