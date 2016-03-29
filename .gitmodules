@@ -1,18 +1,6 @@
-[submodule "vim/bundle/syntastic"]
-  path = vim/bundle/syntastic
-  url = https://github.com/scrooloose/syntastic
-  ignore = dirty
 [submodule "vim/bundle/vim-airline"]
   path = vim/bundle/vim-airline
   url = https://github.com/bling/vim-airline
-  ignore = dirty
-[submodule "vim/bundle/vim-sensable"]
-  path = vim/bundle/vim-sensable
-  url = https://github.com/tpope/vim-sensible.git
-  ignore = dirty
-[submodule "vim/bundle/vim-indent-guides"]
-  path = vim/bundle/vim-indent-guides
-  url = https://github.com/nathanaelkane/vim-indent-guides
   ignore = dirty
 [submodule "vim/bundle/YouCompleteMe"]
   path = vim/bundle/YouCompleteMe
@@ -30,29 +18,9 @@
   path = vim/bundle/Tagbar
   url = https://github.com/majutsushi/tagbar.git
   ignore = dirty
-[submodule "vim/bundle/togglelist"]
-  path = vim/bundle/togglelist
-  url = https://github.com/milkypostman/vim-togglelist.git
-  ignore = dirty
-[submodule "vim/bundle/vim-commentary"]
-  path = vim/bundle/vim-commentary
-  url = https://github.com/tpope/vim-commentary.git
-  ignore = dirty
-[submodule "vim/bundle/promptline.vim"]
-  path = vim/bundle/promptline.vim
-  url = https://github.com/edkolev/promptline.vim.git
-  ignore = dirty
-[submodule "vim/bundle/command-t"]
-  path = vim/bundle/command-t
-  url = https://github.com/wincent/command-t.git
-  ignore = dirty
 [submodule "vim/bundle/nerdcommenter"]
   path = vim/bundle/nerdcommenter
   url = https://github.com/scrooloose/nerdcommenter.git
-  ignore = dirty
-[submodule "vim/bundle/vim-windowswap"]
-  path = vim/bundle/vim-windowswap
-  url = https://github.com/wesQ3/vim-windowswap.git
   ignore = dirty
 [submodule "vim/bundle/MatchTagAlways"]
   path = vim/bundle/MatchTagAlways

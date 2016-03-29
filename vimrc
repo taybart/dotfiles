@@ -11,11 +11,16 @@ set autowrite
 let s:uname = system("echo -n \"$(uname)\"")
 colorscheme Tomorrow-Night
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabbar#enabled = 1
 
 " --------------- Sets/lets ---------------------
 " Smart indent
 set smartindent
+" Tabs
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
 "if has("gui_running")
@@ -45,7 +50,6 @@ endif
 
 set hlsearch!
 
-
 set mouse=a
 set ttymouse=xterm2
 
@@ -57,11 +61,6 @@ set hlsearch
 " Paren/bracket matching
 " set showmatch
 
-" Tabs
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
 
 " Color column
 set colorcolumn=0
@@ -78,47 +77,11 @@ set secure
 set foldmethod=manual
 set nofoldenable            " Have folds open by default
 
-" Custom togglelist commands
-let g:toggle_list_no_mappings=1
-" GitGutter
-let g:gitgutter_map_keys = 0
-
-" Pyclewn
-let g:pyclewn_python="python3"
-let g:pyclewn_args = "--pgm=/usr/bin/arm-none-eabi-gdb"
-
-
-" Airline
-
-" let g:airline_powerline_fonts = 1
-let s:uname = system("echo -n \"$(uname)\"")
-if !v:shell_error && s:uname == "Darwin"
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
-    endif
-    " old vim-powerline symbols
-    let g:airline_left_sep = '⮀'
-    let g:airline_left_alt_sep = '⮁'
-    let g:airline_right_sep = '⮂'
-    let g:airline_right_alt_sep = '⮃'
-    let g:airline_symbols.branch = '⭠'
-    let g:airline_symbols.readonly = '⭤'
-    let g:airline_symbols.linenr = '⭡'
-endif
-
-" YankRing
-let g:yankring_history_file = '.yankring'
-
 " Tmux
 let g:tmux_navigator_no_mappings = 1
 
 " ctags
 set tags=tags
-
-"gvim
-"set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
 
 " NERDTree
 let NERDTreeIgnore=['\.o$','\.d$', '\~$']
@@ -127,22 +90,9 @@ let NERDTreeIgnore=['\.o$','\.d$', '\~$']
 set errorformat^=%-G%f:%l:\ warning:%m
 set errorformat^=%-G%f:%l:\ note:%m
 
-" Git gutter
-let g:gitgutter_realtime = 0
-let g:gitgutter_eager = 0
-let g:gitgutter_max_signs = 500
-let g:gitgutter_escape_grep = 1
-
-" HTML Autocomplete tags
-iabbrev <// </<c-x><c-o>
-
-" Python mode
-let g:pymode_rope = 0
-let g:pymode_lint_cwindow = 0
-
 " JSX syntax in JS files
-let g:jsx_ext_required = 0
-let g:javascript_enable_domhtmlcss = 1
+"let g:jsx_ext_required = 0
+"let g:javascript_enable_domhtmlcss = 1
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -161,11 +111,14 @@ augroup vimrc_autocmd
     autocmd QuickFixCmdPost    l* nested lwindow
     au BufReadPost quickfix setlocal colorcolumn=0
 
-    autocmd FileType h,c,cpp,py,go,html,erb,rb autocmd BufWritePre <buffer> StripWhitespace
+    autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
 
     autocmd WinEnter * call NERDTreeQuit()
 
 augroup END
+" Seperate tabwidth for HTML
+autocmd BufEnter * autocmd FileType * setlocal tabstop=4|set shiftwidth=4|set softtabstop=4
+autocmd BufEnter * autocmd FileType html setlocal tabstop=2|set shiftwidth=2|set softtabstop=2
 
 " Don't save backups of *.gpg files
 set backupskip+=*.gpg
