@@ -250,6 +250,11 @@ nnoremap <leader>jp /jumptag<CR>
 " Remove upper/lowercase in visual mode.
 vnoremap u <Esc>
 vnoremap U <Esc>
+
+" HTML Tag Close
+imap <C-Space> <C-X><C-O>
+
+
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
