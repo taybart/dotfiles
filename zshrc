@@ -3,7 +3,8 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. ~/.oh-my-zsh/themes/
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="gallifrey"
 
 # Enable command auto-correction.
 ENABLE_CORRECTION="true"
@@ -13,25 +14,27 @@ platform=$(uname)
 
 source $ZSH/oh-my-zsh.sh
 
-# Allow for functions in the prompt.
-setopt PROMPT_SUBST
+## Allow for functions in the prompt.
+#setopt PROMPT_SUBST
 
-# Autoload zsh functions.
-fpath=(~/.zsh/functions $fpath)
-autoload -U ~/.zsh/functions/*(:t)
+## Autoload zsh functions.
+#fpath=(~/.zsh/functions $fpath)
+#autoload -U ~/.zsh/functions/*(:t)
 
-# Enable auto-execution of functions.
-typeset -ga preexec_functions
-typeset -ga precmd_functions
-typeset -ga chpwd_functions
+## Enable auto-execution of functions.
+#typeset -ga preexec_functions
+#typeset -ga precmd_functions
+#typeset -ga chpwd_functions
 
-# Append git functions needed for prompt.
-preexec_functions+='preexec_update_git_vars'
-precmd_functions+='precmd_update_git_vars'
-chpwd_functions+='chpwd_update_git_vars'
+## Append git functions needed for prompt.
+#preexec_functions+='preexec_update_git_vars'
+#precmd_functions+='precmd_update_git_vars'
+#chpwd_functions+='chpwd_update_git_vars'
 
-local ret_status="%(?:%{$fg[green]%}%m➜ :%{$fg[red]%}%m➜ %s)"
-PROMPT="${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(prompt_git_info)%{$fg_bold[blue]%} % %{$reset_color%}"
+#local ret_status="%(?:%{$fg[green]%}%m➜ :%{$fg[red]%}%m➜ %s)"
+#PROMPT="${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(prompt_git_info)%{$fg_bold[blue]%} % %{$reset_color%}"
+#PROMPT="${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c % %{$reset_color%}"
+#PROMPT="${ret_status}%{$fg_bold[cyan]%}%c % %{$reset_color%}"
 
 # Git Aliases
 alias gs="git status"
