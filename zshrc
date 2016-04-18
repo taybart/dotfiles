@@ -4,7 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. ~/.oh-my-zsh/themes/
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="gallifrey"
+#ZSH_THEME="gallifrey"
 
 # Enable command auto-correction.
 ENABLE_CORRECTION="true"
@@ -13,6 +13,7 @@ ENABLE_CORRECTION="true"
 platform=$(uname)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.dotfiles/zsh-prompt.zsh-theme
 
 ## Allow for functions in the prompt.
 #setopt PROMPT_SUBST
