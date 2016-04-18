@@ -79,6 +79,7 @@ else
     plugins=(git sudo vi-mode)
     alias ls="ls -l --color --block-size=M"
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
+    alias check-update="sudo apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print \"PROGRAM: $1 INSTALLED: $2 AVAILABLE: $3\n\"}'"
     alias ccat="pygmentize -g"
     alias install="sudo apt-get install"
     alias remove="sudo apt-get autoremove"
