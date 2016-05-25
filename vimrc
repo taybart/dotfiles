@@ -51,7 +51,6 @@ endif
 set hlsearch!
 
 set mouse=a
-set ttymouse=xterm2
 
 " Use relative number in normal mode and absolute number in insert mode
 set number
@@ -245,6 +244,7 @@ nnoremap H ^
 nnoremap L $
 " Emacs indent
 nnoremap <Tab> ==
+vnoremap <Tab> =
 " Code jumping
 nnoremap <leader>jp /jumptag<CR>
 " Remove upper/lowercase in visual mode.
