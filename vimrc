@@ -5,7 +5,9 @@ filetype plugin indent on
 scriptencoding utf-8
 set encoding=utf-8
 "set t_Co=16
-set t_Co=256
+if !has('nvim')
+    set t_Co=256
+endif
 set autowrite
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
@@ -51,6 +53,9 @@ endif
 set hlsearch!
 
 set mouse=a
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 
 " Use relative number in normal mode and absolute number in insert mode
 set number
