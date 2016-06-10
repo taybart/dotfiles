@@ -49,6 +49,7 @@ alias be="bundle exec"
 alias gm="git checkout master"
 alias gcm="git commit -m"
 alias gitda="~/.dotfiles/gitda"
+alias gitfixauth="git config user.name \"Taylor\" && git config user.email taylor.bartlett@mfactorengineering.com && git commit --amend --reset-author"
 
 # Aliases
 alias notes="vim ~/.notes"

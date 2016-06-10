@@ -97,9 +97,12 @@ let NERDTreeIgnore=['\.o$','\.d$', '\~$']
 set errorformat^=%-G%f:%l:\ warning:%m
 set errorformat^=%-G%f:%l:\ note:%m
 
-" JSX syntax in JS files
-"let g:jsx_ext_required = 0
-"let g:javascript_enable_domhtmlcss = 1
+" Syntastic
+let g:syntastic_javascript_checkers = ['eslint']
+
+" Nerd Commenter jsx
+let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/*','right': '*/}' } }
+
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
@@ -126,6 +129,8 @@ augroup END
 " Seperate tabwidth for HTML
 autocmd BufEnter * autocmd FileType * setlocal tabstop=4|set shiftwidth=4|set softtabstop=4
 autocmd BufEnter * autocmd FileType html setlocal tabstop=2|set shiftwidth=2|set softtabstop=2
+autocmd BufEnter * autocmd FileType javascript setlocal tabstop=2|set shiftwidth=2|set softtabstop=2
+autocmd BufEnter * autocmd FileType javascript.jsx setlocal tabstop=2|set shiftwidth=2|set softtabstop=2
 
 " Don't save backups of *.gpg files
 set backupskip+=*.gpg
@@ -260,7 +265,7 @@ vnoremap u <Esc>
 vnoremap U <Esc>
 
 " HTML Tag Close
-imap <C-Space> <C-X><C-O>
+"imap <C-Space> <C-X><C-O>
 
 
 " ------------------------- Strip trailing whitespace -------------------------
