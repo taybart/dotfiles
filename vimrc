@@ -23,6 +23,9 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
+" Stupid backspace issues
+set backspace=indent,eol,start
+
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
 "if has("gui_running")
