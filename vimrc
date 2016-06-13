@@ -265,8 +265,10 @@ vnoremap u <Esc>
 vnoremap U <Esc>
 
 " HTML Tag Close
-"imap <C-Space> <C-X><C-O>
+imap <C-Space> <C-X><C-O>
 
+" Toggle spell check
+nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
