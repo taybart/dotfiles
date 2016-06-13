@@ -75,6 +75,8 @@ fi
 #fi
 if [ "$platform" = "Darwin" ]
 then
+    export PATH="/Users/taylor/Library/Android/sdk/tools:/Users/taylor/Library/Android/sdk/platform-tools:${PATH}"
+    export ANDROID_HOME=~/Library/Android/sdk
     plugins=(brew git osx sudo vagrant)
     alias ls="ls -G -l"
 else
