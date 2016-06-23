@@ -67,7 +67,7 @@ alias ohmyzsh="vim ~/.oh-my-zsh"
 #then
 alias ranger="if [ -z "$RANGER_LEVEL" ]
 then
-    /usr/local/bin/ranger
+    $(which ranger)
 else
     exit
 fi
