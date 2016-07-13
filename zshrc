@@ -63,8 +63,6 @@ alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-u
 alias xup="xrdb ~/.Xresources"
 alias hangups="hangups --col-scheme solarized-dark"
 alias ohmyzsh="vim ~/.oh-my-zsh"
-#if [ -z "$TMUX" ]
-#then
 alias ranger="if [ -z "$RANGER_LEVEL" ]
 then
     /usr/local/bin/ranger
@@ -72,10 +70,16 @@ else
     exit
 fi
 "
-#fi
+
+# Exports
+export EDITOR=vim
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin:$HOME/.rvm/bin"
+export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
+export DISABLE_AUTO_TITLE=true
+
 if [ "$platform" = "Darwin" ]
 then
-    export PATH="/Users/taylor/Library/Android/sdk/tools:/Users/taylor/Library/Android/sdk/platform-tools:${PATH}"
+    export PATH="/Users/taylor/.google_depot_tools:/Users/taylor/Library/Android/sdk/tools:/Users/taylor/Library/Android/sdk/platform-tools:$PATH"
     export ANDROID_HOME=~/Library/Android/sdk
     plugins=(brew git osx sudo vagrant)
     alias ls="ls -G -l"
@@ -100,11 +104,6 @@ else
     fi
 fi
 
-# Exports
-export EDITOR=vim
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin:$HOME/.rvm/bin"
-export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
-export DISABLE_AUTO_TITLE=true
 
 # Local zshrc
 if [ -f $HOME/.zshrc.local ]; then

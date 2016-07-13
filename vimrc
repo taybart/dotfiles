@@ -12,6 +12,7 @@ set autowrite
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
 colorscheme Tomorrow-Night
+"colorscheme apprentice
 let g:airline#extensions#tabline#enabled = 1
 
 " --------------- Sets/lets ---------------------
@@ -101,7 +102,19 @@ set errorformat^=%-G%f:%l:\ note:%m
 let g:syntastic_javascript_checkers = ['eslint']
 
 " Nerd Commenter jsx
-let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/*','right': '*/}' } }
+let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ','right': ' */}' } }
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+"let g:UltiSnipsExpandTrigger = "<enter>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsExpandTrigger = "<nop>"
+inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -269,6 +282,7 @@ imap <C-Space> <C-X><C-O>
 
 " Toggle spell check
 nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
+nnoremap <leader>' :%s/\"/\'/g<CR>:w<CR>
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
