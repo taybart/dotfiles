@@ -1,9 +1,0 @@
-pane	0	0	:[tmux]	1	:*	0	:/Users/taylor	1	zsh	:
-pane	1	0	:zsh	1	:*	0	:/Users/taylor/.dotfiles	1	vim	:input):307:21159 vim vimrc
-pane	2	0	:zsh	1	:*	0	:/Users/taylor	1	zsh	:
-pane	4	0	:zsh	1	:*	0	:/Users/taylor	1	zsh	:
-window	0	0	1	:*	d95d,238x79,0,0,0
-window	1	0	1	:*	d964,238x79,0,0,7
-window	2	0	1	:*	d960,238x79,0,0,3
-window	4	0	1	:*	d963,238x79,0,0,6
-state	1	4

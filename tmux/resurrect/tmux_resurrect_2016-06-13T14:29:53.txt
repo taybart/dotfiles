@@ -1,6 +1,0 @@
-pane	0	0	:[tmux]	1	:*	0	:/Users/taylor	1	zsh	:
-pane	1	0	:zsh	1	:*	0	:/Users/taylor	0	zsh	:
-pane	1	0	:zsh	1	:*	1	:/Users/taylor	1	zsh	:
-window	0	0	1	:*	ae5d,80x23,0,0,0
-window	1	0	1	:*	d9fa,238x79,0,0{119x79,0,0,1,118x79,120,0,2}
-state	1	

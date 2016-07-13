@@ -65,7 +65,7 @@ alias hangups="hangups --col-scheme solarized-dark"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias ranger="if [ -z "$RANGER_LEVEL" ]
 then
-    /usr/local/bin/ranger
+    $(which ranger)
 else
     exit
 fi
