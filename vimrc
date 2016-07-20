@@ -4,7 +4,6 @@ syntax on
 filetype plugin indent on
 scriptencoding utf-8
 set encoding=utf-8
-"set t_Co=16
 if !has('nvim')
     set t_Co=256
 endif
@@ -29,11 +28,7 @@ set backspace=indent,eol,start
 
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
-"if has("gui_running")
 highlight Pmenu guibg=brown gui=bold
-"else
-"highlight Pmenu ctermfg=15 ctermbg=0
-"endif
 
 set shell=/bin/bash
 set cursorline
@@ -115,6 +110,10 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsExpandTrigger = "<nop>"
 inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
+
+" CtrlP
+"let g:ctrlp_custom_ignore = { 'dir':  '\v[\/]\.(git|hg|svn)|node_modules|bower_components$', 'file': '\v\.(exe|so|dll)$' }
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -203,11 +202,15 @@ nmap <Leader>d :bp <BAR> bd #<CR>
 nmap <Leader>e<CR> :cnext<CR>
 
 " tmux integration
-nmap <silent> <c-h> :TmuxNavigateLeft<cr>
-nmap <silent> <c-m> :TmuxNavigateDown<cr>
-nmap <silent> <c-u> :TmuxNavigateUp<cr>
-nmap <silent> <c-l> :TmuxNavigateRight<cr>
-nmap <silent> <c-\> :TmuxNavigatePrevious<cr>
+if has('nvim')
+     nmap <BS> <C-W>h
+ else
+     nmap <silent> <c-h> :TmuxNavigateLeft<CR>
+endif
+nmap <silent> <c-m> :TmuxNavigateDown<CR>
+nmap <silent> <c-u> :TmuxNavigateUp<CR>
+nmap <silent> <c-l> :TmuxNavigateRight<CR>
+nmap <silent> <c-\> :TmuxNavigatePrevious<CR>
 
 " This command will allow us to save a file we don't have permission to save
 " *after* we have already opened it.

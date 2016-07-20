@@ -83,6 +83,7 @@ then
     export ANDROID_HOME=~/Library/Android/sdk
     plugins=(brew git osx sudo vagrant)
     alias ls="ls -G -l"
+    alias lsusb="system_profiler SPUSBDataType"
 else
     plugins=(git sudo vi-mode)
     alias ls="ls -l --color --block-size=M"
