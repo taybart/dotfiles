@@ -59,7 +59,6 @@ alias q="exit"
 alias :q="exit"
 alias mpv="mpv -no-border"
 alias zshrc="vim ~/.zshrc && . ~/.zshrc"
-alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
 alias xup="xrdb ~/.Xresources"
 alias hangups="hangups --col-scheme solarized-dark"
 alias ohmyzsh="vim ~/.oh-my-zsh"
@@ -84,8 +83,9 @@ then
     plugins=(brew git osx sudo vagrant)
     alias ls="ls -G -l"
     alias lsusb="system_profiler SPUSBDataType"
+    alias update="brew update && brew upgrade"
 else
-    plugins=(git sudo vi-mode)
+    plugins=(git sudo vi-mode vagrant)
     alias ls="ls -l --color --block-size=M"
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias check-update="sudo apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print \"PROGRAM: $1 INSTALLED: $2 AVAILABLE: $3\n\"}'"
@@ -97,6 +97,7 @@ else
     alias grep="grep"
     alias sa="mosquitto_sub -t '#'"
     alias attach="tmux attach -t"
+    alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
     if [[ -n $SSH_CONNECTION && -z $TMUX ]] ; then
