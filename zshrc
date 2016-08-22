@@ -62,6 +62,8 @@ alias zshrc="vim ~/.zshrc && . ~/.zshrc"
 alias xup="xrdb ~/.Xresources"
 alias hangups="hangups --col-scheme solarized-dark"
 alias ohmyzsh="vim ~/.oh-my-zsh"
+alias genjstags="find . -type f -iregex \".*\.js$\" -not -path \"./node_modules/*\" -exec jsctags {} -f \; | sed '/^$/d' | sort > tags"
+unalias ranger 2>/dev/null
 alias ranger="if [ -z "$RANGER_LEVEL" ]
 then
     $(which ranger)
@@ -86,6 +88,12 @@ then
     alias update="brew update && brew upgrade"
     function title {
         echo -ne "\033]0;"$*"\007"
+    }
+    function convid {
+        if [ "$#" -ne 3 ]; then
+            echo "Usage: convid name format_in format_out"
+        fi
+        avconv -i $1.$2 -codec copy $1.$3
     }
 else
     plugins=(git sudo vi-mode vagrant)
