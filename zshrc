@@ -84,6 +84,9 @@ then
     alias ls="ls -G -l"
     alias lsusb="system_profiler SPUSBDataType"
     alias update="brew update && brew upgrade"
+    function title {
+        echo -ne "\033]0;"$*"\007"
+    }
 else
     plugins=(git sudo vi-mode vagrant)
     alias ls="ls -l --color --block-size=M"
@@ -98,6 +101,7 @@ else
     alias sa="mosquitto_sub -t '#'"
     alias attach="tmux attach -t"
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
+    alias uc="date ; sudo service ntp stop ; sudo ntpdate -s time.nist.gov ; sudo service ntp start ; date"
     xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
     if [[ -n $SSH_CONNECTION && -z $TMUX ]] ; then
