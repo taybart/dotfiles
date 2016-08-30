@@ -86,6 +86,8 @@ then
     alias ls="ls -G -l"
     alias lsusb="system_profiler SPUSBDataType"
     alias update="brew update && brew upgrade"
+    alias newmac="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
+    alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
     function title {
         echo -ne "\033]0;"$*"\007"
     }
