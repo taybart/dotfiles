@@ -67,3 +67,6 @@
 [submodule "vim/bundle/splitjoin.vim"]
 	path = vim/bundle/splitjoin.vim
 	url = https://github.com/AndrewRadev/splitjoin.vim.git
+[submodule "vim/bundle/codi.vim"]
+	path = vim/bundle/codi.vim
+	url = https://github.com/metakirby5/codi.vim
