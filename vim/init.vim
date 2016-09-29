@@ -1,1 +1,1 @@
-/Users/taylor/.dotfiles/vimrc
+/home/captain/.vimrc

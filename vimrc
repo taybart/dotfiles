@@ -203,10 +203,14 @@ nmap <Leader>d :bp <BAR> bd #<CR>
 nmap <Leader>e<CR> :cnext<CR>
 
 " tmux integration
-if has('nvim')
-     nmap <BS> <C-W>h
- else
-     nmap <silent> <c-h> :TmuxNavigateLeft<CR>
+if s:uname == "Darwin"
+    if has('nvim')
+        nmap <BS> <C-W>h
+    else
+        nmap <silent> <c-h> :TmuxNavigateLeft<CR>
+    endif
+else
+    nmap <silent> <c-h> :TmuxNavigateLeft<CR>
 endif
 nmap <silent> <c-m> :TmuxNavigateDown<CR>
 nmap <silent> <c-u> :TmuxNavigateUp<CR>

@@ -1,6 +1,7 @@
 # https://gitorious.org/topmenu/pages/Home
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export TERM="screen-256color"
 
 # Set name of the theme to load. ~/.oh-my-zsh/themes/
 #ZSH_THEME="robbyrussell"
