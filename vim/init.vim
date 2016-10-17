@@ -1,1 +1,1 @@
-/home/captain/.vimrc
+../vimrc
