@@ -47,7 +47,9 @@ if has('unnamedplus')
     set clipboard=unnamedplus,unnamed
 else
     " Vim now also uses the selection system clipboard for default yank/paste.
-    set clipboard=unnamed
+    if !has('nvim')
+        set clipboard=unnamed
+    endif
 endif
 
 set hlsearch!
