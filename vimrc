@@ -35,6 +35,8 @@ set shell=/bin/bash
 set cursorline
 "set cursorcolumn
 " Use system clipboard buffer
+
+set clipboard+=unnamedplus
 if has('unnamedplus')
     " By default, Vim will not use the system clipboard when yanking/pasting to
     " the default register. This option makes Vim use the system default
@@ -115,8 +117,8 @@ let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ','right': ' */}
 "inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
 
 " CtrlP
-"let g:ctrlp_custom_ignore = { 'dir':  '\v[\/]\.(git|hg|svn)|node_modules|bower_components$', 'file': '\v\.(exe|so|dll)$' }
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_custom_ignore = { 'dir': 'dist\|docs\|node_modules\|bower_components\|DS_Store\|git'}
+let g:ctrlp_working_path_mode = 0
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -205,14 +207,10 @@ nmap <Leader>d :bp <BAR> bd #<CR>
 nmap <Leader>e<CR> :cnext<CR>
 
 " tmux integration
-if s:uname == "Darwin"
-    if has('nvim')
-        nmap <BS> <C-W>h
-    else
-        nmap <silent> <c-h> :TmuxNavigateLeft<CR>
-    endif
+if has('nvim')
+    nnoremap <silent> <BS> :TmuxNavigateLeft<CR>
 else
-    nmap <silent> <c-h> :TmuxNavigateLeft<CR>
+    nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
 endif
 nmap <silent> <c-m> :TmuxNavigateDown<CR>
 nmap <silent> <c-u> :TmuxNavigateUp<CR>
