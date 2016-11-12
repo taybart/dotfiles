@@ -21,7 +21,8 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 
 " Syntax
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic'
+Plugin 'neomake/neomake'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'groenewege/vim-less'
 Plugin 'mxw/vim-jsx'
@@ -132,7 +133,12 @@ set errorformat^=%-G%f:%l:\ warning:%m
 set errorformat^=%-G%f:%l:\ note:%m
 
 " Syntastic
-let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_javascript_checkers = ['eslint']
+let g:neomake_javascript_jshint_maker = {
+    \ 'args': ['--verbose'],
+    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+    \ }
+let g:neomake_javascript_enabled_makers = ['eslint']
 
 " Nerd Commenter jsx
 let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
@@ -174,6 +180,7 @@ augroup vimrc_autocmd
     autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
 
     autocmd WinEnter * call NERDTreeQuit()
+    autocmd! BufWritePost * Neomake
 
 augroup END
 
