@@ -83,7 +83,7 @@ if [ "$platform" = "Darwin" ]
 then
     export PATH="/Users/taylor/.google_depot_tools:/Users/taylor/Library/Android/sdk/tools:/Users/taylor/Library/Android/sdk/platform-tools:$PATH"
     export ANDROID_HOME=~/Library/Android/sdk
-    plugins=(brew git osx sudo vagrant)
+    plugins=(git osx sudo vagrant)
     alias ls="ls -G -l"
     alias lsusb="system_profiler SPUSBDataType"
     alias update="brew update && brew upgrade"

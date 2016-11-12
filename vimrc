@@ -14,6 +14,29 @@ let s:uname = system("echo -n \"$(uname)\"")
 colorscheme Tomorrow-Night
 "colorscheme apprentice
 let g:airline#extensions#tabline#enabled = 1
+" ----------------- Vundle ----------------------
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'bling/vim-airline'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'majutsushi/tagbar'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
+Plugin 'groenewege/vim-less'
+Plugin 'tpope/vim-surround'
+Plugin 'godlygeek/tabular'
+Plugin 'tpope/vim-fugitive'
+Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'metakirby5/codi.vim'
+call vundle#end()
 
 " --------------- Sets/lets ---------------------
 " Smart indent
@@ -123,7 +146,7 @@ let g:ctrlp_working_path_mode = 0
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
     autocmd!
-    autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |:NERDTreeToggle|endif
+    "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |:NERDTreeToggle|endif
     autocmd StdinReadPre * let s:std_in=1
     " no beeps
     set noerrorbells visualbell t_vb=
