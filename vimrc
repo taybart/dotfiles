@@ -1,12 +1,10 @@
-execute pathogen#infect()
-execute pathogen#helptags()
 syntax on
 filetype plugin indent on
 scriptencoding utf-8
-set encoding=utf-8
 if !has('nvim')
-    set t_Co=256
-    set autoread
+  set encoding=utf-8
+  set t_Co=256
+  set autoread
 endif
 set autowrite
 " ---------------- Look ------------------------
@@ -17,25 +15,37 @@ let g:airline#extensions#tabline#enabled = 1
 " ----------------- Vundle ----------------------
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+
+" File finders
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
+
+" Syntax
 Plugin 'vim-syntastic/syntastic'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'bling/vim-airline'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'majutsushi/tagbar'
-Plugin 'Valloric/MatchTagAlways'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'vim-airline/vim-airline-themes'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'groenewege/vim-less'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
-Plugin 'groenewege/vim-less'
-Plugin 'tpope/vim-surround'
+Plugin 'ntpeters/vim-better-whitespace'
+
+" Looks
+Plugin 'majutsushi/tagbar'
+Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'godlygeek/tabular'
+
+
+
+" Conveniance
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
-Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'Valloric/MatchTagAlways'
+
+" Misc
 Plugin 'metakirby5/codi.vim'
+
 call vundle#end()
 
 " --------------- Sets/lets ---------------------
@@ -43,9 +53,9 @@ call vundle#end()
 set smartindent
 " Tabs
 set expandtab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 
 " Stupid backspace issues
 set backspace=indent,eol,start
@@ -125,7 +135,7 @@ set errorformat^=%-G%f:%l:\ note:%m
 let g:syntastic_javascript_checkers = ['eslint']
 
 " Nerd Commenter jsx
-let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ','right': ' */}' } }
+let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
 
 " make YCM compatible with UltiSnips (using supertab)
 "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -166,11 +176,6 @@ augroup vimrc_autocmd
     autocmd WinEnter * call NERDTreeQuit()
 
 augroup END
-" Seperate tabwidth for HTML
-autocmd BufEnter * autocmd FileType * setlocal tabstop=4|set shiftwidth=4|set softtabstop=4
-autocmd BufEnter * autocmd FileType html setlocal tabstop=2|set shiftwidth=2|set softtabstop=2
-autocmd BufEnter * autocmd FileType javascript setlocal tabstop=2|set shiftwidth=2|set softtabstop=2
-autocmd BufEnter * autocmd FileType javascript.jsx setlocal tabstop=2|set shiftwidth=2|set softtabstop=2
 
 " Don't save backups of *.gpg files
 set backupskip+=*.gpg
