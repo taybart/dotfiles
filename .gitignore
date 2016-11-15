@@ -3,3 +3,4 @@ vim/.netrwhist
 *.swp
 ranger/copy_buffer
 ranger/history
+vim/bundle
