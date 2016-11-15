@@ -1,17 +1,3 @@
-syntax on
-filetype plugin indent on
-scriptencoding utf-8
-if !has('nvim')
-  set encoding=utf-8
-  set t_Co=256
-  set autoread
-endif
-set autowrite
-" ---------------- Look ------------------------
-let s:uname = system("echo -n \"$(uname)\"")
-colorscheme Tomorrow-Night
-"colorscheme apprentice
-let g:airline#extensions#tabline#enabled = 1
 " ----------------- Vundle ----------------------
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -21,13 +7,17 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 
 " Syntax
-"Plugin 'vim-syntastic/syntastic'
-Plugin 'neomake/neomake'
+if has('nvim')
+  Plugin 'neomake/neomake'
+else
+  Plugin 'vim-syntastic/syntastic'
+endif
+
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'groenewege/vim-less'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
-Plugin 'ntpeters/vim-better-whitespace'
 
 " Looks
 Plugin 'majutsushi/tagbar'
@@ -48,6 +38,17 @@ Plugin 'Valloric/MatchTagAlways'
 Plugin 'metakirby5/codi.vim'
 
 call vundle#end()
+
+syntax on
+filetype plugin indent on
+
+scriptencoding utf-8
+if !has('nvim')
+  set encoding=utf-8
+  set t_Co=256
+  set autoread
+endif
+set autowrite
 
 " --------------- Sets/lets ---------------------
 " Smart indent
@@ -132,16 +133,22 @@ let NERDTreeIgnore=['\.o$','\.d$', '\~$']
 set errorformat^=%-G%f:%l:\ warning:%m
 set errorformat^=%-G%f:%l:\ note:%m
 
-" Syntastic
-"let g:syntastic_javascript_checkers = ['eslint']
-let g:neomake_javascript_jshint_maker = {
-    \ 'args': ['--verbose'],
-    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-    \ }
-let g:neomake_javascript_enabled_makers = ['eslint']
+if has('nvim')
+  " Neomake
+  let g:neomake_javascript_jshint_maker = {
+        \ 'args': ['--verbose'],
+        \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+        \ }
+  let g:neomake_javascript_enabled_makers = ['eslint']
+else
+  " Syntastic
+  let g:syntastic_javascript_checkers = ['eslint']
+endif
+
 
 " Nerd Commenter jsx
-let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
+"let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
+let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'right': ' */}' } }
 
 " make YCM compatible with UltiSnips (using supertab)
 "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -158,6 +165,11 @@ let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*
 " CtrlP
 let g:ctrlp_custom_ignore = { 'dir': 'dist\|docs\|node_modules\|bower_components\|DS_Store\|git'}
 let g:ctrlp_working_path_mode = 0
+
+" ---------------- Look ------------------------
+let s:uname = system("echo -n \"$(uname)\"")
+colorscheme Tomorrow-Night
+let g:airline#extensions#tabline#enabled = 1
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -180,6 +192,7 @@ augroup vimrc_autocmd
     autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
 
     autocmd WinEnter * call NERDTreeQuit()
+
     autocmd! BufWritePost * Neomake
 
 augroup END
