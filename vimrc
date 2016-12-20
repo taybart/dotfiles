@@ -24,15 +24,21 @@ Plugin 'majutsushi/tagbar'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'godlygeek/tabular'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 
 
 " Conveniance
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'Valloric/MatchTagAlways'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'SirVer/ultisnips'
+Plugin 'ervandew/supertab'
+" Snippets
+Plugin 'honza/vim-snippets'
+
 
 " Misc
 Plugin 'metakirby5/codi.vim'
@@ -135,11 +141,11 @@ set errorformat^=%-G%f:%l:\ note:%m
 
 if has('nvim')
   " Neomake
+  let g:neomake_javascript_enabled_makers = ['eslint']
   let g:neomake_javascript_jshint_maker = {
         \ 'args': ['--verbose'],
         \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
         \ }
-  let g:neomake_javascript_enabled_makers = ['eslint']
 else
   " Syntastic
   let g:syntastic_javascript_checkers = ['eslint']
@@ -149,22 +155,31 @@ endif
 " Nerd Commenter jsx
 "let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
 let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'right': ' */}' } }
+" Nerdtree
+let g:NERDTreeMapJumpNextSibling = ''
+let g:NERDTreeMapJumpPrevSibling = ''
 
-" make YCM compatible with UltiSnips (using supertab)
-"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-"let g:SuperTabDefaultCompletionType = '<C-n>'
+" YouCompleteMe
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+" Make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+
+" Supertab
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:SuperTabCrMapping = 0
 
 " better key bindings for UltiSnipsExpandTrigger
-"let g:UltiSnipsExpandTrigger = "<enter>"
-"let g:UltiSnipsJumpForwardTrigger = "<tab>"
-"let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-"let g:UltiSnipsExpandTrigger = "<nop>"
-"inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " CtrlP
 let g:ctrlp_custom_ignore = { 'dir': 'dist\|docs\|node_modules\|bower_components\|DS_Store\|git'}
 let g:ctrlp_working_path_mode = 0
+
+let g:deoplete#enable_at_startup = 1
 
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")

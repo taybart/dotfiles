@@ -75,7 +75,7 @@ fi
 
 # Exports
 export EDITOR=vim
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin:/usr/local/msp430-toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/taylor/go/bin:/Users/taylor/.rvm/bin:/usr/games:$HOME/dotfiles:$PATH:/usr/local/LPCXpresso/tools/bin:$HOME/.rvm/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.bin"
 export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
 export DISABLE_AUTO_TITLE=true
 
@@ -89,6 +89,7 @@ then
     alias update="brew update && brew upgrade"
     alias newmac="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
     alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
+    alias ctags="`brew --prefix`/bin/ctags"
     function title {
         echo -ne "\033]0;"$*"\007"
     }
@@ -99,7 +100,7 @@ then
         avconv -i $1.$2 -codec copy $1.$3
     }
 else
-    plugins=(git sudo vi-mode vagrant)
+    plugins=(git sudo vagrant debian)
     alias ls="ls -l --color --block-size=M"
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias check-update="sudo apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print \"PROGRAM: $1 INSTALLED: $2 AVAILABLE: $3\n\"}'"

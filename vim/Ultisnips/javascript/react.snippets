@@ -1,0 +1,60 @@
+snippet rc "React Component"
+import React, { PropTypes, Component } from 'react';
+/**
+ * $2
+ */
+@connect(mapStateToProps, mapDispatchToProps)
+export default class $1 extends Component {
+	static propTypes = {
+	}
+
+	render() {
+		return (
+			<div>
+				$3
+			</div>
+		);
+	}
+}
+endsnippet
+snippet rcf "React Component with constructor"
+import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+
+/**
+ * Redux state/dispatch subscription
+ */
+const mapStateToProps = state => (
+  {
+	});
+
+const mapDispatchToProps = dispatch => (
+  {
+  });
+
+/**
+ * $2
+ */
+@connect(mapStateToProps, mapDispatchToProps)
+export default class $1 extends Component {
+	static propTypes = {
+	}
+
+	/**
+	 * Constructs $1
+	 */
+	constructor() {
+	  super();
+	}
+
+  componentDidMount() {
+	}
+
+	render() {
+		return (
+			<div>
+			</div>
+		);
+	}
+}
+endsnippet
