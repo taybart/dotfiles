@@ -19,14 +19,6 @@ Plugin 'groenewege/vim-less'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 
-" Looks
-Plugin 'majutsushi/tagbar'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'godlygeek/tabular'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-
-
 
 " Conveniance
 Plugin 'tpope/vim-surround'
@@ -39,12 +31,23 @@ Plugin 'ervandew/supertab'
 " Snippets
 Plugin 'honza/vim-snippets'
 
+" Themes
+Plugin 'ajh17/Spacegray.vim'
+" Looks
+Plugin 'majutsushi/tagbar'
+Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'godlygeek/tabular'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'ryanoasis/vim-devicons'
 
 " Misc
 Plugin 'metakirby5/codi.vim'
 
+
 call vundle#end()
 
+" --------------- Sets/lets ---------------------
 syntax on
 filetype plugin indent on
 
@@ -53,10 +56,17 @@ if !has('nvim')
   set encoding=utf-8
   set t_Co=256
   set autoread
+  set nocompatible
 endif
+
+if (has("termguicolors"))
+ set termguicolors
+endif
+
 set autowrite
 
-" --------------- Sets/lets ---------------------
+set linespace=0
+
 " Smart indent
 set smartindent
 " Tabs
@@ -179,12 +189,14 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:ctrlp_custom_ignore = { 'dir': 'dist\|docs\|node_modules\|bower_components\|DS_Store\|git'}
 let g:ctrlp_working_path_mode = 0
 
-let g:deoplete#enable_at_startup = 1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
 
 " ---------------- Look ------------------------
 let s:uname = system("echo -n \"$(uname)\"")
 colorscheme Tomorrow-Night
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -275,10 +287,11 @@ if has('nvim')
 else
     nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
 endif
-nmap <silent> <c-m> :TmuxNavigateDown<CR>
-nmap <silent> <c-u> :TmuxNavigateUp<CR>
-nmap <silent> <c-l> :TmuxNavigateRight<CR>
-nmap <silent> <c-\> :TmuxNavigatePrevious<CR>
+
+nnoremap <silent> <c-m> :TmuxNavigateDown<CR>
+nnoremap <silent> <c-u> :TmuxNavigateUp<CR>
+nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
+nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
 
 " This command will allow us to save a file we don't have permission to save
 " *after* we have already opened it.
