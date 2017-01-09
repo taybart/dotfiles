@@ -7,11 +7,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 
 " Syntax
-if has('nvim')
-  Plugin 'neomake/neomake'
-else
-  Plugin 'vim-syntastic/syntastic'
-endif
+Plugin 'neomake/neomake'
 
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ntpeters/vim-better-whitespace'
@@ -28,11 +24,10 @@ Plugin 'Valloric/MatchTagAlways'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'ervandew/supertab'
+
 " Snippets
 Plugin 'honza/vim-snippets'
 
-" Themes
-Plugin 'ajh17/Spacegray.vim'
 " Looks
 Plugin 'majutsushi/tagbar'
 Plugin 'bling/vim-airline'
