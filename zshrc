@@ -116,10 +116,6 @@ else
     alias uc="date ; sudo service ntp stop ; sudo ntpdate -s time.nist.gov ; sudo service ntp start ; date"
     xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
-    if [[ -n $SSH_CONNECTION && -z $TMUX ]] ; then
-        echo -e "\n\nAvailable tmux sessions: "
-        tmux ls
-    fi
 fi
 
 
