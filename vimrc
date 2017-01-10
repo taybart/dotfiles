@@ -54,8 +54,10 @@ if !has('nvim')
   set nocompatible
 endif
 
-if (has("termguicolors"))
- set termguicolors
+if s:uname == "Darwin"
+  if (has("termguicolors"))
+    set termguicolors
+  endif
 endif
 
 set autowrite
@@ -277,8 +279,12 @@ nmap <Leader>d :bp <BAR> bd #<CR>
 nmap <Leader>e<CR> :cnext<CR>
 
 " tmux integration
-if has('nvim')
+if s:uname == "Darwin"
+  if has('nvim')
     nnoremap <silent> <BS> :TmuxNavigateLeft<CR>
+  else
+    nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
+endif
 else
     nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
 endif
