@@ -54,11 +54,6 @@ if !has('nvim')
   set nocompatible
 endif
 
-if s:uname == "Darwin"
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
 
 set autowrite
 
@@ -194,6 +189,11 @@ let s:uname = system("echo -n \"$(uname)\"")
 colorscheme Tomorrow-Night
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+if s:uname == "Darwin"
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
