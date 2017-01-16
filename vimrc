@@ -1,9 +1,15 @@
+let s:uname = system("echo -n \"$(uname)\"")
+if s:uname == "Darwin"
+  set rtp+=/usr/local/opt/fzf
+else
+  set rtp+=~/.fzf
+endif
 " ----------------- Vundle ----------------------
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " File finders
-Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 
 " Syntax
@@ -178,18 +184,20 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " CtrlP
-let g:ctrlp_custom_ignore = { 'dir': 'dist\|docs\|node_modules\|bower_components\|DS_Store\|git'}
-let g:ctrlp_working_path_mode = 0
+"let g:ctrlp_custom_ignore = { 'dir': 'dist\|docs\|node_modules\|bower_components\|DS_Store\|git'}
+"let g:ctrlp_working_path_mode = 0
 
+" vim devicons
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 
+
 " ---------------- Look ------------------------
-let s:uname = system("echo -n \"$(uname)\"")
 colorscheme Tomorrow-Night
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 if s:uname == "Darwin"
+  set rtp+=/usr/local/opt/fzf
   if (has("termguicolors"))
     set termguicolors
   endif
@@ -369,6 +377,8 @@ imap <C-Space> <C-X><C-O>
 nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 nnoremap <leader>' :%s/\"/\'/g<CR>:w<CR>
 
+" fzf
+nnoremap <C-P> :FZF<CR>
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
