@@ -119,6 +119,7 @@ else
 fi
 
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # Local zshrc
 if [ -f $HOME/.zshrc.local ]; then
     . $HOME/.zshrc.local
@@ -165,4 +166,3 @@ elif type compctl &>/dev/null; then
 fi
 ###-end-pm2-completion-###
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
