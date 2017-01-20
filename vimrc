@@ -10,6 +10,7 @@ call vundle#begin()
 
 " File finders
 "Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/fzf.vim'
 Plugin 'scrooloose/nerdtree'
 
 " Syntax
