@@ -43,10 +43,6 @@ Plugin 'godlygeek/tabular'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'ryanoasis/vim-devicons'
 
-" Misc
-Plugin 'metakirby5/codi.vim'
-
-
 call vundle#end()
 
 " --------------- Sets/lets ---------------------
@@ -162,6 +158,7 @@ endif
 
 
 " Nerd Commenter jsx
+let g:NERDSpaceDelims = 1
 "let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
 let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'right': ' */}' } }
 " Nerdtree
@@ -379,7 +376,10 @@ nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
 nnoremap <leader>' :%s/\"/\'/g<CR>:w<CR>
 
 " fzf
-nnoremap <C-P> :FZF<CR>
+nnoremap <C-p> :Files<CR>
+nnoremap <C-s> :BLines<CR>
+nnoremap <C-b> :Buffers<CR>
+
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
     "Preparation: save last search, and cursor position.
