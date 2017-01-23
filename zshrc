@@ -77,20 +77,25 @@ fi
 # Exports
 export EDITOR=vim
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.bin"
-export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
 export DISABLE_AUTO_TITLE=true
 
 if [ "$platform" = "Darwin" ]
 then
-    export PATH="/Users/taylor/.google_depot_tools:/Users/taylor/Library/Android/sdk/tools:/Users/taylor/Library/Android/sdk/platform-tools:$PATH"
-    export ANDROID_HOME=~/Library/Android/sdk
+    # export PATH="/Users/taylor/.google_depot_tools:/Users/taylor/Library/Android/sdk/tools:/Users/taylor/Library/Android/sdk/platform-tools:$PATH"
+    # export ANDROID_HOME=~/Library/Android/sdk
+    export GREP_OPTIONS="-RIns --color=auto --exclude=\"tags\""
     plugins=(git osx sudo vagrant)
     alias ls="ls -G -l"
     alias lsusb="system_profiler SPUSBDataType"
-    alias update="brew update && brew upgrade"
-    alias newmac="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
+    alias newmacaddr="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
     alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
     alias ctags="`brew --prefix`/bin/ctags"
+    function update {
+      temp=GREP_OPTIONS
+      unset GREP_OPTIONS
+      brew update && brew upgrade
+      GREP_OPTIONS=temp
+    }
     function title {
         echo -ne "\033]0;"$*"\007"
     }
@@ -102,6 +107,7 @@ then
     }
 else
     plugins=(git sudo vagrant debian)
+    export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias check-update="sudo apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print \"PROGRAM: $1 INSTALLED: $2 AVAILABLE: $3\n\"}'"
