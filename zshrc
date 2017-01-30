@@ -47,11 +47,6 @@ else
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
 fi
 
-# Outputs current branch info in prompt format
-function check_for_root() {
-  local ref="%(!.%{\e[1;31m%}%m%{\e[0m%}.%{\e[0;33m%}%m%{\e[0m%})"
-  echo ref
-}
 
 fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
 
