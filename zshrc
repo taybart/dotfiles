@@ -1,90 +1,21 @@
-# https://gitorious.org/topmenu/pages/Home
-# Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-export TERM="screen-256color"
-
-# Set name of the theme to load. ~/.oh-my-zsh/themes/
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="gallifrey"
-
-# Enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# Check for platform
-platform=$(uname)
-
 source $ZSH/oh-my-zsh.sh
-source $HOME/.dotfiles/zsh-prompt.zsh-theme
 
-## Allow for functions in the prompt.
-#setopt PROMPT_SUBST
-
-## Autoload zsh functions.
-#fpath=(~/.zsh/functions $fpath)
-#autoload -U ~/.zsh/functions/*(:t)
-
-## Enable auto-execution of functions.
-#typeset -ga preexec_functions
-#typeset -ga precmd_functions
-#typeset -ga chpwd_functions
-
-## Append git functions needed for prompt.
-#preexec_functions+='preexec_update_git_vars'
-#precmd_functions+='precmd_update_git_vars'
-#chpwd_functions+='chpwd_update_git_vars'
-
-#local ret_status="%(?:%{$fg[green]%}%m➜ :%{$fg[red]%}%m➜ %s)"
-#PROMPT="${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(prompt_git_info)%{$fg_bold[blue]%} % %{$reset_color%}"
-#PROMPT="${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c % %{$reset_color%}"
-#PROMPT="${ret_status}%{$fg_bold[cyan]%}%c % %{$reset_color%}"
-
-# Git Aliases
-alias gs="git status"
-alias gd="git diff --patience --ignore-space-change"
-alias gc="git checkout"
-alias gcb="git checkout -b"
-alias gb="git branch"
-alias git-add-deleted="git ls-files --deleted -z | xargs -0 git rm"
-alias ga="git add"
-alias gh="git hist"
-alias be="bundle exec"
-alias gm="git merge"
-alias gcm="git commit -m"
-alias gitda="~/.dotfiles/gitda"
-alias gitfixauth="git config user.name \"Taylor\" && git config user.email taylor.bartlett@mfactorengineering.com && git commit --amend --reset-author"
-
-# Aliases
-alias notes="vim ~/.notes"
-alias ennotes="~/.dotfiles/notes"
-alias v="vim"
-alias q="exit"
-alias :q="exit"
-#alias mpv="mpv -no-border"
-alias zshrc="vim ~/.zshrc && . ~/.zshrc"
-alias xup="xrdb ~/.Xresources"
-alias hangups="hangups --col-scheme solarized-dark"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-alias genjstags="find . -type f -iregex \".*\.js$\" -not -path \"./node_modules/*\" -exec jsctags {} -f \; | sed '/^$/d' | sort > tags"
-unalias ranger 2>/dev/null
-alias ranger="if [ -z "$RANGER_LEVEL" ]
-then
-    $(which ranger)
-else
-    exit
-fi
-"
-
-# Exports
+#  -- Exports --
+export TERM="screen-256color"
 export EDITOR=vim
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.bin"
+# Enable command auto-correction.
+export ENABLE_CORRECTION=true
 export DISABLE_AUTO_TITLE=true
 
+# Platform Specific
+platform=$(uname)
 if [ "$platform" = "Darwin" ]
 then
-    # export PATH="/Users/taylor/.google_depot_tools:/Users/taylor/Library/Android/sdk/tools:/Users/taylor/Library/Android/sdk/platform-tools:$PATH"
-    # export ANDROID_HOME=~/Library/Android/sdk
-    export GREP_OPTIONS="-RIns --color=auto --exclude=\"tags\""
     plugins=(git osx sudo vagrant)
+
+    export GREP_OPTIONS="-RIns --color=auto --exclude=\"tags\""
     alias ls="ls -G -l"
     alias lsusb="system_profiler SPUSBDataType"
     alias newmacaddr="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
@@ -99,38 +30,60 @@ then
     function title {
         echo -ne "\033]0;"$*"\007"
     }
-    function convid {
-        if [ "$#" -ne 3 ]; then
-            echo "Usage: convid name format_in format_out"
-        fi
-        avconv -i $1.$2 -codec copy $1.$3
-    }
 else
     plugins=(git sudo vagrant debian)
+
     export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias check-update="sudo apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print \"PROGRAM: $1 INSTALLED: $2 AVAILABLE: $3\n\"}'"
-    alias ccat="pygmentize -g"
     alias install="sudo apt-get install"
     alias remove="sudo apt-get autoremove"
-    alias noise="play -n synth 60:00 brownnoise"
     alias reboot="sudo reboot"
-    alias grep="grep"
     alias sa="mosquitto_sub -t '#'"
-    alias attach="tmux attach -t"
-    alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
-    alias uc="date ; sudo service ntp stop ; sudo ntpdate -s time.nist.gov ; sudo service ntp start ; date"
+    alias xup="xrdb ~/.Xresources"
+
     xmodmap ~/.xmodmap > /dev/null 2>&1
     compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
 fi
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Outputs current branch info in prompt format
+function check_for_root() {
+  local ref="%(!.%{\e[1;31m%}%m%{\e[0m%}.%{\e[0;33m%}%m%{\e[0m%})"
+  echo ref
+}
 
 fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
 
-# Local zshrc
+
+# -- Aliases --
+alias q="exit"
+alias :q="exit"
+alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
+# Prevent nested rangers
+unalias ranger 2>/dev/null
+alias ranger="if [ -z "$RANGER_LEVEL" ]
+then
+    $(which ranger)
+else
+    exit
+fi
+"
+# Git Aliases
+alias gs="git status"
+alias ga="git add"
+alias gcm="git commit -m"
+alias gd="git diff --patience --ignore-space-change"
+alias gc="git checkout"
+alias gcb="git checkout -b"
+alias gb="git branch"
+alias gm="git merge"
+alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
+alias gitfixauth="git config user.name \"Taylor\" && git config user.email taylor.bartlett@mfactorengineering.com && git commit --amend --reset-author"
+
+# -- Sources --
+source $HOME/.dotfiles/zsh-prompt.zsh-theme
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ -f $HOME/.zshrc.local ]; then
     . $HOME/.zshrc.local
 fi
@@ -175,4 +128,5 @@ elif type compctl &>/dev/null; then
   compctl -K _pm2_completion + -f + pm2
 fi
 ###-end-pm2-completion-###
+
 
