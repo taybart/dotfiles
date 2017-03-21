@@ -58,6 +58,8 @@ if !has('nvim')
 endif
 
 
+" set lazyredraw
+" set ttyfast
 set autowrite
 
 set linespace=0
@@ -99,8 +101,6 @@ else
         set clipboard=unnamed
     endif
 endif
-
-set hlsearch!
 
 set mouse=a
 if !has('nvim')
@@ -144,23 +144,18 @@ let NERDTreeIgnore=['\.o$','\.d$', '\~$']
 set errorformat^=%-G%f:%l:\ warning:%m
 set errorformat^=%-G%f:%l:\ note:%m
 
-if has('nvim')
-  " Neomake
-  let g:neomake_javascript_enabled_makers = ['eslint']
-  let g:neomake_javascript_jshint_maker = {
-        \ 'args': ['--verbose'],
-        \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-        \ }
-else
-  " Syntastic
-  let g:syntastic_javascript_checkers = ['eslint']
-endif
+" Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_jshint_maker = {
+      \ 'args': ['--verbose'],
+      \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+      \ }
 
 
 " Nerd Commenter jsx
 let g:NERDSpaceDelims = 1
 "let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
-let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'right': ' */}' } }
+let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/*', 'right': '*/}' } }
 " Nerdtree
 let g:NERDTreeMapJumpNextSibling = ''
 let g:NERDTreeMapJumpPrevSibling = ''
@@ -194,12 +189,6 @@ let g:DevIconsEnableFoldersOpenClose = 1
 colorscheme Tomorrow-Night
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-if s:uname == "Darwin"
-  set rtp+=/usr/local/opt/fzf
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-endif
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -373,7 +362,7 @@ imap <C-Space> <C-X><C-O>
 
 " Toggle spell check
 nnoremap <leader>ss :setlocal spell! spelllang=en_us<CR>
-nnoremap <leader>' :%s/\"/\'/g<CR>:w<CR>
+nnoremap <leader>' V:s/'/"/g<CR>
 
 " fzf
 nnoremap <C-p> :Files<CR>

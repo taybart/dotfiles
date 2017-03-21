@@ -33,6 +33,7 @@ then
 else
     plugins=(git sudo vagrant debian)
 
+    export PATH="$PATH:$HOME/.linuxbrew/bin"
     export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
