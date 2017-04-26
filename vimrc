@@ -21,7 +21,7 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'groenewege/vim-less'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
-
+Plugin 'rust-lang/rust.vim'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
@@ -29,8 +29,8 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'ervandew/supertab'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'ervandew/supertab'
 
 " Snippets
 Plugin 'honza/vim-snippets'
@@ -164,17 +164,19 @@ let g:NERDTreeMapJumpPrevSibling = ''
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1
 " Make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_rust_src_path = '~/.cargo/rust/src'
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 " Supertab
 let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:SuperTabCrMapping = 0
 
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" " better key bindings for UltiSnipsExpandTrigger
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " CtrlP
 "let g:ctrlp_custom_ignore = { 'dir': 'dist\|docs\|node_modules\|bower_components\|DS_Store\|git'}
@@ -186,7 +188,9 @@ let g:DevIconsEnableFoldersOpenClose = 1
 
 
 " ---------------- Look ------------------------
-colorscheme Tomorrow-Night
+" colorscheme Tomorrow-Night
+colorscheme Benokai_Better
+let g:airline_theme = 'molokai'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
