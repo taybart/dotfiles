@@ -22,6 +22,7 @@ Plugin 'groenewege/vim-less'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'rust-lang/rust.vim'
+Plugin 'tomlion/vim-solidity'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
@@ -77,6 +78,7 @@ set backspace=indent,eol,start
 
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
+
 highlight Pmenu guibg=brown gui=bold
 
 set shell=/bin/bash
@@ -170,8 +172,8 @@ let g:ycm_rust_src_path = '~/.cargo/rust/src'
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 " Supertab
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:SuperTabCrMapping = 0
+" let g:SuperTabDefaultCompletionType = '<C-n>'
+" let g:SuperTabCrMapping = 0
 
 " " better key bindings for UltiSnipsExpandTrigger
 " let g:UltiSnipsExpandTrigger="<tab>"
@@ -193,6 +195,8 @@ colorscheme Benokai_Better
 let g:airline_theme = 'molokai'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+
+" let g:jsx_ext_required = 0
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
@@ -278,19 +282,10 @@ nmap <Leader>d :bp <BAR> bd #<CR>
 nmap <Leader>e<CR> :cnext<CR>
 
 " tmux integration
-if s:uname == "Darwin"
-  if has('nvim')
-    nnoremap <silent> <BS> :TmuxNavigateLeft<CR>
-  else
-    nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
-endif
-else
-    nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
-endif
-
 nnoremap <silent> <c-m> :TmuxNavigateDown<CR>
 nnoremap <silent> <c-u> :TmuxNavigateUp<CR>
 nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
+nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
 nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
 
 " This command will allow us to save a file we don't have permission to save

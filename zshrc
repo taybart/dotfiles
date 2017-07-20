@@ -4,7 +4,7 @@ source $ZSH/oh-my-zsh.sh
 #  -- Exports --
 export TERM="screen-256color"
 export EDITOR=vim
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin"
 # Enable command auto-correction.
 export ENABLE_CORRECTION=true
 export DISABLE_AUTO_TITLE=true
@@ -129,3 +129,4 @@ fi
 # Fish like autocomplete
 source ~/.dotfiles/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
