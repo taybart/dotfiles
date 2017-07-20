@@ -76,6 +76,7 @@ alias gb="git branch"
 alias gm="git merge"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitfixauth="git config user.name \"Taylor\" && git config user.email taylor.bartlett@mfactorengineering.com && git commit --amend --reset-author"
+alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 
 # -- Sources --
 source $HOME/.dotfiles/zsh-prompt.zsh-theme
