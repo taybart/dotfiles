@@ -1,9 +1,5 @@
 let s:uname = system("echo -n \"$(uname)\"")
-if s:uname == "Darwin"
-  set rtp+=/usr/local/opt/fzf
-else
-  set rtp+=~/.fzf
-endif
+set rtp+=~/.fzf
 " ----------------- Vundle ----------------------
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
