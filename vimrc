@@ -88,25 +88,25 @@ set cursorline
 
 set clipboard+=unnamedplus
 if has('unnamedplus')
-    " By default, Vim will not use the system clipboard when yanking/pasting to
-    " the default register. This option makes Vim use the system default
-    " clipboard.
-    " Note that on X11, there are _two_ system clipboards: the "standard" one, and
-    " the selection/mouse-middle-click one. Vim sees the standard one as register
-    " '+' (and this option makes Vim use it by default) and the selection one as
-    " '*'.
-    " See :h 'clipboard' for details.
-    set clipboard=unnamedplus,unnamed
+  " By default, Vim will not use the system clipboard when yanking/pasting to
+  " the default register. This option makes Vim use the system default
+  " clipboard.
+  " Note that on X11, there are _two_ system clipboards: the "standard" one, and
+  " the selection/mouse-middle-click one. Vim sees the standard one as register
+  " '+' (and this option makes Vim use it by default) and the selection one as
+  " '*'.
+  " See :h 'clipboard' for details.
+  set clipboard=unnamedplus,unnamed
 else
-    " Vim now also uses the selection system clipboard for default yank/paste.
-    if !has('nvim')
-        set clipboard=unnamed
-    endif
+  " Vim now also uses the selection system clipboard for default yank/paste.
+  if !has('nvim')
+    set clipboard=unnamed
+  endif
 endif
 
 set mouse=a
 if !has('nvim')
-    set ttymouse=xterm2
+  set ttymouse=xterm2
 endif
 
 " Use relative number in normal mode and absolute number in insert mode
@@ -188,6 +188,35 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 
+" gotags
+let g:tagbar_type_go = {
+      \ 'ctagstype' : 'go',
+      \ 'kinds'     : [
+      \ 'p:package',
+      \ 'i:imports:1',
+      \ 'c:constants',
+      \ 'v:variables',
+      \ 't:types',
+      \ 'n:interfaces',
+      \ 'w:fields',
+      \ 'e:embedded',
+      \ 'm:methods',
+      \ 'r:constructor',
+      \ 'f:functions'
+      \ ],
+      \ 'sro' : '.',
+      \ 'kind2scope' : {
+      \ 't' : 'ctype',
+      \ 'n' : 'ntype'
+      \ },
+      \ 'scope2kind' : {
+      \ 'ctype' : 't',
+      \ 'ntype' : 'n'
+      \ },
+      \ 'ctagsbin'  : 'gotags',
+      \ 'ctagsargs' : '-sort -silent'
+      \ }
+
 
 " ---------------- Look ------------------------
 " colorscheme Tomorrow-Night
@@ -200,27 +229,27 @@ let g:airline_powerline_fonts = 1
 
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
-    autocmd!
-    "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |:NERDTreeToggle|endif
-    autocmd StdinReadPre * let s:std_in=1
-    " no beeps
-    set noerrorbells visualbell t_vb=
-    if has('autocmd')
-        autocmd GUIEnter * set visualbell t_vb=
-    endif
+  autocmd!
+  "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") |:NERDTreeToggle|endif
+  autocmd StdinReadPre * let s:std_in=1
+  " no beeps
+  set noerrorbells visualbell t_vb=
+  if has('autocmd')
+    autocmd GUIEnter * set visualbell t_vb=
+  endif
 
-    autocmd InsertEnter * set timeoutlen=100
-    autocmd InsertLeave * set timeoutlen=1000
+  autocmd InsertEnter * set timeoutlen=100
+  autocmd InsertLeave * set timeoutlen=1000
 
-    autocmd QuickFixCmdPost [^l]* nested cwindow
-    autocmd QuickFixCmdPost    l* nested lwindow
-    au BufReadPost quickfix setlocal colorcolumn=0
+  autocmd QuickFixCmdPost [^l]* nested cwindow
+  autocmd QuickFixCmdPost    l* nested lwindow
+  au BufReadPost quickfix setlocal colorcolumn=0
 
-    autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
+  autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
 
-    autocmd WinEnter * call NERDTreeQuit()
+  autocmd WinEnter * call NERDTreeQuit()
 
-    autocmd! BufWritePost * Neomake
+  autocmd! BufWritePost * Neomake
 
 augroup END
 
@@ -231,26 +260,26 @@ set backupskip+=*.gpg
 set viminfo=
 
 augroup encrypted
-    au!
-    " Disable swap files, and set binary file format before reading the file
-    autocmd BufReadPre,FileReadPre *.gpg
-                \ setlocal noswapfile bin
-    " Decrypt the contents after reading the file, reset binary file format
-    " and run any BufReadPost autocmds matching the file name without the .gpg
-    " extension
-    autocmd BufReadPost,FileReadPost *.gpg
-                \ execute "'[,']!gpg --decrypt --default-recipient-self" |
-                \ setlocal nobin |
-                \ execute "doautocmd BufReadPost " . expand("%:r")
-    " Set binary file format and encrypt the contents before writing the file
-    autocmd BufWritePre,FileWritePre *.gpg
-                \ setlocal bin |
-                \ '[,']!gpg --encrypt --default-recipient-self
-    " After writing the file, do an :undo to revert the encryption in the
-    " buffer, and reset binary file format
-    autocmd BufWritePost,FileWritePost *.gpg
-                \ silent u |
-                \ setlocal nobin
+  au!
+  " Disable swap files, and set binary file format before reading the file
+  autocmd BufReadPre,FileReadPre *.gpg
+        \ setlocal noswapfile bin
+  " Decrypt the contents after reading the file, reset binary file format
+  " and run any BufReadPost autocmds matching the file name without the .gpg
+  " extension
+  autocmd BufReadPost,FileReadPost *.gpg
+        \ execute "'[,']!gpg --decrypt --default-recipient-self" |
+        \ setlocal nobin |
+        \ execute "doautocmd BufReadPost " . expand("%:r")
+  " Set binary file format and encrypt the contents before writing the file
+  autocmd BufWritePre,FileWritePre *.gpg
+        \ setlocal bin |
+        \ '[,']!gpg --encrypt --default-recipient-self
+  " After writing the file, do an :undo to revert the encryption in the
+  " buffer, and reset binary file format
+  autocmd BufWritePost,FileWritePost *.gpg
+        \ silent u |
+        \ setlocal nobin
 augroup END
 " --------------------------- Keymaps -----------------------------------------
 let mapleader = "\<Space>"
@@ -370,90 +399,90 @@ nnoremap <C-b> :Buffers<CR>
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
-    "Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %s/\s\+$//e
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
+  "Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
 endfunction
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
-    redir => buffersoutput
-    silent buffers
-    redir END
-    "                     1BufNo  2Mods.     3File           4LineNo
-    let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
-    let windowfound = 0
+  redir => buffersoutput
+  silent buffers
+  redir END
+  "                     1BufNo  2Mods.     3File           4LineNo
+  let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
+  let windowfound = 0
 
-    for bline in split(buffersoutput, "\n")
-        let m = matchlist(bline, pattern)
+  for bline in split(buffersoutput, "\n")
+    let m = matchlist(bline, pattern)
 
-        if (len(m) > 0)
-            if (m[2] =~ '..a..')
-                let windowfound = 1
-            endif
-        endif
-    endfor
-
-    if (!windowfound)
-        quitall
+    if (len(m) > 0)
+      if (m[2] =~ '..a..')
+        let windowfound = 1
+      endif
     endif
+  endfor
+
+  if (!windowfound)
+    quitall
+  endif
 endfunction
 " -------------------- NERDTree previews -----------------------
 let g:nerd_preview_enabled = 0
 let g:preview_last_buffer  = 0
 
 function! NerdTreePreview()
-    " Only on nerdtree window
-    if (&ft ==# 'nerdtree')
-        " Get filename
-        let l:filename = substitute(getline("."), "^\\s\\+\\|\\s\\+$","","g")
+  " Only on nerdtree window
+  if (&ft ==# 'nerdtree')
+    " Get filename
+    let l:filename = substitute(getline("."), "^\\s\\+\\|\\s\\+$","","g")
 
-        " Preview if it is not a folder
-        let l:lastchar = strpart(l:filename, strlen(l:filename) - 1, 1)
-        if (l:lastchar != "/" && strpart(l:filename, 0 ,2) != "..")
+    " Preview if it is not a folder
+    let l:lastchar = strpart(l:filename, strlen(l:filename) - 1, 1)
+    if (l:lastchar != "/" && strpart(l:filename, 0 ,2) != "..")
 
-            let l:store_buffer_to_close = 1
-            if (bufnr(l:filename) > 0)
-                " Don't close if the buffer is already open
-                let l:store_buffer_to_close = 0
-            endif
+      let l:store_buffer_to_close = 1
+      if (bufnr(l:filename) > 0)
+        " Don't close if the buffer is already open
+        let l:store_buffer_to_close = 0
+      endif
 
-            " Do preview
-            execute "normal go"
+      " Do preview
+      execute "normal go"
 
-            " Close previews buffer
-            if (g:preview_last_buffer > 0)
-                execute "bwipeout " . g:preview_last_buffer
-                let g:preview_last_buffer = 0
-            endif
-
-            " Set last buffer to close it later
-            if (l:store_buffer_to_close)
-                let g:preview_last_buffer = bufnr(l:filename)
-            endif
-        endif
-    elseif (g:preview_last_buffer > 0)
-        " Close last previewed buffer
+      " Close previews buffer
+      if (g:preview_last_buffer > 0)
+        execute "bwipeout " . g:preview_last_buffer
         let g:preview_last_buffer = 0
+      endif
+
+      " Set last buffer to close it later
+      if (l:store_buffer_to_close)
+        let g:preview_last_buffer = bufnr(l:filename)
+      endif
     endif
+  elseif (g:preview_last_buffer > 0)
+    " Close last previewed buffer
+    let g:preview_last_buffer = 0
+  endif
 endfunction
 
 function! NerdPreviewToggle()
-    if (g:nerd_preview_enabled)
-        let g:nerd_preview_enabled = 0
-        augroup nerdpreview
-            autocmd!
-        augroup END
-    else
-        let g:nerd_preview_enabled = 1
-        augroup nerdpreview
-            autocmd!
-            autocmd CursorMoved * nested call NerdTreePreview()
-        augroup END
-    endif
+  if (g:nerd_preview_enabled)
+    let g:nerd_preview_enabled = 0
+    augroup nerdpreview
+      autocmd!
+    augroup END
+  else
+    let g:nerd_preview_enabled = 1
+    augroup nerdpreview
+      autocmd!
+      autocmd CursorMoved * nested call NerdTreePreview()
+    augroup END
+  endif
 endfunction
