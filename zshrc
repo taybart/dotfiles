@@ -15,24 +15,19 @@ if [ "$platform" = "Darwin" ]
 then
   plugins=(git osx sudo vagrant)
 
-  export GREP_OPTIONS="-RIns --color=auto --exclude=\"tags\""
+  alias grep="grep -RIns --color=auto --exclude=\"tags\""
   alias ls="ls -G -l"
   alias lsusb="system_profiler SPUSBDataType"
   alias newmacaddr="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
   alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
   alias ctags="`brew --prefix`/bin/ctags"
-  function update {
-    temp=GREP_OPTIONS
-    unset GREP_OPTIONS
-    brew update && brew upgrade
-    GREP_OPTIONS=temp
-  }
+  alias update="brew update && brew upgrade"
   function title {
     echo -ne "\033]0;"$*"\007"
   }
 else
     export PATH="$PATH:$HOME/.linuxbrew/bin"
-    export GREP_OPTIONS="-RIns --color --exclude=\"tags\""
+    alias grep="grep -RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
     alias xup="xrdb ~/.Xresources"
 
