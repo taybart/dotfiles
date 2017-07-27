@@ -29,9 +29,6 @@ Plugin 'Valloric/YouCompleteMe'
 " Plugin 'SirVer/ultisnips'
 " Plugin 'ervandew/supertab'
 
-" Snippets
-Plugin 'honza/vim-snippets'
-
 " Looks
 Plugin 'majutsushi/tagbar'
 Plugin 'bling/vim-airline'
@@ -238,9 +235,9 @@ augroup vimrc_autocmd
   autocmd InsertEnter * set timeoutlen=100
   autocmd InsertLeave * set timeoutlen=1000
 
-  autocmd QuickFixCmdPost [^l]* nested cwindow
-  autocmd QuickFixCmdPost    l* nested lwindow
-  au BufReadPost quickfix setlocal colorcolumn=0
+  " autocmd QuickFixCmdPost [^l]* nested cwindow
+  " autocmd QuickFixCmdPost    l* nested lwindow
+  " au BufReadPost quickfix setlocal colorcolumn=0
 
   autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
 
