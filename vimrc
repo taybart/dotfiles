@@ -19,6 +19,7 @@ Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'rust-lang/rust.vim'
 Plugin 'tomlion/vim-solidity'
+Plugin 'fatih/vim-go'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
@@ -150,7 +151,7 @@ let g:neomake_javascript_jshint_maker = {
 " Nerd Commenter jsx
 let g:NERDSpaceDelims = 1
 "let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/* ', 'leftAlt':'/*','right': ' */}','rightAlt':'*/' } }
-let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/*', 'right': '*/}' } }
+"let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '{/*', 'right': '*/}' } }
 " Nerdtree
 let g:NERDTreeMapJumpNextSibling = ''
 let g:NERDTreeMapJumpPrevSibling = ''
@@ -348,6 +349,8 @@ cnoremap w' w
 cnoremap W w
 cnoremap Q q
 
+" Add a space
+nnoremap <leader><leader> i <Esc>l
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
