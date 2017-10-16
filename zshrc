@@ -44,7 +44,7 @@ else
 
   elif [ -f /etc/redhat-release ]; then
     plugins=(git sudo vagrant fedora)
-    alias update="sudo dnf update && sudo dnf upgrade"
+    alias update="sudo dnf update"
     alias install="sudo dnf install"
   else
     echo "Unknown system"
