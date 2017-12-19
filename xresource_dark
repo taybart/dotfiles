@@ -38,8 +38,8 @@ XTerm*fastScroll: True
 XTerm*urgentOnBell: True
 XTerm*visualBell: False
 
-!XTerm*faceName: xft:Monospace:pixelsize=12
-XTerm*faceName: Inconsolata:pixelsize=13
+! XTerm*faceName: Inconsolata:pixelsize=15
+XTerm*faceName: xft:Inconsolata Nerd Font:style=Regular:size=14
 
 XTerm*vt100.translations: #override \
         Shift <KeyPress> Up:      scroll-back(1, line) \n\
