@@ -68,6 +68,9 @@ else
   exit
 fi
 "
+whereisip() {
+  curl ipinfo.io/$1
+}
 # Git Aliases
 alias gs="git status"
 alias ga="git add"
