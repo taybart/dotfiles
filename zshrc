@@ -50,6 +50,7 @@ else
     plugins=(git, sudo, vagrant, fedora)
     alias update="sudo dnf update"
     alias install="sudo dnf install"
+    alias remove="sudo dnf remove"
   else
     echo "Unknown system"
   fi
