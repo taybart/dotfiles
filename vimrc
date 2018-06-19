@@ -107,6 +107,7 @@ endif
 set number
 set relativenumber
 set hlsearch
+highlight Search ctermbg=Yellow ctermfg=Black
 
 " Paren/bracket matching
 " set showmatch
@@ -281,6 +282,9 @@ let mapleader = "\<Space>"
 
 " NERDTree
 nnoremap <Leader>f :NERDTreeToggle<CR>
+
+" Don't include blank lines in dd's
+nnoremap <Leader>dd "_dd
 
 " Quickfix, Location, and Tagbar
 nnoremap <script> <silent> <F7> :call ToggleQuickfixList()<CR>

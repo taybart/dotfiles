@@ -13,7 +13,7 @@ export DISABLE_AUTO_TITLE=true
 platform=$(uname)
 if [ "$platform" = "Darwin" ]
 then
-  plugins=(git osx sudo vagrant)
+  plugins=(git, osx, sudo, vagrant, docker)
 
   alias grep="grep -RIns --color=auto --exclude=\"tags\""
   alias ls="ls -G -l"
@@ -25,6 +25,10 @@ then
   function title {
     echo -ne "\033]0;"$*"\007"
   }
+  # Usage: $ notify Title content
+  function notify {
+    osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
+  }
 else
     export PATH="$PATH:$HOME/.linuxbrew/bin"
     alias grep="grep -RIns --color --exclude=\"tags\""
@@ -32,7 +36,7 @@ else
     alias xup="xrdb ~/.Xresources"
 
   if [ -f /etc/debian_version ]; then
-    plugins=(git sudo vagrant debian)
+    plugins=(git, sudo, vagrant, debian)
 
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias install="sudo apt-get install"
@@ -43,7 +47,7 @@ else
     # compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
 
   elif [ -f /etc/redhat-release ]; then
-    plugins=(git sudo vagrant fedora)
+    plugins=(git, sudo, vagrant, fedora)
     alias update="sudo dnf update"
     alias install="sudo dnf install"
   else
@@ -59,6 +63,15 @@ fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> 
   alias q="exit"
   alias :q="exit"
   alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
+  notes() {
+    echo -n "Remove old note? "
+    read REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+      rm -f ~/.notes
+    fi
+    nvim -u ~/.dotfiles/vimrc.notes ~/.notes
+  }
   # Prevent nested rangers
   unalias ranger 2>/dev/null
   alias ranger="if [ -z "$RANGER_LEVEL" ]
@@ -80,6 +93,8 @@ alias gc="git checkout"
 alias gcb="git checkout -b"
 alias gb="git branch"
 alias gm="git merge"
+alias gpo=" git pull origin"
+alias gpom=" git pull origin master"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitfixauth="git config user.name \"Taylor\" && git config user.email taylor.bartlett@mfactorengineering.com && git commit --amend --reset-author"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
@@ -137,3 +152,5 @@ fi
 source ~/.dotfiles/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
