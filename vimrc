@@ -10,7 +10,8 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'scrooloose/nerdtree'
 
 " Syntax
-Plugin 'neomake/neomake'
+" Plugin 'neomake/neomake'
+Plugin 'w0rp/ale'
 
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ntpeters/vim-better-whitespace'
@@ -37,6 +38,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'godlygeek/tabular'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'morhetz/gruvbox'
 
 call vundle#end()
 
@@ -142,11 +144,11 @@ set errorformat^=%-G%f:%l:\ warning:%m
 set errorformat^=%-G%f:%l:\ note:%m
 
 " Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_javascript_jshint_maker = {
-      \ 'args': ['--verbose'],
-      \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-      \ }
+" let g:neomake_javascript_enabled_makers = ['eslint']
+" let g:neomake_javascript_jshint_maker = {
+      " \ 'args': ['--verbose'],
+      " \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+      " \ }
 
 
 " Nerd Commenter jsx
@@ -216,8 +218,10 @@ let g:tagbar_type_go = {
 
 " ---------------- Look ------------------------
 " colorscheme Tomorrow-Night
-colorscheme Benokai_Better
-let g:airline_theme = 'molokai'
+" colorscheme Benokai_Better
+colorscheme gruvbox
+set background=dark
+" let g:airline_theme = 'molokai'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
@@ -245,7 +249,7 @@ augroup vimrc_autocmd
 
   autocmd WinEnter * call NERDTreeQuit()
 
-  autocmd! BufWritePost * Neomake
+  " autocmd! BufWritePost * Neomake
 
 augroup END
 
