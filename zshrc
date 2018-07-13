@@ -64,6 +64,10 @@ fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> 
   alias q="exit"
   alias :q="exit"
   alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
+
+  lssize() {
+    du -a $1 | sort -n -r | head -n 5
+  }
   notes() {
     echo -n "Remove old note? "
     read REPLY
@@ -82,8 +86,12 @@ else
   exit
 fi
 "
-whereisip() {
+function whereisip() {
   curl ipinfo.io/$1
+}
+
+function docker-term() {
+  docker exec -it $1 /bin/bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
 }
 # Git Aliases
 alias gs="git status"
