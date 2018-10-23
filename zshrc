@@ -30,7 +30,6 @@ then
     osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
   }
 else
-    export PATH="$PATH:$HOME/.linuxbrew/bin"
     alias grep="grep -RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
     alias xup="xrdb ~/.Xresources"
@@ -41,10 +40,8 @@ else
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias install="sudo apt-get install"
     alias remove="sudo apt-get autoremove"
-    alias sa="mosquitto_sub -t '#'"
 
     xmodmap ~/.xmodmap > /dev/null 2>&1
-    # compton -b --backend glx --vsync opengl-swc > /dev/null 2>&1
 
   elif [ -f /etc/redhat-release ]; then
     plugins=(git, sudo, vagrant, fedora)
@@ -57,29 +54,31 @@ else
 fi
 
 
-fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
+fzf_cd() {
+  zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ;
+}; zle -N fzf_cd; bindkey '^E' fzf_cd
 
 
-  # -- Aliases --
-  alias q="exit"
-  alias :q="exit"
-  alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
+# -- Aliases --
+alias q="exit"
+alias :q="exit"
+alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
 
-  lssize() {
-    du -a $1 | sort -n -r | head -n 5
-  }
-  notes() {
-    echo -n "Remove old note? "
-    read REPLY
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-      rm -f ~/.notes
-    fi
-    nvim -u ~/.dotfiles/vimrc.notes ~/.notes
-  }
-  # Prevent nested rangers
-  unalias ranger 2>/dev/null
-  alias ranger="if [ -z "$RANGER_LEVEL" ]
+lssize() {
+  du -a $1 | sort -n -r | head -n 5
+}
+notes() {
+  echo -n "Remove old note? "
+  read REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    rm -f ~/.notes
+  fi
+  nvim -u ~/.dotfiles/vimrc.notes ~/.notes
+}
+# Prevent nested rangers
+unalias ranger 2>/dev/null
+alias ranger="if [ -z "$RANGER_LEVEL" ]
 then
   $(which ranger)
 else
@@ -95,17 +94,11 @@ function docker-term() {
 }
 # Git Aliases
 alias gs="git status"
-alias ga="git add"
 alias gcm="git commit -m"
 alias gd="git diff --patience --ignore-space-change"
-alias gc="git checkout"
-alias gcb="git checkout -b"
-alias gb="git branch"
-alias gm="git merge"
 alias gpo=" git pull origin"
 alias gpom=" git pull origin master"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
-alias gitfixauth="git config user.name \"Taylor\" && git config user.email taylor.bartlett@mfactorengineering.com && git commit --amend --reset-author"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 
 # -- Sources --
@@ -161,5 +154,3 @@ fi
 source ~/.dotfiles/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
