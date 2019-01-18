@@ -35,7 +35,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ryanoasis/vim-devicons'
-" Plugin 'morhetz/gruvbox'
+Plugin 'morhetz/gruvbox'
 
 call vundle#end()
 

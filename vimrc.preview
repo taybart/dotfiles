@@ -27,7 +27,11 @@ set relativenumber
 set hlsearch
 highlight Search ctermbg=Yellow ctermfg=Black
 
-colorscheme gruvbox
+try
+  colorscheme gruvbox
+catch /^Vim\%((\a\+)\)\=:E185/
+    " deal with it
+endtry
 
 let mapleader = "\<Space>"
 
