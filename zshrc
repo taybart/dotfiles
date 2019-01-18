@@ -22,6 +22,7 @@ then
   alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
   alias ctags="`brew --prefix`/bin/ctags"
   alias update="brew update && brew upgrade"
+  alias install="brew install"
   function title {
     echo -ne "\033]0;"$*"\007"
   }
