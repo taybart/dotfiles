@@ -1,6 +1,21 @@
 syntax on
 filetype plugin indent on
 
+
+set clipboard+=unnamedplus
+if has('unnamedplus')
+  set clipboard=unnamedplus,unnamed
+else
+  if !has('nvim')
+    set clipboard=unnamed
+  endif
+endif
+
+set mouse=a
+if !has('nvim')
+  set ttymouse=xterm2
+endif
+
 set nocompatible
 set expandtab
 set tabstop=2
@@ -11,6 +26,8 @@ set number
 set relativenumber
 set hlsearch
 highlight Search ctermbg=Yellow ctermfg=Black
+
+colorscheme gruvbox
 
 let mapleader = "\<Space>"
 
@@ -34,6 +51,8 @@ nmap <Leader>l :bnext<CR>
 nmap <Leader>n :bnext<CR>
 nmap <Leader>h :bprevious<CR>
 nmap <Leader>d :bp <BAR> bd #<CR>
+
+nmap <Leader>q :q!<CR>
 
 
 "--- Idiot proofing ---"

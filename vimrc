@@ -22,6 +22,7 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'tomlion/vim-solidity'
 Plugin 'fatih/vim-go'
 Plugin 'keith/swift.vim'
+Plugin 'udalov/kotlin-vim'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
@@ -34,7 +35,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ryanoasis/vim-devicons'
-Plugin 'morhetz/gruvbox'
+" Plugin 'morhetz/gruvbox'
 
 call vundle#end()
 
@@ -143,6 +144,14 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 " vim devicons
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
+
+" Ale
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 0
+let g:ale_open_list = 0
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_delay = 0
 
 " " gotags
 " let g:tagbar_type_go = {
