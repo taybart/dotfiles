@@ -1,0 +1,21 @@
+version: "3.1"
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        GITHUB_USER: ${GITHUB_USER}
+        GITHUB_KEY: ${GITHUB_KEY}
+    ports:
+      - "8083:8080"
+    environment:
+      - REDIS_LOC=redis:6379
+    env_file:
+      - .env
+    restart: unless-stopped
+  redis:
+    image: redis:latest
+    # logging:
+      # driver: none
+

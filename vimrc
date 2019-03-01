@@ -1,3 +1,4 @@
+
 let s:uname = system("echo -n \"$(uname)\"")
 set rtp+=~/.fzf
 " ----------------- Vundle ----------------------
@@ -42,6 +43,10 @@ call vundle#end()
 " --------------- Sets/lets ---------------------
 syntax on
 filetype plugin indent on
+
+" set shell=/bin/zsh
+set shell=/usr/local/bin/zsh
+
 
 scriptencoding utf-8
 if !has('nvim')
@@ -196,16 +201,15 @@ augroup vimrc_autocmd
   autocmd StdinReadPre * let s:std_in=1
   " no beeps
   set noerrorbells visualbell t_vb=
-  if has('autocmd')
-    autocmd GUIEnter * set visualbell t_vb=
-  endif
+  autocmd GUIEnter * set visualbell t_vb=
 
   autocmd InsertEnter * set timeoutlen=100
   autocmd InsertLeave * set timeoutlen=1000
 
-  autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
+  " autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
 
   autocmd WinEnter * call NERDTreeQuit()
+
 augroup END
 
 " Don't save backups of *.gpg files
@@ -262,6 +266,9 @@ nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
 nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
 nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
 
+tnoremap jk <C-\><C-n>
+tnoremap <ESC> <C-\><C-n>
+
 " ------Make shit easier-----
 nmap <Leader>s<CR> :NERDTreeFind<CR>
 " Idiot proofing
@@ -293,6 +300,8 @@ vnoremap <c-k> 15gk
 " End and beg of line easier
 nnoremap H ^
 nnoremap L $
+
+nnoremap tt :te zsh<CR>
 
 " -------- Formating --------
 " These create newlines like o and O but stay in normal mode
