@@ -75,7 +75,7 @@ notes() {
   then
     rm -f ~/.notes
   fi
-  nvim -u ~/.dotfiles/vimrc.notes ~/.notes
+  nvim -u ~/.dotfiles/vim/vimrcs/vimrc.notes ~/.notes
 }
 # Prevent nested rangers
 unalias ranger 2>/dev/null
@@ -103,7 +103,7 @@ alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 
 # -- Sources --
-source $HOME/.dotfiles/zsh-prompt.zsh-theme
+source $HOME/.dotfiles/shell/zsh-prompt.zsh-theme
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ -f $HOME/.zshrc.local ]; then
   . $HOME/.zshrc.local
@@ -152,6 +152,7 @@ fi
 
 
 # Fish like autocomplete
-source ~/.dotfiles/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.dotfiles/shell/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
+
