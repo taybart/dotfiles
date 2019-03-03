@@ -24,6 +24,7 @@ Plugin 'tomlion/vim-solidity'
 Plugin 'fatih/vim-go'
 Plugin 'keith/swift.vim'
 Plugin 'udalov/kotlin-vim'
+Plugin 'elixir-editors/vim-elixir'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
