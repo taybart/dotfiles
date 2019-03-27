@@ -62,3 +62,9 @@ nnoremap <leader>w<CR> :%s/\s\+$//<CR>:w<CR>
 " paste mode
 nnoremap <Leader>sp :set paste<CR>
 nnoremap <Leader>sn :set nopaste<CR>
+
+
+augroup vimrc_autocmd
+  autocmd InsertEnter * set timeoutlen=100
+  autocmd InsertLeave * set timeoutlen=1000
+augroup END

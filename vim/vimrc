@@ -1,4 +1,3 @@
-
 let s:uname = system("echo -n \"$(uname)\"")
 set rtp+=~/.fzf
 " ----------------- Vundle ----------------------
@@ -14,6 +13,7 @@ Plugin 'w0rp/ale'
 
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'unblevable/quick-scope'
 
 " Languages
 Plugin 'groenewege/vim-less'
@@ -159,35 +159,9 @@ let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_delay = 0
 
-" " gotags
-" let g:tagbar_type_go = {
-      " \ 'ctagstype' : 'go',
-      " \ 'kinds'     : [
-      " \ 'p:package',
-      " \ 'i:imports:1',
-      " \ 'c:constants',
-      " \ 'v:variables',
-      " \ 't:types',
-      " \ 'n:interfaces',
-      " \ 'w:fields',
-      " \ 'e:embedded',
-      " \ 'm:methods',
-      " \ 'r:constructor',
-      " \ 'f:functions'
-      " \ ],
-      " \ 'sro' : '.',
-      " \ 'kind2scope' : {
-      " \ 't' : 'ctype',
-      " \ 'n' : 'ntype'
-      " \ },
-      " \ 'scope2kind' : {
-      " \ 'ctype' : 't',
-      " \ 'ntype' : 'n'
-      " \ },
-      " \ 'ctagsbin'  : 'gotags',
-      " \ 'ctagsargs' : '-sort -silent'
-      " \ }
-
+" Quickscope
+" let g:qs_lazy_highlight = 1
+" let g:qs_enable=0
 
 " ---------------- Look ------------------------
 colorscheme gruvbox
@@ -273,9 +247,8 @@ tnoremap <ESC> <C-\><C-n>
 " ------Make shit easier-----
 nmap <Leader>s<CR> :NERDTreeFind<CR>
 " Idiot proofing
-cnoremap w' w
-cnoremap W w
-cnoremap Q q
+command W w
+command Q q
 " Quickly open/reload vim
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
@@ -331,6 +304,8 @@ nnoremap <leader>' V:s/'/"/g<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <C-s> :BLines<CR>
 nnoremap <C-b> :Buffers<CR>
+
+nnoremap <leader>a :QuickScopeToggle<CR>
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()

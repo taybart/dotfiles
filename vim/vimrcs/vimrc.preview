@@ -56,7 +56,8 @@ nmap <Leader>n :bnext<CR>
 nmap <Leader>h :bprevious<CR>
 nmap <Leader>d :bp <BAR> bd #<CR>
 
-nmap <Leader>q :q!<CR>
+nmap q :q!<CR>
+nmap i :q!<CR>
 
 
 "--- Idiot proofing ---"
