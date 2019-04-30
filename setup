@@ -1,6 +1,6 @@
 #!/bin/bash
 if hash zsh 2>/dev/null; then
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+bash <(curl -s https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)
 
 echo "zsh"
 rm -rf  $HOME/.zshrc
