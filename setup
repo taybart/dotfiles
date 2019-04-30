@@ -15,5 +15,5 @@ ln -s $HOME/.dotfiles/vim $HOME/.vim
 mkdir -p $HOME/.config
 ln -s $HOME/.dotfiles/vim $HOME/.config/nvim
 else
-  echo "install zsh"
+  echo "install zsh please"
 fi
