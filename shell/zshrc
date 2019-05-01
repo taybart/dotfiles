@@ -89,7 +89,7 @@ notes() {
 # else
   # exit
 # fi
-"
+
 function whereisip() {
   curl ipinfo.io/$1
 }
