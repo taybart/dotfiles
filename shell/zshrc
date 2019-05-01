@@ -82,13 +82,13 @@ notes() {
   nvim -u ~/.dotfiles/vim/vimrcs/vimrc.notes ~/.notes
 }
 # Prevent nested rangers
-unalias ranger 2>/dev/null
-alias ranger="if [ -z "$RANGER_LEVEL" ]
-then
-  $(which ranger)
-else
-  exit
-fi
+# unalias ranger 2>/dev/null
+# alias ranger="if [ -z "$RANGER_LEVEL" ]
+# then
+  # $(which ranger)
+# else
+  # exit
+# fi
 "
 function whereisip() {
   curl ipinfo.io/$1
