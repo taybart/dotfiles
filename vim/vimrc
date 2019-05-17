@@ -25,6 +25,7 @@ Plugin 'fatih/vim-go'
 Plugin 'keith/swift.vim'
 Plugin 'udalov/kotlin-vim'
 Plugin 'elixir-editors/vim-elixir'
+Plugin 'leafgarland/typescript-vim'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
@@ -38,6 +39,7 @@ Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'morhetz/gruvbox'
+Plugin 'NLKNguyen/papercolor-theme'
 
 call vundle#end()
 
@@ -306,6 +308,8 @@ nnoremap <C-s> :BLines<CR>
 nnoremap <C-b> :Buffers<CR>
 
 nnoremap <leader>a :QuickScopeToggle<CR>
+
+nnoremap <leader>b :set background=light<CR>:colorscheme PaperColor<CR>
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
