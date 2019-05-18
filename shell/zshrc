@@ -38,6 +38,7 @@ else
     alias grep="grep -RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
     alias xup="xrdb ~/.Xresources"
+    alias open="xdg-open"
 
   if [ -f /etc/debian_version ]; then
     plugins=(git, sudo, vagrant, debian)
@@ -53,6 +54,11 @@ else
     alias update="sudo dnf update"
     alias install="sudo dnf install"
     alias remove="sudo dnf remove"
+  elif [ -f /etc/arch-release ]; then
+    plugins=(git, sudo, vagrant, fedora)
+    alias update="sudo pacman -Syu"
+    alias install="sudo pacman -S"
+    alias remove="sudo pacman -R"
   else
     echo "Unknown system"
   fi
@@ -109,9 +115,7 @@ alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 # -- Sources --
 source $HOME/.dotfiles/shell/zsh-prompt.zsh-theme
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if [ -f $HOME/.zshrc.local ]; then
-  . $HOME/.zshrc.local
-fi
+[ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
 
 ###-begin-pm2-completion-###
 ### credits to npm for the completion file model
