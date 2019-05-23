@@ -74,6 +74,7 @@ fzf_cd() {
 alias q="exit"
 alias :q="exit"
 alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
+alias startredis="docker run -p 6379:6379 -d redis"
 
 lssize() {
   du -a $1 | sort -n -r | head -n 5
