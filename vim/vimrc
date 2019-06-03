@@ -26,6 +26,7 @@ Plugin 'keith/swift.vim'
 Plugin 'udalov/kotlin-vim'
 Plugin 'elixir-editors/vim-elixir'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'dag/vim-fish'
 
 " Conveniance
 Plugin 'tpope/vim-surround'
