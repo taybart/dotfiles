@@ -21,7 +21,6 @@ alias gd="git diff --patience --ignore-space-change"
 alias gpo=" git pull origin"
 alias gpom=" git pull origin master"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
-alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 
 
 ############## Variables ###############
@@ -43,13 +42,7 @@ set -x PATH $PATH:$ANDROID_HOME/tools/bin:$ANDROID_HOME/tools:$ANDROID_HOME/plat
 # Node
 set -x PATH "$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 
-
-
-
-
-############## Fucntions ###############
-
-
+############## Functions ###############
 
 bind ! __history_previous_command
 bind '$' __history_previous_command_arguments
@@ -73,3 +66,8 @@ function __history_previous_command_arguments
 end
 
 theme_gruvbox dark
+
+set -l local $HOME/.local.fish
+if test -e $local
+  source $local
+end
