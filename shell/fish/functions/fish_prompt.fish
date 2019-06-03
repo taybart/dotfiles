@@ -13,10 +13,6 @@ function _git_is_dirty
   echo (command git status -s --ignore-submodules=dirty ^/dev/null)
 end
 
-function _remote_hostname
-  echo (whoami)@(hostname -s)
-end
-
 function fish_prompt
   set -l cyan (set_color cyan)
   set -l yellow (set_color yellow)

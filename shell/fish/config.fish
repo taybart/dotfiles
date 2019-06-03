@@ -82,3 +82,4 @@ function __history_previous_command_arguments
   end
 end
 
+theme_gruvbox dark
