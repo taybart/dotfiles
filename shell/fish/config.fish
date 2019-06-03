@@ -17,7 +17,7 @@ alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 
 ############## Variables ###############
 
-set fish_greeting (date)
+set fish_greeting
 
 set -x EDITOR nvim
 # set -x LC_ALL en_US.UTF-8

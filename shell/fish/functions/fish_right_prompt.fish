@@ -1,4 +1,5 @@
 function fish_right_prompt
+  set -l status_copy $status
   for color in $fish_color_error
     # If any of the colour variables aren't defined they're set to 'normal' colour
     if set -q color
@@ -6,18 +7,16 @@ function fish_right_prompt
     end
   end
 
-  set -l status_copy $status
   set -l status_color 0fc
-
-  if test "$status_copy" -ne 0
-    set status_color $fish_color_error
-  end
-
 
   if test -n "$CMD_DURATION" -a "$CMD_DURATION" -gt 100
     set -l duration_copy $CMD_DURATION
     set -l duration (echo $CMD_DURATION | __fmt_cmd_duration)
-    echo -sn (set_color $status_color) "$duration" (set_color normal)
+
+    if test $status_copy -ne 0
+       echo -n (set_color red)
+    end
+    echo -sn "$duration" (set_color normal)
   else if set -l last_job_id (last_job_id -l)
     echo -sn (set_color $status_color) "%$last_job_id" (set_color normal)
   else
@@ -46,11 +45,6 @@ function __fmt_cmd_duration -d 'Displays the elapsed time of last command'
             end
         end
     end
-
-    if test $last_status -ne 0
-      set_color red; echo -n ' '$days$hours$minutes$seconds' '
-    else
-      echo -n ' '$days$hours$minutes$seconds' '
-    end
+    echo -n $days$hours$minutes$seconds
   end
 end
