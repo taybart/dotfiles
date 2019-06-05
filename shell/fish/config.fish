@@ -4,6 +4,7 @@ alias :q="exit"
 alias startredis="docker run -p 6379:6379 -d redis"
 
 alias top="gotop -m"
+alias ls="ls --color -l -h"
 alias update="echo please define"
 alias install="echo please define"
 
