@@ -1,10 +1,3 @@
-# name: clearance
-# ---------------
-# Based on idan. Display the following bits on the left:
-# - Virtualenv name (if applicable, see https://github.com/adambrenecki/virtualfish)
-# - Current directory name
-# - Git branch and dirty state (if inside a git repo)
-
 function _git_branch_name
   echo (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
 end
