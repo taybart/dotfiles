@@ -1,3 +1,4 @@
+if status --is-interactive
 # -- Aliases --
 alias q="exit"
 alias :q="exit"
@@ -32,42 +33,43 @@ set -x EDITOR nvim
 set GPG_TTY (tty)
 
 # Go
-set -x GOPATH $HOME/dev/.go
-set -x PATH $HOME/dev/.go/bin:$PATH
+  set -x GOPATH $HOME/dev/.go
+  set -x PATH $HOME/dev/.go/bin:$PATH
 
 # Android
-set -x ANDROID_HOME $HOME/Library/Android/sdk
-set -x PATH $PATH:$ANDROID_HOME/tools/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+  set -x ANDROID_HOME $HOME/Library/Android/sdk
+  set -x PATH $PATH:$ANDROID_HOME/tools/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 # Node
-set -x PATH "$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
+  set -x PATH "$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 
 ############## Functions ###############
 
-bind ! __history_previous_command
-bind '$' __history_previous_command_arguments
-function __history_previous_command
-  switch (commandline -t)
+  bind ! __history_previous_command
+  bind '$' __history_previous_command_arguments
+  function __history_previous_command
+switch (commandline -t)
   case "!"
-    commandline -t $history[1]; commandline -f repaint
+  commandline -t $history[1]; commandline -f repaint
   case "*"
-    commandline -i !
+  commandline -i !
   end
-end
+  end
 
-function __history_previous_command_arguments
-  switch (commandline -t)
+  function __history_previous_command_arguments
+switch (commandline -t)
   case "!"
-    commandline -t ""
-    commandline -f history-token-search-backward
+  commandline -t ""
+  commandline -f history-token-search-backward
   case "*"
-    commandline -i '$'
+  commandline -i '$'
   end
-end
+  end
 
-theme_gruvbox dark
+  theme_gruvbox dark
 
-set -l local $HOME/.local.fish
-if test -e $local
+  set -l local $HOME/.local.fish
+  if test -e $local
   source $local
-end
+  end
+  end
