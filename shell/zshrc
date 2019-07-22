@@ -34,6 +34,7 @@ then
   function notify {
     osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
   }
+  alias -s go="go run"
 else
     alias grep="grep -RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
@@ -74,7 +75,7 @@ fzf_cd() {
 alias q="exit"
 alias :q="exit"
 alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
-alias startredis="docker run -p 6379:6379 -d redis"
+alias startredis="docker run -p 6379:6379 --name redis -d redis"
 
 lssize() {
   du -a $1 | sort -n -r | head -n 5
@@ -162,6 +163,9 @@ fi
 
 # Fish like autocomplete
 source ~/.dotfiles/shell/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^ ' autosuggest-accept
+bindkey '^E' autosuggest-accept
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/mc mc
