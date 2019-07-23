@@ -1,13 +1,14 @@
+
 if status --is-interactive
   # -- Aliases --
   alias q="exit"
   alias :q="exit"
-  alias startredis="docker run -p 6379:6379 -d redis"
+  alias startredis="docker run --name redis -p 6379:6379 -d redis"
 
   alias top="gotop -m"
-  alias ls="ls --color -l -h"
-  alias update="echo please define"
-  alias install="echo please define"
+  # alias ls="ls --color -l -h"
+  # alias update="echo please define"
+  # alias install="echo please define"
 
   # Python
   alias python="python3"
@@ -32,6 +33,7 @@ if status --is-interactive
   set -x EDITOR nvim
   # set -x LC_ALL en_US.UTF-8
   set GPG_TTY (tty)
+  set -x PATH $HOME/.local/bin:$PATH
 
   # Go
   set -x GOPATH $HOME/dev/.go
@@ -45,11 +47,16 @@ if status --is-interactive
   set -x PATH "$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 
   ############## Functions ###############
+  #
 
-  bind ! __history_previous_command
-  bind '$' __history_previous_command_arguments
-  function __history_previous_command
-    switch (commandline -t)
+  function iplu
+    curl ipinfo.io/$argv[1]
+end
+
+bind ! __history_previous_command
+bind '$' __history_previous_command_arguments
+function __history_previous_command
+  switch (commandline -t)
 case "!"
   commandline -t $history[1]; commandline -f repaint
 case "*"
@@ -67,10 +74,11 @@ case "*"
 end
 end
 
-theme_gruvbox dark
 
 set -l local $HOME/.local.fish
 if test -e $local
   source $local
 end
 end
+
+theme_gruvbox dark
