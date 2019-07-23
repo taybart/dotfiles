@@ -1,48 +1,56 @@
 let s:uname = system("echo -n \"$(uname)\"")
 set rtp+=~/.fzf
-" ----------------- Vundle ----------------------
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" ----------------- Plugins ----------------------
+call plug#begin('~/.vim/plugged')
 
 " File finders
-Plugin 'junegunn/fzf.vim'
-Plugin 'scrooloose/nerdtree'
+Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree'
 
 " Syntax
-Plugin 'w0rp/ale'
+Plug 'w0rp/ale'
 
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'unblevable/quick-scope'
+Plug 'scrooloose/nerdcommenter'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'unblevable/quick-scope'
 
 " Languages
-Plugin 'groenewege/vim-less'
-Plugin 'mxw/vim-jsx'
-Plugin 'pangloss/vim-javascript'
-Plugin 'rust-lang/rust.vim'
-Plugin 'tomlion/vim-solidity'
-Plugin 'fatih/vim-go'
-Plugin 'keith/swift.vim'
-Plugin 'udalov/kotlin-vim'
-Plugin 'elixir-editors/vim-elixir'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'dag/vim-fish'
+Plug 'groenewege/vim-less'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'rust-lang/rust.vim'
+Plug 'tomlion/vim-solidity'
+Plug 'fatih/vim-go'
+Plug 'keith/swift.vim'
+Plug 'udalov/kotlin-vim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'leafgarland/typescript-vim'
+Plug 'dag/vim-fish'
 
 " Conveniance
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'Valloric/YouCompleteMe'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'christoomey/vim-tmux-navigator'
+" Plug 'Valloric/YouCompleteMe'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
 
 " Looks
-Plugin 'majutsushi/tagbar'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'morhetz/gruvbox'
-Plugin 'NLKNguyen/papercolor-theme'
+Plug 'majutsushi/tagbar'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+Plug 'morhetz/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
 
-call vundle#end()
+call plug#end()
 
 " --------------- Sets/lets ---------------------
 syntax on
@@ -146,9 +154,9 @@ let g:NERDTreeMapJumpNextSibling = ''
 let g:NERDTreeMapJumpPrevSibling = ''
 
 " YouCompleteMe
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_complete_in_comments = 1
+" let g:ycm_complete_in_strings = 1
+" let g:ycm_autoclose_preview_window_after_completion = 1
 
 " vim devicons
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -311,6 +319,9 @@ nnoremap <C-b> :Buffers<CR>
 nnoremap <leader>a :QuickScopeToggle<CR>
 
 nnoremap <leader>b :set background=light<CR>:colorscheme PaperColor<CR>
+
+" deoplete tabness
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " ------------------------- Strip trailing whitespace -------------------------
 function! <SID>StripTrailingWhitespaces()
