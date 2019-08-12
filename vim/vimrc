@@ -1,9 +1,9 @@
 let s:uname = system("echo -n \"$(uname)\"")
-set rtp+=~/.fzf
 " ----------------- Plugins ----------------------
 call plug#begin('~/.vim/plugged')
 
 " File finders
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 
@@ -31,6 +31,7 @@ Plug 'dag/vim-fish'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'christoomey/vim-tmux-navigator'
+
 " Plug 'Valloric/YouCompleteMe'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -47,13 +48,15 @@ Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-Plug 'morhetz/gruvbox'
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
 Plug 'taybart/vim-notes'
 Plug 'xolox/vim-misc'
+
+" Colorschemes
+Plug 'morhetz/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
@@ -62,7 +65,7 @@ syntax on
 filetype plugin indent on
 
 " set shell=/bin/zsh
-set shell=/usr/local/bin/zsh
+" set shell=/usr/local/bin/zsh
 
 
 scriptencoding utf-8
@@ -185,6 +188,8 @@ let g:limelight_conceal_ctermfg = 'DarkGray'
 
 " ---------------- Look ------------------------
 colorscheme gruvbox
+" colorscheme seoul256
+" let g:airline_theme='zenburn'
 set background=dark
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -280,16 +285,24 @@ nnoremap <leader>' V:s/'/"/g<CR>
 
 " fzf
 nnoremap <C-p> :Files<CR>
-nnoremap <C-s> :BLines<CR>
-nnoremap <C-b> :Buffers<CR>
+nnoremap <C-s> :Ag
 
 nnoremap <leader>a :QuickScopeToggle<CR>
-
-nnoremap <leader>b :set background=light<CR>:colorscheme PaperColor<CR>
 
 " deoplete tabness
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
+
+command Dark call Dark()
+function Dark()
+  colorscheme gruvbox
+  set background=dark
+endfunction
+command Light call Light()
+function Light()
+  colorscheme PaperColor
+  set background=light
+endfunction
 
 " -------------------------------- Goyo custom --------------------------------
 function! s:goyo_enter()
