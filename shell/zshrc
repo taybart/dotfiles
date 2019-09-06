@@ -35,6 +35,12 @@ then
     osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
   }
   alias -s go="go run"
+  alias run="source .env;"
+
+  function b64encode {
+    echo -n $1 | base64 | pbcopy
+  }
+
 else
     alias grep="grep -RIns --color --exclude=\"tags\""
     alias ls="ls -l --color --block-size=M"
@@ -76,6 +82,8 @@ alias q="exit"
 alias :q="exit"
 alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
 alias startredis="docker run -p 6379:6379 --name redis -d redis"
+alias dev="ENV=development"
+alias lzd="lazydocker"
 
 lssize() {
   du -a $1 | sort -n -r | head -n 5
