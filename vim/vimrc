@@ -30,9 +30,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Syntax
-" Plug 'w0rp/ale'
 Plug 'dense-analysis/ale'
-" Plug 'Valloric/YouCompleteMe'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -160,22 +158,23 @@ let b:ale_linters = {'go': ['golangci-lint']}
 
 " vim-go
 let g:go_auto_type_info = 0
-let g:go_fmt_fail_silently = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
-let g:go_fmt_command = "goimports"
-let g:go_snippet_engine = "neosnippet"
+
+let g:go_highlight_operators = 0
+let g:go_highlight_structs = 0
+let g:go_highlight_interfaces = 0
+
+let g:go_snippet_engine = 'neosnippet'
 
 " deoplete
 call deoplete#custom#option('omni_patterns', {
-\ 'go': '[^. *\t]\.\w*',
-\})
+      \ 'go': '[^. *\t]\.\w*',
+      \})
 
 " Limelight
 let g:limelight_conceal_ctermfg = 'DarkGray'
@@ -331,15 +330,15 @@ endfunction
 
 " ------------------------- Strip trailing whitespace -------------------------
 " function! <SID>StripTrailingWhitespaces()
-  " "Preparation: save last search, and cursor position.
-  " let _s=@/
-  " let l = line(".")
-  " let c = col(".")
-  " " Do the business:
-  " %s/\s\+$//e
-  " " Clean up: restore previous search history, and cursor position
-  " let @/=_s
-  " call cursor(l, c)
+" "Preparation: save last search, and cursor position.
+" let _s=@/
+" let l = line(".")
+" let c = col(".")
+" " Do the business:
+" %s/\s\+$//e
+" " Clean up: restore previous search history, and cursor position
+" let @/=_s
+" call cursor(l, c)
 " endfunction
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
