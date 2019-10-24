@@ -1,7 +1,7 @@
 # Dotfiles
 
 ### Installation
-`$ git clone https://github.com/pmpbar/dotfiles ~/.dotfiles`
+`$ git clone https://github.com/taybart/dotfiles ~/.dotfiles`
 
 `$ cd ~/.dotfiles && git submodule update --init --recursive`
 
