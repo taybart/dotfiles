@@ -13,7 +13,7 @@ export DISABLE_AUTO_TITLE=true
 platform=$(uname)
 if [ "$platform" = "Darwin" ]
 then
-  plugins=(git, osx, sudo, vagrant, docker)
+  plugins=(git, osx, sudo, vagrant, docker, docker-compose)
 
   alias grep="grep -RIns --color=auto --exclude=\"tags\""
   alias ls="ls -G -l -h"
@@ -48,7 +48,7 @@ else
     alias open="xdg-open"
 
   if [ -f /etc/debian_version ]; then
-    plugins=(git, sudo, vagrant, debian)
+    plugins=(git, sudo, vagrant, debian, docker-compose)
 
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias install="sudo apt-get install"
@@ -81,7 +81,7 @@ fzf_cd() {
 alias q="exit"
 alias :q="exit"
 alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
-alias startredis="docker run -p 6379:6379 --name redis -d redis"
+alias startredis="docker run -p 6379:6379 redis"
 alias dev="ENV=development"
 alias lzd="lazydocker"
 
@@ -121,6 +121,7 @@ alias gpo=" git pull origin"
 alias gpom=" git pull origin master"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
+alias gitremovemerged="git branch --merged dev | grep -v dev | xargs -n 1 git branch -d"
 
 # -- Sources --
 source $HOME/.dotfiles/shell/zsh-prompt.zsh-theme
