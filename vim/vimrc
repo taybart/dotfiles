@@ -9,10 +9,15 @@ Plug 'scrooloose/nerdtree'
 
 
 " Languages
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'groenewege/vim-less'
-Plug 'mxw/vim-jsx'
+if has('nvim')
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+else
+  Plug 'govim/govim'
+endif
 Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'groenewege/vim-less'
 Plug 'rust-lang/rust.vim'
 Plug 'tomlion/vim-solidity'
 Plug 'keith/swift.vim'
@@ -20,13 +25,17 @@ Plug 'udalov/kotlin-vim'
 Plug 'elixir-editors/vim-elixir'
 Plug 'leafgarland/typescript-vim'
 Plug 'dag/vim-fish'
+Plug 'diepm/vim-rest-console'
 
 " Conveniance
-Plug 'scrooloose/nerdcommenter'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'unblevable/quick-scope'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-commentary'
+Plug 'tomtom/tcomment_vim'
+" Plug 'scrooloose/nerdcommenter'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'unblevable/quick-scope'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Syntax
@@ -38,6 +47,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 let g:deoplete#enable_at_startup = 1
 
 Plug 'Shougo/neosnippet.vim'
@@ -75,6 +85,9 @@ filetype plugin indent on
 
 set shell=/bin/bash
 
+
+set timeoutlen=1000 ttimeoutlen=0
+
 scriptencoding utf-8
 
 if !has('nvim')
@@ -82,7 +95,12 @@ if !has('nvim')
   set t_Co=256
   set autoread
   set nocompatible
+  set ttymouse=xterm2
+else
+set mouse=a
+  set inccommand=nosplit
 endif
+
 
 set lazyredraw
 set ttyfast
@@ -106,11 +124,6 @@ set whichwrap+=<,>,h,l,[,]
 
 set clipboard=unnamedplus,unnamed
 
-set mouse=a
-if !has('nvim')
-  set ttymouse=xterm2
-endif
-
 
 " Paren/bracket matching
 set showmatch
@@ -118,7 +131,7 @@ set showmatch
 set cursorline
 " Use relative number in normal mode and absolute number in insert mode
 set number
-" set relativenumber
+set relativenumber
 
 " highlight
 set hlsearch
@@ -178,6 +191,18 @@ call deoplete#custom#option('omni_patterns', {
 
 " Limelight
 let g:limelight_conceal_ctermfg = 'DarkGray'
+
+" vim-notes
+let g:notes_directories = ['~/.notes']
+
+" vim-rest-console
+" let g:vrc_show_command = 1
+let g:vrc_curl_opts = {
+  \ '--connect-timeout' : 3,
+  \ '-L': '',
+  \ '-i': '',
+  \ '-s': '',
+\}
 
 " Highlight
 hi Search cterm=bold ctermbg=Yellow ctermfg=Black
@@ -249,8 +274,6 @@ nnoremap L $
 
 nnoremap tt :te zsh<CR>
 
-
-
 " -------- Formating --------
 " These create newlines like o and O but stay in normal mode
 nnoremap <silent> zj o<Esc>k
@@ -287,7 +310,7 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 
 
-command! GR !go run *.go
+command! GIM GoImports
 
 " Make dark
 command! Dark call Dark()
@@ -304,6 +327,8 @@ function! Light()
 endfunction
 
 au FileType go nmap <leader>gt :GoDeclsDir<cr>
+
+
 
 " -------------------------------- Goyo custom --------------------------------
 function! s:goyo_enter()
@@ -411,3 +436,5 @@ augroup encrypted
         \ silent u |
         \ setlocal nobin
 augroup END
+
+
