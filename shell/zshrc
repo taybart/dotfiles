@@ -1,10 +1,13 @@
-export ZSH=$HOME/.oh-my-zsh
-source $ZSH/oh-my-zsh.sh
 
 #  -- Exports --
 export TERM="screen-256color"
 export EDITOR=vim
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin"
+export ZSH=$HOME/.oh-my-zsh
+export MANPAGER="sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' \
+    -c 'nnoremap i <nop>' \
+    -c 'nnoremap <Space> <C-f>' \
+    -c 'noremap q :quit<CR>' -\""
 # Enable command auto-correction.
 export ENABLE_CORRECTION=true
 export DISABLE_AUTO_TITLE=true
@@ -13,7 +16,11 @@ export DISABLE_AUTO_TITLE=true
 platform=$(uname)
 if [ "$platform" = "Darwin" ]
 then
-  plugins=(git, osx, sudo, vagrant, docker, docker-compose)
+  plugins=(
+    docker
+    docker-compose
+    git
+  )
 
   alias grep="grep -RIns --color=auto --exclude=\"tags\""
   alias ls="ls -G -l -h"
@@ -48,7 +55,7 @@ else
     alias open="xdg-open"
 
   if [ -f /etc/debian_version ]; then
-    plugins=(git, sudo, vagrant, debian, docker-compose)
+    plugins=(git sudo vagrant debian docker-compose)
 
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias install="sudo apt-get install"
@@ -57,12 +64,12 @@ else
     xmodmap ~/.xmodmap > /dev/null 2>&1
 
   elif [ -f /etc/redhat-release ]; then
-    plugins=(git, sudo, vagrant, fedora)
+    plugins=(git sudo vagrant fedora)
     alias update="sudo dnf update"
     alias install="sudo dnf install"
     alias remove="sudo dnf remove"
   elif [ -f /etc/arch-release ]; then
-    plugins=(git, sudo, vagrant, fedora)
+    plugins=(git sudo vagrant arch)
     alias update="sudo pacman -Syu"
     alias install="sudo pacman -S"
     alias remove="sudo pacman -R"
@@ -70,7 +77,7 @@ else
     echo "Unknown system"
   fi
 fi
-
+source $ZSH/oh-my-zsh.sh
 
 fzf_cd() {
   zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ;

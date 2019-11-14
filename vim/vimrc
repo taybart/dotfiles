@@ -9,46 +9,33 @@ Plug 'scrooloose/nerdtree'
 
 
 " Languages
-if has('nvim')
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-else
-  Plug 'govim/govim'
-endif
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'groenewege/vim-less'
-Plug 'rust-lang/rust.vim'
-Plug 'tomlion/vim-solidity'
-Plug 'keith/swift.vim'
-Plug 'udalov/kotlin-vim'
-Plug 'elixir-editors/vim-elixir'
-Plug 'leafgarland/typescript-vim'
-Plug 'dag/vim-fish'
+Plug 'sheerun/vim-polyglot'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'tpope/vim-markdown'
 Plug 'diepm/vim-rest-console'
+" Plug 'pangloss/vim-javascript'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'groenewege/vim-less'
+" Plug 'rust-lang/rust.vim'
+" Plug 'tomlion/vim-solidity'
+" Plug 'keith/swift.vim'
+" Plug 'udalov/kotlin-vim'
+" Plug 'elixir-editors/vim-elixir'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'dag/vim-fish'
 
 " Conveniance
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-commentary'
-Plug 'tomtom/tcomment_vim'
-" Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'unblevable/quick-scope'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Syntax
-Plug 'dense-analysis/ale'
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-let g:deoplete#enable_at_startup = 1
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
@@ -74,17 +61,19 @@ call plug#end()
 " ---------------- Look ------------------------
 set background=dark
 colorscheme gruvbox
+let g:airline_theme='gruvbox'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
+
+let g:polyglot_disabled = ['markdown']
 
 
 " --------------- Sets/lets ---------------------
 syntax on
 filetype plugin indent on
 
-set shell=/bin/bash
-
+set shell=/bin/zsh
 
 set timeoutlen=1000 ttimeoutlen=0
 
@@ -158,19 +147,7 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:webdevicons_conceal_nerdtree_brackets=1
 let g:DevIconsEnableFoldersOpenClose = 1
 
-" Ale
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 0
-let g:ale_open_list = 0
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_delay = 0
-let g:ale_sign_error = '⤫'
-let g:ale_sign_warning = '⚠'
-let b:ale_linters = {'go': ['golangci-lint']}
-
 " vim-go
-let g:go_auto_type_info = 0
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
@@ -178,16 +155,26 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_types = 1
 
+let g:go_auto_type_info = 0
 let g:go_highlight_operators = 0
 let g:go_highlight_structs = 0
 let g:go_highlight_interfaces = 0
 
-let g:go_snippet_engine = 'neosnippet'
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
-" deoplete
-call deoplete#custom#option('omni_patterns', {
-      \ 'go': '[^. *\t]\.\w*',
-      \})
+let g:go_snippet_engine = 'neosnippet'
+let g:go_doc_keywordprg_enabled = 0
+
+      "
+" coc.vim
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+set completeopt=menuone,noinsert
 
 " Limelight
 let g:limelight_conceal_ctermfg = 'DarkGray'
@@ -203,6 +190,8 @@ let g:vrc_curl_opts = {
   \ '-i': '',
   \ '-s': '',
 \}
+
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'javascript']
 
 " Highlight
 hi Search cterm=bold ctermbg=Yellow ctermfg=Black
@@ -293,7 +282,6 @@ nnoremap <leader>jp /jumptag<CR>
 vnoremap u <Esc>
 vnoremap U <Esc>
 
-
 " Change quotes
 nnoremap <leader>' V:s/'/"/g<CR>
 
@@ -305,11 +293,39 @@ nnoremap <C-a> :Ag <C-r><C-w><CR>
 nnoremap <leader>a :QuickScopeToggle<CR>
 
 " deoplete tabness
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 
+" coc.vim
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" vim-go
 command! GIM GoImports
 
 " Make dark
@@ -353,18 +369,6 @@ function! s:goyo_leave()
   Limelight!
 endfunction
 
-" ------------------------- Strip trailing whitespace -------------------------
-" function! <SID>StripTrailingWhitespaces()
-" "Preparation: save last search, and cursor position.
-" let _s=@/
-" let l = line(".")
-" let c = col(".")
-" " Do the business:
-" %s/\s\+$//e
-" " Clean up: restore previous search history, and cursor position
-" let @/=_s
-" call cursor(l, c)
-" endfunction
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
   redir => buffersoutput
