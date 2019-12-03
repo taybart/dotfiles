@@ -55,7 +55,12 @@ else
     alias open="xdg-open"
 
   if [ -f /etc/debian_version ]; then
-    plugins=(git sudo vagrant debian docker-compose)
+    plugins=(
+      git
+      sudo
+      debian
+      docker-compose
+    )
 
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
     alias install="sudo apt-get install"
@@ -64,15 +69,33 @@ else
     xmodmap ~/.xmodmap > /dev/null 2>&1
 
   elif [ -f /etc/redhat-release ]; then
-    plugins=(git sudo vagrant fedora)
+    plugins=(
+      git
+      sudo
+      fedora
+    )
     alias update="sudo dnf update"
     alias install="sudo dnf install"
     alias remove="sudo dnf remove"
   elif [ -f /etc/arch-release ]; then
-    plugins=(git sudo vagrant arch)
+    plugins=(
+      git
+      sudo
+      arch
+    )
     alias update="sudo pacman -Syu"
     alias install="sudo pacman -S"
     alias remove="sudo pacman -R"
+  elif `grep -Fq Amazon /etc/system-release`; then
+    plugins=(
+      git
+      sudo
+      docker
+      docker-compose
+    )
+    alias update="sudo yum update"
+    alias install="sudo yum install"
+    alias remove="sudo yum remove"
   else
     echo "Unknown system"
   fi
@@ -182,6 +205,8 @@ source ~/.dotfiles/shell/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^E' autosuggest-accept
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
+# Jump around
+source ~/.dotfiles/shell/z/z.sh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc

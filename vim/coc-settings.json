@@ -1,0 +1,13 @@
+{
+  "suggest.keepCompleteopt": false,
+  "diagnostic.errorSign": "✗",
+  "diagnostic.warningSign": "⚠",
+  "javascript.validate.enable": false,
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
+    }
+  }
+}
