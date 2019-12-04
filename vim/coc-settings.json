@@ -1,5 +1,5 @@
 {
-  "suggest.keepCompleteopt": false,
+  "suggest.enablePreselect": false,
   "diagnostic.errorSign": "✗",
   "diagnostic.warningSign": "⚠",
   "javascript.validate.enable": false,

@@ -33,6 +33,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'unblevable/quick-scope'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'dyng/ctrlsf.vim'
 
 " Syntax
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -299,7 +300,7 @@ nnoremap <leader>' V:s/'/"/g<CR>
 " fzf
 nnoremap <C-p> :Files<CR>
 nnoremap <C-s> :Rg<CR>
-nnoremap <C-a> :Ag <C-r><C-w><CR>
+nnoremap <C-a> :CtrlSF <C-r><C-w><CR>
 
 nnoremap <leader>a :QuickScopeToggle<CR>
 
