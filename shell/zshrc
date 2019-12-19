@@ -1,4 +1,3 @@
-
 #  -- Exports --
 export TERM="screen-256color"
 export EDITOR=vim
@@ -22,38 +21,7 @@ then
     git
   )
 
-  alias grep="grep -RIns --color=auto --exclude=\"tags\""
-  alias ls="ls -G -l -h"
-  alias lsusb="system_profiler SPUSBDataType"
-  alias newmacaddr="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
-  alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
-  alias ctags="`brew --prefix`/bin/ctags"
-  alias update="brew update && brew upgrade"
-  alias install="brew install"
-  function remove() {
-    brew rm $1
-    brew rm $(join <(brew leaves) <(brew deps $1))
-  }
-  function title {
-    echo -ne "\033]0;"$*"\007"
-  }
-  # Usage: $ notify Title content
-  function notify {
-    osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
-  }
-  alias -s go="go run"
-  alias run="source .env;"
-
-  function b64encode {
-    echo -n $1 | base64 | pbcopy
-  }
-
 else
-    alias grep="grep -RIns --color --exclude=\"tags\""
-    alias ls="ls -l --color --block-size=M"
-    alias xup="xrdb ~/.Xresources"
-    alias open="xdg-open"
-
   if [ -f /etc/debian_version ]; then
     plugins=(
       git
@@ -62,30 +30,17 @@ else
       docker-compose
     )
 
-    alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
-    alias install="sudo apt-get install"
-    alias remove="sudo apt-get autoremove"
-
-    xmodmap ~/.xmodmap > /dev/null 2>&1
-
   elif [ -f /etc/redhat-release ]; then
     plugins=(
       git
       sudo
       fedora
     )
-    alias update="sudo dnf update"
-    alias install="sudo dnf install"
-    alias remove="sudo dnf remove"
   elif [ -f /etc/arch-release ]; then
     plugins=(
       git
       sudo
-      arch
     )
-    alias update="sudo pacman -Syu"
-    alias install="sudo pacman -S"
-    alias remove="sudo pacman -R"
   elif `grep -Fq Amazon /etc/system-release`; then
     plugins=(
       git
@@ -93,9 +48,6 @@ else
       docker
       docker-compose
     )
-    alias update="sudo yum update"
-    alias install="sudo yum install"
-    alias remove="sudo yum remove"
   else
     echo "Unknown system"
   fi
@@ -106,14 +58,6 @@ fzf_cd() {
   zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ;
 }; zle -N fzf_cd; bindkey '^E' fzf_cd
 
-
-# -- Aliases --
-alias q="exit"
-alias :q="exit"
-alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
-alias startredis="docker run -p 6379:6379 redis"
-alias dev="ENV=development"
-alias lzd="lazydocker"
 
 lssize() {
   du -a $1 | sort -n -r | head -n 5
@@ -127,14 +71,6 @@ notes() {
   fi
   nvim -u ~/.dotfiles/vim/vimrcs/vimrc.notes ~/.notes
 }
-# Prevent nested rangers
-# unalias ranger 2>/dev/null
-# alias ranger="if [ -z "$RANGER_LEVEL" ]
-# then
-  # $(which ranger)
-# else
-  # exit
-# fi
 
 function whereisip() {
   curl ipinfo.io/$1
@@ -143,15 +79,6 @@ function whereisip() {
 function docker-term() {
   docker exec -it $1 /bin/bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
 }
-# Git Aliases
-alias gs="git status"
-alias gcm="git commit -m"
-alias gd="git diff --patience --ignore-space-change"
-alias gpo=" git pull origin"
-alias gpom=" git pull origin master"
-alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
-alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
-alias gitremovemerged="git branch --merged dev | grep -v dev | xargs -n 1 git branch -d"
 
 # -- Sources --
 source $HOME/.dotfiles/shell/zsh-prompt.zsh-theme
@@ -213,3 +140,73 @@ complete -o nospace -C /usr/local/bin/mc mc
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+# -- Aliases --
+alias q="exit"
+alias :q="exit"
+alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
+alias startredis="docker run -p 6379:6379 redis"
+alias dev="ENV=development"
+alias lzd="lazydocker"
+
+# Git Aliases
+alias gs="git status"
+alias gcm="git commit -m"
+alias gd="git diff --patience --ignore-space-change"
+alias gpo=" git pull origin"
+alias gpom=" git pull origin master"
+alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
+alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
+alias gitremovemerged="git branch --merged dev | grep -v dev | xargs -n 1 git branch -d"
+
+# Platform Specific
+platform=$(uname)
+if [ "$platform" = "Darwin" ]
+then
+  alias grep="grep -RIns --color=auto --exclude=\"tags\""
+  alias ls="ls -G -l -h"
+  alias lsusb="system_profiler SPUSBDataType"
+  alias newmacaddr="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
+  alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
+  alias ctags="`brew --prefix`/bin/ctags"
+  alias update="brew update && brew upgrade"
+  alias install="brew install"
+  function remove() {
+    brew rm $1
+    brew rm $(join <(brew leaves) <(brew deps $1))
+  }
+  function title {
+    echo -ne "\033]0;"$*"\007"
+  }
+  # Usage: $ notify Title content
+  function notify {
+    osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
+  }
+  alias -s go="go run"
+else
+  # alias grep="grep -RIns --color --exclude=\"tags\""
+  alias ls="ls -lh --color"
+  alias xup="xrdb ~/.Xresources"
+  alias open="xdg-open"
+
+  if [ -f /etc/debian_version ]; then
+    alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
+    alias install="sudo apt-get install"
+    alias remove="sudo apt-get autoremove"
+
+    xmodmap ~/.xmodmap > /dev/null 2>&1
+
+  elif [ -f /etc/redhat-release ]; then
+    alias update="sudo dnf update"
+    alias install="sudo dnf install"
+    alias remove="sudo dnf remove"
+  elif [ -f /etc/arch-release ]; then
+    alias update="yay -Syu"
+    alias install="yay -S"
+    alias remove="yay -R"
+  elif `grep -Fq Amazon /etc/system-release`; then
+    alias update="sudo yum update"
+    alias install="sudo yum install"
+    alias remove="sudo yum remove"
+  fi
+fi
