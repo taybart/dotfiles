@@ -1,145 +1,63 @@
 #  -- Exports --
+export DOTFILES="$HOME/.dotfiles"
 export TERM="screen-256color"
 export EDITOR=vim
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin:$HOME/.rvm/bin"
 export ZSH=$HOME/.oh-my-zsh
-export MANPAGER="sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' \
-    -c 'nnoremap i <nop>' \
-    -c 'nnoremap <Space> <C-f>' \
-    -c 'noremap q :quit<CR>' -\""
+export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
+  -c 'nnoremap i <nop>' \
+  -c 'nnoremap <Space> <C-f>' \
+  -c 'noremap q :quit<CR>' -\""
 # Enable command auto-correction.
 export ENABLE_CORRECTION=true
 export DISABLE_AUTO_TITLE=true
 
-# Platform Specific
+# zsh plugins
 platform=$(uname)
-if [ "$platform" = "Darwin" ]
-then
+if [ "$platform" = "Darwin" ]; then
   plugins=(
     docker
     docker-compose
     git
   )
+elif [ -f /etc/debian_version ]; then
+  plugins=(
+    git
+    sudo
+    debian
+    docker-compose
+  )
 
-else
-  if [ -f /etc/debian_version ]; then
-    plugins=(
-      git
-      sudo
-      debian
-      docker-compose
+elif [ -f /etc/redhat-release ]; then
+  plugins=(
+    git
+    sudo
+    fedora
+  )
+elif [ -f /etc/arch-release ]; then
+  plugins=(
+    git
+    sudo
+  )
+elif `grep -Fq Amazon /etc/system-release`; then
+  plugins=(
+    git
+    sudo
+    docker
+    docker-compose
     )
-
-  elif [ -f /etc/redhat-release ]; then
-    plugins=(
-      git
-      sudo
-      fedora
-    )
-  elif [ -f /etc/arch-release ]; then
-    plugins=(
-      git
-      sudo
-    )
-  elif `grep -Fq Amazon /etc/system-release`; then
-    plugins=(
-      git
-      sudo
-      docker
-      docker-compose
-    )
-  else
-    echo "Unknown system"
-  fi
 fi
 source $ZSH/oh-my-zsh.sh
+# theme
+source $DOTFILES/shell/zsh-prompt.zsh-theme
 
-fzf_cd() {
-  zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ;
-}; zle -N fzf_cd; bindkey '^E' fzf_cd
-
-
-lssize() {
+biggest() {
   du -a $1 | sort -n -r | head -n 5
-}
-notes() {
-  echo -n "Remove old note? "
-  read REPLY
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    rm -f ~/.notes
-  fi
-  nvim -u ~/.dotfiles/vim/vimrcs/vimrc.notes ~/.notes
 }
 
 function whereisip() {
   curl ipinfo.io/$1
 }
-
-function docker-term() {
-  docker exec -it $1 /bin/bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
-}
-
-# -- Sources --
-source $HOME/.dotfiles/shell/zsh-prompt.zsh-theme
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
-
-###-begin-pm2-completion-###
-### credits to npm for the completion file model
-#
-# Installation: pm2 completion >> ~/.bashrc  (or ~/.zshrc)
-#
-
-COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
-COMP_WORDBREAKS=${COMP_WORDBREAKS/@/}
-export COMP_WORDBREAKS
-
-if type complete &>/dev/null; then
-  _pm2_completion () {
-    local si="$IFS"
-    IFS=$'\n' COMPREPLY=($(COMP_CWORD="$COMP_CWORD" \
-      COMP_LINE="$COMP_LINE" \
-      COMP_POINT="$COMP_POINT" \
-      pm2 completion -- "${COMP_WORDS[@]}" \
-      2>/dev/null)) || return $?
-    IFS="$si"
-  }
-  complete -o default -F _pm2_completion pm2
-elif type compctl &>/dev/null; then
-  _pm2_completion () {
-    local cword line point words si
-    read -Ac words
-    read -cn cword
-    let cword-=1
-    read -l line
-    read -ln point
-    si="$IFS"
-    IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-      COMP_LINE="$line" \
-      COMP_POINT="$point" \
-      pm2 completion -- "${words[@]}" \
-      2>/dev/null)) || return $?
-    IFS="$si"
-  }
-  compctl -K _pm2_completion + -f + pm2
-fi
-###-end-pm2-completion-###
-
-
-# Fish like autocomplete
-source ~/.dotfiles/shell/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^E' autosuggest-accept
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
-
-# Jump around
-source ~/.dotfiles/shell/z/z.sh
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/mc mc
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
 
 # -- Aliases --
 alias q="exit"
@@ -161,8 +79,7 @@ alias gitremovemerged="git branch --merged dev | grep -v dev | xargs -n 1 git br
 
 # Platform Specific
 platform=$(uname)
-if [ "$platform" = "Darwin" ]
-then
+if [ "$platform" = "Darwin" ]; then
   alias grep="grep -RIns --color=auto --exclude=\"tags\""
   alias ls="ls -G -l -h"
   alias lsusb="system_profiler SPUSBDataType"
@@ -175,14 +92,14 @@ then
     brew rm $1
     brew rm $(join <(brew leaves) <(brew deps $1))
   }
-  function title {
-    echo -ne "\033]0;"$*"\007"
-  }
-  # Usage: $ notify Title content
-  function notify {
-    osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
-  }
-  alias -s go="go run"
+function title {
+  echo -ne "\033]0;"$*"\007"
+}
+# Usage: $ notify Title content
+function notify {
+  osascript -e "display notification \"$2\" with title \"$1\" sound name \"Ping\""
+}
+alias -s go="go run"
 else
   # alias grep="grep -RIns --color --exclude=\"tags\""
   alias ls="ls -lh --color"
@@ -210,3 +127,20 @@ else
     alias remove="sudo yum remove"
   fi
 fi
+
+# -- Plugins --
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $DOTFILES/shell/z/z.sh ] && source $DOTFILES/shell/z/z.sh
+
+as=$DOTFILES/shell/zsh-plugins/zsh-autosuggestions
+[ -f "$as" ] && source "$as/zsh-autosuggestions.zsh"
+as=""
+bindkey '^E' autosuggest-accept
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+
+autoload -U +X bashcompinit && bashcompinit
+[ -f /usr/local/bin/mc ] && complete -o nospace -C /usr/local/bin/mc mc
+
+# -- Sources --
+[ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local

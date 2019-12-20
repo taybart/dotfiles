@@ -2,6 +2,7 @@
   "suggest.enablePreselect": false,
   "diagnostic.errorSign": "✗",
   "diagnostic.warningSign": "⚠",
+  "diagnostic.locationlist": false,
   "javascript.validate.enable": false,
   "languageserver": {
     "golang": {

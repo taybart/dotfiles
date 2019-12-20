@@ -2,29 +2,65 @@ let s:uname = system("echo -n \"$(uname)\"")
 " ----------------- Plugins ----------------------
 call plug#begin('~/.vim/plugged')
 
-" File finders
+" Fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+" let g:fzf_layout = { 'up': '~50%' }
+
+" Nerdtree
 Plug 'scrooloose/nerdtree'
+let g:NERDTreeMapJumpNextSibling = ''
+let g:NERDTreeMapJumpPrevSibling = ''
 
 " Languages
 Plug 'sheerun/vim-polyglot'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+let g:polyglot_disabled = ['markdown']
+" vim-go
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_types = 1
+
+let g:go_auto_type_info = 0
+let g:go_highlight_operators = 0
+let g:go_highlight_structs = 0
+let g:go_highlight_interfaces = 0
+let g:go_fmt_options = '-s'
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+let g:go_snippet_engine = 'neosnippet'
+let g:go_doc_keywordprg_enabled = 0
+
+Plug 'taybart/rest.vim'
 Plug 'tpope/vim-markdown'
-Plug 'taybart/rest-vim'
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'javascript']
 
 " Conveniance
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'unblevable/quick-scope'
+Plug 'dyng/ctrlsf.vim'
+" Nerd Commenter jsx
+Plug 'scrooloose/nerdcommenter'
+let g:NERDSpaceDelims = 1
+" tmux
+Plug 'christoomey/vim-tmux-navigator'
+let g:tmux_navigator_no_mappings = 1
+
+" The pope
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-Plug 'scrooloose/nerdcommenter'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'unblevable/quick-scope'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'dyng/ctrlsf.vim'
 
-" Syntax
+" coc.vim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+let g:coc_enable_locationlist = 0
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
@@ -33,19 +69,28 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/goyo.vim'
+" Limelight
 Plug 'junegunn/limelight.vim'
+let g:limelight_conceal_ctermfg = 'DarkGray'
+" vim devicons
+Plug 'ryanoasis/vim-devicons'
+if exists("g:loaded_webdevicons")
+  call webdevicons#refresh()
+endif
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:webdevicons_conceal_nerdtree_brackets=1
+let g:DevIconsEnableFoldersOpenClose = 1
 
+" vim-notes
 Plug 'taybart/vim-notes'
 Plug 'xolox/vim-misc'
+let g:notes_directories = ['~/.notes']
 
 " Colorschemes
 Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
-
 call plug#end()
-
 
 " ---------------- Look ------------------------
 set background=dark
@@ -55,12 +100,21 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
 
-let g:polyglot_disabled = ['markdown']
-
-
 " --------------- Sets/lets ---------------------
 syntax on
 filetype plugin indent on
+
+" Paren/bracket matching
+set showmatch
+" Color column
+set cursorline
+" Use relative number in normal mode and absolute number in insert mode
+set number
+set relativenumber
+" highlight
+set hlsearch
+" Buffers
+set hidden
 
 set shell=/bin/zsh
 
@@ -99,91 +153,11 @@ set backspace=indent,eol,start
 " Set word wrapping
 set whichwrap+=<,>,h,l,[,]
 
-
 set clipboard=unnamedplus,unnamed
-
-
-" Paren/bracket matching
-set showmatch
-" Color column
-set cursorline
-" Use relative number in normal mode and absolute number in insert mode
-set number
-set relativenumber
-
-" highlight
-set hlsearch
-" Buffers
-set hidden
-
-" Tmux
-let g:tmux_navigator_no_mappings = 1
 
 " ctags
 set tags=tags
 
-" Nerd Commenter jsx
-let g:NERDSpaceDelims = 1
-" Nerdtree
-let g:NERDTreeMapJumpNextSibling = ''
-let g:NERDTreeMapJumpPrevSibling = ''
-
-" vim devicons
-if exists("g:loaded_webdevicons")
-  call webdevicons#refresh()
-endif
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:webdevicons_conceal_nerdtree_brackets=1
-let g:DevIconsEnableFoldersOpenClose = 1
-
-" vim-go
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_types = 1
-
-let g:go_auto_type_info = 0
-let g:go_highlight_operators = 0
-let g:go_highlight_structs = 0
-let g:go_highlight_interfaces = 0
-let g:go_fmt_options = '-s'
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-
-let g:go_snippet_engine = 'neosnippet'
-let g:go_doc_keywordprg_enabled = 0
-
-      "
-" coc.vim
-" Better display for messages
-set cmdheight=2
-" You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
-" don't give |ins-completion-menu| messages.
-" set shortmess+=c
-" set completeopt=menuone,noinsert
-
-" Limelight
-let g:limelight_conceal_ctermfg = 'DarkGray'
-
-" vim-notes
-let g:notes_directories = ['~/.notes']
-
-" vim-rest-console
-" let g:vrc_show_command = 1
-" let g:vrc_trigger = '<C-e>'
-" let g:vrc_curl_opts = {
-  " \ '--connect-timeout' : 3,
-  " \ '-L': '',
-  " \ '-i': '',
-  " \ '-s': '',
-" \}
-
-" let g:fzf_layout = { 'up': '~50%' }
-
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'javascript']
 
 " Highlight
 hi Search cterm=bold ctermbg=Yellow ctermfg=Black
@@ -443,7 +417,7 @@ augroup END
 
 "--------------------------- Hexmode -----------------------------------------
 " ex command for toggling hex mode - define mapping if desired
-command -bar Hexmode call ToggleHex()
+command! -bar Hexmode call ToggleHex()
 
 " helper function to toggle hex mode
 function ToggleHex()
