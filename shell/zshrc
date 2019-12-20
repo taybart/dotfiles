@@ -129,13 +129,12 @@ else
 fi
 
 # -- Plugins --
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f $DOTFILES/shell/z/z.sh ] && source $DOTFILES/shell/z/z.sh
-
-as=$DOTFILES/shell/zsh-plugins/zsh-autosuggestions
-[ -f "$as" ] && source "$as/zsh-autosuggestions.zsh"
-as=""
+function sife() {
+  [ -f $1 ] && source $1
+}
+sife ~/.fzf.zsh
+sife $DOTFILES/shell/z/z.sh
+sife $DOTFILES/shell/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^E' autosuggest-accept
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
@@ -143,4 +142,4 @@ autoload -U +X bashcompinit && bashcompinit
 [ -f /usr/local/bin/mc ] && complete -o nospace -C /usr/local/bin/mc mc
 
 # -- Sources --
-[ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
+sife $HOME/.zshrc.local
