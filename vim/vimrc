@@ -16,6 +16,7 @@ let g:NERDTreeMapJumpPrevSibling = ''
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['markdown']
 " vim-go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
@@ -34,9 +35,10 @@ let g:go_info_mode='gopls'
 let g:go_snippet_engine = 'neosnippet'
 let g:go_doc_keywordprg_enabled = 0
 
-Plug 'taybart/rest.vim'
 Plug 'tpope/vim-markdown'
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'javascript']
+
+Plug 'taybart/rest.vim'
 
 " Conveniance
 Plug 'ntpeters/vim-better-whitespace'

@@ -66,6 +66,7 @@ alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
 alias startredis="docker run -p 6379:6379 redis"
 alias dev="ENV=development"
 alias lzd="lazydocker"
+alias virtualenv="python3 -m virtualenv"
 
 # Git Aliases
 alias gs="git status"
@@ -80,6 +81,7 @@ alias gitremovemerged="git branch --merged dev | grep -v dev | xargs -n 1 git br
 # Platform Specific
 platform=$(uname)
 if [ "$platform" = "Darwin" ]; then
+  alias copy="pbcopy"
   alias grep="grep -RIns --color=auto --exclude=\"tags\""
   alias ls="ls -G -l -h"
   alias lsusb="system_profiler SPUSBDataType"
@@ -105,6 +107,7 @@ else
   alias ls="ls -lh --color"
   alias xup="xrdb ~/.Xresources"
   alias open="xdg-open"
+  alias copy="xclip -sel clip"
 
   if [ -f /etc/debian_version ]; then
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
@@ -128,6 +131,8 @@ else
   fi
 fi
 
+# -- Functions --
+alias newpw="head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-' | fold -w 32 | head -n 1 | copy"
 # -- Plugins --
 # source if exist
 function sife() {
