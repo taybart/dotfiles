@@ -316,6 +316,8 @@ function! Light()
   set background=light
 endfunction
 
+au FileType python nnoremap <c-e> :!python %<CR>
+au FileType shell nnoremap <c-e> :!./%<CR>
 au FileType go nmap <leader>gt :GoDeclsDir<cr>
 
 

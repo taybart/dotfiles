@@ -129,6 +129,7 @@ else
 fi
 
 # -- Plugins --
+# source if exist
 function sife() {
   [ -f $1 ] && source $1
 }
