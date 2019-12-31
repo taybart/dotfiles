@@ -1,42 +1,12 @@
+export DOTFILES="$HOME/.dotfiles"
+export TERM="screen-256color"
+export EDITOR=vim
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin:$HOME/.rvm/bin"
+export ZSH=$HOME/.oh-my-zsh
+export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
+  -c 'nnoremap i <nop>' \
+  -c 'nnoremap <Space> <C-f>' \
+  -c 'noremap q :quit<CR>' -\""
+source $HOME/.dotfiles/shell/oh-my-zsh.zsh
 source $HOME/.dotfiles/shell/zsh.zsh
-export ENABLE_CORRECTION=true
-export DISABLE_AUTO_TITLE=true
-# zsh plugins
-platform=$(uname)
-if [ "$platform" = "Darwin" ]; then
-  plugins=(
-    docker
-    docker-compose
-    git
-  )
-elif [ -f /etc/debian_version ]; then
-  plugins=(
-    git
-    sudo
-    debian
-    docker-compose
-  )
-
-elif [ -f /etc/redhat-release ]; then
-  plugins=(
-    git
-    sudo
-    fedora
-  )
-elif [ -f /etc/arch-release ]; then
-  plugins=(
-    git
-    sudo
-  )
-elif `grep -Fq Amazon /etc/system-release`; then
-  plugins=(
-    git
-    sudo
-    docker
-    docker-compose
-    )
-fi
-source $ZSH/oh-my-zsh.sh
-# theme
-source $DOTFILES/shell/zsh-prompt.zsh-theme
-source $DOTFILES/shell/plugins.zsh
+source $HOME/.dotfiles/shell/plugins.zsh

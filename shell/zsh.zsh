@@ -1,13 +1,4 @@
 #  -- Exports --
-export DOTFILES="$HOME/.dotfiles"
-export TERM="screen-256color"
-export EDITOR=vim
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin:$HOME/.rvm/bin"
-export ZSH=$HOME/.oh-my-zsh
-export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
-  -c 'nnoremap i <nop>' \
-  -c 'nnoremap <Space> <C-f>' \
-  -c 'noremap q :quit<CR>' -\""
 # Enable command auto-correction.
 
 function biggest() {
