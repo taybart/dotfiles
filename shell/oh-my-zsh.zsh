@@ -1,3 +1,4 @@
+# Enable command auto-correction.
 export ENABLE_CORRECTION=true
 export DISABLE_AUTO_TITLE=true
 # zsh plugins

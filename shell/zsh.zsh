@@ -1,5 +1,4 @@
 #  -- Exports --
-# Enable command auto-correction.
 
 function biggest() {
   du -a $1 | sort -n -r | head -n 5
