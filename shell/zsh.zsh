@@ -12,10 +12,11 @@ function whereisip() {
 alias q="exit"
 alias :q="exit"
 alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
-alias startredis="docker run -p 6379:6379 redis"
+alias redis="docker run -p 6379:6379 redis"
 alias dev="ENV=development"
 alias lzd="lazydocker"
 alias virtualenv="python3 -m virtualenv"
+alias myip="curl https://taybart.com/ip"
 
 # Git Aliases
 alias gs="git status"

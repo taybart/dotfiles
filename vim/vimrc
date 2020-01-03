@@ -168,7 +168,6 @@ hi Search cterm=bold ctermbg=Yellow ctermfg=Black
 hi CursorLineNr term=bold ctermfg=Yellow
 hi CursorLine ctermbg=none
 hi Pmenu guibg=brown gui=bold
-
 " --------------------------- Keymaps -----------------------------------------
 let mapleader = "\<Space>"
 
@@ -265,7 +264,7 @@ nnoremap <leader>' V:s/'/"/g<CR>
 
 " fzf
 nnoremap <C-p> :Files<CR>
-nnoremap <C-s> :Rg<CR>
+nnoremap <C-s> :CtrlSF<space>
 nnoremap <C-a> :CtrlSF <C-r><C-w><CR>
 
 nnoremap <leader>a :QuickScopeToggle<CR>
