@@ -264,7 +264,7 @@ nnoremap <leader>' V:s/'/"/g<CR>
 
 " fzf
 nnoremap <C-p> :Files<CR>
-nnoremap <C-s> :CtrlSF<space>
+nnoremap <C-s> :Ag<space>
 nnoremap <C-a> :CtrlSF <C-r><C-w><CR>
 
 nnoremap <leader>a :QuickScopeToggle<CR>

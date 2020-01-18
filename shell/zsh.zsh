@@ -8,6 +8,14 @@ function whereisip() {
   curl ipinfo.io/$1
 }
 
+function b64 {
+  if [ "$1" = "-d" ]; then
+    echo -n $2 | base64 -d
+  else
+    echo -n $1 | base64 | pbcopy
+  fi
+}
+
 # -- Aliases --
 alias q="exit"
 alias :q="exit"
@@ -17,6 +25,7 @@ alias dev="ENV=development"
 alias lzd="lazydocker"
 alias virtualenv="python3 -m virtualenv"
 alias myip="curl https://taybart.com/ip"
+alias j="z"
 
 # Git Aliases
 alias gs="git status"
