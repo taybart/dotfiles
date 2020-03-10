@@ -60,6 +60,7 @@ let g:tmux_navigator_no_mappings = 1
 " The pope
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+command! G Ge :
 Plug 'tpope/vim-repeat'
 
 " coc.vim
