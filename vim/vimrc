@@ -39,8 +39,12 @@ Plug 'taybart/rest.vim'
 Plug 'tpope/vim-markdown'
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'javascript']
 
+Plug 'mphe/grayout.vim'
+
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['markdown']
+
+Plug 'christianrondeau/vim-base64'
 
 " Conveniance
 Plug 'ntpeters/vim-better-whitespace'
@@ -71,7 +75,7 @@ Plug 'Shougo/neosnippet-snippets'
 
 " Looks
 Plug 'majutsushi/tagbar'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
 " Limelight
@@ -293,6 +297,7 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <leader>cr :CocRestart<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -382,6 +387,7 @@ augroup vimrc_autocmd
   autocmd InsertLeave * set timeoutlen=1000
 
   " autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
+  autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
   autocmd WinEnter * call NERDTreeQuit()
 
