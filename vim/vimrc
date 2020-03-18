@@ -169,10 +169,10 @@ set tags=tags
 
 
 " Highlight
-hi Search cterm=bold ctermbg=Yellow ctermfg=Black
-hi CursorLineNr term=bold ctermfg=Yellow
-hi CursorLine ctermbg=none
-hi Pmenu guibg=brown gui=bold
+highlight Search cterm=bold ctermbg=Yellow ctermfg=Black
+highlight CursorLineNr term=bold ctermfg=Yellow
+highlight CursorLine ctermbg=none
+highlight Pmenu guibg=brown gui=bold
 " --------------------------- Keymaps -----------------------------------------
 let mapleader = "\<Space>"
 
@@ -180,17 +180,17 @@ let mapleader = "\<Space>"
 nnoremap <Leader>f :NERDTreeToggle<CR>
 
 " Tagbar
-nmap <F8> :TagbarToggle<CR>
+nnoremap <F8> :TagbarToggle<CR>
 nnoremap gd <c-]>
 
 " Turn off highlighted searching
 nnoremap <Leader>nh :set hlsearch!<CR>
 
 " Buffer control
-nmap <Leader>l :bnext<CR>
-nmap <Leader>n :bnext<CR>
-nmap <Leader>h :bprevious<CR>
-nmap <Leader>d :bp <BAR> bd #<CR>
+nnoremap <Leader>l :bnext<CR>
+nnoremap <Leader>n :bnext<CR>
+nnoremap <Leader>h :bprevious<CR>
+nnoremap <Leader>d :bp <BAR> bd #<CR>
 
 " tmux integration
 nnoremap <silent> <c-m> :TmuxNavigateDown<CR>
@@ -211,7 +211,7 @@ tnoremap jk <C-\><C-n>
 tnoremap <ESC> <C-\><C-n>
 
 " ------Make shit easier-----
-nmap <Leader>s<CR> :NERDTreeFind<CR>
+nnoremap <Leader>s<CR> :NERDTreeFind<CR>
 
 " Idiot proofing
 command! W w
@@ -232,8 +232,8 @@ imap KJ <Esc>
 cnoremap <c-j> <down>
 cnoremap <c-k> <up>
 " Allow for innerline navagation
-nmap j gj
-nmap k gk
+nnoremap j gj
+nnoremap k gk
 " Faster down and up
 nnoremap <c-j> 15gj
 vnoremap <c-j> 15gj
@@ -292,10 +292,10 @@ function! s:check_back_space() abort
 endfunction
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nnoremap <leader>rn <Plug>(coc-rename)
 " Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nnoremap <leader>cr :CocRestart<CR>
@@ -325,9 +325,9 @@ function! Light()
   set background=light
 endfunction
 
-au FileType python nnoremap <c-e> :!python %<CR>
-au FileType shell nnoremap <c-e> :!./%<CR>
-au FileType go nmap <leader>gt :GoDeclsDir<cr>
+autocmd FileType python nnoremap <c-e> :!python %<CR>
+autocmd FileType shell nnoremap <c-e> :!./%<CR>
+autocmd FileType go nnoremap <leader>gt :GoDeclsDir<cr>
 
 " -------------------------------- Goyo custom --------------------------------
 function! s:goyo_enter()

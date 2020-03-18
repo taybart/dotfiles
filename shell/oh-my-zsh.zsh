@@ -27,6 +27,8 @@ elif [ -f /etc/arch-release ]; then
   plugins=(
     git
     sudo
+    docker
+    kubectl
   )
 elif `grep -Fq Amazon /etc/system-release`; then
   plugins=(

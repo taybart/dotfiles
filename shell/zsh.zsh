@@ -37,6 +37,11 @@ alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 alias gitremovemerged="git branch --merged dev | grep -v dev | xargs -n 1 git branch -d"
 
+# K8s Aliases
+alias kc="kubectl"
+alias kcxt="kubectl config use-context"
+alias kcxts="kubectl config get-contexts"
+
 # Platform Specific
 platform=$(uname)
 if [ "$platform" = "Darwin" ]; then
