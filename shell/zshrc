@@ -11,3 +11,5 @@ export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nol
 source $HOME/.dotfiles/shell/oh-my-zsh.zsh
 source $HOME/.dotfiles/shell/zsh.zsh
 source $HOME/.dotfiles/shell/plugins.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

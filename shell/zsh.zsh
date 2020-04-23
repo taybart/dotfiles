@@ -1,21 +1,3 @@
-#  -- Exports --
-
-function biggest() {
-  du -a $1 | sort -n -r | head -n 5
-}
-
-function whereisip() {
-  curl ipinfo.io/$1
-}
-
-function b64 {
-  if [ "$1" = "-d" ]; then
-    echo -n $2 | base64 -d
-  else
-    echo -n $1 | base64 | pbcopy
-  fi
-}
-
 # -- Aliases --
 alias q="exit"
 alias :q="exit"
@@ -71,8 +53,11 @@ else
   # alias grep="grep -RIns --color --exclude=\"tags\""
   alias ls="ls -lh --color"
   alias xup="xrdb ~/.Xresources"
-  alias open="xdg-open"
   alias copy="xclip -sel clip"
+
+  function open {
+    xdg-open "$@" >/dev/null 2>&1
+  }
 
   if [ -f /etc/debian_version ]; then
     alias update="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get autoremove"
@@ -98,3 +83,19 @@ fi
 
 # -- Functions --
 alias newpw="head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-' | fold -w 32 | head -n 1 | copy"
+
+function biggest() {
+  du -a $1 | sort -n -r | head -n 5
+}
+
+function whereisip() {
+  curl ipinfo.io/$1
+}
+
+function b64 {
+  if [ "$1" = "-d" ]; then
+    echo -n $2 | base64 -d
+  else
+     base64 -w 0 $1 | copy
+  fi
+}
