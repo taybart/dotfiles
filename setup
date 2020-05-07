@@ -4,6 +4,8 @@ bash <(curl -s https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/t
 
 echo "zsh"
 rm -rf  $HOME/.zshrc
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+git clone https://github.com/rupa/z ~/.z
 ln -s $HOME/.dotfiles/shell/zshrc $HOME/.zshrc
 touch $HOME/.zshrc.local
 
