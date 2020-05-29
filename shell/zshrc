@@ -11,42 +11,25 @@ export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nol
 # Enable command auto-correction.
 export ENABLE_CORRECTION=true
 export DISABLE_AUTO_TITLE=true
+plugins=(
+  git
+  sudo
+  docker
+  docker-compose
+  kubectl
+)
 # zsh plugins
 platform=$(uname)
 if [ "$platform" = "Darwin" ]; then
-  plugins=(
-    docker
-    docker-compose
-    git
-  )
+  # plugins+=()
 elif [ -f /etc/debian_version ]; then
-  plugins=(
-    git
-    sudo
-    debian
-    docker-compose
-  )
-
+  # plugins=+()
 elif [ -f /etc/redhat-release ]; then
-  plugins=(
-    git
-    sudo
-    fedora
-  )
+  plugins=+(fedora)
 elif [ -f /etc/arch-release ]; then
-  plugins=(
-    git
-    sudo
-    docker
-    kubectl
-  )
-elif `grep -Fq Amazon /etc/system-release`; then
-  plugins=(
-    git
-    sudo
-    docker
-    docker-compose
-    )
+  # plugins=+()
+elif `grep -Fq Amazon /etc/system-release 2> /dev/null`; then
+  # plugins=+()
 fi
 source $ZSH/oh-my-zsh.sh
 
@@ -82,6 +65,20 @@ function kcxt() {
   else
     kubectl config use-context $1
   fi
+}
+
+function kcdns() {
+  kubectl apply -f https://k8s.io/examples/admin/dns/dnsutils.yaml
+  msg="waiting for pod"
+  echo -n $msg
+  while [[ $(kubectl get pod dnsutils -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+    sleep 1
+    msg="$msg."
+    echo "\e[0K\r$msg"
+  done
+
+  kubectl exec -ti dnsutils -- /bin/sh
+  kubectl delete -f https://k8s.io/examples/admin/dns/dnsutils.yaml
 }
 
 # Platform Specific
