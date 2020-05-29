@@ -131,7 +131,7 @@ else
     alias update="yay -Syu"
     alias install="yay -S"
     alias remove="yay -R"
-  elif `grep -Fq Amazon /etc/system-release`; then
+  elif `grep -Fq Amazon /etc/system-release 2> /dev/null`; then
     alias update="sudo yum update"
     alias install="sudo yum install"
     alias remove="sudo yum remove"
