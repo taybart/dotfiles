@@ -67,18 +67,19 @@ function kcxt() {
   fi
 }
 
-function kcdns() {
-  kubectl apply -f https://k8s.io/examples/admin/dns/dnsutils.yaml
+function triage() {
+  config=https://raw.githubusercontent.com/taybart/dotfiles/master/triage.yaml
+  kubectl apply -f $config
   msg="waiting for pod"
   echo -n $msg
-  while [[ $(kubectl get pod dnsutils -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+  while [[ $(kubectl get pod triage -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
     sleep 1
     msg="$msg."
     echo "\e[0K\r$msg"
   done
 
-  kubectl exec -ti dnsutils -- /bin/sh
-  kubectl delete -f https://k8s.io/examples/admin/dns/dnsutils.yaml
+  kubectl exec -ti triage -- /bin/zsh
+  kubectl delete -f $config
 }
 
 # Platform Specific
