@@ -32,7 +32,6 @@ RUN ln -s $ROOT/.dotfiles/shell/zshrc $ROOT/.zshrc
 RUN mkdir -p $ROOT/.config/nvim/colors
 RUN mkdir -p $ROOT/.config/nvim/autoload
 
-# ADD vim .dotfiles/vim
 ADD vim/vimrcs/vimrc.triage $ROOT/.config/nvim/init.vim
 ADD vim/plugin $ROOT/.config/nvim/plugin
 ADD vim/colors/gruvbox.vim $ROOT/.config/nvim/colors
