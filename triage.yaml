@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: tools
+  name: triage
   namespace: default
 spec:
   containers:
-  - name: tools
+  - name: triage
     image: taybart/tools
     command:
       - sleep

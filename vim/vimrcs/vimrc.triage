@@ -1,0 +1,388 @@
+let s:uname = system("echo -n \"$(uname)\"")
+" ----------------- Plugins ----------------------
+call plug#begin('~/.vim/plugged')
+
+" Fzf
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+" Nerdtree
+Plug 'scrooloose/nerdtree'
+" Use default vimrc motions
+let g:NERDTreeMapJumpNextSibling = ''
+let g:NERDTreeMapJumpPrevSibling = ''
+
+" Languages
+" vim-go
+Plug 'fatih/vim-go'
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_types = 1
+
+let g:go_auto_type_info = 0
+let g:go_highlight_operators = 0
+let g:go_highlight_structs = 0
+let g:go_highlight_interfaces = 0
+let g:go_fmt_options = '-s'
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
+let g:go_snippet_engine = 'neosnippet'
+let g:go_doc_keywordprg_enabled = 0
+
+Plug 'chrisbra/Colorizer'
+Plug 'taybart/rest.vim'
+Plug 'tpope/vim-markdown'
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go', 'javascript']
+
+Plug 'mphe/grayout.vim'
+
+Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['markdown']
+
+Plug 'christianrondeau/vim-base64'
+
+" Conveniance
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'unblevable/quick-scope'
+Plug 'dyng/ctrlsf.vim'
+" Nerd Commenter jsx
+Plug 'scrooloose/nerdcommenter'
+let g:NERDSpaceDelims = 1
+" tmux
+Plug 'christoomey/vim-tmux-navigator'
+let g:tmux_navigator_no_mappings = 1
+
+" The pope
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+command! G Ge :
+Plug 'tpope/vim-repeat'
+
+" coc.vim
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+let g:coc_enable_locationlist = 0
+
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+
+" Looks
+Plug 'majutsushi/tagbar'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" vim devicons
+Plug 'ryanoasis/vim-devicons'
+if exists("g:loaded_webdevicons")
+  call webdevicons#hardRefresh()
+endif
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:webdevicons_conceal_nerdtree_brackets=1
+let g:DevIconsEnableFoldersOpenClose = 1
+
+" Colorschemes
+Plug 'morhetz/gruvbox'
+call plug#end()
+
+" ---------------- Look ------------------------
+set background=dark
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline_powerline_fonts = 1
+
+" --------------- Sets/lets ---------------------
+syntax on
+filetype plugin indent on
+
+" Paren/bracket matching
+set showmatch
+" Color column
+set cursorline
+" Use relative number in normal mode and absolute number in insert mode
+set number
+set relativenumber
+" highlight
+set hlsearch
+" Buffers
+set hidden
+
+set shell=/bin/zsh
+
+set timeoutlen=1000 ttimeoutlen=0
+
+scriptencoding utf-8
+
+if !has('nvim')
+  set encoding=utf-8
+  set t_Co=256
+  set autoread
+  set nocompatible
+  set ttymouse=xterm2
+else
+set mouse=a
+  set inccommand=nosplit
+endif
+
+
+set lazyredraw
+set ttyfast
+set autowrite
+
+" Smart indent
+set smartindent
+
+" Tabs
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+
+" Stupid backspace issues
+set backspace=indent,eol,start
+
+" Set word wrapping
+set whichwrap+=<,>,h,l,[,]
+
+set clipboard=unnamedplus,unnamed
+
+" ctags
+set tags=tags
+
+
+" Highlight
+highlight Search cterm=bold ctermbg=Yellow ctermfg=Black
+highlight CursorLineNr term=bold ctermfg=Yellow
+highlight CursorLine ctermbg=none
+highlight Pmenu guibg=brown gui=bold
+" --------------------------- Keymaps -----------------------------------------
+let mapleader = "\<Space>"
+
+" NERDTree
+nnoremap <Leader>f :NERDTreeToggle<CR>
+
+" Tagbar
+nnoremap <F8> :TagbarToggle<CR>
+nnoremap gd <c-]>
+
+" Turn off highlighted searching
+nnoremap <Leader>nh :set hlsearch!<CR>
+
+" Buffer control
+nnoremap <Leader>l :bnext<CR>
+nnoremap <Leader>n :bnext<CR>
+nnoremap <Leader>h :bprevious<CR>
+nnoremap <Leader>d :bp <BAR> bd #<CR>
+
+" tmux integration
+nnoremap <silent> <c-m> :TmuxNavigateDown<CR>
+nnoremap <silent> <c-u> :TmuxNavigateUp<CR>
+nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
+nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
+nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
+
+" Move text
+nnoremap ∆ :m .+1<CR>==
+nnoremap ˚ :m .-2<CR>==
+inoremap ∆ <Esc>:m .+1<CR>==gi
+inoremap ˚ <Esc>:m .-2<CR>==gi
+vnoremap ∆ :m '>+1<CR>gv=gv
+vnoremap ˚ :m '<-2<CR>gv=gv
+
+tnoremap jk <C-\><C-n>
+tnoremap <ESC> <C-\><C-n>
+
+" ------Make shit easier-----
+nnoremap <Leader>s<CR> :NERDTreeFind<CR>
+
+" Idiot proofing
+command! W w
+command! Q q
+
+" Quickly open/reload vim
+nnoremap <leader>ev :e $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+" Easy escape from insert
+imap jk <Esc>
+imap jK <Esc>
+imap JK <Esc>
+imap kj <Esc>
+imap KJ <Esc>
+
+" -------- Movement --------
+" Allow for homerow up and down in command mode
+cnoremap <c-j> <down>
+cnoremap <c-k> <up>
+" Allow for innerline navagation
+nnoremap j gj
+nnoremap k gk
+" Faster down and up
+nnoremap <c-j> 15gj
+vnoremap <c-j> 15gj
+nnoremap <c-k> 15gk
+vnoremap <c-k> 15gk
+" End and beg of line easier
+nnoremap H ^
+nnoremap L $
+
+nnoremap tt :te zsh<CR>
+
+" -------- Formating --------
+" These create newlines like o and O but stay in normal mode
+nnoremap <silent> zj o<Esc>k
+nnoremap <silent> zk O<Esc>j
+" Add a space
+nnoremap <leader><leader> i <Esc>l
+" Fix all indents
+nnoremap <leader>t<CR> mzgg=G`z:w<CR>
+" Get rid of the fucking stupid OCD whitespace
+nnoremap <leader>w<CR> :%s/\s\+$//<CR>:w<CR>
+" Emacs indent
+nnoremap <Tab> ==
+vnoremap <Tab> =
+" Code jumping
+nnoremap <leader>jp /jumptag<CR>
+" Remove upper/lowercase in visual mode.
+vnoremap u <Esc>
+vnoremap U <Esc>
+
+" Change quotes
+nnoremap <leader>' V:s/'/"/g<CR>
+
+" fzf
+nnoremap <C-p> :Files<CR>
+nnoremap <C-s> :Ag<space>
+nnoremap <C-a> :CtrlSF <C-r><C-w><CR>
+
+nnoremap <leader>a :QuickScopeToggle<CR>
+
+" deoplete tabness
+" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+
+" coc.vim
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Remap for rename current word
+nnoremap <leader>rn <Plug>(coc-rename)
+" Use `[g` and `]g` to navigate diagnostics
+nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <leader>cr :CocRestart<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" vim-go
+command! GIM GoImports
+
+" Make dark
+command! Dark call Dark()
+function! Dark()
+  colorscheme gruvbox
+  set background=dark
+endfunction
+
+" Make light
+command! Light call Light()
+function! Light()
+  colorscheme PaperColor
+  set background=light
+endfunction
+
+autocmd FileType python nnoremap <c-e> :!python %<CR>
+autocmd FileType shell nnoremap <c-e> :!./%<CR>
+autocmd FileType go nnoremap <leader>gt :GoDeclsDir<cr>
+autocmd FileType helm setlocal commentstring=#\ %s
+
+" -------------------------------- Goyo custom --------------------------------
+function! s:goyo_enter()
+  if executable('tmux') && strlen($TMUX)
+    silent !tmux set status off
+    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+  endif
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+  Limelight
+endfunction
+
+function! s:goyo_leave()
+  if executable('tmux') && strlen($TMUX)
+    silent !tmux set status on
+    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+  endif
+  set showmode
+  set showcmd
+  set scrolloff=5
+  Limelight!
+endfunction
+
+" ---------------- Quit NERDTree if it is the last buffer --------------------
+function! NERDTreeQuit()
+  redir => buffersoutput
+  silent buffers
+  redir END
+  "                     1BufNo  2Mods.     3File           4LineNo
+  let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
+  let windowfound = 0
+
+  for bline in split(buffersoutput, "\n")
+    let m = matchlist(bline, pattern)
+
+    if (len(m) > 0)
+      if (m[2] =~ '..a..')
+        let windowfound = 1
+      endif
+    endif
+  endfor
+
+  if (!windowfound)
+    quitall
+  endif
+endfunction
+
+"--------------------------- Autocmds -----------------------------------------
+augroup vimrc_autocmd
+  autocmd!
+  autocmd StdinReadPre * let s:std_in=1
+  " no beeps
+  set noerrorbells visualbell t_vb=
+  autocmd GUIEnter * set visualbell t_vb=
+
+  autocmd InsertEnter * set timeoutlen=100
+  autocmd InsertLeave * set timeoutlen=1000
+
+  " autocmd FileType * autocmd BufWritePre <buffer> StripWhitespace
+  autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
+
+  autocmd WinEnter * call NERDTreeQuit()
+
+  autocmd! User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave nested call <SID>goyo_leave()
+augroup END
+

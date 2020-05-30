@@ -1,47 +1,47 @@
-FROM alpine
+FROM golang:1.14.3-alpine
 
 RUN apk update --no-cache
 RUN apk add \
-      bind-tools curl \
-      zsh bash tmux \
-      git \
       neovim \
-      fzf fd \
-      go nodejs python3 python3-dev
+      bind-tools curl fd git \
+      zsh bash
+
 # Neovim deps
-RUN pip3 install --upgrade pip setuptools wheel neovim
+# RUN apk add nodejs
+# RUN apk add python3 python3-dev && pip3 install --upgrade pip setuptools wheel neovim
 
 # ENV
-ENV DIR /root
-ENV GOPATH $DIR/.go
+ENV ROOT /root
+ENV GOPATH $ROOT/.go
 ENV PATH $GOPATH/bin:$PATH
 
-WORKDIR $DIR
-RUN git clone https://github.com/taybart/dotfiles .dotfiles
-
-
-RUN curl -s https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | /bin/zsh
+WORKDIR $ROOT
 
 # shell
-RUN rm  $DIR/.zshrc
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions $DIR/.dotfiles/shell/zsh-plugins/zsh-autosuggestions
-RUN git clone https://github.com/rupa/z $DIR/.dotfiles/shell/z
-RUN ln -s $DIR/.dotfiles/shell/zshrc $DIR/.zshrc
-RUN touch $DIR/.zshrc.local
+RUN mkdir -p .dotfiles/shell
+ADD shell/zshrc .dotfiles/shell
+ADD shell/zsh-prompt.zsh-theme .dotfiles/shell
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" >> /dev/null
 
-# tmux
-RUN ln -s $DIR/.dotfiles/tmux.conf $DIR/.tmux.conf
+RUN rm $ROOT/.zshrc
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions $ROOT/.dotfiles/shell/zsh-plugins/zsh-autosuggestions
+RUN git clone https://github.com/rupa/z $ROOT/.dotfiles/shell/z
+RUN ln -s $ROOT/.dotfiles/shell/zshrc $ROOT/.zshrc
 
 # nvim
-RUN rm -rf  $DIR/.vimrc $DIR/.vim
-RUN ln -s $DIR/.dotfiles/vim/vimrc $DIR/.vimrc
-RUN ln -s $DIR/.dotfiles/vim $DIR/.vim
-RUN mkdir -p $DIR/.config
-RUN ln -s $DIR/.dotfiles/vim $DIR/.config/nvim
-RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+RUN mkdir -p $ROOT/.config/nvim/colors
+RUN mkdir -p $ROOT/.config/nvim/autoload
+
+# ADD vim .dotfiles/vim
+ADD vim/vimrcs/vimrc.triage $ROOT/.config/nvim/init.vim
+ADD vim/plugin $ROOT/.config/nvim/plugin
+ADD vim/colors/gruvbox.vim $ROOT/.config/nvim/colors
+
+RUN curl -fLo ~/.config/nvim/autoload/plug.vim \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 RUN nvim --headless +PlugInstall +qa
 
 # Extra tools
-RUN go get -u github.com/taybart/fm
-RUN go get -u github.com/taybart/rest
-
+RUN go get -u -ldflags "-w -s" github.com/taybart/fm
+RUN go get -u -ldflags "-w -s" github.com/taybart/rest
