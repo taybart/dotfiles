@@ -3,7 +3,7 @@ FROM golang:1.14.3-alpine
 RUN apk update --no-cache
 RUN apk add \
       neovim \
-      bind-tools curl fd git \
+      bind-tools curl fd git jq \
       zsh bash
 
 # Neovim deps

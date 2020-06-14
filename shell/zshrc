@@ -3,10 +3,15 @@ export TERM="screen-256color"
 export EDITOR=vim
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin:$HOME/.rvm/bin"
 export ZSH=$HOME/.oh-my-zsh
-export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
+export MANPAGER="sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' \
+  -c 'au au TermClose * :q' \
   -c 'nnoremap i <nop>' \
   -c 'nnoremap <Space> <C-f>' \
   -c 'noremap q :quit<CR>' -\""
+# export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
+  # -c 'nnoremap i <nop>' \
+  # -c 'nnoremap <Space> <C-f>' \
+  # -c 'noremap q :quit<CR>' -\""
 
 # Enable command auto-correction.
 export ENABLE_CORRECTION=true
@@ -68,18 +73,21 @@ function kcxt() {
 }
 
 function triage() {
+  namespace=${1:-default}
+
   config=https://raw.githubusercontent.com/taybart/dotfiles/master/triage.yaml
   kubectl apply -f $config
   msg="waiting for pod"
   echo -n $msg
-  while [[ $(kubectl get pod triage -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+  while [[ $(kubectl get pod triage -n $namespace -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
     sleep 1
     msg="$msg."
-    echo "\e[0K\r$msg"
+    printf "\r$msg"
   done
+  printf "\n"
 
   kubectl exec -ti triage -- /bin/zsh
-  kubectl delete -f $config
+  kubectl delete -f $config  -n $namespace
 }
 
 # Platform Specific
