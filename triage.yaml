@@ -5,9 +5,9 @@ metadata:
 spec:
   containers:
   - name: triage
-    image: taybart/tools
+    image: taybart/tools:1.0.0
     command:
       - sleep
       - "3600"
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
   restartPolicy: Always
