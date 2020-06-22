@@ -30,7 +30,7 @@ if [ "$platform" = "Darwin" ]; then
 elif [ -f /etc/debian_version ]; then
   # plugins=+()
 elif [ -f /etc/redhat-release ]; then
-  plugins=+(fedora)
+  plugins=+(dnf)
 elif [ -f /etc/arch-release ]; then
   # plugins=+()
 elif `grep -Fq Amazon /etc/system-release 2> /dev/null`; then
