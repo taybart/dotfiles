@@ -76,18 +76,18 @@ function triage() {
   namespace=${1:-default}
 
   config=https://raw.githubusercontent.com/taybart/dotfiles/master/triage.yaml
-  kubectl apply -f $config
+  kubectl apply -n $namespace -f $config
   msg="waiting for pod"
   echo -n $msg
-  while [[ $(kubectl get pod triage -n $namespace -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+  while [[ $(kubectl get -n $namespace pod/triage -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
     sleep 1
     msg="$msg."
     printf "\r$msg"
   done
   printf "\n"
 
-  kubectl exec -ti triage -- /bin/zsh
-  kubectl delete -f $config  -n $namespace
+  kubectl exec -n $namespace -ti triage -- /bin/zsh
+  kubectl delete -n $namespace -f $config
 }
 
 # Platform Specific
