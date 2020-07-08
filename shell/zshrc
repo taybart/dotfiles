@@ -78,16 +78,22 @@ function triage() {
   config=https://raw.githubusercontent.com/taybart/dotfiles/master/triage.yaml
   kubectl apply -n $namespace -f $config
   msg="waiting for pod"
-  echo -n $msg
+  waittime=0
+  echo -n "$msg ${waittime}s"
   while [[ $(kubectl get -n $namespace pod/triage -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
     sleep 1
-    msg="$msg."
-    printf "\r$msg"
+    ((waittime++))
+    printf "\r$msg ${waittime}s"
   done
   printf "\n"
 
   kubectl exec -n $namespace -ti triage -- /bin/zsh
   kubectl delete -n $namespace -f $config
+}
+
+function restsb() {
+  mkdir -p $HOME/.tmp
+  nvim $HOME/.tmp/sandbox.rest
 }
 
 # Platform Specific
