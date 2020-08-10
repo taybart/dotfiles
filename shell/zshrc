@@ -17,7 +17,6 @@ export MANPAGER="sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' \
 export ENABLE_CORRECTION=true
 export DISABLE_AUTO_TITLE=true
 plugins=(
-  git
   sudo
   docker
   docker-compose
@@ -60,7 +59,7 @@ alias gpo=" git pull origin"
 alias gpom=" git pull origin master"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
-alias gitremovemerged="git branch --merged dev | grep -v dev | xargs -n 1 git branch -d"
+alias gitremovemerged="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 
 # K8s Aliases
 alias kc="kubectl"
