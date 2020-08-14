@@ -51,6 +51,12 @@ alias virtualenv="python3 -m virtualenv"
 alias myip="curl https://taybart.com/ip"
 alias j="z"
 
+function gobuildall() {
+  GOOS=linux go build -o linux $1
+  GOOS=darwin go build -o darwin  $1
+  GOOS=windows go build -o windows.exe $1
+}
+
 # Git Aliases
 alias gs="git status"
 alias gcm="git commit -m"
