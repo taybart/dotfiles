@@ -52,9 +52,9 @@ alias myip="curl https://taybart.com/ip"
 alias j="z"
 
 function gobuildall() {
-  GOOS=linux go build -o linux $1
-  GOOS=darwin go build -o darwin  $1
-  GOOS=windows go build -o windows.exe $1
+  GOOS=linux go build -o $2_linux $1
+  GOOS=darwin go build -o $2_darwin  $1
+  GOOS=windows go build -o $2_windows.exe $1
 }
 
 # Git Aliases

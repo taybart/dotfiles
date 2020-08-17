@@ -4,14 +4,8 @@
   "diagnostic.warningSign": "⚠",
   "diagnostic.locationlist": false,
   "javascript.validate.enable": false,
-  "languageserver": {
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
-      "filetypes": ["go"],
-      "initializationOptions": {
-        "usePlaceholders": true
-      }
-    }
+  "suggest.floatEnable": true,
+  "go.goplsEnv": {
+    "GOFLAGS": "-tags=kyc,idvcheck"
   }
 }
