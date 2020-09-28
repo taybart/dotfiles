@@ -83,6 +83,7 @@ Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/goyo.vim'
+Plug 'arzg/vim-colors-xcode'
 " Limelight
 Plug 'junegunn/limelight.vim'
 let g:limelight_conceal_ctermfg = 'DarkGray'
@@ -109,6 +110,9 @@ call plug#end()
 set background=dark
 colorscheme gruvbox
 let g:airline_theme='gruvbox'
+" set background=light
+" colorscheme xcodelight
+" let g:airline_theme='xcodelight'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -308,9 +312,10 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-autocmd FileType go nmap gtj :CocCommand go.tags.add json<cr>
-autocmd FileType go nmap gty :CocCommand go.tags.add yaml<cr>
-autocmd FileType go nmap gtx :CocCommand go.tags.clear<cr>
+au FileType go nmap gtj :CocCommand go.tags.add json<cr>
+au FileType go nmap gty :CocCommand go.tags.add yaml<cr>
+au FileType go nmap gtx :CocCommand go.tags.clear<cr>
+au FileType go nmap <leader>r <Plug>(go-run)
 
 xmap <silent> <C-s> <Plug>(coc-range-select)
 nmap <silent> <Leader>i <Plug>(coc-diagnostic-info)
