@@ -50,11 +50,12 @@ alias lzd="lazydocker"
 alias virtualenv="python3 -m virtualenv"
 alias myip="curl https://taybart.com/ip"
 alias j="z"
+alias ct="certool"
 
 function gobuildall() {
-  GOOS=linux go build -o $2_linux $1
-  GOOS=darwin go build -o $2_darwin  $1
-  GOOS=windows go build -o $2_windows.exe $1
+  GOOS=linux go build -ldflags '-s -w' -o $2_linux $1
+  GOOS=darwin go build -ldflags '-s -w' -o $2_darwin  $1
+  GOOS=windows go build -ldflags '-s -w' -o $2_windows.exe $1
 }
 
 # Git Aliases
@@ -65,17 +66,15 @@ alias gpo=" git pull origin"
 alias gpom=" git pull origin master"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
-alias gitremovemerged="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
+alias gitcleanmerged="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 
 # K8s Aliases
 alias kc="kubectl"
 function kcxt() {
-  if [[ -z $1 ]]; then
-    kubectl config get-contexts
-  else
-    kubectl config use-context $1
-  fi
+  [[ -z $1 ]] && kubectl config get-contexts || kubectl config use-context $1
 }
+
+alias newredis="helm install redis --set cluster.enabled=false --set usePassword=false bitnami/redis"
 
 function triage() {
   namespace=${1:-default}
@@ -188,6 +187,7 @@ sife ~/.fzf.zsh
 sife $DOTFILES/shell/z/z.sh
 sife $DOTFILES/shell/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^E' autosuggest-accept
+bindkey '^W' forward-word
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 unalias z 2> /dev/null
