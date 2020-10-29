@@ -60,13 +60,12 @@ function gobuildall() {
 
 # Git Aliases
 alias gs="git status"
+alias gf="git fetch --all --tags"
 alias gcm="git commit -m"
 alias gd="git diff --patience --ignore-space-change"
-alias gpo=" git pull origin"
-alias gpom=" git pull origin master"
+alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
 alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
-alias gitcleanmerged="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 
 # K8s Aliases
 alias kc="kubectl"
