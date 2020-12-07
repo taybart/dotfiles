@@ -13,8 +13,8 @@ else
   export MANPAGER='nvim +Man!'
 fi
 
-# Enable command auto-correction.
-export ENABLE_CORRECTION=true
+# Disable command auto-correction.
+export ENABLE_CORRECTION=false
 export DISABLE_AUTO_TITLE=true
 plugins=(
   sudo
@@ -29,7 +29,7 @@ if [ "$platform" = "Darwin" ]; then
 elif [ -f /etc/debian_version ]; then
   # plugins=+()
 elif [ -f /etc/redhat-release ]; then
-  plugins=+(dnf)
+  # plugins=+(dnf)
 elif [ -f /etc/arch-release ]; then
   # plugins=+()
 elif `grep -Fq Amazon /etc/system-release 2> /dev/null`; then
@@ -62,10 +62,9 @@ function gobuildall() {
 alias gs="git status"
 alias gf="git fetch --all --tags"
 alias gcm="git commit -m"
+alias gco="git checkout"
 alias gd="git diff --patience --ignore-space-change"
 alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
-alias gitadddeleted="git ls-files --deleted -z | xargs -0 git rm"
-alias gitdisabledirty="git config --add oh-my-zsh.hide-dirty 1"
 
 # K8s Aliases
 alias kc="kubectl"
@@ -74,6 +73,8 @@ function kcxt() {
 }
 
 alias newredis="helm install redis --set cluster.enabled=false --set usePassword=false bitnami/redis"
+
+alias notes="nvim ~/.notes/notes"
 
 function triage() {
   namespace=${1:-default}

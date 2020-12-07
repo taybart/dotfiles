@@ -300,6 +300,7 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -315,7 +316,7 @@ nmap <silent> gr <Plug>(coc-references)
 au FileType go nmap gtj :CocCommand go.tags.add json<cr>
 au FileType go nmap gty :CocCommand go.tags.add yaml<cr>
 au FileType go nmap gtx :CocCommand go.tags.clear<cr>
-au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>ru <Plug>(go-run)
 
 xmap <silent> <C-s> <Plug>(coc-range-select)
 nmap <silent> <Leader>i <Plug>(coc-diagnostic-info)
@@ -365,26 +366,35 @@ autocmd FileType helm setlocal commentstring=#\ %s
 
 " -------------------------------- Goyo custom --------------------------------
 function! s:goyo_enter()
-  if executable('tmux') && strlen($TMUX)
-    silent !tmux set status off
-    silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-  endif
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+
   set noshowmode
   set noshowcmd
   set scrolloff=999
-  Limelight
+  " Limelight
 endfunction
 
 function! s:goyo_leave()
-  if executable('tmux') && strlen($TMUX)
-    silent !tmux set status on
-    silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-  endif
   set showmode
   set showcmd
   set scrolloff=5
-  Limelight!
+  " Limelight!
+
+  " Quit Vim if this is the only remaining buffer
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
+    endif
+  endif
 endfunction
+
+" let g:goyo_callbacks = [function('g:goyo_before'), function('g:goyo_after')]
 
 " ---------------- Quit NERDTree if it is the last buffer --------------------
 function! NERDTreeQuit()
