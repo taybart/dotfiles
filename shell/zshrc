@@ -3,15 +3,15 @@ export TERM="screen-256color"
 export EDITOR=vim
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin:$HOME/.rvm/bin"
 export ZSH=$HOME/.oh-my-zsh
-export MANPAGER="sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' \
-  -c 'au au TermClose * :q' \
-  -c 'nnoremap i <nop>' \
-  -c 'nnoremap <Space> <C-f>' \
-  -c 'noremap q :quit<CR>' -\""
-# export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
-  # -c 'nnoremap i <nop>' \
-  # -c 'nnoremap <Space> <C-f>' \
-  # -c 'noremap q :quit<CR>' -\""
+
+if ! type "nvim" > /dev/null; then
+  export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
+    -c 'nnoremap i <nop>' \
+    -c 'nnoremap <Space> <C-f>' \
+    -c 'noremap q :quit<CR>' -\""
+else
+  export MANPAGER='nvim +Man!'
+fi
 
 # Enable command auto-correction.
 export ENABLE_CORRECTION=true
