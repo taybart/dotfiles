@@ -9,9 +9,9 @@ if ! type "nvim" > /dev/null; then
     -c 'nnoremap i <nop>' \
     -c 'nnoremap <Space> <C-f>' \
     -c 'noremap q :quit<CR>' -\""
-    else
-      export EDITOR=nvim
-      export MANPAGER='nvim +Man!'
+else
+  export EDITOR=nvim
+  export MANPAGER='nvim +Man!'
 fi
 
 # -- Plugins --

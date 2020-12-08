@@ -6,6 +6,6 @@
   "javascript.validate.enable": false,
   "suggest.floatEnable": true,
   "go.goplsEnv": {
-    "GOFLAGS": "-tags=kyc,idvcheck"
+    "GOFLAGS": "-tags=kyc,authenticating"
   }
 }

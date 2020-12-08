@@ -50,6 +50,9 @@ Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['markdown']
 
 
+""" neosnippets
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 """ Nerd Commenter " good bye sweet prince...me want to get closers to vim
 " Plug 'scrooloose/nerdcommenter'

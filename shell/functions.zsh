@@ -1,4 +1,4 @@
-# -- Functions --
+# ~~ random ~~
 alias newpw="head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-' | fold -w 32 | head -n 1 | copy"
 
 function biggest() {
@@ -17,10 +17,7 @@ function b64 {
   fi
 }
 
-function sife() {
-  [ -f $1 ] && source $1
-}
-
+# ~~ rest ~~
 function restsb() {
   mkdir -p $HOME/.tmp
   nvim $HOME/.tmp/sandbox.rest
@@ -50,6 +47,7 @@ function triage() {
   kubectl delete -n $namespace -f $config
 }
 
+# ~~ go ~~
 function gobuildall() {
   GOOS=linux go build -ldflags '-s -w' -o $2_linux $1
   GOOS=darwin go build -ldflags '-s -w' -o $2_darwin  $1

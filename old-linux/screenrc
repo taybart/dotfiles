@@ -1,6 +1,0 @@
-term xterm-256color
-hardstatus on
-hardstatus alwayslastline
-hardstatus string "%{= KW} %-Lw%{= bW}%n%f %t%{-}%+Lw"
-vbell off
-bell_msg ""
