@@ -147,14 +147,15 @@ colorscheme gruvbox
 " colorscheme papercolor
 let g:airline_theme='papercolor'
 
+let g:goyo_mode = 0
 " add numbers
 set number relativenumber
 augroup numbertoggle
   au!
-  au BufEnter,FocusGained,InsertLeave * if &filetype != "nerdtree" && &filetype != "tagbar"
+  au BufEnter,FocusGained,InsertLeave * if &filetype != "nerdtree" && &filetype != "tagbar" && !g:goyo_mode
         \ | set relativenumber
         \ | endif
-  au BufLeave,FocusLost,InsertEnter * if &filetype != "nerdtree" && &filetype != "tagbar"
+  au BufLeave,FocusLost,InsertEnter * if &filetype != "nerdtree" && &filetype != "tagbar" && !g:goyo_mode
         \ | set norelativenumber
         \ | endif
 augroup END
@@ -315,6 +316,8 @@ augroup vimrc_autocmd
   " au FileType * autocmd BufWritePre <buffer> StripWhitespace
   au BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
+  au BufWritePre * :call CocAction('format')
+
   au WinEnter * call NERDTreeQuit()
 
   au! User GoyoEnter nested call <SID>goyo_enter()
@@ -359,6 +362,9 @@ function! s:goyo_enter()
   set noshowmode
   set noshowcmd
   set scrolloff=999
+  set norelativenumber
+
+  let g:goyo_mode = 1
   " Limelight
 endfunction
 
@@ -368,6 +374,7 @@ function! s:goyo_leave()
   set scrolloff=5
   " Limelight!
 
+  let g:goyo_mode = 0
   " Quit Vim if this is the only remaining buffer
   if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
     if b:quitting_bang
