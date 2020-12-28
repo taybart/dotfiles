@@ -9,16 +9,16 @@ Plug 'junegunn/fzf.vim'
 " keybind
 nnoremap <C-p> :Files<CR>
 
-""" nerdtree
-Plug 'scrooloose/nerdtree'
-" Use default vimrc motions
-let g:NERDTreeMapJumpNextSibling = ''
-let g:NERDTreeMapJumpPrevSibling = ''
-let g:NERDTreeShowLineNumbers = 0
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+let g:fern#renderer = 'nerdfont'
+let g:fern#disable_default_mappings = 1
 
 """ tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_no_mappings = 1
+
 
 "~~~~ code ~~~~
 """ rest.vim
@@ -44,6 +44,7 @@ let g:coc_global_extensions = [
 
 """ base64
 Plug 'christianrondeau/vim-base64'
+
 
 """ polyglot
 Plug 'sheerun/vim-polyglot'
@@ -86,11 +87,6 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
-""" devicons
-Plug 'ryanoasis/vim-devicons'
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:webdevicons_conceal_nerdtree_brackets=1
-let g:DevIconsEnableFoldersOpenClose = 1
 
 " Colorizer
 " make colored terminal pipes look ok
@@ -113,7 +109,7 @@ set shell=/bin/zsh
 set timeoutlen=1000 ttimeoutlen=0
 
 " use system clipboard
-set clipboard=unnamedplus,unnamed
+set clipboard+=unnamedplus,unnamed
 
 " add line wrapping
 set whichwrap+=<,>,h,l,[,]
@@ -181,8 +177,8 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 command! W w
 command! Q q
 
-" NERDTree
-nnoremap <Leader>f :NERDTreeToggle<CR>
+" fern
+noremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<CR>
 
 "~~~~~~~~~~~~~~~~~~~
 "~~~~ MOVEMENT ~~~~~
@@ -287,9 +283,9 @@ vnoremap <silent> <leader>be :<c-u>call base64#v_btoa()<cr>
 
 
 " fix sourcing vimrc messing up devicons
-if exists("g:loaded_webdevicons")
-  call webdevicons#refresh()
-endif
+" if exists("g:loaded_webdevicons")
+"   call webdevicons#refresh()
+" endif
 
 " the pope - commentary
 augroup commentary
@@ -297,9 +293,6 @@ augroup commentary
   au FileType helm setlocal commentstring=#\ %s
   au FileType svelte setlocal commentstring=<!--\ %s\ -->
 augroup END
-
-
-
 
 
 "--------------------------- Autocmds -----------------------------------------
@@ -318,7 +311,6 @@ augroup vimrc_autocmd
 
   au BufWritePre * :call CocAction('format')
 
-  au WinEnter * call NERDTreeQuit()
 
   au! User GoyoEnter nested call <SID>goyo_enter()
   au! User GoyoLeave nested call <SID>goyo_leave()
@@ -326,30 +318,53 @@ augroup END
 
 
 
-" ---------------- Quit NERDTree if it is the last buffer --------------------
-function! NERDTreeQuit()
-  redir => buffersoutput
-  silent buffers
-  redir END
-  "                     1BufNo  2Mods.     3File           4LineNo
-  let pattern = '^\s*\(\d\+\)\(.....\) "\(.*\)"\s\+line \(\d\+\)$'
-  let windowfound = 0
+" ------------------------------ fern -----------------------------------------
 
-  for bline in split(buffersoutput, "\n")
-    let m = matchlist(bline, pattern)
+" Disable netrw.
+let g:loaded_netrw  = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_netrwSettings = 1
+let g:loaded_netrwFileHandlers = 1
 
-    if (len(m) > 0)
-      if (m[2] =~ '..a..')
-        let windowfound = 1
-      endif
-    endif
-  endfor
+augroup my-fern-hijack
+  autocmd!
+  autocmd BufEnter * ++nested call s:hijack_directory()
+augroup END
 
-  if (!windowfound)
-    quitall
+
+function! s:hijack_directory() abort
+  let path = expand('%:p')
+  if !isdirectory(path)
+    return
   endif
+  bwipeout %
+  execute printf('Fern %s', fnameescape(path))
+endfunction
+function! FernInit() abort
+  nmap <buffer><expr>
+        \ <Plug>(fern-my-open-expand-collapse)
+        \ fern#smart#leaf(
+        \   "\<Plug>(fern-action-open:select)",
+        \   "\<Plug>(fern-action-expand)",
+        \   "\<Plug>(fern-action-collapse)",
+        \ )
+  nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> n <Plug>(fern-action-new-path)
+  nmap <buffer> d <Plug>(fern-action-remove)
+  nmap <buffer> m <Plug>(fern-action-move)
+  nmap <buffer> M <Plug>(fern-action-rename)
+  nmap <buffer> h <Plug>(fern-action-hidden-toggle)
+  nmap <buffer> R <Plug>(fern-action-reload)
+  nmap <buffer> e <Plug>(fern-action-mark:toggle)
+  nmap <buffer><nowait> < <Plug>(fern-action-leave)
+  nmap <buffer><nowait> > <Plug>(fern-action-enter)
 endfunction
 
+augroup FernGroup
+  autocmd!
+  autocmd FileType fern call FernInit()
+augroup END
 
 " -------------------------------- Goyo custom --------------------------------
 function! s:goyo_enter()

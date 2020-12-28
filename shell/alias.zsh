@@ -8,7 +8,7 @@ alias lzd="lazydocker"
 alias virtualenv="python3 -m virtualenv"
 alias myip="curl https://taybart.com/ip"
 alias j="z"
-alias ct="certool"
+alias ct="certs"
 
 # Git Aliases
 alias gs="git status"
