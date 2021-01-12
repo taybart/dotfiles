@@ -20,7 +20,7 @@ elif [ -f /etc/redhat-release ]; then
 elif [ -f /etc/arch-release ]; then
   alias update="yay -Syu"
   alias install="yay -S"
-  alias remove="yay -R"
+  alias remove="yay -Rcns"
 elif `grep -Fq Amazon /etc/system-release 2> /dev/null`; then
   alias update="sudo yum update"
   alias install="sudo yum install"
