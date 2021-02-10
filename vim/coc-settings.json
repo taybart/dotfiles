@@ -4,8 +4,9 @@
   "diagnostic.warningSign": "⚠",
   "diagnostic.locationlist": false,
   "javascript.validate.enable": false,
+  "prettier.semi": false,
   "suggest.floatEnable": true,
   "go.goplsEnv": {
-    "GOFLAGS": "-tags=kyc,authenticating"
+    "GOFLAGS": "-tags=auth,parser"
   }
 }

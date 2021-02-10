@@ -37,11 +37,11 @@ let g:coc_global_extensions = [
   \'coc-tsserver',
   \'coc-prettier',
   \'coc-eslint',
-  \'coc-css',
   \'coc-html',
   \'coc-json',
 \]
 
+  " \'coc-css',
 """ base64
 Plug 'christianrondeau/vim-base64'
 
@@ -280,7 +280,7 @@ nnoremap <F8> :TagbarToggle<CR>
 vnoremap <silent> <leader>bd :<c-u>call base64#v_atob()<cr>
 vnoremap <silent> <leader>be :<c-u>call base64#v_btoa()<cr>
 
-
+nnoremap <C-a> :Ag <C-r><C-w><CR>
 
 " fix sourcing vimrc messing up devicons
 " if exists("g:loaded_webdevicons")
@@ -292,6 +292,7 @@ augroup commentary
   au!
   au FileType helm setlocal commentstring=#\ %s
   au FileType svelte setlocal commentstring=<!--\ %s\ -->
+  au FileType gomod setlocal commentstring=//\ %s
 augroup END
 
 
@@ -340,6 +341,7 @@ function! s:hijack_directory() abort
   bwipeout %
   execute printf('Fern %s', fnameescape(path))
 endfunction
+
 function! FernInit() abort
   nmap <buffer><expr>
         \ <Plug>(fern-my-open-expand-collapse)
@@ -351,7 +353,7 @@ function! FernInit() abort
   nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
   nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
   nmap <buffer> n <Plug>(fern-action-new-path)
-  nmap <buffer> d <Plug>(fern-action-remove)
+  nmap <buffer><nowait> d <Plug>(fern-action-remove)
   nmap <buffer> m <Plug>(fern-action-move)
   nmap <buffer> M <Plug>(fern-action-rename)
   nmap <buffer> h <Plug>(fern-action-hidden-toggle)
