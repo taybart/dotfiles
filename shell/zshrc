@@ -1,7 +1,7 @@
 export DOTFILES="$HOME/.dotfiles"
 export TERM="screen-256color"
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.cargo/bin:$HOME/.rvm/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.local/bin:$HOME/.cargo/bin"
 
 if ! type "nvim" > /dev/null; then
   export EDITOR=vim
@@ -62,3 +62,5 @@ autoload -U +X bashcompinit && bashcompinit
 
 # -- Sources --
 sife $HOME/.zshrc.local
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
