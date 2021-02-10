@@ -47,6 +47,13 @@ function triage() {
   kubectl delete -n $namespace -f $config
 }
 
+function addRedisTo() {
+  if [[ -z $1 ]]; then
+    echo "Namespace required"
+  fi
+  helm install -n $1 redis bitnami/redis --set cluster.enabled=false --set usePassword=false
+}
+
 # ~~ go ~~
 function gobuildall() {
   GOOS=linux go build -ldflags '-s -w' -o $2_linux $1
