@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# */5 * * * * curl -s wttr.in/Denver\?format\="+%c%20%t" > ~/.weather.cache
+
 function update_holder {
   local instance="$1"
   local replacement="$2"
