@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 
-# */5 * * * * curl -s wttr.in/Denver\?format\="+%c%20%t" > ~/.weather.cache
+# */5 * * * * curl -s wttr.in/Denver\?format\="%C+%c+%t" > ~/.weather.cache
 
 function update_holder {
   local instance="$1"
   local replacement="$2"
   echo "$json_array" | jq --argjson arg_j "$replacement" "(.[] | (select(.instance==\"$instance\"))) |= \$arg_j" 
-}
-
-function remove_holder {
-  local instance="$1"
-  echo "$json_array" | jq "del(.[] | (select(.instance==\"$instance\")))"
 }
 
 i3status | (read line; echo "$line"; read line ; echo "$line" ; read line ; echo "$line" ; while true

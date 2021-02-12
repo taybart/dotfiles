@@ -281,7 +281,7 @@ bar {
 	tray_output DP-4
 
 
-  status_command exec ~/.i3/status.sh
+  status_command exec ~/.config/i3status/status.sh
   tray_output primary
 
 	i3bar_command i3bar
