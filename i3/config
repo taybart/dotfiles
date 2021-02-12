@@ -222,6 +222,7 @@ for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
 for_window [class="Simple-scan"] floating enable border normal
 for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="zoom"] floating enable normal
+# for_window [title="Slack | Slack call*"] floating enable
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -279,8 +280,12 @@ client.background       #2B2C2B
 bar {
 	tray_output DP-4
 
+
+  status_command exec ~/.i3/status.sh
+  tray_output primary
+
 	i3bar_command i3bar
-	status_command i3status
+	# status_command i3status
 	position top
 
 	bindsym button4 nop
@@ -313,7 +318,7 @@ gaps outer -2
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
-smart_borders on
+smart_borders no_gaps
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner

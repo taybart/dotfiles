@@ -1,0 +1,16 @@
+general {
+        output_format = i3bar
+        colors = true
+        interval = 1
+}
+
+order += "tztime holder__weather"
+order += "tztime local"
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S |"
+}
+
+tztime holder__weather {
+  format = "holder__weather"
+}
