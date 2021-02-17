@@ -1,4 +1,8 @@
-# ~~ random ~~
+# ~~ util ~~
+function usingport {
+  sudo ss -lptn "sport = :$1"
+}
+
 alias newpw="head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-' | fold -w 32 | head -n 1 | copy"
 
 function biggest() {
@@ -59,4 +63,24 @@ function gobuildall() {
   GOOS=linux go build -ldflags '-s -w' -o $2_linux $1
   GOOS=darwin go build -ldflags '-s -w' -o $2_darwin  $1
   GOOS=windows go build -ldflags '-s -w' -o $2_windows.exe $1
+}
+
+function gosb() {
+  ret=$(pwd)
+  r=$(head -c 8 /dev/random | base64)
+  folder=~/.tmp/sandbox_$r
+  mkdir -p $folder
+  cd $folder
+  go mod init sandbox
+  echo "package main\n\nfunc main() {\n}" > main.go
+  nvim main.go
+  cd $ret
+  read "remove?Delete sandbox? [Y/n] "
+  if [[ "$remove" =~ ^[Yy]$ ]]; then
+    rm -rf $folder
+  else
+    read "name?Name: "
+    mkdir -p ~/dev/sandboxes
+    mv $folder ~/dev/sandboxes/$name
+  fi
 }
