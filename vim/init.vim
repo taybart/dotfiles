@@ -248,7 +248,8 @@ command! -nargs=0 Format :call CocAction('format')
 au FileType go nmap gtj :CocCommand go.tags.add json<cr>
 au FileType go nmap gty :CocCommand go.tags.add yaml<cr>
 au FileType go nmap gtx :CocCommand go.tags.clear<cr>
-au FileType go nmap <leader>r <Plug>(go-run)
+" au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>r :!go run %<cr>
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
