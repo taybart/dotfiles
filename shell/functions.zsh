@@ -29,7 +29,11 @@ function restsb() {
 
 # ~~ kubernetes ~~
 function kcxt() {
-  [[ -z $1 ]] && kubectl config get-contexts || kubectl config use-context $1
+  if [[ -z $1 ]]; then
+    kubectl config get-contexts | awk '/^[^*|CURRENT]/{print $1} /^\*/{print "\033[1;32m" $2 "\033[0m "}'
+  else
+    kubectl config use-context $1
+  fi
 }
 
 function triage() {
