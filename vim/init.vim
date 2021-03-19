@@ -35,13 +35,12 @@ let g:coc_enable_locationlist = 0
 let g:coc_global_extensions = [
   \'coc-go',
   \'coc-tsserver',
-  \'coc-prettier',
   \'coc-eslint',
   \'coc-html',
   \'coc-json',
+  \'coc-yaml',
 \]
 
-  " \'coc-css',
 """ base64
 Plug 'christianrondeau/vim-base64'
 
@@ -50,6 +49,7 @@ Plug 'christianrondeau/vim-base64'
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['markdown']
 
+au BufRead,BufNewFile *.tmpl setfiletype gohtmltmpl
 
 """ neosnippets
 Plug 'Shougo/neosnippet.vim'

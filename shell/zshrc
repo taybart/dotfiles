@@ -39,8 +39,8 @@ source $DOTFILES/shell/zsh-prompt.zsh-theme
 # source if exists
 function sife() { [ -f $1 ] && source $1 }
 
-sife $DOTFILES/shell/functions.zsh
 sife $DOTFILES/shell/alias.zsh
+sife $DOTFILES/shell/functions.zsh
 
 bindkey '^E' autosuggest-accept
 bindkey '^ ' forward-word

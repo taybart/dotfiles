@@ -2,11 +2,7 @@
   "suggest.enablePreselect": false,
   "diagnostic.errorSign": "✗",
   "diagnostic.warningSign": "⚠",
-  "diagnostic.locationlist": false,
   "javascript.validate.enable": false,
-  "prettier.semi": false,
-  "suggest.floatEnable": true,
-  "go.goplsEnv": {
-    "GOFLAGS": "-tags=auth,parser"
-  }
+  "eslint.autoFixOnSave": true,
+  "suggest.floatEnable": true
 }

@@ -1,9 +1,29 @@
+
 # ~~ util ~~
+function dotenv {
+  if [ -f "./.env" ]; then
+    eval $(egrep -v '^#' .env | xargs) $@
+  else
+    echo "No .env file exits"
+    exit 1
+  fi
+}
 function usingport {
   sudo ss -lptn "sport = :$1"
 }
 
-alias newpw="head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-' | fold -w 32 | head -n 1 | copy"
+function copyrand() {
+  charset='a-zA-Z0-9~!@#$%^&*_-'
+  size=32
+  if [ ! -z $1 ]; then
+    charset=$1
+  fi
+
+  if [ ! -z $2 ]; then
+    size=$2
+  fi
+  head /dev/urandom | tr -dc "$charset" | fold -w $size | head -n 1 | tr -d '\n' | copy
+}
 
 function biggest() {
   du -a $1 | sort -n -r | head -n 5
@@ -35,6 +55,21 @@ function kcxt() {
     kubectl config use-context $1
   fi
 }
+
+# function kcxt() {
+#   if [[ -z $1 ]]; then
+#       kubectl config get-contexts | awk '/^[^*|CURRENT]/{print $1} /^\*/{print "\033[1;32m" $2 "\033[0m "}'
+#   elif [[ $# -ge 1 ]]; then
+#     case "$1" in
+#       "ns" | "namespace" | "-ns" | "-namespace")
+#         kubectl config set-context --current --namespace="$2"
+#       ;;
+#       *)
+#         kubectl config use-context "$1"
+#       ;;
+#     esac
+#   fi
+# }
 
 function triage() {
   namespace=${1:-default}
@@ -77,14 +112,14 @@ function gosb() {
   cd $folder
   go mod init sandbox
   echo "package main\n\nfunc main() {\n}" > main.go
-  nvim main.go
+  nvim -c 'exe "normal jj"' main.go
   cd $ret
   read "remove?Delete sandbox? [Y/n] "
-  if [[ "$remove" =~ ^[Yy]$ ]]; then
-    rm -rf $folder
-  else
+  if [[ "$remove" =~ ^[Nn]$ ]]; then
     read "name?Name: "
     mkdir -p ~/dev/sandboxes
     mv $folder ~/dev/sandboxes/$name
+  else
+    rm -rf $folder
   fi
 }
