@@ -3,7 +3,7 @@ FROM alpine:latest
 RUN apk update --no-cache
 RUN apk add \
       neovim \
-      bind-tools curl fd git jq \
+      sudo bind-tools curl fd git jq \
       zsh bash go
 
 # ENV

@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - name: triage
-    image: taybart/tools:1.0.2
+    image: taybart/tools:1.0.3
     command:
       - sleep
       - "3600"
