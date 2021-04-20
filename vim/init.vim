@@ -154,10 +154,10 @@ let g:goyo_mode = 0
 set number relativenumber
 augroup numbertoggle
   au!
-  au BufEnter,FocusGained,InsertLeave * if &filetype != "nerdtree" && &filetype != "tagbar" && !g:goyo_mode
+  au BufEnter,FocusGained,InsertLeave * if &filetype != "tagbar" && !g:goyo_mode
         \ | set relativenumber
         \ | endif
-  au BufLeave,FocusLost,InsertEnter * if &filetype != "nerdtree" && &filetype != "tagbar" && !g:goyo_mode
+  au BufLeave,FocusLost,InsertEnter * if &filetype != "tagbar" && !g:goyo_mode
         \ | set norelativenumber
         \ | endif
 augroup END
@@ -315,9 +315,9 @@ augroup vimrc_autocmd
   au InsertLeave * set timeoutlen=1000
 
   " au FileType * autocmd BufWritePre <buffer> StripWhitespace
-  au BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
+  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
-  au BufWritePre * :call CocAction('format')
+  au BufWritePre * :silent call CocAction('format')
 
 
   au! User GoyoEnter nested call <SID>goyo_enter()

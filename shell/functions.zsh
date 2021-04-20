@@ -56,6 +56,25 @@ function kcxt() {
   fi
 }
 
+function kcrepl() {
+  ns=default
+  if [[ $1 =~ ^(-n|--namespace) ]]; then
+    if [ -z $2 ]; then
+      echo "No namespace provided"
+      return 1
+    fi
+    ns=$2
+  fi
+  echo $ns
+  while true; do
+    read "cmd?-> "
+    if [ $cmd =~ "s-ns .*" ]; then
+      ns=asdf
+    fi
+    eval "kubectl -n $ns $cmd"
+  done
+}
+
 # function kcxt() {
 #   if [[ -z $1 ]]; then
 #       kubectl config get-contexts | awk '/^[^*|CURRENT]/{print $1} /^\*/{print "\033[1;32m" $2 "\033[0m "}'
@@ -106,7 +125,7 @@ function gobuildall() {
 
 function gosb() {
   ret=$(pwd)
-  r=$(head -c 8 /dev/random | base64)
+  r=$(head -c 8 /dev/random | base64 | tr -d '/')
   folder=~/.tmp/sandbox_$r
   mkdir -p $folder
   cd $folder

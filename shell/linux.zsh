@@ -25,4 +25,8 @@ elif `grep -Fq Amazon /etc/system-release 2> /dev/null`; then
   alias update="sudo yum update"
   alias install="sudo yum install"
   alias remove="sudo yum remove"
+elif [ -f /etc/alpine-release ]; then
+  alias update="sudo apk update"
+  alias install="sudo apk add"
+  alias remove="sudo apk del"
 fi

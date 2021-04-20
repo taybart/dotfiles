@@ -1,14 +1,10 @@
-FROM golang:1.14.3-alpine
+FROM alpine:latest
 
 RUN apk update --no-cache
 RUN apk add \
       neovim \
       bind-tools curl fd git jq \
-      zsh bash
-
-# Neovim deps
-# RUN apk add nodejs
-# RUN apk add python3 python3-dev && pip3 install --upgrade pip setuptools wheel neovim
+      zsh bash go
 
 # ENV
 ENV ROOT /root
@@ -18,15 +14,10 @@ ENV PATH $GOPATH/bin:$PATH
 WORKDIR $ROOT
 
 # shell
-RUN mkdir -p .dotfiles/shell
-ADD shell/zshrc .dotfiles/shell
-ADD shell/zsh-prompt.zsh-theme .dotfiles/shell
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" >> /dev/null
+ADD shell .dotfiles/shell
 
-RUN rm $ROOT/.zshrc
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions $ROOT/.dotfiles/shell/zsh-plugins/zsh-autosuggestions
-RUN git clone https://github.com/rupa/z $ROOT/.dotfiles/shell/z
 RUN ln -s $ROOT/.dotfiles/shell/zshrc $ROOT/.zshrc
+RUN $ROOT/.dotfiles/shell/get_antibody.sh -b /usr/local/bin
 
 # nvim
 RUN mkdir -p $ROOT/.config/nvim/colors
@@ -44,3 +35,4 @@ RUN nvim --headless +PlugInstall +qa
 # Extra tools
 RUN go get -u -ldflags "-w -s" github.com/taybart/fm
 RUN go get -u -ldflags "-w -s" github.com/taybart/rest
+

@@ -15,23 +15,22 @@ else
 fi
 
 # -- Plugins --
-#
-[[ ! -a $HOME/.antigen.zsh ]] && curl -L git.io/antigen > $HOME/.antigen.zsh
-source $HOME/.antigen.zsh
-antigen use oh-my-zsh
-
-antigen bundle z
-antigen bundle fzf
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-completions
-
-antigen bundle sudo
-antigen bundle docker
-antigen bundle docker-compose
-antigen bundle kubectl
-
-antigen apply
+if ! type "antibody" > /dev/null; then
+  $DOTFILES/shell/get_antibody.sh -b $HOME/.local/bin
+fi
+source <(antibody init)
+antibody bundle <<BUNDLE
+ohmyzsh/ohmyzsh
+ohmyzsh/ohmyzsh path:plugins/z
+ohmyzsh/ohmyzsh path:plugins/fzf
+ohmyzsh/ohmyzsh path:plugins/sudo
+ohmyzsh/ohmyzsh path:plugins/docker
+ohmyzsh/ohmyzsh path:plugins/docker-compose
+ohmyzsh/ohmyzsh path:plugins/kubectl
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-completions
+BUNDLE
 
 # theme
 source $DOTFILES/shell/zsh-prompt.zsh-theme
@@ -56,7 +55,7 @@ z() {
 export ENABLE_CORRECTION=false
 export DISABLE_AUTO_TITLE=true
 
-
+autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 [ -f /usr/local/bin/mc ] && complete -o nospace -C /usr/local/bin/mc mc
 
