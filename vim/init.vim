@@ -9,11 +9,15 @@ Plug 'junegunn/fzf.vim'
 " keybind
 nnoremap <C-p> :Files<CR>
 
+""" fern file explorer
 Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-hijack.vim'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 let g:fern#renderer = 'nerdfont'
 let g:fern#disable_default_mappings = 1
+
+Plug 'antoinemadec/FixCursorHold.nvim' " weird performance issue fix for coc/fern
 
 """ tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
@@ -48,6 +52,7 @@ Plug 'christianrondeau/vim-base64'
 """ polyglot
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['markdown']
+Plug 'ARM9/arm-syntax-vim'
 
 au BufRead,BufNewFile *.tmpl setfiletype gohtmltmpl
 
@@ -67,7 +72,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-command! G Ge :
+" command! G Ge :
+command! Gconflict :Gvdiffsplit!
 
 "~~~~ notes ~~~~
 Plug 'xolox/vim-notes'
@@ -321,27 +327,6 @@ augroup END
 
 
 " ------------------------------ fern -----------------------------------------
-
-" Disable netrw.
-let g:loaded_netrw  = 1
-let g:loaded_netrwPlugin = 1
-let g:loaded_netrwSettings = 1
-let g:loaded_netrwFileHandlers = 1
-
-augroup my-fern-hijack
-  autocmd!
-  autocmd BufEnter * ++nested call s:hijack_directory()
-augroup END
-
-
-function! s:hijack_directory() abort
-  let path = expand('%:p')
-  if !isdirectory(path)
-    return
-  endif
-  bwipeout %
-  execute printf('Fern %s', fnameescape(path))
-endfunction
 
 function! FernInit() abort
   nmap <buffer><expr>
