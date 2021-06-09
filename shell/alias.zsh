@@ -20,7 +20,7 @@ alias gd="git diff --patience --ignore-space-change"
 alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 
 # K8s Aliases
-alias kc="kubectl"
+# alias kc="kubectl"
 
 alias newredis="helm install redis --set cluster.enabled=false --set usePassword=false bitnami/redis"
 

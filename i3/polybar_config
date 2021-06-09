@@ -35,7 +35,7 @@ dark = #2e2e2e
 
 ############# LEFT
 [bar/left]
-monitor = DP-4
+monitor = DP-1
 width = 100%
 height = 30
 radius = 0.0
@@ -59,10 +59,11 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Font Awesome 5 Pro Regular:style=Regular:size=12;3
+font-0 = Noto Sans:size=12;
 font-1 = Noto Color Emoji:scale=10;
-font-2 = siji:pixelsize=10;
-font-3 = Symbola:style=Regular:size=12
+font-2 = Font Awesome 5 Pro:style=Regular:size=12;3
+font-3 = siji:pixelsize=10;
+font-4 = Symbola:style=Regular:size=12
 
 modules-left = i3
 modules-center = weather
@@ -75,7 +76,7 @@ cursor-scroll = ns-resize
 
 ########### RIGHT
 [bar/right]
-monitor = DP-0
+monitor = DP-3
 width = 100%
 height = 30
 radius = 0.0
@@ -160,5 +161,6 @@ format-prefix-foreground = ${colors.foreground-alt}
 ; format-underline = #0a6cf5
 
 [module/weather]
+; */5 * * * * /usr/bin/curl -s wttr.in/Denver\?u\&format\=\%C+\%c+\%f\ | sed 's/\xef\xb8\x8f//' > /home/taylor/.cache/weather
 type = custom/script
-exec = cat $HOME/.weather.cache
+exec = cat $HOME/.cache/weather

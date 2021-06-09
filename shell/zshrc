@@ -18,6 +18,7 @@ fi
 if ! type "antibody" > /dev/null; then
   $DOTFILES/shell/get_antibody.sh -b $HOME/.local/bin
 fi
+
 source <(antibody init)
 antibody bundle <<BUNDLE
 ohmyzsh/ohmyzsh

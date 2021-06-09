@@ -5,7 +5,7 @@ function dotenv {
     eval $(egrep -v '^#' .env | xargs) $@
   else
     echo "No .env file exits"
-    exit 1
+    return 1
   fi
 }
 function usingport {
@@ -15,14 +15,27 @@ function usingport {
 function copyrand() {
   charset='a-zA-Z0-9~!@#$%^&*_-'
   size=32
+
   if [ ! -z $1 ]; then
-    charset=$1
+    size=$1
   fi
 
   if [ ! -z $2 ]; then
-    size=$2
+    case "$2" in
+      alpha)    charset='a-zA-Z' ;;
+      alphanum) charset='a-zA-Z0-9' ;;
+      graph)    charset='A-Za-z0-9!#$%&()*+,\-./:;<=>?@[\\\]^_`{|}~' ;;
+      base64)   charset='__base64__' ;;
+      hex)      charset='0-9a-f' ;;
+      *)        charset=$1 ;;
+    esac
   fi
-  head /dev/urandom | tr -dc "$charset" | fold -w $size | head -n 1 | tr -d '\n' | copy
+
+  if [ $charset = '__base64__' ]; then
+    head -c $size /dev/urandom | base64 | copy
+  else
+    head /dev/urandom | tr -dc "$charset" | fold -w $size | head -n 1 | tr -d '\n' | copy
+  fi
 }
 
 function biggest() {
@@ -56,23 +69,35 @@ function kcxt() {
   fi
 }
 
-function kcrepl() {
-  ns=default
-  if [[ $1 =~ ^(-n|--namespace) ]]; then
-    if [ -z $2 ]; then
-      echo "No namespace provided"
-      return 1
-    fi
-    ns=$2
+function kc() {
+  if [ $# != 0 ]; then
+    kubectl $@
+    return $?
   fi
-  echo $ns
-  while true; do
-    read "cmd?-> "
-    if [ $cmd =~ "s-ns .*" ]; then
-      ns=asdf
+  ns=default
+  while read "cmd?-> "; do
+    if [[ "$cmd" =~ "ns (.*)" ]]; then
+      ns=$match[1]
+      echo "switched namepace to $ns"
+    else
+      eval "kubectl -n $ns $cmd"
     fi
-    eval "kubectl -n $ns $cmd"
   done
+}
+
+function testREPL() {
+
+local HISTFILE
+# -p push history list into a stack, and create a new list
+# -a automatically pop the history list when exiting this scope...
+HISTFILE=$HOME/.tmp/zshscripthist
+fc -ap # read 'man zshbuiltins' entry for 'fc'
+
+while IFS="" vared -p "input> " -c line; do
+   echo $line
+   print -S $line # places $line (split by spaces) into the history list...
+   line=
+done
 }
 
 # function kcxt() {

@@ -22,7 +22,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # restart compositor
-bindsym $mod+t exec --no-startup-id pkill picom
+# bindsym $mod+t exec --no-startup-id pkill picom
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -30,7 +30,9 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+Shift+d exec --no-startup-id dmenu_recency
+# bindsym $mod+Shift+d exec --no-startup-id dmenu_recency
+bindsym $mod+Shift+d exec --no-startup-id rofi -show run -theme ~/.config/rofi/theme
+bindsym $mod+Tab exec rofi -show window
 
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
@@ -42,27 +44,13 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec kitty --title terminal
 
 # Screenshot
 bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
 
 # Set shut down, restart and locking features
-bindsym $mod+0 mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
-    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
-
-    # exit system mode: "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+bindsym $mod+0 exec /home/taylor/.config/rofi/powermenu.sh
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -80,26 +68,27 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym $mod+9 exec --no-startup-id blurlock
+# bindsym $mod+9 exec --no-startup-id blurlock
 
 # hide/unhide i3status bar
-bindsym $mod+m bar mode toggle
+# bindsym $mod+m bar mode toggle
 
 ################################################################################
 #####                         Startup Programs                             #####
 ################################################################################
-exec --no-startup-id xautolock -time 10 -locker blurlock
-exec --no-startup-id start-pulseaudio-x11
-exec --no-startup-id pa-applet
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; picom -b -C
-exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
-exec --no-startup-id blueman-tray
-exec --no-startup-id $HOME/.screenlayout/dual.sh
+# exec --no-startup-id xautolock -time 10 -locker blurlock
+# exec --no-startup-id start-pulseaudio-x11
+# exec --no-startup-id pa-applet
+# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# exec --no-startup-id nitrogen --restore; sleep 1; picom -b -C
+# exec --no-startup-id nm-applet
+# exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id pamac-tray
+# exec_always --no-startup-id ff-theme-util
+# exec_always --no-startup-id fix_xcursor
+# exec --no-startup-id blueman-tray
+# exec --no-startup-id $HOME/.screenlayout/dual.sh
+exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
 
 
 ################################################################################
@@ -164,9 +153,12 @@ bindsym $mod+Ctrl+Left workspace prev
 # to display names or symbols instead of plain workspace numbers you can use
 # something like: set $ws1 1:mail
 #                 set $ws2 2:
-set $ws1 1:💻
-set $ws2 2:
-set $ws3 3:🖏
+# set $ws1 1:💻
+# set $ws2 2:
+# set $ws3 3:🖏
+set $ws1 1
+set $ws2 2
+set $ws3 3
 set $ws4 4
 set $ws5 5
 set $ws6 6
@@ -207,7 +199,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 #####                             Windows                                 ######
 ################################################################################
 # Open specific applications in floating mode
-for_window [class="Pcmanfm"] floating enable normal
+for_window [class="Thunar"] floating enable normal
 for_window [title="alsamixer"] floating enable border pixel 1
 for_window [class="calamares"] floating enable border normal
 for_window [title="File Transfer*"] floating enable
@@ -222,6 +214,7 @@ for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
 for_window [class="Simple-scan"] floating enable border normal
 for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="zoom"] floating enable normal
+for_window [class="blueman-manager"] floating enable normal
 # for_window [title="Slack | Slack call*"] floating enable
 
 # switch to workspace with urgent window automatically
@@ -234,12 +227,12 @@ for_window [urgent=latest] focus
 ################################################################################
 
 # Fonts
-# font xft:Fira Code 10
-font xft:URWGothic-Book 11
+font xft:FiraCode Nerd Font 10
+# font xft:URWGothic-Book 11
 
 # Borders
 default_border pixel 1
-default_floating_border normal
+default_floating_border pixel 1
 # Hide borders
 hide_edge_borders none
 
@@ -273,48 +266,14 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000
 client.background       #2B2C2B
 
 ################################################################################
-#######                              i3bar                               #######
-################################################################################
-
-# Start i3bar to display a workspace bar (plus the system information i3status if available)
-bar {
-	tray_output DP-4
-
-
-  status_command exec ~/.config/i3status/status.sh
-  tray_output primary
-
-	i3bar_command i3bar
-	# status_command i3status
-	position top
-
-	bindsym button4 nop
-	bindsym button5 nop
-	strip_workspace_numbers yes
-
-    colors {
-        background #222D31
-        statusline #F9FAF9
-        separator  #454947
-
-        #                  border  backgr. text
-        focused_workspace  #F9FAF9 #16a085 #292F34
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
-        binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #E5201D
-    }
-}
-
-
-
-################################################################################
 #####                               Gaps                                   #####
 ################################################################################
 
 # Set inner/outer gaps
-gaps inner 14
-gaps outer -2
+gaps inner 10
+gaps outer 5
+
+gaps top 28
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
