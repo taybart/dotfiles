@@ -1,6 +1,7 @@
 alias ls="ls -lh --color"
 alias xup="xrdb ~/.Xresources"
 alias copy="xclip -sel clip"
+alias xup="xrdb ~/.Xresources"
 
 function open {
   xdg-open "$@" >/dev/null 2>&1
