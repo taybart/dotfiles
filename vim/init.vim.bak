@@ -3,17 +3,11 @@
 "==============================
 call plug#begin('~/.vim/plugged')
 
-"~~~~ code ~~~~
 """ fzf
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
-" nnoremap <C-p> :Files<CR>
-
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-nnoremap <C-p> :Telescope find_files<CR>
-nnoremap <C-s> :Telescope live_grep<CR>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" keybind
+nnoremap <C-p> :Files<CR>
 
 """ fern file explorer
 Plug 'lambdalisue/fern.vim'
@@ -23,38 +17,56 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 let g:fern#renderer = 'nerdfont'
 let g:fern#disable_default_mappings = 1
 
+" let g:netrw_banner = 0     " Hide annoying 'help' banner
+" let g:netrw_liststyle = 3  " Use tree view
+" let g:netrw_winsize = '30' " Smaller default window size
+
+Plug 'antoinemadec/FixCursorHold.nvim' " weird performance issue fix for coc/fern
+
 """ tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_no_mappings = 1
 
-""" tree-sitter configs
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-""" nvim lsp configs
-Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
-
-""" completion with lsp
-" Plug 'hrsh7th/nvim-compe'
-Plug 'nvim-lua/completion-nvim'
-
+"~~~~ code ~~~~
 """ rest.vim
 Plug 'taybart/rest.vim'
-"
+" Plug 'transcoder'
 """ tagbar
 Plug 'majutsushi/tagbar'
+""" coc.vim
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Better display for messages
+" set cmdheight=2
+" set updatetime=300
+let g:coc_enable_locationlist = 0
+let g:coc_global_extensions = [
+  \'coc-go',
+  \'coc-tsserver',
+  \'coc-eslint',
+  \'coc-html',
+  \'coc-json',
+  \'coc-yaml',
+\]
 
 """ base64
 Plug 'christianrondeau/vim-base64'
 
+
 """ polyglot
-" Plug 'sheerun/vim-polyglot'
-" let g:polyglot_disabled = ['markdown']
-" Plug 'ARM9/arm-syntax-vim'
+Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['markdown']
+Plug 'ARM9/arm-syntax-vim'
+
+au BufRead,BufNewFile *.tmpl setfiletype gohtmltmpl
 
 """ neosnippets
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+
+""" Nerd Commenter " good bye sweet prince...me want to get closers to vim
+" Plug 'scrooloose/nerdcommenter'
+" let g:NERDSpaceDelims = 1
 
 """ 🙏 the pope
 Plug 'tpope/vim-markdown'
@@ -64,6 +76,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+" command! G Ge :
 command! Gconflict :Gvdiffsplit!
 
 "~~~~ notes ~~~~
@@ -76,13 +89,13 @@ Plug 'junegunn/goyo.vim'
 "~~~~ looks ~~~~
 """ dark
 Plug 'morhetz/gruvbox'
-" Plug 'rktjmp/lush.nvim'
-" Plug 'npxbr/gruvbox.nvim'
-
+""" light
+" Plug 'vim-scripts/PaperColor.vim'
 """ airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
 
 " Colorizer
@@ -95,53 +108,18 @@ Plug 'dyng/ctrlsf.vim'
 
 call plug#end()
 
-lua <<EOF
-require('nvim-treesitter.configs').setup {
-ensure_installed = "maintained",
-highlight = { enable = true },
-}
+" let g:netrw_banner = 0
+" " let g:netrw_list_hide = '^\.\.\=/\=$,.DS_Store,.idea,.git,__pycache__,venv,node_modules,*\.o,*\.pyc,.*\.swp'
+" let g:netrw_hide = 1
+" let g:netrw_browse_split = 4
+" let g:netrw_altv = 1
+" let g:netrw_liststyle = 4
+" let g:netrw_winsize = 20
+" augroup navigator
+"   autocmd!
+"   autocmd FileType netrw unmap <buffer> <C-l>
+" augroup END
 
-require('lspinstall').setup() -- important
-
-local function setup_servers()
-  require('lspinstall').setup()
-  local servers = require('lspinstall').installed_servers()
-  for _, server in pairs(servers) do
-    require('lspconfig')[server].setup{}
-  end
-end
-
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
-
-require('telescope').setup{
-  defaults = {
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case'
-    },
-  }
-}
-
-vim.fn.sign_define("LspDiagnosticsSignError",
-    {text = "✗", texthl = "GruvboxRed"})
-vim.fn.sign_define("LspDiagnosticsSignWarning",
-    {text = "", texthl = "GruvboxYellow"})
-vim.fn.sign_define("LspDiagnosticsSignInformation",
-    {text = "", texthl = "GruvboxBlue"})
-vim.fn.sign_define("LspDiagnosticsSignHint",
-    {text = "", texthl = "GruvboxAqua"})
-EOF
 
 "==============================
 "========= Vim config =========
@@ -155,12 +133,6 @@ set timeoutlen=1000 ttimeoutlen=0
 
 " use system clipboard
 set clipboard+=unnamedplus,unnamed
-
-" better completion actions
-set completeopt=menuone,noinsert,noselect
-
-" cleaner completions
-set shortmess+=c
 
 " add line wrapping
 set whichwrap+=<,>,h,l,[,]
@@ -179,9 +151,9 @@ set softtabstop=2
 set mouse=a
 
 " show incomplete commands (like substitute)
-set inccommand=nosplit
-
-runtime! languages/*.vim
+if has('nvim')
+	set inccommand=nosplit
+endif
 
 "~~~~~~~~~~~~~~~~~~~
 "~~~~~ Looks ~~~~~~~
@@ -207,39 +179,7 @@ augroup numbertoggle
         \ | endif
 augroup END
 
-" Errors in Red
-hi LspDiagnosticsVirtualTextError guifg=Red ctermfg=Red
-" Warnings in Yellow
-hi LspDiagnosticsVirtualTextWarning guifg=Yellow ctermfg=Yellow
-" Info and Hints in White
-hi LspDiagnosticsVirtualTextInformation guifg=White ctermfg=White
-hi LspDiagnosticsVirtualTextHint guifg=White ctermfg=White
-
-" Underline the offending code
-hi LspDiagnosticsUnderlineError guifg=NONE ctermfg=NONE cterm=underline gui=underline
-hi LspDiagnosticsUnderlineWarning guifg=NONE ctermfg=NONE cterm=underline gui=underline
-hi LspDiagnosticsUnderlineInformation guifg=NONE ctermfg=NONE cterm=underline gui=underline
-hi LspDiagnosticsUnderlineHint guifg=NONE ctermfg=NONE cterm=underline gui=underline
-
-
-
-
-hi TelescopeSelection      guifg=Red gui=bold " selected item
-" hi TelescopeSelectionCaret guifg=#CC241D " selection caret
-" hi TelescopeMultiSelection guifg=#928374 " multisections
-" hi TelescopeNormal         guibg=#00000  " floating windows created by telescope.
-
-" " Border hi groups.
-" hi TelescopeBorder         guifg=#ffffff
-" hi TelescopePromptBorder   guifg=#ffffff
-" hi TelescopeResultsBorder  guifg=#ffffff
-" hi TelescopePreviewBorder  guifg=#ffffff
-
-" " Used for hiing characters that you match.
-" hi TelescopeMatching       guifg=blue
-
-" " Used for the prompt prefix
-" hi TelescopePromptPrefix   guifg=red
+" set relativenumber
 
 
 "==============================
@@ -262,6 +202,7 @@ command! Q q
 
 " fern
 noremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<CR>
+" noremap <silent> <Leader>f :Lexplore<CR>
 
 "~~~~~~~~~~~~~~~~~~~
 "~~~~ MOVEMENT ~~~~~
@@ -315,22 +256,50 @@ nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
 nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
 nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
 
-" escape in terminal
+" nnoremap <leader>\ :vs term://zsh<cr>
+" nnoremap <leader>- :sp term://zsh<cr>
 tnoremap <Esc> <C-\><C-n>
 
+" coc.vim
+nnoremap <leader>cr :CocRestart<CR>
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
 
-" LSP
-nnoremap <silent> gD :lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gi :lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> K  :lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_prev()<CR>
+au FileType go nmap gtj :CocCommand go.tags.add json<cr>
+au FileType go nmap gty :CocCommand go.tags.add yaml<cr>
+au FileType go nmap gtx :CocCommand go.tags.clear<cr>
+" au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>r :!go run %<cr>
 
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR>
@@ -340,36 +309,43 @@ nnoremap <F8> :TagbarToggle<CR>
 vnoremap <silent> <leader>bd :<c-u>call base64#v_atob()<cr>
 vnoremap <silent> <leader>be :<c-u>call base64#v_btoa()<cr>
 
-" Search under cursor
 nnoremap <C-a> :Rg <C-r><C-w><CR>
 
-"--------------------------- Autocmds -----------------------------------------
-augroup vimrc_autocmd
-  au!
-  " au StdinReadPre * let s:std_in=1
-  " no beeps
-  " set noerrorbells visualbell t_vb=
-  " au GUIEnter * set visualbell t_vb=
+" fix sourcing vimrc messing up devicons
+" if exists("g:loaded_webdevicons")
+"   call webdevicons#refresh()
+" endif
 
-  au InsertEnter * set timeoutlen=100
-  au InsertLeave * set timeoutlen=1000
-
-  au! User GoyoEnter nested call <SID>goyo_enter()
-  au! User GoyoLeave nested call <SID>goyo_leave()
-augroup END
-
-augroup language_autocmd
-  au!
-  autocmd BufEnter * lua require'completion'.on_attach()
-  " au FileType * autocmd BufWritePre <buffer> StripWhitespace
-augroup END
-
+" the pope - commentary
 augroup commentary
   au!
   au FileType helm setlocal commentstring=#\ %s
   au FileType svelte setlocal commentstring=<!--\ %s\ -->
   au FileType gomod setlocal commentstring=//\ %s
 augroup END
+
+
+"--------------------------- Autocmds -----------------------------------------
+augroup vimrc_autocmd
+  au!
+  au StdinReadPre * let s:std_in=1
+  " no beeps
+  set noerrorbells visualbell t_vb=
+  au GUIEnter * set visualbell t_vb=
+
+  au InsertEnter * set timeoutlen=100
+  au InsertLeave * set timeoutlen=1000
+
+  " au FileType * autocmd BufWritePre <buffer> StripWhitespace
+  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
+  au BufWritePre * :silent call CocAction('format')
+
+
+  au! User GoyoEnter nested call <SID>goyo_enter()
+  au! User GoyoLeave nested call <SID>goyo_leave()
+augroup END
+
 
 
 " ------------------------------ fern -----------------------------------------
