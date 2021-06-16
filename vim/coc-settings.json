@@ -1,8 +1,0 @@
-{
-  "suggest.enablePreselect": false,
-  "diagnostic.errorSign": "✗",
-  "diagnostic.warningSign": "⚠",
-  "javascript.validate.enable": false,
-  "eslint.autoFixOnSave": true,
-  "suggest.floatEnable": true
-}

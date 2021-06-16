@@ -9,7 +9,11 @@ function dotenv {
   fi
 }
 function usingport {
-  sudo ss -lptn "sport = :$1"
+  if [[ $2 == "-kill" ]]; then
+    sudo ss -lptn "sport = :$1" | rg -o "pid=(\d+)" -r '$1' | xargs kill -9
+  else
+    sudo ss -lptn "sport = :$1"
+  fi
 }
 
 function copyrand() {
