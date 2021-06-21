@@ -107,7 +107,7 @@ nnoremap <C-a> :Rg <C-r><C-w><CR>
 
 
 " add json tags to go struct, single level only atm
-nnoremap <leader>gtj vi{:s/\(\w\+\)\s\+\(\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . "\""/g<cr>
+nnoremap <leader>gtj vi{:s/\(\w\+\)\s\+\(\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . ",omitempty\""/g<cr>:noh<cr>
 
 " ------------------------------ fern -----------------------------------------
 
