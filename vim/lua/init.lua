@@ -24,26 +24,36 @@ require('lspinstall').post_install_hook = function ()
 end
 
 -- LSP
-local nvim_lsp = require('lspconfig')
-local nvim_command = vim.api.nvim_command
+vim.fn.sign_define("LspDiagnosticsSignError",
+    {text = "✗", texthl = "GruvboxRed"})
+vim.fn.sign_define("LspDiagnosticsSignWarning",
+    {text = "", texthl = "GruvboxYellow"})
+vim.fn.sign_define("LspDiagnosticsSignInformation",
+    {text = "", texthl = "GruvboxBlue"})
+vim.fn.sign_define("LspDiagnosticsSignHint",
+    {text = "", texthl = "GruvboxAqua"})
 
 -- Set keymap if attached
 local on_attach = function(client, bufnr)
-  vim.api.nvim_set_keymap('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', 'gd', ':lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', '[d', ':lua vim.lsp.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', ']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
-  vim.api.nvim_set_keymap('n', 'E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', { noremap = true, silent = true })
-  -- command! Format lua vim.lsp.buf.formatting()
+  local opts = { noremap=true, silent=true }
+  vim.api.nvim_set_keymap('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>', opts)
+  vim.api.nvim_set_keymap('n', 'gd', ':lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_set_keymap('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_set_keymap('n', '[d', ':lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  vim.api.nvim_set_keymap('n', ']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  vim.api.nvim_set_keymap('n', 'E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 
 
   vim.cmd([[
+  command! Format lua vim.lsp.buf.formatting()
   autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
   autocmd BufWritePre *.go lua go_organize_imports_sync(1000)
+  " autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
   ]])
 end
+
+local nvim_lsp = require('lspconfig')
 
 nvim_lsp.gopls.setup{
 on_attach = on_attach,
@@ -57,15 +67,10 @@ settings = {
   },
 }
 
-vim.fn.sign_define("LspDiagnosticsSignError",
-    {text = "✗", texthl = "GruvboxRed"})
-vim.fn.sign_define("LspDiagnosticsSignWarning",
-    {text = "", texthl = "GruvboxYellow"})
-vim.fn.sign_define("LspDiagnosticsSignInformation",
-    {text = "", texthl = "GruvboxBlue"})
-vim.fn.sign_define("LspDiagnosticsSignHint",
-    {text = "", texthl = "GruvboxAqua"})
-
+local servers = { "tsserver", "typescript" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
 
 function go_organize_imports_sync(timeoutms)
   local context = {source = {organizeImports = true}}
@@ -78,11 +83,13 @@ function go_organize_imports_sync(timeoutms)
   local resp = vim.lsp.buf_request_sync(0, method, params, timeoutms)
 
   -- imports is indexed with clientid so we cannot rely on index always is 1
-  for _, v in next, resp, nil do
-    local result = v.result
-    if result and result[1] then
-      local edit = result[1].edit
-      vim.lsp.util.apply_workspace_edit(edit)
+  if (resp ~= nil) then
+    for _, v in next, resp, nil do
+      local result = v.result
+      if result and result[1] then
+        local edit = result[1].edit
+        vim.lsp.util.apply_workspace_edit(edit)
+      end
     end
   end
   -- Always do formating

@@ -4,16 +4,16 @@
 call plug#begin('~/.vim/plugged')
 "~~~~ code ~~~~
 """ fzf
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
-" nnoremap <C-p> :Files<CR>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+nnoremap <C-p> :Files<CR>
 
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-nnoremap <C-p> :Telescope find_files<CR>
-nnoremap <C-s> :Telescope live_grep<CR>
+" Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
+" Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+" nnoremap <C-p> :Telescope find_files<CR>
+" nnoremap <C-s> :Telescope live_grep<CR>
 
 """ fern file explorer
 Plug 'lambdalisue/fern.vim'

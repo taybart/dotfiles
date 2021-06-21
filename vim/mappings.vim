@@ -76,8 +76,20 @@ nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
 " escape in terminal
 tnoremap <Esc> <C-\><C-n>
 
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR>
@@ -89,6 +101,13 @@ vnoremap <silent> <leader>be :<c-u>call base64#v_btoa()<cr>
 
 " Search under cursor
 nnoremap <C-a> :Rg <C-r><C-w><CR>
+
+
+" command! ConfEdit
+
+
+" add json tags to go struct, single level only atm
+nnoremap <leader>gtj vi{:s/\(\w\+\)\s\+\(\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . "\""/g<cr>
 
 " ------------------------------ fern -----------------------------------------
 
