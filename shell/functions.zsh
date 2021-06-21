@@ -1,5 +1,17 @@
 
 # ~~ util ~~
+function config {
+  read "t?[sh/vi] "
+  case "${t}" in
+    'sh')
+      nvim ~/.dotfiles/shell
+      ;;
+      *)
+      nvim ~/.dotfiles/vim/init.vim ~/.dotfiles/vim/lua/init.lua ~/.dotfiles/vim/plugins.vim ~/.dotfiles/vim/*.vim
+  esac
+}
+
+
 function dotenv {
   if [ -f "./.env" ]; then
     eval $(egrep -v '^#' .env | xargs) $@
@@ -67,7 +79,9 @@ function restsb() {
 # ~~ kubernetes ~~
 function kcxt() {
   if [[ -z $1 ]]; then
-    kubectl config get-contexts | awk '/^[^*|CURRENT]/{print $1} /^\*/{print "\033[1;32m" $2 "\033[0m "}'
+    kubectl config get-contexts | awk '/^[^*|current]/{print $1} /^\*/{print "\033[1;32m" $2 "\033[0m "}'
+  elif [ $1 = "-current" ]; then
+    kubectl config get-contexts | awk '/^\*/{print $2}'
   else
     kubectl config use-context $1
   fi
@@ -75,6 +89,9 @@ function kcxt() {
 
 function kc() {
   if [ $# != 0 ]; then
+    if [ $(kcxt -current) = "production" ]; then
+      echo "WARNING: in production context"
+    fi
     kubectl $@
     return $?
   fi
@@ -90,18 +107,17 @@ function kc() {
 }
 
 function testREPL() {
+  local HISTFILE
+  # -p push history list into a stack, and create a new list
+  # -a automatically pop the history list when exiting this scope...
+  HISTFILE=$HOME/.tmp/zshscripthist
+  fc -ap # read 'man zshbuiltins' entry for 'fc'
 
-local HISTFILE
-# -p push history list into a stack, and create a new list
-# -a automatically pop the history list when exiting this scope...
-HISTFILE=$HOME/.tmp/zshscripthist
-fc -ap # read 'man zshbuiltins' entry for 'fc'
-
-while IFS="" vared -p "input> " -c line; do
-   echo $line
-   print -S $line # places $line (split by spaces) into the history list...
-   line=
-done
+  while IFS="" vared -p "input> " -c line; do
+    echo $line
+    print -S $line # places $line (split by spaces) into the history list...
+    line=
+  done
 }
 
 # function kcxt() {
