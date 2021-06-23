@@ -1,7 +1,7 @@
 "==============================
 "=========== Plugins ==========
 "==============================
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 "~~~~ code ~~~~
 """ fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -31,18 +31,30 @@ let g:tmux_navigator_no_mappings = 1
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 """ nvim lsp configs
-Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'kabouzeid/nvim-lspinstall'
 
 """ completion with lsp
-Plug 'hrsh7th/nvim-compe'
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.source = {
-      \ 'path': v:true,
-      \ 'buffer': v:true,
-      \ 'nvim_lsp': v:true,
-      \ }
+" Plug 'hrsh7th/nvim-compe'
+" Plug 'ray-x/lsp_signature.nvim'
+"
+" Plug 'nvim-lua/completion-nvim'
+" Plug 'steelsojka/completion-buffers'
+
+""" coc.vim
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Better display for messages
+" set cmdheight=2
+" set updatetime=300
+let g:coc_enable_locationlist = 0
+let g:coc_global_extensions = [
+  \'coc-go',
+  \'coc-tsserver',
+  \'coc-eslint',
+  \'coc-html',
+  \'coc-json',
+  \'coc-yaml',
+\]
 
 """ rest.vim
 Plug 'taybart/rest.vim'
@@ -59,8 +71,11 @@ Plug 'christianrondeau/vim-base64'
 " Plug 'ARM9/arm-syntax-vim'
 
 """ neosnippets
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
 
 """ 🙏 the pope
 Plug 'tpope/vim-markdown'

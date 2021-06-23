@@ -7,7 +7,7 @@ function config {
       nvim ~/.dotfiles/shell
       ;;
       *)
-      nvim ~/.dotfiles/vim/init.vim ~/.dotfiles/vim/lua/init.lua ~/.dotfiles/vim/plugins.vim ~/.dotfiles/vim/*.vim
+      cd ~/.config/nvim && nvim init.vim
   esac
 }
 
@@ -20,6 +20,16 @@ function dotenv {
     return 1
   fi
 }
+
+function kp {
+  local pid=$(ps -ef | sed 1d | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[kill:process]'" | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]; then
+    echo $pid | xargs kill -${1:-9}
+    kp
+  fi
+}
+
 function usingport {
   if [[ $2 == "-kill" ]]; then
     sudo ss -lptn "sport = :$1" | rg -o "pid=(\d+)" -r '$1' | xargs kill -9

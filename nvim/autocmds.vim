@@ -15,26 +15,7 @@ augroup END
 
 augroup language_autocmd
   au!
-  " autocmd BufEnter * lua require'completion'.on_attach()
-  autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
-  " au FileType * autocmd BufWritePre <buffer> StripWhitespace
-
-  autocmd BufEnter * lua require'completion'.on_attach()
-  autocmd BufWritePre *.go lua go_organize_imports_sync(1000)
-  " autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync()
   au BufRead,BufNewFile *.tmpl setfiletype gohtmltmpl
-  " au FileType * autocmd BufWritePre <buffer> StripWhitespace
-augroup END
-
-" au FileType go nmap gtj :CocCommand go.tags.add json<cr>
-" au FileType go nmap gty :CocCommand go.tags.add yaml<cr>
-" au FileType go nmap gtx :CocCommand go.tags.clear<cr>
-" " au FileType go nmap <leader>r <Plug>(go-run)
-" au FileType go nmap <leader>r :!go run %<cr>
-
-
-augroup language_autocmd
-  au!
 augroup END
 
 augroup commentary

@@ -1,6 +1,5 @@
-"==============================
-"=========== Plugins ==========
-"==============================
+let s:uname = system("echo -n \"$(uname)\"")
+" ----------------- Plugins ----------------------
 call plug#begin('~/.vim/plugged')
 
 """ fzf
@@ -16,6 +15,8 @@ Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 let g:fern#renderer = 'nerdfont'
 let g:fern#disable_default_mappings = 1
+
+Plug 'antoinemadec/FixCursorHold.nvim' " weird performance issue fix for coc/fern
 
 """ tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
@@ -130,6 +131,11 @@ set softtabstop=2
 
 " allow mouse scrolling
 set mouse=a
+
+" show incomplete commands (like substitute)
+if has('nvim')
+	set inccommand=nosplit
+endif
 
 "~~~~~~~~~~~~~~~~~~~
 "~~~~~ Looks ~~~~~~~
@@ -308,9 +314,9 @@ augroup vimrc_autocmd
   au InsertLeave * set timeoutlen=1000
 
   " au FileType * autocmd BufWritePre <buffer> StripWhitespace
-  au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+  " au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
-  au BufWritePre * :silent call CocAction('format')
+  " au BufWritePre * :silent call CocAction('format')
 
 
   au! User GoyoEnter nested call <SID>goyo_enter()
@@ -346,37 +352,3 @@ augroup FernGroup
   autocmd!
   autocmd FileType fern call FernInit()
 augroup END
-
-" -------------------------------- Goyo custom --------------------------------
-function! s:goyo_enter()
-  let b:quitting = 0
-  let b:quitting_bang = 0
-  autocmd QuitPre <buffer> let b:quitting = 1
-
-  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-
-  set noshowmode
-  set noshowcmd
-  set scrolloff=999
-  set norelativenumber
-
-  let g:goyo_mode = 1
-  " Limelight
-endfunction
-
-function! s:goyo_leave()
-  set showmode
-  set showcmd
-  set scrolloff=5
-  " Limelight!
-
-  let g:goyo_mode = 0
-  " Quit Vim if this is the only remaining buffer
-  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-    if b:quitting_bang
-      qa!
-    else
-      qa
-    endif
-  endif
-endfunction

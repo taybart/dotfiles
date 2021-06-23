@@ -9,8 +9,8 @@ imap jK <Esc>
 imap JK <Esc>
 
 " Quickly open/reload vim
-nnoremap <leader>ev :e $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>ev :e $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 command! -nargs=1 Ev e ~/.vim/<args>.vim
 
@@ -19,7 +19,7 @@ command! W w
 command! Q q
 
 " fern
-noremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<CR>
+noremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<cr>
 
 "~~~~~~~~~~~~~~~~~~~
 "~~~~ MOVEMENT ~~~~~
@@ -42,10 +42,10 @@ nnoremap H ^
 nnoremap L $
 
 " Buffer control
-nnoremap <Leader>l :bnext<CR>
-nnoremap <Leader>n :bnext<CR>
-nnoremap <Leader>h :bprevious<CR>
-nnoremap <Leader>d :bp <BAR> bd #<CR>
+nnoremap <Leader>l :bnext<cr>
+nnoremap <Leader>n :bnext<cr>
+nnoremap <Leader>h :bprevious<cr>
+nnoremap <Leader>d :bp <BAR> bd #<cr>
 
 "~~~~~~~~~~~~~~~~~~~
 "~~~~~ FORMAT ~~~~~~
@@ -55,9 +55,9 @@ nnoremap <Leader>d :bp <BAR> bd #<CR>
 nnoremap <silent> zj o<Esc>k
 nnoremap <silent> zk O<Esc>j
 " Fix all indents
-nnoremap <leader>t<CR> mzgg=G`z:w<CR>
+nnoremap <leader>t<cr> mzgg=G`z:w<cr>
 " Get rid of the fucking stupid OCD whitespace
-nnoremap <leader>w<CR> :%s/\s\+$//<CR>:w<CR>
+nnoremap <leader>w<cr> :%s/\s\+$//<cr>:w<cr>
 " Emacs indent
 nnoremap <Tab> ==
 vnoremap <Tab> =
@@ -67,20 +67,30 @@ vnoremap <Tab> =
 "~~~~~~~~~~~~~~~~~~~
 
 " tmux integration
-nnoremap <silent> <c-m> :TmuxNavigateDown<CR>
-nnoremap <silent> <c-u> :TmuxNavigateUp<CR>
-nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
-nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
-nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
+nnoremap <silent> <c-m> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-u> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-;> :TmuxNavigatePrevious<cr>
 
 " escape in terminal
-tnoremap <Esc> <C-\><C-n>
+tnoremap <Esc> <c-\><c-n>
 
-" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" coc.vim
+nnoremap <leader>cr :CocRestart<cr>
+
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? "\<c-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 function! s:check_back_space() abort
@@ -88,24 +98,47 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr><S-TAB> pumvisible() ? "\<c-p>" : "\<c-h>"
+inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
+au BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<cr>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 " Tagbar
-nnoremap <F8> :TagbarToggle<CR>
+nnoremap <F8> :TagbarToggle<cr>
 
 
 " base64
 vnoremap <silent> <leader>bd :<c-u>call base64#v_atob()<cr>
 vnoremap <silent> <leader>be :<c-u>call base64#v_btoa()<cr>
 
-" Search under cursor
-nnoremap <C-a> :Rg <C-r><C-w><CR>
+" Searching
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+  \   <bang>0)
 
+" Live grep
+nnoremap <c-s> :Rg<cr>
+" Search under cursor
+nnoremap <c-a> :Rg <c-r><c-w><cr>
+" Search using selected text
+vnoremap <c-a> y0:Rg <c-r>0<cr>
 
 " command! ConfEdit
 
 
+nnoremap <leader>r :luafile ~/.config/nvim/lua/lsp/init.lua<cr>:LspRestart<cr>
 " add json tags to go struct, single level only atm
 nnoremap <leader>gtj vi{:s/\(\w\+\)\s\+\(\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . ",omitempty\""/g<cr>:noh<cr>
 
@@ -119,7 +152,7 @@ function! FernInit() abort
         \   "\<Plug>(fern-action-expand)",
         \   "\<Plug>(fern-action-collapse)",
         \ )
-  nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> <cr> <Plug>(fern-my-open-expand-collapse)
   nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
   nmap <buffer> n <Plug>(fern-action-new-path)
   nmap <buffer><nowait> d <Plug>(fern-action-remove)

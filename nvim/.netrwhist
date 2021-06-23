@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/taylor/dev/journey/clients/auth-web'
+let g:netrw_dirhist_6='/home/taylor/dev/journey/clients/auth-web/src'
+let g:netrw_dirhist_5='/home/taylor/dev/journey/clients/auth-web'
+let g:netrw_dirhist_4='/mnt/etc'
+let g:netrw_dirhist_3='/mnt'
+let g:netrw_dirhist_2='/etc/NetworkManager'
+let g:netrw_dirhist_1='/home/taylor/dev/journey/jin/jig'

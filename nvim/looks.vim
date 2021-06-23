@@ -10,8 +10,10 @@ colorscheme gruvbox
 let g:airline_theme='papercolor'
 
 let g:goyo_mode = 0
+
 " add numbers
 set number relativenumber
+
 augroup numbertoggle
   au!
   au BufEnter,FocusGained,InsertLeave * if &filetype != "tagbar" && !g:goyo_mode
