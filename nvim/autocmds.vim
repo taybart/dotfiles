@@ -15,6 +15,7 @@ augroup END
 
 augroup language_autocmd
   au!
+  au BufWritePre * :silent call CocAction('format')
   au BufRead,BufNewFile *.tmpl setfiletype gohtmltmpl
 augroup END
 
@@ -24,8 +25,6 @@ augroup commentary
   au FileType svelte setlocal commentstring=<!--\ %s\ -->
   au FileType gomod setlocal commentstring=//\ %s
 augroup END
-
-
 
 " -------------------------------- Goyo custom --------------------------------
 function! s:goyo_enter()
