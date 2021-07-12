@@ -1,11 +1,6 @@
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
   au!
-  " au StdinReadPre * let s:std_in=1
-  " no beeps
-  " set noerrorbells visualbell t_vb=
-  " au GUIEnter * set visualbell t_vb=
-
   au InsertEnter * set timeoutlen=100
   au InsertLeave * set timeoutlen=1000
 
@@ -15,7 +10,6 @@ augroup END
 
 augroup language_autocmd
   au!
-  au BufWritePre * :silent call CocAction('format')
   au BufRead,BufNewFile *.tmpl setfiletype gohtmltmpl
 augroup END
 

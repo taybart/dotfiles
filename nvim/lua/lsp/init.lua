@@ -5,7 +5,7 @@ local lsp_configs = require('lsp/config')
 
 -- Set keymap if attached
 local on_attach = function(client, bufnr)
-  require'lsp_signature'.on_attach()
+  -- require'lsp_signature'.on_attach()
   -- require'completion'.on_attach()
 
   local opts = { noremap=true, silent=true }
@@ -95,23 +95,16 @@ vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", texthl = "Gruvbox
 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "GruvboxBlue"})
 vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", texthl = "GruvboxAqua"})
 
--------------------------------------
------------- Tree Sitter ------------
--------------------------------------
-require('nvim-treesitter.configs').setup {
-  ensure_installed = "maintained",
-  highlight = { enable = true },
-}
+
 ------------------------------------
 ------------ nvim compe ------------
 ------------------------------------
-
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
   debug = false;
   min_length = 1;
-  preselect = 'enable';
+  preselect = 'disable';
   throttle_time = 80;
   source_timeout = 200;
   resolve_timeout = 800;

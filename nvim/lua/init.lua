@@ -46,12 +46,14 @@ vim.opt.inccommand='nosplit'
 vim.opt.signcolumn='number'
 
 
+-- numbas
 vim.opt.number=true
 vim.opt.relativenumber=true
 
 -- allow more complicated colors
 vim.opt.termguicolors=true
 
-require 'plugins'
-require 'keymaps'
-require 'looks'
+require ('plugins')
+require ('lsp')
+require ('looks')
+require ('keymaps')

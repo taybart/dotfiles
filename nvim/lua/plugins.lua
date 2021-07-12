@@ -24,21 +24,10 @@ return require('packer').startup(function()
     requires = { 'junegunn/fzf', run = './install --bin', },
   }
 
-  -- use { 'lambdalisue/fern.vim',
-  --   requires = {
-  --     'lambdalisue/fern-hijack.vim',
-  --     'lambdalisue/nerdfont.vim',
-  --     'lambdalisue/fern-renderer-nerdfont.vim',
-  --   },
-  -- }
-  -- vim.g['fern#renderer'] = 'nerdfont'
-  -- vim.g['fern#disable_default_mappings'] = 1
-
   use {
     'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
   }
-  vim.g.nvim_tree_auto_open = 1
   vim.g.nvim_tree_auto_close = 1
   vim.g.nvim_tree_follow = 1
   vim.g.nvim_tree_hide_dotfiles = 1
@@ -50,6 +39,10 @@ return require('packer').startup(function()
   ----------
   -- edit --
   ----------
+  -- lsp
+  use { 'neovim/nvim-lspconfig' }
+  use { 'kabouzeid/nvim-lspinstall' }
+  use { 'hrsh7th/nvim-compe' }
 
   -- comments
   use { 'tpope/vim-commentary' }
@@ -59,20 +52,8 @@ return require('packer').startup(function()
   use { 'tpope/vim-repeat' }
   -- additional subsitutions
   use { 'tpope/vim-abolish' }
-
+  -- git
   use { 'tpope/vim-fugitive' }
-
-  -- lsp clinet
-  use { 'neoclide/coc.nvim', branch = 'release' }
-  vim.g.coc_enable_locationlist = 0
-  vim.g.coc_global_extensions = {
-    'coc-go',
-    'coc-tsserver',
-    'coc-eslint',
-    'coc-html',
-    'coc-json',
-    'coc-yaml',
-  }
 
   -- rest.vim
   use { 'taybart/rest.vim' }
@@ -98,7 +79,10 @@ return require('packer').startup(function()
 
   -- syntax highlighting with treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  -- bash escape coloring
+  -- better lsp diagnostic colors
+  use { 'folke/lsp-colors.nvim' }
+
+  -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
   -- use { 'chrisbra/Colorizer' }
   use { 'norcalli/nvim-colorizer.lua' }
 
@@ -119,17 +103,13 @@ return require('packer').startup(function()
 
   -- status line, tab line
   use { 'vim-airline/vim-airline',
-  requires = {'vim-airline/vim-airline-themes' },
-}
-vim.g['airline#extensions#tabline#enabled'] = 1
-vim.g.airline_powerline_fonts = 1
+    requires = {'vim-airline/vim-airline-themes' },
+  }
+  vim.g['airline#extensions#tabline#enabled'] = 1
+  vim.g.airline_powerline_fonts = 1
 
 -- colorscheme
--- use { 'morhetz/gruvbox' }
--- use { 'tjdevries/colorbuddy.vim' }
--- use { 'tjdevries/gruvbuddy.nvim' }
-use {'npxbr/gruvbox.nvim', requires = {'rktjmp/lush.nvim'}}
-use {'savq/melange', requires = {'rktjmp/lush.nvim'}}
--- use {'projekt0n/github-nvim-theme' }
+use { 'morhetz/gruvbox' }
+-- use {'npxbr/gruvbox.nvim', requires = {'rktjmp/lush.nvim'}}
 
 end)
