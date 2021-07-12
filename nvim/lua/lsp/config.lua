@@ -30,4 +30,13 @@ return {
       }
     }
   },
+  lua = {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+  },
 }

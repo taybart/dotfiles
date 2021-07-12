@@ -12,6 +12,7 @@ end
 vim.cmd([[autocmd BufWritePost plugins.lua source <afile> | PackerCompile]])
 
 return require('packer').startup(function()
+  local use = require('packer').use
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
