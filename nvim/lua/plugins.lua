@@ -91,6 +91,8 @@ return require('packer').startup(function()
 
   -- syntax highlighting with treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  -- cool treesitter debugger
+  use { 'nvim-treesitter/playground' }
   -- better lsp diagnostic colors
   use { 'folke/lsp-colors.nvim' }
 
@@ -123,7 +125,7 @@ return require('packer').startup(function()
   vim.g.airline_powerline_fonts = 1
 
   -- colorscheme
-  use { 'morhetz/gruvbox' }
+  use { 'gruvbox-community/gruvbox' }
   vim.g.gruvbox_italic = 1
 
 end)

@@ -18,7 +18,7 @@ vim.opt.updatetime=800
 vim.opt.clipboard:prepend({'unnamedplus'})
 
 -- better completion actions
-vim.optcompleteopt={ 'menuone','noinsert','noselect' }
+vim.opt.completeopt={ 'menuone','noinsert','noselect' }
 
 -- cleaner completions
 -- vim.opt.shortmess:append('c')
