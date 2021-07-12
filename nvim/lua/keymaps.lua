@@ -8,8 +8,6 @@ local u = require('utils/maps')
 vim.g.mapleader = " " -- space as leader
 
 
-u.nnoremap('<C-p>', ':Files<CR>')
-
 -- Easy escape from insert
 u.imap('jk', '<Esc>')
 u.imap('jK', '<Esc>')
@@ -23,8 +21,6 @@ u.nnoremap('<leader>sv', ':source $MYVIMRC<cr>') -- TODO this doesn't really wor
 u.cmap('W', 'w')
 u.cmap('Q', 'q')
 
--- fern
-u.nnoremap('<Leader>f', ':NvimTreeToggle<cr>', {silent = true})
 
 -------------------
 ---- MOVEMENT -----
@@ -78,6 +74,10 @@ u.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>')
 ----- PLUGINS -----
 -------------------
 
+
+-- drawer
+u.nnoremap('<Leader>f', ':NvimTreeToggle<cr>', {silent = true})
+
 -- tmux integration
 u.nnoremap('<c-m>', ':TmuxNavigateDown<cr>', { silent = true })
 u.nnoremap('<c-u>', ':TmuxNavigateUp<cr>', { silent = true })
@@ -90,10 +90,10 @@ u.nnoremap('<c-;>', ':TmuxNavigatePrevious<cr>', { silent = true })
 u.nnoremap('<F8>', ':TagbarToggle<cr>')
 
 -- base64
-u.vnoremap('<leader>bd', ':<c-u>call base64#v_atob()<cr>', {silent = true})
-u.vnoremap('<leader>be', ':<c-u>call base64#v_btoa()<cr>', {silent = true})
+u.vnoremap('<leader>bd', ':<c-u>lua require("b64").decode()<cr>', {silent = true})
+u.vnoremap('<leader>be', ':<c-u>lua require("b64").encode()<cr>', {silent = true})
 
--- Searching
+----- Searching
 
 -- Live grep
 u.nnoremap('<c-s>', ':Rg<cr>')
@@ -101,17 +101,28 @@ u.nnoremap('<c-s>', ':Rg<cr>')
 u.nnoremap('<c-a>', ':Rg <c-r><c-w><cr>')
 -- Search using selected text
 u.vnoremap('<c-a>', 'y0:Rg <c-r>0<cr>')
+-- fzf files finder
+u.nnoremap('<C-p>', ':Files<CR>')
 
+vim.api.nvim_command[[
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+  \   <bang>0)
+]]
 
 -- Restart LSP Client
 u.nnoremap('<leader>r', ':luafile ~/.config/nvim/lua/lsp/init.lua<cr>:LspRestart<cr>')
 
 -- NOTE: this is the todo mentioned below
 -- function go_add_jtags()
--- vi{:s/\(\w\+\)\s\+\(\[\=\]\=\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . ",omitempty\""/g<cr>:noh<cr>
+--   vi{:s/\(\w\+\)\s\+\(\[\=\]\=\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . ",omitempty\""/g<cr>:noh<cr>
 -- end
 
--- add json tags to go struct, single level only atm
--- TODO redo in lua
--- nnoremap <leader>gtj vi{:s/\(\w\+\)\s\+\(\[\=\]\=\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . ",omitempty\""/g<cr>:noh<cr>
+-- -- add json tags to go struct, single level only atm
+-- -- TODO redo in lua
+-- u.nnoremap('<leader>gtj', ':lua require("keymaps").go_add_jtags()<cr>')
+ -- vi{:s/\(\w\+\)\s\+\(\[\=\]\=\w\+\)/\1 \2 `json:"\1"`/<cr>vi{:s/json:"\(.*\)"/\="json:\"" . g:Abolish.snakecase(submatch(1)) . ",omitempty\""/g<cr>:noh<cr>
 -- nnoremap <leader>jb V:s/,/,\r/g<cr>:noh<cr>

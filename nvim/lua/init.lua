@@ -50,10 +50,11 @@ vim.opt.signcolumn='number'
 vim.opt.number=true
 vim.opt.relativenumber=true
 
--- allow more complicated colors
+-- allow more complicated font/color stuff
 vim.opt.termguicolors=true
 
 require ('plugins')
 require ('lsp')
 require ('looks')
 require ('keymaps')
+require ('autocmds')
