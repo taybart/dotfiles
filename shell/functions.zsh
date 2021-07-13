@@ -11,6 +11,25 @@ function config {
   esac
 }
 
+function notes() {
+  local_notes_dir=~/.cloud_notes
+  cloud_notes_dir=tb/taybart/notes
+  if [ "$1" = "-pull" ]; then
+    mcli cp --recursive $cloud_notes_dir/ $local_notes_dir
+  elif [ "$1" = "-push" ]; then
+    mcli cp --recursive $local_notes_dir/ $cloud_notes_dir
+    return
+  else
+    mcli cp --recursive $cloud_notes_dir/ $local_notes_dir
+    if [ -z $1 ]; then
+      nvim $local_notes_dir/$(\ls $local_notes_dir | fzf)
+    else
+      nvim $local_notes_dir/$1
+    fi
+    mcli cp --recursive $local_notes_dir/ $cloud_notes_dir
+  fi
+}
+
 
 function dotenv {
   if [ -f "./.env" ]; then
