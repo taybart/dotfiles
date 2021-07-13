@@ -1,11 +1,6 @@
 "--------------------------- Autocmds -----------------------------------------
 augroup vimrc_autocmd
   au!
-  " au StdinReadPre * let s:std_in=1
-  " no beeps
-  " set noerrorbells visualbell t_vb=
-  " au GUIEnter * set visualbell t_vb=
-
   au InsertEnter * set timeoutlen=100
   au InsertLeave * set timeoutlen=1000
 
@@ -24,8 +19,6 @@ augroup commentary
   au FileType svelte setlocal commentstring=<!--\ %s\ -->
   au FileType gomod setlocal commentstring=//\ %s
 augroup END
-
-
 
 " -------------------------------- Goyo custom --------------------------------
 function! s:goyo_enter()

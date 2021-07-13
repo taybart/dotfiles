@@ -3,7 +3,7 @@ return {
     cmd = {"gopls", "serve"},
     settings = {
       gopls = {
-        buildFlags =  {"-tags=kyc,enrollment,oprah"},
+        buildFlags =  {"-tags=auth,kyc,oprah"},
         analyses = { unusedparams = true },
         staticcheck = true,
       },
@@ -28,6 +28,15 @@ return {
           }
         }
       }
+    }
+  },
+  lua = {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
     }
   },
 }

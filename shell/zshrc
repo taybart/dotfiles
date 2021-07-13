@@ -1,5 +1,4 @@
 export DOTFILES="$HOME/.dotfiles"
-export TERM="screen-256color"
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.local/bin:$HOME/.cargo/bin"
 
@@ -14,7 +13,7 @@ else
   export MANPAGER='nvim +Man!'
 fi
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_DEFAULT_COMMAND='rg --files --hidden'
 
 # -- Plugins --
 if ! type "antibody" > /dev/null; then

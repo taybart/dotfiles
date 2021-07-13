@@ -1,13 +1,12 @@
-local lspinstall = require('lspinstall')
+local M = {}
+
 local lspconfig = require('lspconfig')
-local lsp_configs = require('lsp/config')
+local lspinstall = require('lspinstall')
 
 
 -- Set keymap if attached
-local on_attach = function(client, bufnr)
-  require'lsp_signature'.on_attach()
-  -- require'completion'.on_attach()
-
+-- local on_attach = function(client, bufnr)
+local on_attach = function()
   local opts = { noremap=true, silent=true }
   vim.api.nvim_set_keymap('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_set_keymap('n', 'gd', ':lua vim.lsp.buf.definition()<CR>', opts)
@@ -21,7 +20,7 @@ local on_attach = function(client, bufnr)
   vim.cmd([[
   command! Format lua vim.lsp.buf.formatting()
   autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.go lua go_organize_imports_sync(1000)
+  autocmd BufWritePre *.go lua require('tb/lsp').go_organize_imports_sync(1000)
   " autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
   ]])
 end
@@ -45,6 +44,8 @@ end
 -- LSP Setup
 local function setup()
 
+  local lsp_configs = require('tb/lsp/config')
+
   lspinstall.setup()
 
   local servers = lspinstall.installed_servers()
@@ -65,7 +66,7 @@ lspinstall.post_install_hook = function ()
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 
-function go_organize_imports_sync(timeoutms)
+function M.go_organize_imports_sync(timeoutms)
   local context = {source = {organizeImports = true}}
   vim.validate {context = {context, 't', true}}
 
@@ -95,23 +96,16 @@ vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", texthl = "Gruvbox
 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "GruvboxBlue"})
 vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", texthl = "GruvboxAqua"})
 
--------------------------------------
------------- Tree Sitter ------------
--------------------------------------
-require('nvim-treesitter.configs').setup {
-  ensure_installed = "maintained",
-  highlight = { enable = true },
-}
+
 ------------------------------------
 ------------ nvim compe ------------
 ------------------------------------
-
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
   debug = false;
   min_length = 1;
-  preselect = 'enable';
+  preselect = 'disable';
   throttle_time = 80;
   source_timeout = 200;
   resolve_timeout = 800;
@@ -172,3 +166,6 @@ vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<CR>", 'compe#confirm("<CR>")', {silent=true, expr=true, noremap=true})
+
+return M
