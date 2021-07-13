@@ -3,7 +3,7 @@
 ----------------------
 local M = {}
 
-local merge = require('utils').merge
+local merge = require('tb/utils').merge
 
 
 local map = vim.api.nvim_set_keymap
@@ -65,7 +65,21 @@ function M.cnoremap(key, cmd, opts)
 
   map('c', key, cmd,  opts)
 end
+function M.tmap(key, cmd, opts)
+  if opts == nil then
+    opts = {}
+  end
+  map('t', key, cmd, opts)
+end
+function M.tnoremap(key, cmd, opts)
+  if opts ~= nil then
+    merge(opts, { noremap = true })
+  else
+    opts = {}
+  end
 
+  map('t', key, cmd,  opts)
+end
 
 
 return M

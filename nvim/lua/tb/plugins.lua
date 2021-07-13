@@ -74,6 +74,9 @@ return require('packer').startup(function()
   -- b64.nvim
   use { 'taybart/b64.nvim' }
 
+
+  use { 'nvim-lua/plenary.nvim' }
+
   use { 'christoomey/vim-tmux-navigator' }
   vim.g.tmux_navigator_no_mappings = 1
 

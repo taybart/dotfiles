@@ -23,8 +23,8 @@ create_augroups({
   },
 
   looks = {
-    { 'BufEnter,FocusGained,InsertLeave', '*', 'lua require("looks").toggle_num(true)' },
-    { 'BufLeave,FocusLost,InsertEnter', '*', 'lua require("looks").toggle_num(false)' },
+    { 'BufEnter,FocusGained,InsertLeave', '*', 'lua require("tb/looks").toggle_num(true)' },
+    { 'BufLeave,FocusLost,InsertEnter', '*', 'lua require("tb/looks").toggle_num(false)' },
   },
 
 

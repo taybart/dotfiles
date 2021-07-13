@@ -65,8 +65,8 @@ set undodir=~/.vim/something
 set undofile
 ]]--
 
-require ('plugins')
-require ('lsp')
-require ('looks')
-require ('keymaps')
-require ('autocmds')
+require ('tb/plugins')
+require ('tb/lsp')
+require ('tb/looks')
+require ('tb/keymaps')
+require ('tb/autocmds')

@@ -133,6 +133,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/playground"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/plenary.nvim"
+  },
   ["quick-scope"] = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/quick-scope"

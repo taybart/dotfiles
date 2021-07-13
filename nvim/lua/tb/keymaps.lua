@@ -3,7 +3,7 @@
 ------------------------------
 
 -- helpful things
-local u = require('utils/maps')
+local u = require('tb/utils/maps')
 
 vim.g.mapleader = " " -- space as leader
 
@@ -14,8 +14,9 @@ u.imap('jK', '<Esc>')
 u.imap('JK', '<Esc>')
 
 -- Quickly open/reload vim
-u.nnoremap('<leader>ev', ':e $MYVIMRC<cr>')
-u.nnoremap('<leader>sv', ':source $MYVIMRC<cr>') -- TODO this doesn't really work how it used to
+u.nnoremap('<leader>ev', ':Files ~/.dotfiles/nvim<cr>')
+u.nnoremap('<leader>sv', ':lua require("tb/utils").reload_vim()<cr>')
+
 
 -- Idiot proofing
 u.cmap('W', 'w')
@@ -50,7 +51,7 @@ u.nnoremap('<leader>h', ':bprevious<cr>')
 u.nnoremap('<leader>d', ':bp <BAR> bd #<cr>')
 
 -- escape in terminal
--- tnoremap <Esc> <c-\><c-n>
+u.tnoremap('<Esc>', '<c-\\><c-n>')
 
 -------------------
 ----- FORMAT ------
@@ -61,7 +62,7 @@ u.nnoremap('zj', 'o<Esc>k', {silent=true})
 u.nnoremap('zk', 'O<Esc>j', {silent=true})
 
 -- Fix all indents
-u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
+-- u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 
 -- Emacs indent
 u.nnoremap('<Tab>', '==')
@@ -112,9 +113,6 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
   \   <bang>0)
 ]]
-
--- Restart LSP Client
-u.nnoremap('<leader>r', ':luafile ~/.config/nvim/lua/lsp/init.lua<cr>:LspRestart<cr>')
 
 -- NOTE: this is the todo mentioned below
 -- function go_add_jtags()

@@ -26,15 +26,36 @@ function M.is_darwin()
   return not not string.find(output[1] or "", "Darwin") ]]
 end
 
-function M.visual_selection_range()
-  local _, csrow, cscol, _ = unpack(vim.fn.getpos("'<"))
-  local _, cerow, cecol, _ = unpack(vim.fn.getpos("'>"))
-  if csrow < cerow or (csrow == cerow and cscol <= cecol) then
-    return csrow - 1, cscol - 1, cerow - 1, cecol
-  else
-    return cerow - 1, cecol - 1, csrow - 1, cscol
-  end
+function M.reload_module(name)
+ for k in pairs(package.loaded) do
+   if k:match("^"..name) then
+     package.loaded[k] = nil
+   end
+ end
+  require(name)
 end
 
+
+function M.reload_vim()
+  -- local reload_module = require('plenary.reload').reload_module
+
+  -- reload_module("plugins", false)
+  -- require('plugins')
+
+
+  -- reload_module("looks", false)
+  -- require('looks')
+
+  M.reload_module("tb/keymaps")
+
+  -- reload_module("autocmds", false)
+  -- require('autocmds')
+
+  M.reload_lsp()
+end
+
+function M.reload_lsp()
+  M.reload_module('tb/lsp')
+end
 
 return M
