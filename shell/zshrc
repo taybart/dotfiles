@@ -1,6 +1,4 @@
 export DOTFILES="$HOME/.dotfiles"
-# export TERM="screen-256color"
-export TERM="xterm-kitty"
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.local/bin:$HOME/.cargo/bin"
 

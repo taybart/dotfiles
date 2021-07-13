@@ -2,8 +2,6 @@
 ------------ init ------------
 ------------------------------
 
--- filetype plugin indent on
-
 -- long live zsh
 vim.opt.shell='/bin/zsh'
 
@@ -21,7 +19,7 @@ vim.opt.clipboard:prepend({'unnamedplus'})
 vim.opt.completeopt={ 'menuone','noinsert','noselect' }
 
 -- cleaner completions
--- vim.opt.shortmess:append('c')
+vim.opt.shortmess:append('c')
 
 -- :h ww
 vim.opt.whichwrap = 'b,s,<,>,[,]'
@@ -45,13 +43,27 @@ vim.opt.inccommand='nosplit'
 -- put signs in the number column
 vim.opt.signcolumn='number'
 
-
 -- numbas
 vim.opt.number=true
 vim.opt.relativenumber=true
 
 -- allow more complicated font/color stuff
 vim.opt.termguicolors=true
+
+-- swapfile bad
+vim.opt.swapfile=false
+vim.opt.backup=false
+
+-- gaps while scrolling
+vim.opt.scrolloff=8
+
+-- old school tty
+vim.opt.colorcolumn='80'
+
+--[[
+set undodir=~/.vim/something
+set undofile
+]]--
 
 require ('plugins')
 require ('lsp')
