@@ -85,6 +85,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/fzf.vim"
   },
+  ["gitsigns.nvim"] = {
+    loaded = true,
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
+  },
   ["goyo.vim"] = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/goyo.vim"
@@ -96,6 +100,11 @@ _G.packer_plugins = {
   ["lsp-colors.nvim"] = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim"
+  },
+  neorg = {
+    config = { "\27LJ\1\2Ã\2\0\2\a\0\t\0\0167\2\0\1%\3\1\0003\4\6\0002\5\5\0003\6\2\0;\6\1\0053\6\3\0;\6\2\0053\6\4\0;\6\3\0053\6\5\0;\6\4\5:\5\a\0043\5\b\0>\2\4\1G\0\1\0\1\0\2\fnoremap\2\vsilent\2\6n\1\0\0\1\3\0\0\14<C-Space>-core.norg.qol.todo_items.todo.task_cycle\1\3\0\0\bgtp/core.norg.qol.todo_items.todo.task_pending\1\3\0\0\bgtu.core.norg.qol.todo_items.todo.task_undone\1\3\0\0\bgtd,core.norg.qol.todo_items.todo.task_done\tnorg\22map_event_to_moden\1\0\4\0\5\0\b4\0\0\0%\1\1\0>\0\2\0027\1\2\0%\2\3\0001\3\4\0>\1\3\1G\0\1\0\0)core.keybinds.events.enable_keybinds\ron_event\20neorg.callbacks\frequireŠ\1\1\0\4\0\n\0\0154\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\6\0003\2\3\0002\3\0\0:\3\4\0022\3\0\0:\3\5\2:\2\a\0011\2\b\0:\2\t\1>\0\2\1G\0\1\0\thook\0\tload\1\0\0\24core.norg.concealer\18core.defaults\1\0\0\nsetup\nneorg\frequire\0" },
+    loaded = true,
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/neorg"
   },
   ["nvim-colorizer.lua"] = {
     loaded = true,
@@ -175,16 +184,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-markdown"
   },
-  ["vim-misc"] = {
-    loaded = false,
-    needs_bufread = false,
-    path = "/home/taylor/.local/share/nvim/site/pack/packer/opt/vim-misc"
-  },
-  ["vim-notes"] = {
-    loaded = false,
-    needs_bufread = true,
-    path = "/home/taylor/.local/share/nvim/site/pack/packer/opt/vim-notes"
-  },
   ["vim-repeat"] = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-repeat"
@@ -212,6 +211,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: neorg
+time([[Config for neorg]], true)
+try_loadstring("\27LJ\1\2Ã\2\0\2\a\0\t\0\0167\2\0\1%\3\1\0003\4\6\0002\5\5\0003\6\2\0;\6\1\0053\6\3\0;\6\2\0053\6\4\0;\6\3\0053\6\5\0;\6\4\5:\5\a\0043\5\b\0>\2\4\1G\0\1\0\1\0\2\fnoremap\2\vsilent\2\6n\1\0\0\1\3\0\0\14<C-Space>-core.norg.qol.todo_items.todo.task_cycle\1\3\0\0\bgtp/core.norg.qol.todo_items.todo.task_pending\1\3\0\0\bgtu.core.norg.qol.todo_items.todo.task_undone\1\3\0\0\bgtd,core.norg.qol.todo_items.todo.task_done\tnorg\22map_event_to_moden\1\0\4\0\5\0\b4\0\0\0%\1\1\0>\0\2\0027\1\2\0%\2\3\0001\3\4\0>\1\3\1G\0\1\0\0)core.keybinds.events.enable_keybinds\ron_event\20neorg.callbacks\frequireŠ\1\1\0\4\0\n\0\0154\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\6\0003\2\3\0002\3\0\0:\3\4\0022\3\0\0:\3\5\2:\2\a\0011\2\b\0:\2\t\1>\0\2\1G\0\1\0\thook\0\tload\1\0\0\24core.norg.concealer\18core.defaults\1\0\0\nsetup\nneorg\frequire\0", "config", "neorg")
+time([[Config for neorg]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)

@@ -16,6 +16,52 @@ return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+
+  ---------------------------------
+  ---------- Probation ------------
+  ---------------------------------
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    }
+  }
+  use { 'liuchengxu/vista.vim' }
+
+  -- cool treesitter debugger
+  use { 'nvim-treesitter/playground' }
+  -- neorg
+  use {
+    "vhyrro/neorg",
+    config = function()
+        require('neorg').setup {
+            -- Tell Neorg what modules to load
+            load = {
+                ["core.defaults"] = {}, -- Load all the default modules
+                ["core.norg.concealer"] = {}, -- Allows for use of icons
+            },
+            hook = function()
+              -- Require the user callbacks module, which allows us to tap into the core of Neorg
+              local neorg_callbacks = require('neorg.callbacks')
+              neorg_callbacks.on_event("core.keybinds.events.enable_keybinds", function(_, keybinds)
+                keybinds.map_event_to_mode("norg", {
+                  n = { -- Bind keys in normal mode
+                  -- Keys for managing TODO items and setting their states
+                  { "gtd", "core.norg.qol.todo_items.todo.task_done" },
+                  { "gtu", "core.norg.qol.todo_items.todo.task_undone" },
+                  { "gtp", "core.norg.qol.todo_items.todo.task_pending" },
+                  { "<C-Space>", "core.norg.qol.todo_items.todo.task_cycle" }
+
+                },
+              }, { silent = true, noremap = true })
+
+            end)
+          end
+        }
+      end,
+      requires = "nvim-lua/plenary.nvim"
+    }
+
   ---------------------------------
   --------- Productivity ----------
   ---------------------------------
@@ -30,8 +76,6 @@ return require('packer').startup(function()
   use {
     'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
-    -- opt = true,
-    -- cmd = { 'NvimTreeOpen', 'NvimTreeClose', 'NvimTreeToggle' }
   }
   vim.g.nvim_tree_auto_close = 1
   vim.g.nvim_tree_follow = 1
@@ -50,9 +94,6 @@ return require('packer').startup(function()
   use { 'neovim/nvim-lspconfig' }
   use { 'kabouzeid/nvim-lspinstall' }
   use { 'hrsh7th/nvim-compe' }
-  use { 'liuchengxu/vista.vim',
-    -- opt = true, cmd = { 'Vista' }
-  }
 
   use { 'hrsh7th/vim-vsnip',
     requires = { 'hrsh7th/vim-vsnip-integ' }
@@ -83,19 +124,12 @@ return require('packer').startup(function()
   use { 'ntpeters/vim-better-whitespace' }
   use { 'unblevable/quick-scope' }
 
-
-  use { 'xolox/vim-notes', opt = true }
-  use { 'xolox/vim-misc', opt = true }
-  vim.g.notes_directories = {'~/.notes'}
-
   -----------------------------
   --------- Looks -------------
   -----------------------------
 
   -- syntax highlighting with treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  -- cool treesitter debugger
-  use { 'nvim-treesitter/playground' }
   -- better lsp diagnostic colors
   use { 'folke/lsp-colors.nvim' }
 
@@ -114,7 +148,6 @@ return require('packer').startup(function()
     'typescript',
   }
 
-
   -- goyo
   use { 'junegunn/goyo.vim' }
   -- special global for checking if we are taking notes
@@ -130,5 +163,6 @@ return require('packer').startup(function()
   -- colorscheme
   use { 'gruvbox-community/gruvbox' }
   vim.g.gruvbox_italic = 1
+  vim.g.gruvbox_sign_column="bg0"
 
 end)

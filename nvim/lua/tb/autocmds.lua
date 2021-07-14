@@ -82,7 +82,7 @@ function M.goyo_leave()
     end
   end
 end
-vim.api.nvim_command('au! User GoyoEnter nested lua require("autocmds").goyo_enter()')
-vim.api.nvim_command('au! User GoyoLeave nested lua require("autocmds").goyo_leave()')
+vim.api.nvim_command('au! User GoyoEnter nested lua require("tb/autocmds").goyo_enter()')
+vim.api.nvim_command('au! User GoyoLeave nested lua require("tb/autocmds").goyo_leave()')
 
 return M
