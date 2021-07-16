@@ -71,6 +71,4 @@ function M.toggle_num(relon)
   vim.opt.relativenumber=relon
 end
 
-
-
 return M

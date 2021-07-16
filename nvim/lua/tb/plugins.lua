@@ -81,6 +81,7 @@ return require('packer').startup(function()
   vim.g.nvim_tree_follow = 1
   vim.g.nvim_tree_hide_dotfiles = 1
   vim.g.nvim_tree_group_empty = 1
+  vim.g.nvim_tree_highlight_opened_files = 1
   vim.g.nvim_tree_window_picker_exclude = {
     filetype = { 'packer', 'vista' },
   }
@@ -130,8 +131,6 @@ return require('packer').startup(function()
 
   -- syntax highlighting with treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  -- better lsp diagnostic colors
-  use { 'folke/lsp-colors.nvim' }
 
   -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
   -- use { 'chrisbra/Colorizer' {opt=true}}

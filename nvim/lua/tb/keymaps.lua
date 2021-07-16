@@ -7,7 +7,6 @@ local u = require('tb/utils/maps')
 
 vim.g.mapleader = " " -- space as leader
 
-
 -- Easy escape from insert
 u.imap('jk', '<Esc>')
 u.imap('jK', '<Esc>')
@@ -17,11 +16,9 @@ u.imap('JK', '<Esc>')
 u.nnoremap('<leader>ev', ':Files ~/.dotfiles/nvim<cr>')
 u.nnoremap('<leader>sv', ':lua require("tb/utils").reload_vim()<cr>')
 
-
 -- Idiot proofing
 u.cmap('W', 'w')
 u.cmap('Q', 'q')
-
 
 -------------------
 ---- MOVEMENT -----
@@ -75,7 +72,6 @@ u.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>')
 ----- PLUGINS -----
 -------------------
 
-
 -- drawer
 u.nnoremap('<Leader>f', ':NvimTreeToggle<cr>', {silent = true})
 
@@ -106,12 +102,7 @@ u.vnoremap('<c-a>', 'y0:Rg <c-r>0<cr>')
 u.nnoremap('<C-p>', ':Files<CR>')
 
 vim.api.nvim_command[[
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%')
-  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
-  \   <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1, <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%') : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'), <bang>0)
 ]]
 
 -- NOTE: this is the todo mentioned below

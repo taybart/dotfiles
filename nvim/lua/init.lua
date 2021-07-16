@@ -56,7 +56,7 @@ vim.opt.swapfile=false
 vim.opt.backup=false
 
 -- gaps while scrolling
-vim.opt.scrolloff=8
+-- vim.opt.scrolloff=5
 
 -- old school tty
 vim.opt.colorcolumn='80'
@@ -67,24 +67,30 @@ set undofile
 ]]--
 
 require ('tb/plugins')
-require ('tb/lsp')
 require ('tb/looks')
 require ('tb/keymaps')
 require ('tb/autocmds')
+require ('tb/lsp')
 
 -- setups
+
+
 
 require('gitsigns').setup{
   current_line_blame = true,
   current_line_blame_delay = 0,
   signs = {
-    add          = {hl = 'GitSignsAdd'   , text = '│+', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-    change       = {hl = 'GitSignsChange', text = '│~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-    delete       = {hl = 'GitSignsDelete', text = '│-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    topdelete    = {hl = 'GitSignsDelete', text = '│‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    changedelete = {hl = 'GitSignsChange', text = '│~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
   },
   keymaps = {
+
+    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
+    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
+
     ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
     ['v <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
     ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',

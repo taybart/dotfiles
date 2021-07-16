@@ -26,7 +26,9 @@ create_augroups({
     { 'BufEnter,FocusGained,InsertLeave', '*', 'lua require("tb/looks").toggle_num(true)' },
     { 'BufLeave,FocusLost,InsertEnter', '*', 'lua require("tb/looks").toggle_num(false)' },
   },
-
+  nvim_tree = {
+    { 'BufEnter NvimTree set cursorline' },
+  },
 
   language_autocmd = {
     { 'BufRead,BufNewFile', '*.tmpl', 'setfiletype gohtmltmpl' },
