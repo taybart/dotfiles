@@ -24,6 +24,7 @@ alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git br
 
 alias newredis="helm install redis --set cluster.enabled=false --set usePassword=false bitnami/redis"
 
+alias panetitle="printf '\033]2;%s\033\\'"
 # alias notes="nvim ~/.notes/notes"
 
 # Platform Specific

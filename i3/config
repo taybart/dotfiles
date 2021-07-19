@@ -220,7 +220,7 @@ for_window [class="Simple-scan"] floating enable border normal
 for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="zoom"] floating enable normal
 for_window [class="blueman-manager"] floating enable normal
-for_window [window_role="PictureInPicture"] floating enable sticky enable normal
+for_window [title="Picture-in-Picture"] floating enable sticky enable normal
 # for_window [title="Slack | Slack call*"] floating enable
 
 # switch to workspace with urgent window automatically
