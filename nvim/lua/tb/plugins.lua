@@ -69,8 +69,13 @@ return require('packer').startup(function()
   ----------
   -- find --
   ----------
-  use { 'junegunn/fzf.vim',
-    requires = { 'junegunn/fzf', run = './install --bin', },
+  -- use { 'junegunn/fzf.vim',
+  --   requires = { 'junegunn/fzf', run = './install --bin', },
+  -- }
+
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
   }
 
   use {
@@ -78,10 +83,10 @@ return require('packer').startup(function()
     requires = { 'kyazdani42/nvim-web-devicons' },
   }
   vim.g.nvim_tree_auto_close = 1
-  vim.g.nvim_tree_follow = 1
   vim.g.nvim_tree_hide_dotfiles = 1
   vim.g.nvim_tree_group_empty = 1
   vim.g.nvim_tree_highlight_opened_files = 1
+  vim.g.nvim_tree_auto_resize = 0
   vim.g.nvim_tree_window_picker_exclude = {
     filetype = { 'packer', 'vista' },
   }
@@ -135,17 +140,6 @@ return require('packer').startup(function()
   -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
   -- use { 'chrisbra/Colorizer' {opt=true}}
   use { 'norcalli/nvim-colorizer.lua' }
-
-  -- nice markdown highlighting
-  use { 'tpope/vim-markdown' }
-  vim.g.markdown_fenced_languages = {
-    'html',
-    'python',
-    'bash=sh',
-    'go',
-    'javascript',
-    'typescript',
-  }
 
   -- goyo
   use { 'junegunn/goyo.vim' }

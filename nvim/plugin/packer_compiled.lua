@@ -77,14 +77,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/ctrlsf.vim"
   },
-  fzf = {
-    loaded = true,
-    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/fzf"
-  },
-  ["fzf.vim"] = {
-    loaded = true,
-    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/fzf.vim"
-  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
@@ -142,6 +134,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/plenary.nvim"
   },
+  ["popup.nvim"] = {
+    loaded = true,
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/popup.nvim"
+  },
   ["quick-scope"] = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/quick-scope"
@@ -149,6 +145,10 @@ _G.packer_plugins = {
   ["rest.vim"] = {
     loaded = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/start/rest.vim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
   ["vim-abolish"] = {
     loaded = true,
@@ -175,10 +175,6 @@ _G.packer_plugins = {
     loaded = false,
     needs_bufread = true,
     path = "/home/taylor/.local/share/nvim/site/pack/packer/opt/vim-fugitive"
-  },
-  ["vim-markdown"] = {
-    loaded = true,
-    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-markdown"
   },
   ["vim-repeat"] = {
     loaded = true,
@@ -214,7 +210,9 @@ time([[Config for neorg]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
+if vim.fn.exists(":Git") ~= 2 then
 vim.cmd [[command! -nargs=* -range -bang -complete=file Git lua require("packer.load")({'vim-fugitive'}, { cmd = "Git", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+end
 time([[Defining lazy-load commands]], false)
 
 if should_profile then save_profiles() end

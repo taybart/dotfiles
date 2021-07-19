@@ -9,7 +9,6 @@ return {
       },
     },
   },
-  typescript = {},
   tailwindcss = {
     filetypes = {
       "aspnetcorerazor", "blade", "django-html", "edge", "eelixir", "ejs",

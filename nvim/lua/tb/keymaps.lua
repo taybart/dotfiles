@@ -58,6 +58,11 @@ u.tnoremap('<Esc>', '<c-\\><c-n>')
 u.nnoremap('zj', 'o<Esc>k', {silent=true})
 u.nnoremap('zk', 'O<Esc>j', {silent=true})
 
+
+-- Move lines in visual mode
+u.vnoremap('J', ':m \'>+1<cr>gv=gv')
+u.vnoremap('K', ':m \'<-2<cr>gv=gv')
+
 -- Fix all indents
 -- u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 
@@ -92,14 +97,24 @@ u.vnoremap('<leader>be', ':<c-u>lua require("b64").encode()<cr>', {silent = true
 
 ----- Searching
 
+-- -- Live grep
+-- u.nnoremap('<c-s>', ':Rg<cr>')
+-- -- Search under cursor
+-- u.nnoremap('<c-a>', ':Rg <c-r><c-w><cr>')
+-- -- Search using selected text
+-- u.vnoremap('<c-a>', 'y0:Rg <c-r>0<cr>')
+-- -- fzf files finder
+-- -- u.nnoremap('<C-p>', ':Files<CR>')
+
 -- Live grep
-u.nnoremap('<c-s>', ':Rg<cr>')
+u.nnoremap('<c-s>', ':lua require("telescope.builtin").live_grep()<cr>')
 -- Search under cursor
 u.nnoremap('<c-a>', ':Rg <c-r><c-w><cr>')
 -- Search using selected text
 u.vnoremap('<c-a>', 'y0:Rg <c-r>0<cr>')
--- fzf files finder
-u.nnoremap('<C-p>', ':Files<CR>')
+
+-- Telescope finder
+u.nnoremap('<C-p>', ':lua require("telescope.builtin").find_files()<cr>')
 
 vim.api.nvim_command[[
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1, <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%') : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'), <bang>0)

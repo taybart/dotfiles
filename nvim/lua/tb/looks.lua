@@ -6,16 +6,24 @@ local M = {}
 
 vim.o.background = "dark" -- or "light" for light mode
 vim.cmd 'colorscheme gruvbox'
+-- nice markdown highlighting
+vim.g.markdown_fenced_languages = {
+  'html',
+  'python',
+  'sh',
+  'bash=sh',
+  'shell=sh',
+  'go',
+  'javascript',
+  'js=javascript',
+  'typescript',
+  'ts=typescript',
+  'py=python',
+}
 
 ---- Tree Sitter
-require('nvim-treesitter.configs').setup {
-  ensure_installed = 'maintained',
-  highlight = {
-    enable = true,
-  },
-}
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-parser_configs.norg = {
+local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+parser_config.norg = {
     install_info = {
         url = "https://github.com/vhyrro/tree-sitter-norg",
         files = { "src/parser.c" },
@@ -23,7 +31,11 @@ parser_configs.norg = {
     },
 }
 
-require "nvim-treesitter.configs".setup {
+require('nvim-treesitter.configs').setup {
+  ensure_installed = 'maintained',
+  highlight = {
+    enable = true,
+  },
   playground = {
     enable = true,
     disable = {},
