@@ -66,6 +66,7 @@ lspinstall.post_install_hook = function ()
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 
+-- TODO: This freezes if there is an error in the syntax of go. SHOULD NOT DOODOO
 function M.go_organize_imports_sync(timeoutms)
   local context = {source = {organizeImports = true}}
   vim.validate {context = {context, 't', true}}
