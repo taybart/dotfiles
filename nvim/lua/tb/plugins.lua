@@ -9,7 +9,7 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command 'packadd packer.nvim'
 end
 
-vim.cmd([[autocmd BufWritePost plugins.lua source <afile> | PackerCompile]])
+vim.cmd('autocmd BufWritePost plugins.lua source <afile> | PackerCompile')
 
 return require('packer').startup(function()
   local use = require('packer').use
@@ -20,16 +20,29 @@ return require('packer').startup(function()
   ---------------------------------
   ---------- Probation ------------
   ---------------------------------
+
+  -- fix lsp colors
+  use 'folke/lsp-colors.nvim'
+
+  -- git gutter type thing
   use {
     'lewis6991/gitsigns.nvim',
     requires = {
       'nvim-lua/plenary.nvim'
     }
   }
+
+  -- replace tagbar, don't really need it
   use { 'liuchengxu/vista.vim' }
 
   -- cool treesitter debugger
   use { 'nvim-treesitter/playground' }
+
+  -- neovim in the browser
+  use {
+    'glacambre/firenvim',
+    run = function() vim.fn['firenvim#install'](0) end,
+  }
   -- neorg
   use {
     "vhyrro/neorg",
@@ -69,13 +82,10 @@ return require('packer').startup(function()
   ----------
   -- find --
   ----------
-  -- use { 'junegunn/fzf.vim',
-  --   requires = { 'junegunn/fzf', run = './install --bin', },
-  -- }
-
   use {
     'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+    branch = 'async_v2',
+    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim' }}
   }
 
   use {
@@ -101,15 +111,11 @@ return require('packer').startup(function()
   use { 'kabouzeid/nvim-lspinstall' }
   use { 'hrsh7th/nvim-compe' }
 
-  use { 'hrsh7th/vim-vsnip',
-    requires = { 'hrsh7th/vim-vsnip-integ' }
-  }
-
   -- comments
   use { 'tpope/vim-commentary' }
   -- surround
   use { 'tpope/vim-surround' }
-  -- repeat
+  -- repeat extra stuff
   use { 'tpope/vim-repeat' }
   -- additional subsitutions
   use { 'tpope/vim-abolish' }
@@ -121,13 +127,14 @@ return require('packer').startup(function()
   -- b64.nvim
   use { 'taybart/b64.nvim' }
 
+  -- useful lua functions
+  use { 'nvim-lua/plenary.nvim', branch = 'async_jobs_v2' }
 
-  use { 'nvim-lua/plenary.nvim' }
-
+  -- required with tmux
   use { 'christoomey/vim-tmux-navigator' }
   vim.g.tmux_navigator_no_mappings = 1
 
-  use { 'ntpeters/vim-better-whitespace' }
+  -- nice indicators for fF/tT
   use { 'unblevable/quick-scope' }
 
   -----------------------------
@@ -156,6 +163,12 @@ return require('packer').startup(function()
   -- colorscheme
   use { 'gruvbox-community/gruvbox' }
   vim.g.gruvbox_italic = 1
-  vim.g.gruvbox_sign_column="bg0"
+  vim.g.gruvbox_sign_column = "bg0"
+  vim.g.gruvbox_invert_selection = 0
+
+  -----------------------------
+  --------- Extras ------------
+  -----------------------------
+
 
 end)

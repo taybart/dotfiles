@@ -91,41 +91,18 @@ function M.go_organize_imports_sync(timeoutms)
   vim.lsp.buf.formatting()
 end
 
--- LSP signs
+-- LSP looks
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "✗", texthl = "GruvboxRed"})
 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", texthl = "GruvboxYellow"})
 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "GruvboxBlue"})
 vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", texthl = "GruvboxAqua"})
-
-
-------------------------------------
------------- nvim compe ------------
-------------------------------------
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'disable';
-  throttle_time = 80;
-  source_timeout = 200;
-  resolve_timeout = 800;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    neorg = true;
-  };
-}
+-- probably doesn't work
+-- vim.cmd[[
+-- hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
+-- hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
+-- hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
+-- hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
+-- ]]
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)

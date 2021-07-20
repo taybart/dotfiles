@@ -12,8 +12,8 @@ u.imap('jk', '<Esc>')
 u.imap('jK', '<Esc>')
 u.imap('JK', '<Esc>')
 
--- Quickly open/reload vim
-u.nnoremap('<leader>ev', ':Files ~/.dotfiles/nvim<cr>')
+-- Quickly open/reload nvim
+u.nnoremap('<leader>ev', ':lua require("tb/telescope").edit_config()<cr>')
 u.nnoremap('<leader>sv', ':lua require("tb/utils").reload_vim()<cr>')
 
 -- Idiot proofing
@@ -92,33 +92,20 @@ u.nnoremap('<c-;>', ':TmuxNavigatePrevious<cr>', { silent = true })
 u.nnoremap('<F8>', ':TagbarToggle<cr>')
 
 -- base64
-u.vnoremap('<leader>bd', ':<c-u>lua require("b64").decode()<cr>', {silent = true})
-u.vnoremap('<leader>be', ':<c-u>lua require("b64").encode()<cr>', {silent = true})
+u.vnoremap('<leader>bd', ':lua require("b64").decode()<cr>', {silent = true})
+u.vnoremap('<leader>be', ':lua require("b64").encode()<cr>', {silent = true})
 
 ----- Searching
-
--- -- Live grep
--- u.nnoremap('<c-s>', ':Rg<cr>')
--- -- Search under cursor
--- u.nnoremap('<c-a>', ':Rg <c-r><c-w><cr>')
--- -- Search using selected text
--- u.vnoremap('<c-a>', 'y0:Rg <c-r>0<cr>')
--- -- fzf files finder
--- -- u.nnoremap('<C-p>', ':Files<CR>')
 
 -- Live grep
 u.nnoremap('<c-s>', ':lua require("telescope.builtin").live_grep()<cr>')
 -- Search under cursor
-u.nnoremap('<c-a>', ':Rg <c-r><c-w><cr>')
+u.nnoremap('<c-a>', ':lua require("tb/telescope").search_cword()<cr>')
 -- Search using selected text
-u.vnoremap('<c-a>', 'y0:Rg <c-r>0<cr>')
+u.vnoremap('<c-a>', ':lua require("tb/telescope").search_selection()<cr>')
 
 -- Telescope finder
 u.nnoremap('<C-p>', ':lua require("telescope.builtin").find_files()<cr>')
-
-vim.api.nvim_command[[
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --hidden --ignore-case --no-heading --color=always '.shellescape(<q-args>), 1, <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:60%') : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'), <bang>0)
-]]
 
 -- NOTE: this is the todo mentioned below
 -- function go_add_jtags()

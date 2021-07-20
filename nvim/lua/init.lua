@@ -55,39 +55,86 @@ vim.opt.termguicolors=true
 vim.opt.swapfile=false
 vim.opt.backup=false
 
--- gaps while scrolling
--- vim.opt.scrolloff=5
-
--- old school tty
+-- keep it tight
 vim.opt.colorcolumn='80'
 
---[[
-set undodir=~/.vim/something
-set undofile
-]]--
+
+----- AU ------
+require('tb/utils').create_augroups({
+  nvim = {
+    { 'InsertEnter', '*', 'set timeoutlen=100' },
+    { 'InsertLeave', '*', 'set timeoutlen=1000' },
+  },
+
+  nvim_tree = {
+    { 'BufEnter NvimTree set cursorline' },
+  },
+
+  language_autocmd = {
+    { 'BufRead,BufNewFile', '*.tmpl', 'setfiletype gohtmltmpl' },
+  },
+
+  commentary = {
+    { 'FileType helm setlocal commentstring=#\\ %s' },
+    { 'FileType svelte setlocal commentstring=<!--\\ %s\\ -->' },
+    { 'FileType gomod setlocal commentstring=//\\ %s' },
+  },
+
+})
 
 require ('tb/plugins')
+
 require ('tb/looks')
 require ('tb/keymaps')
-require ('tb/autocmds')
 require ('tb/lsp')
 
 -- setups
 
+-- different config if in browser
+if vim.g.started_by_firenvim ~= nil then
+    vim.opt.guifont='JetBrainsMono_Nerd_Font_Mono:h11'
+    vim.g['airline#extensions#tabline#enabled'] = 0
+    vim.g.airline_disable_statusline = 1
+    vim.opt.showmode=false
+    vim.opt.ruler=false
+    vim.opt.laststatus=0
+    vim.opt.showcmd=false
+    vim.opt.cmdheight=1
+end
 
 
+---- compe
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'disable';
+  throttle_time = 80;
+  source_timeout = 200;
+  resolve_timeout = 800;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    vsnip = true;
+    neorg = true;
+  };
+}
+
+-- should not need this much config, revisit later
 require('gitsigns').setup{
   current_line_blame = true,
   current_line_blame_delay = 0,
-  signs = {
-    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-    delete       = {hl = 'GitSignsDelete', text = '-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-  },
   keymaps = {
-
     ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
     ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
 
