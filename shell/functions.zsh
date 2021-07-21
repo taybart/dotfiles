@@ -32,8 +32,14 @@ function notes() {
 
 
 function dotenv {
-  if [ -f "./.env" ]; then
-    eval $(egrep -v '^#' .env | xargs) $@
+  file="./.env"
+  if [ "$1" = "-f" ]; then
+    shift
+    file=$1
+    shift
+  fi
+  if [ -f "$file" ]; then
+    eval $(egrep -v '^#' $file | xargs) $@
   else
     echo "No .env file exits"
     return 1
