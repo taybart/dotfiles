@@ -2,7 +2,7 @@
 
 usage="usage: $0 -c {up|down|mute} [-i increment] [-m mixer]"
 command=
-increment=5%
+increment=2%
 mixer=Master
 
 while getopts i:m:h o
