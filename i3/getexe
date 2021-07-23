@@ -10,13 +10,13 @@ executibles() {
   && find "$HOME/.local/share/applications" -name "*.desktop" 2>/dev/null
 }
 
-selected="$(executibles | sort -u | fzf -e -i -m --reverse --delimiter / --with-nth -1)"
+selected="$(executibles | sort -u | fzf --delimiter / -1)"
 [ -z "$selected" ] && exit
 
 for cmd in $selected; do
   if [[ $cmd == *.desktop ]]; then
     lnch xdg-open $cmd
-  else 
+  else
     lnch $cmd
   fi
 done
