@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+source ~/.zshrc
+
+executibles() {
+  # print -rC1 -- ${(ko)commands} 2>/dev/null
+  print -rC1 -- ${(ko)commands} 2>/dev/null \
+  && find /usr/share/applications -name "*.desktop" 2>/dev/null \
+  && find /usr/local/share/applications -name "*.desktop" 2>/dev/null \
+  && find "$HOME/.local/share/applications" -name "*.desktop" 2>/dev/null
+}
+
+selected="$(executibles | sort -u | fzf -e -i -m --reverse --delimiter / --with-nth -1)"
+[ -z "$selected" ] && exit
+
+for cmd in $selected; do
+  if [[ $cmd == *.desktop ]]; then
+    lnch xdg-open $cmd
+  else 
+    lnch $cmd
+  fi
+done

@@ -31,7 +31,8 @@ bindsym $mod+q kill
 
 # start program launcher
 # bindsym $mod+Shift+d exec --no-startup-id dmenu_recency
-bindsym $mod+Shift+d exec --no-startup-id rofi -show run -theme ~/.config/rofi/theme
+# bindsym $mod+Shift+d exec --no-startup-id rofi -show run -theme ~/.config/rofi/theme
+bindsym $mod+Shift+d exec ~/.i3/fzfmenu.sh
 bindsym $mod+Tab exec rofi -show window
 
 # launch categorized menu
@@ -49,9 +50,6 @@ bindsym $mod+Return exec kitty --title terminal
 # Screenshot
 bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
 bindsym Print --release exec "import png:- | xclip -sel c -t image/png"
-
-# Set shut down, restart and locking features
-bindsym $mod+0 exec /home/taylor/.config/rofi/powermenu.sh
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -221,6 +219,7 @@ for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="zoom"] floating enable normal
 for_window [class="blueman-manager"] floating enable normal
 for_window [title="Picture-in-Picture"] floating enable sticky enable normal
+for_window [class="kitty" instance="fzfmenu"] floating enable
 # for_window [title="Slack | Slack call*"] floating enable
 
 # switch to workspace with urgent window automatically
