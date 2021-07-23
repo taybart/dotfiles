@@ -79,6 +79,7 @@ u.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>')
 
 -- drawer
 u.nnoremap('<Leader>f', ':NvimTreeToggle<cr>', {silent = true})
+u.nnoremap('<Leader>F', ':NvimTreeFindFile<cr>', {silent = true})
 
 -- tmux integration
 u.nnoremap('<c-m>', ':TmuxNavigateDown<cr>', { silent = true })

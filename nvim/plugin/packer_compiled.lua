@@ -7,7 +7,7 @@ end
 
 vim.api.nvim_command('packadd packer.nvim')
 
-local no_errors = pcall(function()
+local no_errors, error_msg = pcall(function()
 
   local time
   local profile_info
@@ -44,8 +44,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/root/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?.lua;/root/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?/init.lua;/root/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?.lua;/root/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/root/.cache/nvim/packer_hererocks/2.0.5/lib/lua/5.1/?.so"
+local package_path_str = "/home/taylor/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?.lua;/home/taylor/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?/init.lua;/home/taylor/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?.lua;/home/taylor/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/taylor/.cache/nvim/packer_hererocks/2.0.5/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -71,130 +71,134 @@ time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["b64.nvim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/b64.nvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/b64.nvim"
   },
   ["ctrlsf.vim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/ctrlsf.vim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/ctrlsf.vim"
   },
   firenvim = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/firenvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/firenvim"
   },
   ["gitsigns.nvim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
   },
   ["goyo.vim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/goyo.vim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/goyo.vim"
   },
   gruvbox = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/gruvbox"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/gruvbox"
   },
   ["lsp-colors.nvim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/lsp-colors.nvim"
   },
   neorg = {
     config = { "\27LJ\1\2Ã\2\0\2\a\0\t\0\0167\2\0\1%\3\1\0003\4\6\0002\5\5\0003\6\2\0;\6\1\0053\6\3\0;\6\2\0053\6\4\0;\6\3\0053\6\5\0;\6\4\5:\5\a\0043\5\b\0>\2\4\1G\0\1\0\1\0\2\fnoremap\2\vsilent\2\6n\1\0\0\1\3\0\0\14<C-Space>-core.norg.qol.todo_items.todo.task_cycle\1\3\0\0\bgtp/core.norg.qol.todo_items.todo.task_pending\1\3\0\0\bgtu.core.norg.qol.todo_items.todo.task_undone\1\3\0\0\bgtd,core.norg.qol.todo_items.todo.task_done\tnorg\22map_event_to_moden\1\0\4\0\5\0\b4\0\0\0%\1\1\0>\0\2\0027\1\2\0%\2\3\0001\3\4\0>\1\3\1G\0\1\0\0)core.keybinds.events.enable_keybinds\ron_event\20neorg.callbacks\frequireŠ\1\1\0\4\0\n\0\0154\0\0\0%\1\1\0>\0\2\0027\0\2\0003\1\6\0003\2\3\0002\3\0\0:\3\4\0022\3\0\0:\3\5\2:\2\a\0011\2\b\0:\2\t\1>\0\2\1G\0\1\0\thook\0\tload\1\0\0\24core.norg.concealer\18core.defaults\1\0\0\nsetup\nneorg\frequire\0" },
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/neorg"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/neorg"
   },
   ["nvim-colorizer.lua"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua"
   },
   ["nvim-compe"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/nvim-compe"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-compe"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
   },
   ["nvim-lspinstall"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/nvim-tree.lua"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+  },
+  ["nvim-ts-context-commentstring"] = {
+    loaded = true,
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-ts-context-commentstring"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/packer.nvim"
   },
   playground = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/playground"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/playground"
   },
   ["plenary.nvim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/plenary.nvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/plenary.nvim"
   },
   ["popup.nvim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/popup.nvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
   ["quick-scope"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/quick-scope"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/quick-scope"
   },
   ["rest.vim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/rest.vim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/rest.vim"
   },
   ["telescope.nvim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/telescope.nvim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
   ["vim-abolish"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vim-abolish"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-abolish"
   },
   ["vim-airline"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vim-airline"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-airline"
   },
   ["vim-airline-themes"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vim-airline-themes"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-airline-themes"
   },
   ["vim-commentary"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vim-commentary"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-commentary"
   },
   ["vim-fugitive"] = {
     commands = { "Git" },
     loaded = false,
     needs_bufread = true,
-    path = "/root/.local/share/nvim/site/pack/packer/opt/vim-fugitive"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/opt/vim-fugitive"
   },
   ["vim-repeat"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vim-repeat"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-repeat"
   },
   ["vim-surround"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vim-surround"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-surround"
   },
   ["vim-tmux-navigator"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator"
   },
   ["vista.vim"] = {
     loaded = true,
-    path = "/root/.local/share/nvim/site/pack/packer/start/vista.vim"
+    path = "/home/taylor/.local/share/nvim/site/pack/packer/start/vista.vim"
   }
 }
 
@@ -206,7 +210,9 @@ time([[Config for neorg]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
+if vim.fn.exists(":Git") ~= 2 then
 vim.cmd [[command! -nargs=* -range -bang -complete=file Git lua require("packer.load")({'vim-fugitive'}, { cmd = "Git", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+end
 time([[Defining lazy-load commands]], false)
 
 if should_profile then save_profiles() end
@@ -214,5 +220,5 @@ if should_profile then save_profiles() end
 end)
 
 if not no_errors then
-  vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: ".v:exception | echom "Please check your config for correctness" | echohl None')
+  vim.api.nvim_command('echohl ErrorMsg | echom "Error in packer_compiled: '..error_msg..'" | echom "Please check your config for correctness" | echohl None')
 end

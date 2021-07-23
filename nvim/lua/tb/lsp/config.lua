@@ -3,7 +3,7 @@ return {
     cmd = {"gopls", "serve"},
     settings = {
       gopls = {
-        buildFlags =  {"-tags=enterprise,beyondbank,oprah"},
+        buildFlags =  {"-tags=auth,kyc,oprah"},
         analyses = { unusedparams = true },
         staticcheck = true,
       },

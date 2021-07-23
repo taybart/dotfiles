@@ -3,18 +3,45 @@ local M = {}
 local lspconfig = require('lspconfig')
 local lspinstall = require('lspinstall')
 
+local u = require('tb/utils/maps')
+
+---- compe
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'disable';
+  throttle_time = 80;
+  source_timeout = 200;
+  resolve_timeout = 800;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    neorg = true;
+  };
+}
 
 -- Set keymap if attached
 -- local on_attach = function(client, bufnr)
 local on_attach = function()
   local opts = { noremap=true, silent=true }
-  vim.api.nvim_set_keymap('n', 'gD', ':lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_set_keymap('n', 'gd', ':lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_set_keymap('n', 'gi', ':lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_set_keymap('n', '[d', ':lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  vim.api.nvim_set_keymap('n', ']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  vim.api.nvim_set_keymap('n', 'E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  u.nmap('gD', ':lua vim.lsp.buf.declaration()<CR>', opts)
+  u.nmap('gd', ':lua vim.lsp.buf.definition()<CR>', opts)
+  u.nmap('gi', ':lua vim.lsp.buf.implementation()<CR>', opts)
+  u.nmap('K', ':lua vim.lsp.buf.hover()<CR>', opts)
+  u.nmap('[d', ':lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  u.nmap(']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  u.nmap('E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 
 
   vim.cmd([[
@@ -123,8 +150,8 @@ end
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", {1}) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
+  -- elseif vim.fn.call("vsnip#available", {1}) == 1 then
+  --   return t "<Plug>(vsnip-expand-or-jump)"
   elseif check_back_space() then
     return t "<Tab>"
   else
@@ -134,17 +161,17 @@ end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
+  -- elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+  --   return t "<Plug>(vsnip-jump-prev)"
   else
     -- If <S-Tab> is not working in your terminal, change it to <C-h>
     return t "<S-Tab>"
   end
 end
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<CR>", 'compe#confirm("<CR>")', {silent=true, expr=true, noremap=true})
+u.imap("<Tab>", "v:lua.tab_complete()", {expr = true})
+u.smap("<Tab>", "v:lua.tab_complete()", {expr = true})
+u.imap("<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+u.smap("<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+u.inoremap("<CR>", 'compe#confirm("<CR>")', {silent=true, expr=true})
 
 return M

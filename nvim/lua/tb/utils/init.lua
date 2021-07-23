@@ -37,27 +37,12 @@ end
 
 
 function M.reload_vim()
-  -- local reload_module = require('plenary.reload').reload_module
-
-  -- reload_module("plugins", false)
-  -- require('plugins')
-
-
-  -- reload_module("looks", false)
-  -- require('looks')
-
+  M.reload_module('tb/plugins')
   M.reload_module("tb/keymaps")
-
-  -- reload_module("autocmds", false)
-  -- require('autocmds')
-
-  M.reload_lsp()
-end
-
-function M.reload_lsp()
+  M.reload_module('tb/looks')
   M.reload_module('tb/lsp')
+  M.reload_module("init")
 end
-
 
 -- https://github.com/norcalli/nvim_utils
 function M.create_augroups(definitions)

@@ -5,8 +5,8 @@ local M = {}
 
 local merge = require('tb/utils').merge
 
-
 local map = vim.api.nvim_set_keymap
+-- normal map
 function M.nmap(key, cmd, opts)
   if opts == nil then
     opts = {}
@@ -22,6 +22,8 @@ function M.nnoremap(key, cmd, opts)
 
   map('n', key, cmd,  opts)
 end
+
+-- insert map
 function M.imap(key, cmd, opts)
   if opts == nil then
     opts = {}
@@ -36,6 +38,8 @@ function M.inoremap(key, cmd, opts)
   end
   map('i', key, cmd, opts)
 end
+
+-- visual map
 function M.vmap(key, cmd, opts)
   if opts == nil then
     opts = {}
@@ -50,6 +54,8 @@ function M.vnoremap(key, cmd, opts)
   end
   map('v', key, cmd, opts)
 end
+
+-- command map
 function M.cmap(key, cmd, opts)
   if opts == nil then
     opts = {}
@@ -65,6 +71,8 @@ function M.cnoremap(key, cmd, opts)
 
   map('c', key, cmd,  opts)
 end
+
+-- terminal map
 function M.tmap(key, cmd, opts)
   if opts == nil then
     opts = {}
@@ -81,5 +89,21 @@ function M.tnoremap(key, cmd, opts)
   map('t', key, cmd,  opts)
 end
 
+-- select map
+function M.smap(key, cmd, opts)
+  if opts == nil then
+    opts = {}
+  end
+  map('s', key, cmd, opts)
+end
+function M.snoremap(key, cmd, opts)
+  if opts ~= nil then
+    merge(opts, { noremap = true })
+  else
+    opts = {}
+  end
+
+  map('s', key, cmd,  opts)
+end
 
 return M

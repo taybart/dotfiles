@@ -21,6 +21,8 @@ return require('packer').startup(function()
   ---------- Probation ------------
   ---------------------------------
 
+  -- treesitter commentstring
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
   -- fix lsp colors
   use 'folke/lsp-colors.nvim'
 
