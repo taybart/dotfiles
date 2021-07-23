@@ -17,7 +17,7 @@ alias gcm="git commit -m"
 alias gmom="git fetch --all && git merge origin/master"
 alias gco="git checkout"
 alias gd="git diff --patience --ignore-space-change"
-alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
+# alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 
 # K8s Aliases
 # alias kc="kubectl"

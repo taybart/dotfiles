@@ -61,7 +61,7 @@ if [ "$icon_name" = "" ]; then
 fi
 
 $HOME/.i3/notify-send.sh " " \
-  --expire-time 300 \
+  --expire-time 800 \
   --replace-file=/tmp/volumenotification \
   --icon $icon_name \
   --hint int:value:$display_volume \
