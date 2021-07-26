@@ -37,11 +37,13 @@ end
 
 
 function M.reload_vim()
+  M.reload_module('tb/utils')
   M.reload_module('tb/plugins')
-  M.reload_module("tb/keymaps")
+  M.reload_module('tb/keymaps')
   M.reload_module('tb/looks')
   M.reload_module('tb/lsp')
-  M.reload_module("init")
+  M.reload_module('tb/git')
+  M.reload_module('init')
 end
 
 -- https://github.com/norcalli/nvim_utils

@@ -24,7 +24,7 @@ alias gd="git diff --patience --ignore-space-change"
 
 alias newredis="helm install redis --set cluster.enabled=false --set usePassword=false bitnami/redis"
 
-alias panetitle="printf '\033]2;%s\033\\'"
+alias pt="printf '\033]2;%s\033\\'"
 # alias notes="nvim ~/.notes/notes"
 
 # Platform Specific
