@@ -219,8 +219,8 @@ function gosb() {
   echo "package main\n\nfunc main() {\n}" > main.go
   nvim -c 'exe "normal jj"' main.go
   cd $ret
-  read "remove?Delete sandbox? [Y/n] "
-  if [[ "$remove" =~ ^[Nn]$ ]]; then
+  read "keep?Keep sandbox? [y/N] "
+  if [[ "$keep" =~ ^[Yy]$ ]]; then
     read "name?Name: "
     mkdir -p ~/dev/sandboxes
     mv $folder ~/dev/sandboxes/$name
