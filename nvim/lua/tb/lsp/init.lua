@@ -144,14 +144,35 @@ local check_back_space = function()
     end
 end
 
+-- TODO add fuzzy finder from history list with no arguments
+vim.cmd[[
+command! -nargs=* GoTags call luaeval('require("tb/lsp").set_go_tags(_A)', "<args>")
+]]
+
+function M.set_go_tags (tags)
+  local go_config = require('tb/lsp/config').go
+
+  go_config.settings.gopls.buildFlags = {"-tags="..tags}
+
+  lspinstall.setup()
+
+  local config = make_base_config()
+  if go_config ~= nil then
+    merge_config(config, go_config)
+  end
+  lspconfig.go.setup(config)
+
+  -- local reload_module = require('tb/utils').reload_module
+
+  -- reload_module('tb/lsp')
+end
+
 -- Use (s-)tab to:
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
-  -- elseif vim.fn.call("vsnip#available", {1}) == 1 then
-  --   return t "<Plug>(vsnip-expand-or-jump)"
   elseif check_back_space() then
     return t "<Tab>"
   else
@@ -161,8 +182,6 @@ end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  -- elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-  --   return t "<Plug>(vsnip-jump-prev)"
   else
     -- If <S-Tab> is not working in your terminal, change it to <C-h>
     return t "<S-Tab>"
