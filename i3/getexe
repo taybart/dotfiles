@@ -15,8 +15,8 @@ selected="$(executibles | sort -u | fzf --delimiter / -1)"
 
 for cmd in $selected; do
   if [[ $cmd == *.desktop ]]; then
-    lnch xdg-open $cmd
+    launch xdg-open $cmd
   else
-    lnch $cmd
+    launch $cmd
   fi
 done
