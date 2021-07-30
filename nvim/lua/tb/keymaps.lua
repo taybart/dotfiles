@@ -42,9 +42,15 @@ u.nnoremap('H', '^')
 u.nnoremap('L', '$')
 
 -- Buffer control
-u.nnoremap('<leader>l', ':bnext<cr>')
-u.nnoremap('<leader>n', ':bnext<cr>')
-u.nnoremap('<leader>h', ':bprevious<cr>')
+-- u.nnoremap('<leader>l', ':bnext<cr>')
+-- u.nnoremap('<leader>n', ':bnext<cr>')
+-- u.nnoremap('<leader>h', ':bprevious<cr>')
+-- u.nnoremap('<leader>d', ':bp <BAR> bd #<cr>')
+
+u.nnoremap('<leader>l', ':BufferLineCycleNext<cr>')
+u.nnoremap('<leader>h', ':BufferLineCyclePrev<cr>')
+u.nnoremap('<leader>L', ':BufferLineMoveNext<cr>')
+u.nnoremap('<leader>H', ':BufferLineMovePrev<cr>')
 u.nnoremap('<leader>d', ':bp <BAR> bd #<cr>')
 
 -- escape in terminal
@@ -90,14 +96,15 @@ u.nnoremap('<c-;>', ':TmuxNavigatePrevious<cr>', { silent = true })
 
 
 -- tagbar
-u.nnoremap('<F8>', ':TagbarToggle<cr>')
+u.nnoremap('<F8>', ':Vista<cr>')
 
 -- base64
 u.vnoremap('<leader>bd', ':lua require("b64").decode()<cr>', {silent = true})
 u.vnoremap('<leader>be', ':lua require("b64").encode()<cr>', {silent = true})
 
+---------------
 ----- Searching
-
+---------------
 -- Live grep
 u.nnoremap('<c-s>', ':lua require("telescope.builtin").live_grep()<cr>')
 -- Search under cursor
@@ -105,8 +112,10 @@ u.nnoremap('<c-a>', ':lua require("tb/telescope").search_cword()<cr>')
 -- Search using selected text
 u.vnoremap('<c-a>', ':lua require("tb/telescope").search_selection()<cr>')
 
--- Telescope finder
-u.nnoremap('<C-p>', ':lua require("telescope.builtin").find_files()<cr>')
+-- Find files
+u.nnoremap('<c-p>', ':lua require("telescope.builtin").find_files()<cr>')
+-- Find open buffers
+u.nnoremap('<c-b>', ':lua require("telescope.builtin").buffers()<cr>')
 
 -- NOTE: this is the todo mentioned below
 -- function go_add_jtags()

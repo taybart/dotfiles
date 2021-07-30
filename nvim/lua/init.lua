@@ -86,18 +86,18 @@ require ('tb/plugins')
 require ('tb/looks')
 require ('tb/keymaps')
 require ('tb/lsp')
-require ('tb/git')
+
 
 -- setups
 
--- different config if in browser
-if vim.g.started_by_firenvim ~= nil then
-    vim.opt.guifont='JetBrainsMono_Nerd_Font_Mono:h11'
-    vim.g['airline#extensions#tabline#enabled'] = 0
-    vim.g.airline_disable_statusline = 1
-    vim.opt.showmode=false
-    vim.opt.ruler=false
-    vim.opt.laststatus=0
-    vim.opt.showcmd=false
-    vim.opt.cmdheight=1
-end
+-- -- different config if in browser
+-- if vim.g.started_by_firenvim ~= nil then
+--     vim.opt.guifont='JetBrainsMono_Nerd_Font_Mono:h11'
+--     vim.g['airline#extensions#tabline#enabled'] = 0
+--     vim.g.airline_disable_statusline = 1
+--     vim.opt.showmode=false
+--     vim.opt.ruler=false
+--     vim.opt.laststatus=0
+--     vim.opt.showcmd=false
+--     vim.opt.cmdheight=1
+-- end

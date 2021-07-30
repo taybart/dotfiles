@@ -20,34 +20,69 @@ return require('packer').startup(function()
   ---------------------------------
   ---------- Probation ------------
   ---------------------------------
+  use { 'tweekmonster/startuptime.vim', opt = true, cmd = {'StartupTime'} }
+
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    config = function()
+      require('tb/utils').reload_module('lualine')
+      require('lualine').setup{
+          sections = {
+            lualine_c = {
+              {
+                'filename',
+                 -- displays file status (readonly status, modified status)
+                file_status = true,
+                 -- 0 = just filename, 1 = relative path, 2 = absolute path
+                path = 1
+              }
+            }
+          }
+      }
+    end,
+  }
+
+  use {
+    'akinsho/nvim-bufferline.lua',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function ()
+      require("bufferline").setup{
+        options = {
+          diagnostics = "nvim_lsp",
+          separator_style = "slant",
+          max_name_length = 30,
+          show_close_icon = false,
+          right_mouse_command = nil,
+          middle_mouse_command = "bdelete! %d",
+          name_formatter = function(buf)  -- buf contains a "name", "path" and "bufnr"
+            return vim.fn.fnamemodify(buf.name, ':t:r')
+            -- -- remove extension from markdown files for example
+            -- if buf.name:match('%.md') then
+            --   return vim.fn.fnamemodify(buf.name, ':t:r')
+            -- end
+          end,
+        }
+      }
+    end
+  }
 
   -- treesitter commentstring
   use 'JoosepAlviste/nvim-ts-context-commentstring'
+
   -- fix lsp colors
   use 'folke/lsp-colors.nvim'
-
-  -- git gutter type thing
-  use {
-    'lewis6991/gitsigns.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim'
-    }
-  }
 
   -- replace tagbar, don't really need it
   use { 'liuchengxu/vista.vim' }
 
   -- cool treesitter debugger
-  use { 'nvim-treesitter/playground' }
+  use { 'nvim-treesitter/playground', opt = true, cmd = 'TSPlaygroundToggle' }
 
-  -- neovim in the browser
-  use {
-    'glacambre/firenvim',
-    run = function() vim.fn['firenvim#install'](0) end,
-  }
   -- neorg
   use {
     "vhyrro/neorg",
+    ft = "norg",
     config = function()
         require('neorg').setup {
             -- Tell Neorg what modules to load
@@ -99,6 +134,7 @@ return require('packer').startup(function()
   vim.g.nvim_tree_group_empty = 1
   vim.g.nvim_tree_highlight_opened_files = 1
   vim.g.nvim_tree_auto_resize = 0
+  vim.g.nvim_tree_width = '30%'
   vim.g.nvim_tree_window_picker_exclude = {
     filetype = { 'packer', 'vista' },
   }
@@ -139,12 +175,53 @@ return require('packer').startup(function()
   -- nice indicators for fF/tT
   use { 'unblevable/quick-scope' }
 
+  -- git gutter type thing
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function ()
+
+      vim.cmd[[
+      command! ShowHunk lua require"gitsigns".preview_hunk()
+      command! ResetHunk lua require"gitsigns".reset_hunk()
+      command! StageHunk lua require"gitsigns".stage_hunk()
+      ]]
+
+      -- should not need this much config, revisit later
+      require('gitsigns').setup{
+        current_line_blame = true,
+        current_line_blame_delay = 0,
+        keymaps = {
+          ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
+          ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
+
+          -- ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+          -- ['v <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+          -- ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+          ['n <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+          ['v <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+          -- ['n <leader>ghR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+          ['n <leader>gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+          -- ['n <leader>ghb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
+
+          -- Text objects
+          ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
+          ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
+        },
+      }
+    end
+  }
+
   -----------------------------
   --------- Looks -------------
   -----------------------------
 
   -- syntax highlighting with treesitter
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    branch = '0.5-compat',
+    run = ':TSUpdate'
+  }
 
   -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
   -- use { 'chrisbra/Colorizer' {opt=true}}
@@ -155,18 +232,10 @@ return require('packer').startup(function()
   -- special global for checking if we are taking notes
   vim.g.goyo_mode = 0
 
-  -- status line, tab line
-  use { 'vim-airline/vim-airline',
-    requires = {'vim-airline/vim-airline-themes' },
-  }
-  vim.g['airline#extensions#tabline#enabled'] = 1
-  vim.g.airline_powerline_fonts = 1
-
   -- colorscheme
   use { 'gruvbox-community/gruvbox' }
   vim.g.gruvbox_italic = 1
   vim.g.gruvbox_sign_column = "bg0"
-  vim.g.gruvbox_invert_selection = 0
 
   -----------------------------
   --------- Extras ------------
