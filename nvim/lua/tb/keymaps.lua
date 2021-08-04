@@ -17,8 +17,10 @@ u.nnoremap('<leader>ev', ':lua require("tb/telescope").edit_config()<cr>')
 u.nnoremap('<leader>sv', ':lua require("tb/utils").reload_vim()<cr>')
 
 -- Idiot proofing
-u.cmap('W', 'w')
-u.cmap('Q', 'q')
+vim.cmd('command W w')
+vim.cmd('command Q q')
+vim.cmd('command WQ wq')
+vim.cmd('command Wq wq')
 
 -------------------
 ---- MOVEMENT -----
@@ -69,6 +71,15 @@ u.nnoremap('zk', 'O<Esc>j', {silent=true})
 u.vnoremap('J', ':m \'>+1<cr>gv=gv')
 u.vnoremap('K', ':m \'<-2<cr>gv=gv')
 
+-- better undo breakpoints
+u.inoremap(',', ',<c-g>u')
+u.inoremap('.', '.<c-g>u')
+u.inoremap('!', '!<c-g>u')
+u.inoremap('?', '?<c-g>u')
+
+-- make yank work like the others
+u.nnoremap('Y', 'y$')
+
 -- Fix all indents
 -- u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 
@@ -77,7 +88,11 @@ u.nnoremap('<Tab>', '==')
 u.vnoremap('<Tab>', '=')
 
 -- Get rid of the fucking stupid OCD whitespace
-u.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>')
+-- Get rid of the fucking stupid <200b>
+u.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>:%s/\\%u200b//g<cr>:noh<cr>')
+-- -- Get rid of the fucking stupid <200b>
+-- u.nnoremap('<leader>W<cr>', ':%s/\\%u200b//g<cr>:noh<cr>')
+
 --
 -------------------
 ----- PLUGINS -----

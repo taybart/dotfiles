@@ -11,6 +11,28 @@ function config {
   esac
 }
 
+function dnd() {
+  if [ -n $1 ]; then
+    if [[ "$1" =~ "^true|false$" ]]; then
+      xfconf-query -c xfce4-notifyd -p /do-not-disturb -s $1
+      return
+    else
+      echo "unknown parameter $1"
+      return
+    fi
+  fi
+  is_dnd=$(xfconf-query -c xfce4-notifyd -p /do-not-disturb)
+  # xfconf-query -c xfce4-notifyd -p /do-not-disturb -T
+  if [ "$is_dnd" = "true" ]; then
+    xfconf-query -c xfce4-notifyd -p /do-not-disturb -s false
+    notify-send "dnd off"
+    echo "🔔"
+  else
+    xfconf-query -c xfce4-notifyd -p /do-not-disturb -s true
+    echo "🔕"
+  fi
+}
+
 function notes() {
   local_notes_dir=~/.cloud_notes
   cloud_notes_dir=tb/taybart/notes

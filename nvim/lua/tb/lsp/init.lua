@@ -31,6 +31,8 @@ require'compe'.setup {
   };
 }
 
+require('tb/lsp/go').setup()
+
 -- Set keymap if attached
 -- local on_attach = function(client, bufnr)
 local on_attach = function()
@@ -144,27 +146,15 @@ local check_back_space = function()
     end
 end
 
--- TODO add fuzzy finder from history list with no arguments
-vim.cmd[[
-command! -nargs=* GoTags call luaeval('require("tb/lsp").set_go_tags(_A)', "<args>")
-]]
-
-function M.set_go_tags (tags)
-  local go_config = require('tb/lsp/config').go
-
-  go_config.settings.gopls.buildFlags = {"-tags="..tags}
-
+function M.reload(lang, lang_config)
   lspinstall.setup()
 
   local config = make_base_config()
-  if go_config ~= nil then
-    merge_config(config, go_config)
+  if lang_config ~= nil then
+    merge_config(config, lang_config)
   end
-  lspconfig.go.setup(config)
 
-  -- local reload_module = require('tb/utils').reload_module
-
-  -- reload_module('tb/lsp')
+  lspconfig[lang].setup(config)
 end
 
 -- Use (s-)tab to:

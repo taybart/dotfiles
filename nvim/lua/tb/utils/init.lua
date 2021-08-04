@@ -37,8 +37,9 @@ end
 
 
 function M.reload_vim()
+  -- M.reload_module('tb/plugins')
+  vim.cmd('source '..vim.fn.stdpath('config')..'/lua/tb/plugins.lua | PackerCompile')
   M.reload_module('tb/utils')
-  M.reload_module('tb/plugins')
   M.reload_module('tb/keymaps')
   M.reload_module('tb/looks')
   M.reload_module('tb/lsp')

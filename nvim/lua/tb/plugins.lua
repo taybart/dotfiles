@@ -55,13 +55,6 @@ return require('packer').startup(function()
           show_close_icon = false,
           right_mouse_command = nil,
           middle_mouse_command = "bdelete! %d",
-          name_formatter = function(buf)  -- buf contains a "name", "path" and "bufnr"
-            return vim.fn.fnamemodify(buf.name, ':t:r')
-            -- -- remove extension from markdown files for example
-            -- if buf.name:match('%.md') then
-            --   return vim.fn.fnamemodify(buf.name, ':t:r')
-            -- end
-          end,
         }
       }
     end
@@ -121,7 +114,7 @@ return require('packer').startup(function()
   ----------
   use {
     'nvim-telescope/telescope.nvim',
-    branch = 'async_v2',
+    -- branch = 'async_v2',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim' }}
   }
 
@@ -166,7 +159,8 @@ return require('packer').startup(function()
   use { 'taybart/b64.nvim' }
 
   -- useful lua functions
-  use { 'nvim-lua/plenary.nvim', branch = 'async_jobs_v2' }
+  -- use { 'nvim-lua/plenary.nvim', branch = 'async_jobs_v2' }
+  use { 'nvim-lua/plenary.nvim' }
 
   -- required with tmux
   use { 'christoomey/vim-tmux-navigator' }
@@ -198,10 +192,10 @@ return require('packer').startup(function()
           -- ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
           -- ['v <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
           -- ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-          ['n <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-          ['v <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+          ['n gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+          ['v gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
           -- ['n <leader>ghR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-          ['n <leader>gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+          ['n gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
           -- ['n <leader>ghb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
 
           -- Text objects
