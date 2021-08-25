@@ -33,7 +33,7 @@ bindsym $mod+q kill
 # bindsym $mod+Shift+d exec --no-startup-id dmenu_recency
 # bindsym $mod+Shift+d exec --no-startup-id rofi -show run -theme ~/.config/rofi/theme
 bindsym $mod+Shift+d exec ~/.i3/fzfmenu.sh
-bindsym $mod+Tab exec rofi -show window
+bindsym $mod+Tab exec rofi -show window -theme ~/.i3/rofi/window_select_theme.rasi
 
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
@@ -87,6 +87,7 @@ mode "resize" {
 # exec_always --no-startup-id fix_xcursor
 # exec --no-startup-id blueman-tray
 # exec --no-startup-id $HOME/.screenlayout/dual.sh
+exec --no-startup-id picom -b -C
 exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
 exec --no-startup-id 1password
 exec --no-startup-id timeular
@@ -217,7 +218,8 @@ for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
 for_window [class="Simple-scan"] floating enable border normal
 for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="zoom"] floating enable normal
-for_window [class="blueman-manager"] floating enable normal
+for_window [class="Blueman-manager"] floating enable normal
+for_window [class="mpv"] floating enable normal
 for_window [title="Picture-in-Picture"] floating enable sticky enable normal
 for_window [class="kitty" instance="fzfmenu"] floating enable
 # for_window [title="Slack | Slack call*"] floating enable
