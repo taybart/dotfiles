@@ -3,19 +3,22 @@ return {
     cmd = {"gopls", "serve"},
     settings = {
       gopls = {
-        buildFlags =  {"-tags=auth,kyc,oprah"},
-        analyses = { unusedparams = true },
+        buildFlags =  {"-tags="},
+        analyses = {
+          unusedparams = true,
+          shadow = true,
+        },
         staticcheck = true,
       },
     },
   },
   lua = {
     settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
+      Lua = {
+        diagnostics = {
+          globals = { 'vim' }
         }
+      }
     }
   },
   java = {

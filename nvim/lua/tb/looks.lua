@@ -31,45 +31,6 @@ parser_config.norg = {
     },
 }
 
-require('nvim-treesitter.configs').setup {
-  ensure_installed = 'maintained',
-  highlight = {
-    enable = true,
-  },
-  playground = {
-    enable = true,
-    disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false, -- Whether the query persists across vim sessions
-    keybindings = {
-      toggle_query_editor = 'o',
-      toggle_hl_groups = 'i',
-      toggle_injected_languages = 't',
-      toggle_anonymous_nodes = 'a',
-      toggle_language_display = 'I',
-      focus_language = 'f',
-      unfocus_language = 'F',
-      update = 'R',
-      goto_node = '<cr>',
-      show_help = '?',
-    },
-  },
-  query_linter = {
-    enable = true,
-    use_virtual_text = true,
-    lint_events = {"BufWrite", "CursorHold"},
-  },
-  context_commentstring = {
-    enable = true
-  },
-}
-
--- inline colors
-require('colorizer').setup()
-
--- lighter status line
-vim.g.airline_theme='papercolor'
-
 require('tb/utils').create_augroups({
   looks = {
     { 'BufEnter,FocusGained,InsertLeave', '*', 'lua require("tb/looks").toggle_num(true)' },
@@ -101,49 +62,6 @@ function M.toggle_num(relon)
 
   vim.opt.number=true
   vim.opt.relativenumber=relon
-end
-
-function M.goyo_enter()
-  vim.b.quitting = 0
-  vim.b.quitting_bang = 0
-  vim.cmd('autocmd QuitPre <buffer> let b:quitting = 1')
-  vim.cmd('cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!')
-
-  vim.opt.relativenumber=false
-  vim.opt.number=false
-  vim.opt.showmode=false
-  vim.opt.showcmd=false
-  vim.opt.scrolloff=999
-
-  vim.g.goyo_mode = 1
-end
-
-function M.goyo_leave()
-  vim.opt.showmode=true
-  vim.opt.showcmd=true
-  vim.opt.scrolloff=5
-
-  vim.g.goyo_mode = 0
-
-  -- Quit Vim if this is the only remaining buffer
-  if vim.b.quitting then
-    local api = vim.api
-    local windows = api.nvim_list_wins()
-    local curtab = api.nvim_get_current_tabpage()
-    local wins_in_tabpage = vim.tbl_filter(function(w)
-      return api.nvim_win_get_tabpage(w) == curtab
-    end, windows)
-    if #windows == 1 then
-
-    if vim.b.quitting_bang then
-      api.nvim_command(':silent qa!')
-    else
-      api.nvim_command(':silent qa')
-    end
-    elseif #wins_in_tabpage == 1 then
-      api.nvim_command(':tabclose')
-    end
-  end
 end
 
 return M

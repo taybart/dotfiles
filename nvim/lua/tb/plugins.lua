@@ -9,8 +9,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command 'packadd packer.nvim'
 end
 
-vim.cmd('autocmd BufWritePost plugins.lua source <afile> | PackerCompile')
-
 return require('packer').startup(function()
   local use = require('packer').use
   -- Packer can manage itself
@@ -20,6 +18,8 @@ return require('packer').startup(function()
   ---------------------------------
   ---------- Probation ------------
   ---------------------------------
+  use { "lukas-reineke/indent-blankline.nvim" }
+
   use { 'tweekmonster/startuptime.vim', opt = true, cmd = {'StartupTime'} }
 
   use {
@@ -29,14 +29,10 @@ return require('packer').startup(function()
       require('tb/utils').reload_module('lualine')
       require('lualine').setup{
           sections = {
+            lualine_b = { "b:gitsigns_status" },
             lualine_c = {
-              {
-                'filename',
-                 -- displays file status (readonly status, modified status)
-                file_status = true,
-                 -- 0 = just filename, 1 = relative path, 2 = absolute path
-                path = 1
-              }
+              { 'filename', file_status = true, path = 1 },
+              -- { "diagnostics", sources = { "nvim_lsp" } },
             }
           }
       }
@@ -64,13 +60,290 @@ return require('packer').startup(function()
   use 'JoosepAlviste/nvim-ts-context-commentstring'
 
   -- fix lsp colors
-  use 'folke/lsp-colors.nvim'
-
-  -- replace tagbar, don't really need it
-  use { 'liuchengxu/vista.vim' }
+  use { 'folke/lsp-colors.nvim' }
 
   -- cool treesitter debugger
   use { 'nvim-treesitter/playground', opt = true, cmd = 'TSPlaygroundToggle' }
+
+  ---------------------------------
+  --------- Productivity ----------
+  ---------------------------------
+
+  ----------
+  -- find --
+  ----------
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      {'nvim-lua/popup.nvim'},
+      {'nvim-lua/plenary.nvim' },
+    },
+    config = function()
+      require('telescope').setup({
+        defaults = {
+          borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+          layout_config = {
+            height = 0.9,
+            preview_width = 60,
+            width = 0.9,
+          },
+          prompt_prefix = " ",
+          selection_caret = "❯ ",
+        },
+        pickers = {
+          find_files = { hidden = true },
+        },
+      })
+      require('telescope').load_extension('fzf')
+    end
+  }
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
+  use {
+    'taybart/nvim-tree.lua',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function()
+      require('nvim-tree').setup{
+        width = '30%',
+        auto_close = true,
+        hide_dotfiles = true,
+        group_empty = true,
+        highlight_opened_files = true,
+        auto_resize = false,
+        window_picker_exclude = {
+          filetype = { 'packer' },
+        },
+      }
+      -- vim.cmd('autocmd VimResized * lua Resize_nvim_tree()')
+    end
+  }
+
+  ----------
+  -- edit --
+  ----------
+  -- lsp
+  use { 'neovim/nvim-lspconfig' }
+  use { 'kabouzeid/nvim-lspinstall' }
+
+  -- completion
+  use {
+    'hrsh7th/nvim-compe',
+    config = function()
+      require('compe').setup {
+        enabled = true;
+        autocomplete = true;
+        debug = false;
+        min_length = 1;
+        preselect = 'disable';
+        throttle_time = 80;
+        source_timeout = 200;
+        resolve_timeout = 800;
+        incomplete_delay = 400;
+        max_abbr_width = 100;
+        max_kind_width = 100;
+        max_menu_width = 100;
+        documentation = true;
+        source = {
+          path = true;
+          buffer = true;
+          calc = true;
+          nvim_lsp = true;
+          nvim_lua = true;
+          neorg = true;
+        }
+      }
+    end
+  }
+
+    -- -- https://github.com/hrsh7th/nvim-cmp/issues/2
+    -- use {
+    --   'hrsh7th/nvim-cmp',
+    --   requires = {
+    --     { 'hrsh7th/cmp-buffer' },
+    --     { 'hrsh7th/cmp-path' },
+    --     { 'hrsh7th/cmp-calc' },
+    --     { 'hrsh7th/cmp-nvim-lua' },
+    --     { 'hrsh7th/cmp-nvim-lsp' },
+    --   }
+    -- }
+
+  -- comment using text objects
+  use { 'tpope/vim-commentary' }
+  -- surround using text objects
+  use { 'tpope/vim-surround' }
+  -- repeat extra stuff
+  use { 'tpope/vim-repeat' }
+  -- additional subsitutions
+  use { 'tpope/vim-abolish' }
+  -- git
+  use {
+    'tpope/vim-fugitive',
+    config = function()
+      -- 2021-08-25 not really using these, put in the scrap in 2 weeks
+     require('tb/utils/maps').nmap('<leader>gs', '<cmd>Git<cr>')
+     require('tb/utils/maps').nmap('<leader>gj', '<cmd>diffget //3<cr>')
+     require('tb/utils/maps').nmap('<leader>gf', '<cmd>diffget //2<cr>')
+    end,
+  }
+  -- treesitter text objects
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = '0.5-compat',
+    config = function()
+      require'nvim-treesitter.configs'.setup {
+      }
+    end,
+  }
+
+  -- rest.vim
+  use { 'taybart/rest.vim' }
+
+  -- b64.nvim
+  use { 'taybart/b64.nvim' }
+
+  -- useful lua functions
+  -- use { 'nvim-lua/plenary.nvim', branch = 'async_jobs_v2' }
+  use { 'nvim-lua/plenary.nvim' }
+
+  -- required with tmux
+  use { 'christoomey/vim-tmux-navigator' }
+  vim.g.tmux_navigator_no_mappings = 1
+
+  -- nice indicators for fF/tT
+  use { 'unblevable/quick-scope' }
+
+  -- git gutter
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function ()
+      vim.cmd[[
+      command! HunkReset lua require"gitsigns".reset_hunk()
+      command! HunkStage lua require"gitsigns".stage_hunk()
+      ]]
+      require('gitsigns').setup{
+        current_line_blame = true,
+        current_line_blame_opts = {
+          delay = 0,
+        },
+        keymaps = {
+          ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
+          ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
+          ['n gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+          ['v gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+          ['n gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+          ['n <leader>b'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
+        },
+      }
+    end
+  }
+
+  -----------------------------
+  --------- Looks -------------
+  -----------------------------
+
+  -- syntax highlighting with treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    branch = '0.5-compat',
+    run = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = 'maintained',
+        highlight = {
+          enable = true,
+        },
+        textobjects = {
+          swap = {
+            enable = true,
+            swap_next = {
+              ["<leader>a"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["<leader>A"] = "@parameter.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]m"] = "@function.outer",
+              ["]]"] = "@class.outer",
+            },
+            goto_next_end = {
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
+            },
+          },
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+        },
+        playground = {
+          enable = true,
+          disable = {},
+          updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+          persist_queries = false, -- Whether the query persists across vim sessions
+          keybindings = {
+            toggle_query_editor = 'o',
+            toggle_hl_groups = 'i',
+            toggle_injected_languages = 't',
+            toggle_anonymous_nodes = 'a',
+            toggle_language_display = 'I',
+            focus_language = 'f',
+            unfocus_language = 'F',
+            update = 'R',
+            goto_node = '<cr>',
+            show_help = '?',
+          },
+        },
+        query_linter = {
+          enable = true,
+          use_virtual_text = true,
+          lint_events = {"BufWrite", "CursorHold"},
+        },
+        context_commentstring = {
+          enable = true
+        },
+      }
+    end
+  }
+
+  -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
+  -- use { 'chrisbra/Colorizer' {opt=true}}
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = function() require('colorizer').setup() end,
+  }
+
+  -- goyo
+  use { 'junegunn/goyo.vim' }
+  -- special global for checking if we are taking notes
+  vim.g.goyo_mode = 0
+
+  -- colorscheme
+  use { 'gruvbox-community/gruvbox' }
+  vim.g.gruvbox_italic = 1
+  vim.g.gruvbox_sign_column = "bg0"
+
+  -----------------------------
+  --------- Extras ------------
+  -----------------------------
 
   -- neorg
   use {
@@ -104,136 +377,5 @@ return require('packer').startup(function()
       end,
       requires = "nvim-lua/plenary.nvim"
     }
-
-  ---------------------------------
-  --------- Productivity ----------
-  ---------------------------------
-
-  ----------
-  -- find --
-  ----------
-  use {
-    'nvim-telescope/telescope.nvim',
-    -- branch = 'async_v2',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim' }}
-  }
-
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-  }
-  vim.g.nvim_tree_auto_close = 1
-  vim.g.nvim_tree_hide_dotfiles = 1
-  vim.g.nvim_tree_group_empty = 1
-  vim.g.nvim_tree_highlight_opened_files = 1
-  vim.g.nvim_tree_auto_resize = 0
-  vim.g.nvim_tree_width = '30%'
-  vim.g.nvim_tree_window_picker_exclude = {
-    filetype = { 'packer', 'vista' },
-  }
-
-  use { 'dyng/ctrlsf.vim' }
-
-  ----------
-  -- edit --
-  ----------
-  -- lsp
-  use { 'neovim/nvim-lspconfig' }
-  use { 'kabouzeid/nvim-lspinstall' }
-  use { 'hrsh7th/nvim-compe' }
-
-  -- comments
-  use { 'tpope/vim-commentary' }
-  -- surround
-  use { 'tpope/vim-surround' }
-  -- repeat extra stuff
-  use { 'tpope/vim-repeat' }
-  -- additional subsitutions
-  use { 'tpope/vim-abolish' }
-  -- git
-  use { 'tpope/vim-fugitive', opt = true, cmd = { 'Git' } }
-
-  -- rest.vim
-  use { 'taybart/rest.vim' }
-  -- b64.nvim
-  use { 'taybart/b64.nvim' }
-
-  -- useful lua functions
-  -- use { 'nvim-lua/plenary.nvim', branch = 'async_jobs_v2' }
-  use { 'nvim-lua/plenary.nvim' }
-
-  -- required with tmux
-  use { 'christoomey/vim-tmux-navigator' }
-  vim.g.tmux_navigator_no_mappings = 1
-
-  -- nice indicators for fF/tT
-  use { 'unblevable/quick-scope' }
-
-  -- git gutter type thing
-  use {
-    'lewis6991/gitsigns.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
-    config = function ()
-
-      vim.cmd[[
-      command! ShowHunk lua require"gitsigns".preview_hunk()
-      command! ResetHunk lua require"gitsigns".reset_hunk()
-      command! StageHunk lua require"gitsigns".stage_hunk()
-      ]]
-
-      -- should not need this much config, revisit later
-      require('gitsigns').setup{
-        current_line_blame = true,
-        current_line_blame_delay = 0,
-        keymaps = {
-          ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
-          ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
-
-          -- ['n <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
-          -- ['v <leader>ghs'] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-          -- ['n <leader>ghu'] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-          ['n gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-          ['v gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-          -- ['n <leader>ghR'] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
-          ['n gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-          -- ['n <leader>ghb'] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
-
-          -- Text objects
-          ['o ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>',
-          ['x ih'] = ':<C-U>lua require"gitsigns.actions".select_hunk()<CR>'
-        },
-      }
-    end
-  }
-
-  -----------------------------
-  --------- Looks -------------
-  -----------------------------
-
-  -- syntax highlighting with treesitter
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    branch = '0.5-compat',
-    run = ':TSUpdate'
-  }
-
-  -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
-  -- use { 'chrisbra/Colorizer' {opt=true}}
-  use { 'norcalli/nvim-colorizer.lua' }
-
-  -- goyo
-  use { 'junegunn/goyo.vim' }
-  -- special global for checking if we are taking notes
-  vim.g.goyo_mode = 0
-
-  -- colorscheme
-  use { 'gruvbox-community/gruvbox' }
-  vim.g.gruvbox_italic = 1
-  vim.g.gruvbox_sign_column = "bg0"
-
-  -----------------------------
-  --------- Extras ------------
-  -----------------------------
-
 
 end)

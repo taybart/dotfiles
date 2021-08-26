@@ -66,6 +66,10 @@ require('tb/utils').create_augroups({
     { 'InsertLeave', '*', 'set timeoutlen=1000' },
   },
 
+  packer = {
+    {'BufWritePost', 'plugins.lua', 'source <afile> | PackerCompile'},
+  },
+
   nvim_tree = {
     { 'BufEnter NvimTree set cursorline' },
   },
@@ -87,6 +91,12 @@ require ('tb/looks')
 require ('tb/keymaps')
 require ('tb/lsp')
 
+function Resize_nvim_tree()
+  local percent_as_decimal = 30 / 100
+  local width = math.floor(vim.o.columns * percent_as_decimal)
+  vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
+end
+
 
 -- setups
 
@@ -101,3 +111,45 @@ require ('tb/lsp')
 --     vim.opt.showcmd=false
 --     vim.opt.cmdheight=1
 -- end
+
+-- local cmp = require('cmp')
+-- cmp.setup {
+--   sources = {
+--     { name = 'buffer' },
+--     { name = 'calc' },
+--     { name = 'path' },
+--     { name = 'nvim_lua' },
+--     { name = 'nvim_lsp' },
+--   },
+--   preselect = cmp.PreselectMode.None,
+--   mapping = {
+--     ['<CR>'] = cmp.mapping.confirm({
+--       behavior = cmp.ConfirmBehavior.Insert,
+--       select = true,
+--     }),
+--     ["<s-tab>"] = cmp.mapping.select_previous_item,
+--     ['<tab>'] = function(fallback)
+--       local t = function(str)
+--         return vim.api.nvim_replace_termcodes(str, true, true, true)
+--       end
+--       if vim.fn.pumvisible() == 1 then
+--         vim.fn.feedkeys(t('<C-n>'), 'n')
+--       else
+--         fallback()
+--       end
+--     end,
+--   },
+--   formatting = {
+--     format = function(entry, vim_item)
+--       vim_item.menu = ({
+--         calc = "[Calc]",
+--         path = "[Path]",
+--         buffer = "[Buffer]",
+--         nvim_lsp = "[LSP]",
+--         nvim_lua = "[Lua]",
+--       })[entry.source.name]
+--       return vim_item
+--     end,
+--   },
+-- }
+

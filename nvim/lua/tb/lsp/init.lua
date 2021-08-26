@@ -5,37 +5,13 @@ local lspinstall = require('lspinstall')
 
 local u = require('tb/utils/maps')
 
----- compe
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'disable';
-  throttle_time = 80;
-  source_timeout = 200;
-  resolve_timeout = 800;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
 
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    neorg = true;
-  };
-}
 
 require('tb/lsp/go').setup()
 
 -- Set keymap if attached
 -- local on_attach = function(client, bufnr)
-local on_attach = function()
+local on_attach = function(client)
   local opts = { noremap=true, silent=true }
   u.nmap('gD', ':lua vim.lsp.buf.declaration()<CR>', opts)
   u.nmap('gd', ':lua vim.lsp.buf.definition()<CR>', opts)
@@ -45,12 +21,19 @@ local on_attach = function()
   u.nmap(']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   u.nmap('E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    u.nmap("ff", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  elseif client.resolved_capabilities.document_range_formatting then
+    u.nmap("ff", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  end
 
   vim.cmd([[
   command! Format lua vim.lsp.buf.formatting()
   autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
-  autocmd BufWritePre *.go lua require('tb/lsp').go_organize_imports_sync(1000)
-  " autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+  autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+  autocmd BufWritePre *.go lua require('tb/lsp').go_organize_imports_sync()
+  " autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
   ]])
 end
 
@@ -61,6 +44,7 @@ local function make_base_config()
     properties = {"documentation", "detail", "additionalTextEdits"}
   }
 
+  -- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
   return {capabilities = capabilities, on_attach = on_attach, test = "asdf" }
 end
 
@@ -95,43 +79,40 @@ lspinstall.post_install_hook = function ()
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 
--- TODO: This freezes if there is an error in the syntax of go. SHOULD NOT DOODOO
-function M.go_organize_imports_sync(timeoutms)
-  local context = {source = {organizeImports = true}}
-  vim.validate {context = {context, 't', true}}
-
+function M.go_organize_imports_sync()
   local params = vim.lsp.util.make_range_params()
-  params.context = context
-
-  local method = 'textDocument/codeAction'
-  local resp = vim.lsp.buf_request_sync(0, method, params, timeoutms)
-
-  -- imports is indexed with clientid so we cannot rely on index always is 1
-  if (resp ~= nil) then
-    for _, v in next, resp, nil do
-      local result = v.result
-      if result and result[1] then
-        local edit = result[1].edit
-        vim.lsp.util.apply_workspace_edit(edit)
+  params.context = {only = {"source.organizeImports"}}
+  local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 500)
+  if (result ~= nil) then
+    for _, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          vim.lsp.util.apply_workspace_edit(r.edit)
+        else
+          vim.lsp.buf.execute_command(r.command)
+        end
       end
     end
+    vim.lsp.buf.formatting()
   end
-  -- Always do formating
-  vim.lsp.buf.formatting()
 end
 
+
+function M.reload(lang, lang_config)
+  lspinstall.setup()
+
+  local config = make_base_config()
+  if lang_config ~= nil then
+    merge_config(config, lang_config)
+  end
+
+  lspconfig[lang].setup(config)
+end
 -- LSP looks
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "✗", texthl = "GruvboxRed"})
 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", texthl = "GruvboxYellow"})
 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "GruvboxBlue"})
 vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", texthl = "GruvboxAqua"})
--- probably doesn't work
--- vim.cmd[[
--- hi LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
--- hi LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
--- hi LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline
--- hi LspDiagnosticsVirtualTextHint guifg=green gui=bold,italic,underline
--- ]]
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -146,17 +127,6 @@ local check_back_space = function()
     end
 end
 
-function M.reload(lang, lang_config)
-  lspinstall.setup()
-
-  local config = make_base_config()
-  if lang_config ~= nil then
-    merge_config(config, lang_config)
-  end
-
-  lspconfig[lang].setup(config)
-end
-
 -- Use (s-)tab to:
 --- move to prev/next item in completion menuone
 --- jump to prev/next snippet's placeholder
@@ -167,6 +137,7 @@ _G.tab_complete = function()
     return t "<Tab>"
   else
     return vim.fn['compe#complete']()
+    -- return require('cmp').mapping.complete()
   end
 end
 _G.s_tab_complete = function()
@@ -177,6 +148,8 @@ _G.s_tab_complete = function()
     return t "<S-Tab>"
   end
 end
+
+
 u.imap("<Tab>", "v:lua.tab_complete()", {expr = true})
 u.smap("<Tab>", "v:lua.tab_complete()", {expr = true})
 u.imap("<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
