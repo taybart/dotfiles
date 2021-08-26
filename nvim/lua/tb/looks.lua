@@ -21,16 +21,6 @@ vim.g.markdown_fenced_languages = {
   'py=python',
 }
 
----- Tree Sitter
-local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-parser_config.norg = {
-    install_info = {
-        url = "https://github.com/vhyrro/tree-sitter-norg",
-        files = { "src/parser.c" },
-        branch = "main"
-    },
-}
-
 require('tb/utils').create_augroups({
   looks = {
     { 'BufEnter,FocusGained,InsertLeave', '*', 'lua require("tb/looks").toggle_num(true)' },
