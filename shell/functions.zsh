@@ -1,5 +1,6 @@
 
 # ~~ util ~~
+# bring up
 function config {
   read "t?[sh/vi] "
   case "${t}" in
@@ -11,8 +12,26 @@ function config {
   esac
 }
 
+# find and replace
+function far() {
+  if [ $# -lt 2 ]; then
+    echo "usage $0 ./dir \"match in .* files\" \"s:match:replace:g\""
+    return 1
+  fi
+  dir=$1
+  search=$2
+
+  if [ $# -eq 3 ]; then
+    far=$3
+    rg $search $dir --files-with-matches | xargs sed -i $far
+  else
+    rg $search $dir
+  fi
+}
+
+# toggle do-not-disturb
 function dnd() {
-  if [ -n $1 ]; then
+  if [ "$1" != "" ]; then
     if [[ "$1" =~ "^true|false$" ]]; then
       xfconf-query -c xfce4-notifyd -p /do-not-disturb -s $1
       return
@@ -22,7 +41,6 @@ function dnd() {
     fi
   fi
   is_dnd=$(xfconf-query -c xfce4-notifyd -p /do-not-disturb)
-  # xfconf-query -c xfce4-notifyd -p /do-not-disturb -T
   if [ "$is_dnd" = "true" ]; then
     xfconf-query -c xfce4-notifyd -p /do-not-disturb -s false
     notify-send "dnd off"
@@ -59,19 +77,28 @@ function gitclean() {
 }
 
 
-function dotenv {
-  file="./.env"
-  if [ "$1" = "-f" ]; then
-    shift
-    file=$1
-    shift
-  fi
+function envup {
+  # select .env or .env.$1 initally
+  file=$([ -z "$1" ] && echo ".env" || echo ".env.$1")
+  # weird file name passed with -f
+  [ "$1" = "-f" ] && shift && file=$1
+
   if [ -f "$file" ]; then
-    eval $(egrep -v '^#' $file | xargs) $@
+    # echo "env $(echo $(cat $file | sed '/^#.*/d; /^[[:space:]]*$/d; s/^export //' | xargs) | envsubst) $@"
+    # make lines conform
+    items=($(sed '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $file))
+    for f in $items; do
+      eval export $f
+    done
+    $@
   else
-    echo "No .env file exits"
+    echo "$file does not exist"
     return 1
   fi
+}
+
+function formatenv {
+  sed -i '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $1
 }
 
 function kp {
