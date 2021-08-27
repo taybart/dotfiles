@@ -101,8 +101,8 @@ u.nnoremap('Y', 'y$')
 u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 
 -- Emacs indent
--- u.nnoremap('<Tab>', '==')
--- u.vnoremap('<Tab>', '=')
+u.nnoremap('<Tab>', '==')
+u.vnoremap('<Tab>', '=')
 
 -- Get rid of the fucking stupid OCD whitespace
 -- Get rid of the fucking stupid <200b>
