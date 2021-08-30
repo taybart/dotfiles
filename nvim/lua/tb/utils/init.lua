@@ -43,6 +43,7 @@ function M.reload_vim()
   M.reload_module('tb/keymaps')
   M.reload_module('tb/looks')
   M.reload_module('tb/lsp')
+  M.reload_module('init')
 end
 
 -- https://github.com/norcalli/nvim_utils
@@ -58,6 +59,10 @@ function M.create_augroups(definitions)
   end
 end
 
+-- function M.create_vim_function(name, package, method)
+--   print("function! "..name.."()\n  lua require('"..package.."')."..method.."()\nendfunction")
+--   vim.cmd("function! "..name.."()\n lua require('"..package.."')."..method.."()\nendfunction")
+-- end
 
 function M.sync_nvim_tree_width()
   local width = vim.g.nvim_tree_auto_width

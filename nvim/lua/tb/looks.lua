@@ -5,6 +5,8 @@
 local M = {}
 
 vim.opt.background = 'dark' -- or "light" for light mode
+vim.g.gruvbox_italic = 1
+vim.g.gruvbox_sign_column = "bg0"
 vim.cmd('colorscheme gruvbox')
 -- nice markdown highlighting
 vim.g.markdown_fenced_languages = {
@@ -23,8 +25,10 @@ vim.g.markdown_fenced_languages = {
 
 require('tb/utils').create_augroups({
   looks = {
-    { 'BufEnter,FocusGained,InsertLeave', '*', 'lua require("tb/looks").toggle_num(true)' },
-    { 'BufLeave,FocusLost,InsertEnter', '*', 'lua require("tb/looks").toggle_num(false)' },
+    { 'BufEnter,FocusGained,InsertLeave', '*',
+    'lua require("tb/looks").toggle_num(true)' },
+    { 'BufLeave,FocusLost,InsertEnter', '*',
+    'lua require("tb/looks").toggle_num(false)' },
   },
   whitespace = {
     { 'BufWinEnter', '<buffer>', 'match Error /\\s\\+$/' },

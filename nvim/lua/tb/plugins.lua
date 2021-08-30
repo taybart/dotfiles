@@ -1,6 +1,6 @@
--- ==============================
--- =========== Plugins ==========
--- ==============================
+--===============================
+--============ Plugins ==========
+--===============================
 
 -- ensure packer is installed
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -9,88 +9,28 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command 'packadd packer.nvim'
 end
 
-return require('packer').startup(function()
+return require('packer').startup({function()
   local use = require('packer').use
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
-
+  use { 'wbthomason/packer.nvim' }
 
   ---------------------------------
   ---------- Probation ------------
   ---------------------------------
-  use { "lukas-reineke/indent-blankline.nvim" }
-
-  use { 'tweekmonster/startuptime.vim', opt = true, cmd = {'StartupTime'} }
 
   use {
-    'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    'lukas-reineke/indent-blankline.nvim',
     config = function()
-      require('tb/utils').reload_module('lualine')
-      require('lualine').setup{
-        sections = {
-          lualine_b = { "b:gitsigns_status" },
-          lualine_c = {
-            { 'filename', file_status = true, path = 1 },
-            -- { "diagnostics", sources = { "nvim_lsp" } },
-          }
-        }
-      }
-    end,
-  }
-
-  use {
-    'akinsho/nvim-bufferline.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function ()
-      require("bufferline").setup{
-        options = {
-          diagnostics = "nvim_lsp",
-          separator_style = "slant",
-          max_name_length = 30,
-          show_close_icon = false,
-          right_mouse_command = nil,
-          middle_mouse_command = "bdelete! %d",
-        }
-      }
+      vim.cmd('au FileType help IndentBlanklineDisable')
     end
   }
 
-  -- fix lsp colors
-  use { 'folke/lsp-colors.nvim' }
+  use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
   -- cool treesitter debugger
   use {
     'nvim-treesitter/playground',
-    opt = true,
     cmd = 'TSPlaygroundToggle',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        playground = {
-          enable = true,
-          disable = {},
-          updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-          persist_queries = false, -- Whether the query persists across vim sessions
-          keybindings = {
-            toggle_query_editor = 'o',
-            toggle_hl_groups = 'i',
-            toggle_injected_languages = 't',
-            toggle_anonymous_nodes = 'a',
-            toggle_language_display = 'I',
-            focus_language = 'f',
-            unfocus_language = 'F',
-            update = 'R',
-            goto_node = '<cr>',
-            show_help = '?',
-          },
-        },
-        query_linter = {
-          enable = true,
-          use_virtual_text = true,
-          lint_events = {"BufWrite", "CursorHold"},
-        },
-      }
-    end
+    config = function() require('tb/plugins/treesitter').setup_playground() end
   }
 
   ---------------------------------
@@ -106,30 +46,14 @@ return require('packer').startup(function()
       {'nvim-lua/popup.nvim'},
       {'nvim-lua/plenary.nvim' },
     },
-    config = function()
-      require('telescope').setup({
-        defaults = {
-          borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-          layout_config = {
-            height = 0.9,
-            preview_width = 60,
-            width = 0.9,
-          },
-          prompt_prefix = " ",
-          selection_caret = "❯ ",
-        },
-        pickers = {
-          find_files = { hidden = true },
-        },
-      })
-      require('telescope').load_extension('fzf')
-    end
+    config = require('tb/plugins/telescope').setup,
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   use {
     'taybart/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
+    cmd = {'NvimTreeToggle', 'NvimTreeFindFile'},
     config = function()
       require('nvim-tree').setup{
         width = '30%',
@@ -153,95 +77,33 @@ return require('packer').startup(function()
   use { 'neovim/nvim-lspconfig' }
   use { 'kabouzeid/nvim-lspinstall' }
 
-  -- completion
   use {
-    'hrsh7th/nvim-compe',
-    config = function()
-      require('compe').setup {
-        enabled = true;
-        autocomplete = true;
-        debug = false;
-        min_length = 1;
-        preselect = 'disable';
-        throttle_time = 80;
-        source_timeout = 200;
-        resolve_timeout = 800;
-        incomplete_delay = 400;
-        max_abbr_width = 100;
-        max_kind_width = 100;
-        max_menu_width = 100;
-        documentation = true;
-        source = {
-          path = true;
-          buffer = true;
-          calc = true;
-          nvim_lsp = true;
-          nvim_lua = true;
-          neorg = true;
-        }
-      }
-    end
+    'hrsh7th/nvim-cmp',
+    requires = {
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-path' },
+      { 'hrsh7th/cmp-calc' },
+      { 'hrsh7th/cmp-nvim-lua' },
+      { 'hrsh7th/cmp-nvim-lsp' },
+    },
+    config = function() require('tb/plugins/cmp').setup() end,
   }
-
-  -- -- https://github.com/hrsh7th/nvim-cmp/issues/2
-  -- use {
-  --   'hrsh7th/nvim-cmp',
-  --   requires = {
-  --     { 'hrsh7th/cmp-buffer' },
-  --     { 'hrsh7th/cmp-path' },
-  --     { 'hrsh7th/cmp-calc' },
-  --     { 'hrsh7th/cmp-nvim-lua' },
-  --     { 'hrsh7th/cmp-nvim-lsp' },
-  --   }
-  --   config = function()
-  --
-  -- local cmp = require('cmp')
-  -- cmp.setup {
---   sources = {
---     { name = 'buffer' },
---     { name = 'calc' },
---     { name = 'path' },
---     { name = 'nvim_lua' },
---     { name = 'nvim_lsp' },
---   },
---   preselect = cmp.PreselectMode.None,
---   mapping = {
---     ['<CR>'] = cmp.mapping.confirm({
---       behavior = cmp.ConfirmBehavior.Insert,
---       select = true,
---     }),
---     ["<s-tab>"] = cmp.mapping.select_previous_item,
---     ['<tab>'] = function(fallback)
---       local t = function(str)
---         return vim.api.nvim_replace_termcodes(str, true, true, true)
---       end
---       if vim.fn.pumvisible() == 1 then
---         vim.fn.feedkeys(t('<C-n>'), 'n')
---       else
---         fallback()
---       end
---     end,
---   },
---   formatting = {
---     format = function(entry, vim_item)
---       vim_item.menu = ({
---         calc = "[Calc]",
---         path = "[Path]",
---         buffer = "[Buffer]",
---         nvim_lsp = "[LSP]",
---         nvim_lua = "[Lua]",
---       })[entry.source.name]
---       return vim_item
---     end,
---   },
--- }
-  --   end
-  -- }
 
   -- comment using text objects
   use { 'tpope/vim-commentary' }
   -- surround using text objects
-  use { 'tpope/vim-surround' }
+  use {
+    'tpope/vim-surround',
+    config = function()
+      -- make surround around [",',`] work as expected
+
+      require('tb/utils/maps').mode_map_group('n', {}, {
+        {'ysa\'', 'ys2i\''},
+        {'ysa"', 'ys2i"'},
+        {'ysa`', 'ys2i`'},
+      })
+    end,
+  }
   -- repeat extra stuff
   use { 'tpope/vim-repeat' }
   -- additional subsitutions
@@ -251,9 +113,11 @@ return require('packer').startup(function()
     'tpope/vim-fugitive',
     config = function()
       -- 2021-08-25 not really using these, put in the scrap in 2 weeks
-      require('tb/utils/maps').nmap('<leader>gs', '<cmd>Git<cr>')
-      require('tb/utils/maps').nmap('<leader>gj', '<cmd>diffget //3<cr>')
-      require('tb/utils/maps').nmap('<leader>gf', '<cmd>diffget //2<cr>')
+      require('tb/utils/maps').mode_map_group('n', {}, {
+        {'<leader>gs', '<cmd>Git<cr>'},
+        {'<leader>gj', '<cmd>diffget //3<cr>'},
+        {'<leader>gf', '<cmd>diffget //2<cr>'},
+      })
     end,
   }
 
@@ -273,14 +137,21 @@ return require('packer').startup(function()
   -- nice indicators for fF/tT
   use { 'unblevable/quick-scope' }
 
+  -- treesitter text objects
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = '0.5-compat',
+    config = function() require('tb/plugins/treesitter').setup_textobjects() end
+  }
+
   -- git gutter
   use {
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     config = function ()
       vim.cmd[[
-      command! HunkReset lua require"gitsigns".reset_hunk()
-      command! HunkStage lua require"gitsigns".stage_hunk()
+      command! HunkReset lua require'gitsigns'.reset_hunk()
+      command! HunkStage lua require'gitsigns'.stage_hunk()
       ]]
       require('gitsigns').setup{
         current_line_blame = true,
@@ -303,56 +174,6 @@ return require('packer').startup(function()
   --------- Looks -------------
   -----------------------------
 
-  -- treesitter text objects
-  use {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    branch = '0.5-compat',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        textobjects = {
-          swap = {
-            enable = true,
-            swap_next = {
-              ["<leader>a"] = "@parameter.inner",
-            },
-            swap_previous = {
-              ["<leader>A"] = "@parameter.inner",
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-          },
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-            },
-          },
-        },
-      }
-    end
-  }
   -- treesitter commentstring
   use {
     'JoosepAlviste/nvim-ts-context-commentstring',
@@ -370,27 +191,57 @@ return require('packer').startup(function()
     'nvim-treesitter/nvim-treesitter',
     branch = '0.5-compat',
     run = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = 'maintained',
-        highlight = {
-          enable = true,
-        },
+    config = function() require('tb/plugins/treesitter').setup() end
+  }
+
+  -- tabs
+  use {
+    'akinsho/nvim-bufferline.lua',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function ()
+      require('bufferline').setup{
+        options = {
+          diagnostics = 'nvim_lsp',
+          separator_style = 'slant',
+          max_name_length = 30,
+          show_close_icon = false,
+          right_mouse_command = nil,
+          middle_mouse_command = 'bdelete! %d',
+        }
       }
     end
   }
 
+  -- status
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'},
+    config = function()
+      require('tb/utils').reload_module('lualine')
+      require('lualine').setup{
+        sections = {
+          lualine_b = { 'b:gitsigns_status' },
+          lualine_c = {
+            { 'filename', file_status = true, path = 1 },
+            -- { 'diagnostics', sources = { 'nvim_lsp' } },
+          }
+        }
+      }
+    end,
+  }
   -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
   -- use { 'chrisbra/Colorizer' {opt=true}}
   use {
     'norcalli/nvim-colorizer.lua',
+    opt = true,
     config = function() require('colorizer').setup() end,
   }
 
   -- colorscheme
-  use { 'gruvbox-community/gruvbox' }
-  vim.g.gruvbox_italic = 1
-  vim.g.gruvbox_sign_column = "bg0"
+  -- use { 'gruvbox-community/gruvbox' }
+  -- fix lsp colors for gruvbox
+  -- use { 'folke/lsp-colors.nvim' }
+  use { 'ellisonleao/gruvbox.nvim', requires = {'rktjmp/lush.nvim'} }
 
   -----------------------------
   --------- Extras ------------
@@ -398,43 +249,16 @@ return require('packer').startup(function()
 
   -- neorg
   use {
-    "vhyrro/neorg",
-    ft = "norg",
-    config = function()
-      require('neorg').setup {
-        -- Tell Neorg what modules to load
-        load = {
-          ["core.defaults"] = {}, -- Load all the default modules
-          ["core.norg.concealer"] = {}, -- Allows for use of icons
-        },
-        hook = function()
-          -- Require the user callbacks module, which allows us to tap into the core of Neorg
-          local neorg_callbacks = require('neorg.callbacks')
-          neorg_callbacks.on_event("core.keybinds.events.enable_keybinds", function(_, keybinds)
-            keybinds.map_event_to_mode("norg", {
-              n = { -- Bind keys in normal mode
-              -- Keys for managing TODO items and setting their states
-              { "gtd", "core.norg.qol.todo_items.todo.task_done" },
-              { "gtu", "core.norg.qol.todo_items.todo.task_undone" },
-              { "gtp", "core.norg.qol.todo_items.todo.task_pending" },
-              { "<C-Space>", "core.norg.qol.todo_items.todo.task_cycle" }
-
-            },
-          }, { silent = true, noremap = true })
-
-        end)
-      end
-    }
-    local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-    parser_config.norg = {
-      install_info = {
-        url = "https://github.com/vhyrro/tree-sitter-norg",
-        files = { "src/parser.c" },
-        branch = "main"
-      },
-    }
-  end,
-  requires = "nvim-lua/plenary.nvim"
+    'vhyrro/neorg',
+    ft = 'norg',
+    branch = 'unstable',
+    config = function() require('tb/plugins/norg').setup() end,
+    requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+  }
+end, config = {
+display = {
+  open_fn = function()
+    return require('packer.util').float({ border = 'single' })
+  end
 }
-
-end)
+}})

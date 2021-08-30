@@ -16,7 +16,7 @@ u.mode_map_group('i', {}, {
 
 -- Quickly open/reload nvim
 u.mode_map_group('n', {}, {
-  {'<leader>ev', ':lua require("tb/telescope").edit_config()<cr>'},
+  {'<leader>ev', ':lua require("tb/plugins/telescope").edit_config()<cr>'},
   {'<leader>sv', ':lua require("tb/utils").reload_vim()<cr>'},
 })
 
@@ -142,14 +142,16 @@ u.map_group({noremap = true}, {
     -- Live grep
     {'<c-s>', ':lua require("telescope.builtin").live_grep()<cr>'},
     -- Search under cursor
-    {'<c-a>', ':lua require("tb/telescope").search_cword()<cr>'},
+    {'<c-a>', ':lua require("tb/plugins/telescope").search_cword()<cr>'},
     -- Find files
     {'<c-p>', ':lua require("telescope.builtin").find_files()<cr>'},
     -- Find open buffers
     {'<c-b>', ':lua require("telescope.builtin").buffers()<cr>'},
+    -- Find code actions
+    {'<c-c>', ':lua require("telescope.builtin").lsp_code_actions()<cr>'},
   }},
   {'v', {
     -- Search using selected text
-    {'<c-a>', ':lua require("tb/telescope").search_selection()<cr>'},
+    {'<c-a>', ':lua require("tb/plugins/telescope").search_selection()<cr>'},
   }},
 })
