@@ -221,6 +221,7 @@ for_window [class="zoom"] floating enable normal
 for_window [class="Blueman-manager"] floating enable normal
 for_window [class="mpv"] floating enable normal
 for_window [title="Picture-in-Picture"] floating enable sticky enable normal
+for_window [class="SimpleScreenRecorder"] floating enable sticky enable normal
 for_window [class="kitty" instance="fzfmenu"] floating enable
 # for_window [title="Slack | Slack call*"] floating enable
 
