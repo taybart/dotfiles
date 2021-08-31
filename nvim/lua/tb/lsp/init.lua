@@ -93,13 +93,28 @@ vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", texthl = "GruvboxAqu
 
 vim.cmd('command! -nargs=? Rename lua require("tb/lsp").rename(<f-args>)')
 function M.rename(new_name)
-  local position_params = vim.lsp.util.make_position_params()
-
   if not new_name then
     new_name = vim.fn.input('to -> ')
   end
 
-  position_params.newName = new_name
-  vim.lsp.buf_request(0, 'textDocument/rename', position_params)
+  if vim.lsp.buf.server_ready() then
+    local position_params = vim.lsp.util.make_position_params()
+    position_params.newName = new_name
+    vim.lsp.buf_request(0, 'textDocument/rename', position_params)
+  else
+    local orig = vim.fn.expand('<cword>')
+    local lookahead = require ('nvim-treesitter.configs').get_module("textobjects.select").lookahead
+    local bufnr, to = require('nvim-treesitter.textobjects.shared').textobject_at_point('@function.outer', nil, nil, { lookahead = lookahead })
+
+    if to then
+      local r = {}
+      local lines = vim.api.nvim_buf_get_lines(0, to[1], to[3], true)
+      for _, line in pairs(lines) do
+        table.insert(r, vim.fn.substitute(line, orig, new_name, 'g'))
+      end
+      vim.api.nvim_buf_set_lines(bufnr, to[1], to[3], true, r)
+    end
+  end
 end
+
 return M

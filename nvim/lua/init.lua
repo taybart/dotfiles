@@ -16,7 +16,7 @@ vim.opt.updatetime=800
 vim.opt.clipboard:prepend({'unnamedplus'})
 
 -- better completion actions
-vim.opt.completeopt={ 'menuone','noinsert','noselect' }
+vim.opt.completeopt={'menuone','noinsert','noselect'}
 
 -- cleaner completions
 vim.opt.shortmess:append('c')
@@ -91,7 +91,7 @@ require ('tb/looks')
 require ('tb/keymaps')
 require ('tb/lsp')
 
-function Resize_nvim_tree()
+function _G.resize_nvim_tree()
   local percent_as_decimal = 30 / 100
   local width = math.floor(vim.o.columns * percent_as_decimal)
   vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)

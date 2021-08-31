@@ -18,20 +18,14 @@ return require('packer').startup({function()
   ---------------------------------
 
   use {
-    'lukas-reineke/indent-blankline.nvim',
+    "SmiteshP/nvim-gps",
+    requires = "nvim-treesitter/nvim-treesitter",
     config = function()
-      vim.cmd('au FileType help IndentBlanklineDisable')
-    end
+      require('nvim-gps').setup()
+    end,
   }
 
   use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
-
-  -- cool treesitter debugger
-  use {
-    'nvim-treesitter/playground',
-    cmd = 'TSPlaygroundToggle',
-    config = function() require('tb/plugins/treesitter').setup_playground() end
-  }
 
   ---------------------------------
   --------- Productivity ----------
@@ -45,17 +39,18 @@ return require('packer').startup({function()
     requires = {
       {'nvim-lua/popup.nvim'},
       {'nvim-lua/plenary.nvim' },
+      {'nvim-telescope/telescope-fzf-native.nvim'},
     },
     config = require('tb/plugins/telescope').setup,
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   use {
-    'taybart/nvim-tree.lua',
+    'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     cmd = {'NvimTreeToggle', 'NvimTreeFindFile'},
-    config = function()
-      require('nvim-tree').setup{
+    setup = function()
+      local c = {
         width = '30%',
         auto_close = true,
         hide_dotfiles = true,
@@ -66,6 +61,12 @@ return require('packer').startup({function()
           filetype = { 'packer' },
         },
       }
+      for opt, value in pairs(c) do
+        if type(value) == 'boolean' then
+          value = value and 1 or 0
+        end
+        vim.g['nvim_tree_' .. opt] = value
+      end
       -- vim.cmd('autocmd VimResized * lua Resize_nvim_tree()')
     end
   }
@@ -96,7 +97,6 @@ return require('packer').startup({function()
     'tpope/vim-surround',
     config = function()
       -- make surround around [",',`] work as expected
-
       require('tb/utils/maps').mode_map_group('n', {}, {
         {'ysa\'', 'ys2i\''},
         {'ysa"', 'ys2i"'},
@@ -120,6 +120,8 @@ return require('packer').startup({function()
       })
     end,
   }
+  -- somebody come get her
+  use { 'tpope/vim-scriptease' }
 
   -- rest.vim
   use { 'taybart/rest.vim' }
@@ -170,10 +172,6 @@ return require('packer').startup({function()
     end
   }
 
-  -----------------------------
-  --------- Looks -------------
-  -----------------------------
-
   -- treesitter commentstring
   use {
     'JoosepAlviste/nvim-ts-context-commentstring',
@@ -185,6 +183,9 @@ return require('packer').startup({function()
       }
     end
   }
+  -----------------------------
+  --------- Looks -------------
+  -----------------------------
 
   -- syntax highlighting with treesitter
   use {
@@ -215,8 +216,9 @@ return require('packer').startup({function()
   -- status
   use {
     'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'},
+    requires = {'kyazdani42/nvim-web-devicons','SmiteshP/nvim-gps'},
     config = function()
+      local gps = require('nvim-gps')
       require('tb/utils').reload_module('lualine')
       require('lualine').setup{
         sections = {
@@ -224,10 +226,19 @@ return require('packer').startup({function()
           lualine_c = {
             { 'filename', file_status = true, path = 1 },
             -- { 'diagnostics', sources = { 'nvim_lsp' } },
-          }
+          },
+          lualine_y = {{ gps.get_location, condition = gps.is_available }},
         }
       }
     end,
+  }
+
+  -- show indents
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      vim.cmd('au FileType help IndentBlanklineDisable')
+    end
   }
   -- bash escape coloring TODO lazy load this on cmd "FixShellColors"
   -- use { 'chrisbra/Colorizer' {opt=true}}
@@ -254,6 +265,13 @@ return require('packer').startup({function()
     branch = 'unstable',
     config = function() require('tb/plugins/norg').setup() end,
     requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+  }
+
+  -- cool treesitter debugger
+  use {
+    'nvim-treesitter/playground',
+    cmd = 'TSPlaygroundToggle',
+    config = function() require('tb/plugins/treesitter').setup_playground() end
   }
 end, config = {
 display = {
