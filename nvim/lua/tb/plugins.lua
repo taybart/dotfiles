@@ -41,7 +41,7 @@ return require('packer').startup({function()
       {'nvim-lua/plenary.nvim' },
       {'nvim-telescope/telescope-fzf-native.nvim'},
     },
-    config = require('tb/plugins/telescope').setup,
+    config = function()require('tb/plugins/telescope').setup()end,
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
@@ -67,7 +67,11 @@ return require('packer').startup({function()
         end
         vim.g['nvim_tree_' .. opt] = value
       end
-      -- vim.cmd('autocmd VimResized * lua Resize_nvim_tree()')
+      function _G.resize_nvim_tree()
+        local percent_as_decimal = 30 / 100
+        local width = math.floor(vim.o.columns * percent_as_decimal)
+        vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
+      end
     end
   }
 
@@ -163,9 +167,9 @@ return require('packer').startup({function()
         keymaps = {
           ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'"},
           ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
-          ['n gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-          ['v gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-          ['n gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+          ['n <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+          ['v <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+          ['n <leader>gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
           ['n <leader>b'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
         },
       }

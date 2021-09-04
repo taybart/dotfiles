@@ -72,6 +72,7 @@ require('tb/utils').create_augroups({
 
   nvim_tree = {
     { 'BufEnter NvimTree set cursorline' },
+    -- { 'VimResized * lua resize_nvim_tree()' },
   },
 
   language_autocmd = {
@@ -90,13 +91,6 @@ require ('tb/plugins')
 require ('tb/looks')
 require ('tb/keymaps')
 require ('tb/lsp')
-
-function _G.resize_nvim_tree()
-  local percent_as_decimal = 30 / 100
-  local width = math.floor(vim.o.columns * percent_as_decimal)
-  vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
-end
-
 
 -- setups
 

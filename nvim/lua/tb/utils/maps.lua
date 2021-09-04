@@ -15,10 +15,10 @@ end
 
 function M.map_group(opts, maps)
   for _,v in ipairs(maps) do
-
     local mode=v[1]
-    if not v[3] then
-      for _,v_in in ipairs(v[2]) do
+    if type(v[2]) == "table" then
+      for i = 2,#v do
+        local v_in = v[i]
         if v_in[3] then merge(opts, v_in[3]) end
         map(mode, v_in[1], v_in[2], opts)
       end

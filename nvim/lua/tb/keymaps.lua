@@ -20,6 +20,11 @@ u.mode_map_group('n', {}, {
   {'<leader>sv', ':lua require("tb/utils").reload_vim()<cr>'},
 })
 
+-- help vertical
+u.mode_map_group('c', {}, {
+  {'vh', 'vert bo h'},
+})
+
 -- Idiot proofing
 vim.cmd('command! W w')
 vim.cmd('command! Q q')
@@ -31,24 +36,28 @@ vim.cmd('command! Wq wq')
 -------------------
 
 u.map_group({noremap=true}, {
-  {'c', {
+  {'c',
     -- Allow for homerow up and down in command mode
     {'<c-j>', '<down>'},
     {'<c-k>', '<up>'},
-  }},
-  {'n', {
+  },
+  {'n',
     -- Allow for innerline navagation
     {'j', 'gj'},
     {'k', 'gk'},
     -- End and beg of line easier
     {'H', '^'},
     {'L', '$'},
-  }},
+  },
   -- Faster down and up
-  {'n', '<c-j>', '15gj'},
-  {'n', '<c-k>', '15gk'},
-  {'v', '<c-j>', '15gj'},
-  {'v', '<c-k>', '15gk'},
+  {'n',
+    {'<c-j>', '15gj'},
+    {'<c-k>', '15gk'}
+  },
+  { 'v',
+    {'<c-j>', '15gj'},
+    {'<c-k>', '15gk'},
+  },
 })
 
 
@@ -108,6 +117,9 @@ u.vnoremap('<Tab>', '=')
 -- Get rid of the fucking stupid <200b>
 u.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>:%s/\\%u200b//g<cr>:noh<cr>')
 
+-- highlight pasted text
+u.nnoremap('gp', '`[v`]')
+
 --
 -------------------
 ----- PLUGINS -----
@@ -138,7 +150,7 @@ u.mode_map_group('v', {noremap=true, silent=true}, {
 ----- Searching
 ---------------
 u.map_group({noremap = true}, {
-  { 'n', {
+  { 'n',
     -- Live grep
     {'<c-s>', ':lua require("telescope.builtin").live_grep()<cr>'},
     -- Search under cursor
@@ -149,9 +161,9 @@ u.map_group({noremap = true}, {
     {'<c-b>', ':lua require("telescope.builtin").buffers()<cr>'},
     -- Find code actions
     {'<c-c>', ':lua require("telescope.builtin").lsp_code_actions()<cr>'},
-  }},
-  {'v', {
+  },
+  {'v',
     -- Search using selected text
     {'<c-a>', ':lua require("tb/plugins/telescope").search_selection()<cr>'},
-  }},
+  },
 })
