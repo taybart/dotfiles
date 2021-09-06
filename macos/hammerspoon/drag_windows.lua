@@ -1,13 +1,12 @@
--- Inspired by Linux alt-drag or Better Touch Tools move/resize functionality
-
 local u = require('utils')
 
 local dragging_win = nil
 
-local drag_event = hs.eventtap.new({ hs.eventtap.event.types.mouseMoved }, function(e)
+local function handle_drag_event(e)
   if dragging_win then
-    local dx = e:getProperty(hs.eventtap.event.properties.mouseEventDeltaX)
-    local dy = e:getProperty(hs.eventtap.event.properties.mouseEventDeltaY)
+    local props = hs.eventtap.event.properties
+    local dx = e:getProperty(props.mouseEventDeltaX)
+    local dy = e:getProperty(props.mouseEventDeltaY)
     local mods = hs.eventtap.checkKeyboardModifiers()
 
     -- Cmd + Ctrl to move the window under cursor
@@ -22,9 +21,14 @@ local drag_event = hs.eventtap.new({ hs.eventtap.event.types.mouseMoved }, funct
     end
   end
   return nil
-end)
+end
 
-local flags_event = hs.eventtap.new({ hs.eventtap.event.types.flagsChanged }, function(e)
+local drag_event = hs.eventtap.new({
+  hs.eventtap.event.types.mouseMoved,
+}, handle_drag_event)
+
+
+local function handle_flag_event(e)
   local flags = e:getFlags()
   if flags.cmd and flags.ctrl and dragging_win == nil then
     dragging_win = u.get_window_under_mouse()
@@ -37,5 +41,10 @@ local flags_event = hs.eventtap.new({ hs.eventtap.event.types.flagsChanged }, fu
     dragging_win = nil
   end
   return nil
-end)
+end
+
+local flags_event = hs.eventtap.new({
+  hs.eventtap.event.types.flagsChanged,
+}, handle_flag_event)
+
 flags_event:start()
