@@ -1,6 +1,6 @@
 return {
   go = {
-    cmd = {"gopls", "serve"},
+    cmd = {vim.fn.stdpath('data').."/lspinstall/go/gopls", "serve"},
     settings = {
       gopls = {
         buildFlags =  {"-tags="},
