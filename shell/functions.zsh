@@ -1,6 +1,25 @@
 
 # ~~ util ~~
-# bring up
+
+ghi() {
+  item=$(gh issue list | fzf | awk '{print $1}')
+  [ -z $item ] && return 0
+  gh issue view $item --web
+}
+
+ghprl() {
+  prid=$(gh pr list | fzf | awk '{print $1}')
+  [ -z $prid ] && return 0
+  gh pr view $prid --web
+}
+
+ghprr() {
+  prid=$(gh pr list -L 100 --search "is:open is:pr review-requested:@me" | fzf | awk '{print $1}')
+  [ -z $prid ] && return 0
+  gh pr view $prid --web
+}
+
+# bring up configs
 function config {
   read "t?[sh/vi] "
   case "${t}" in
@@ -84,13 +103,12 @@ function envup {
   [ "$1" = "-f" ] && shift && file=$1
 
   if [ -f "$file" ]; then
-    # echo "env $(echo $(cat $file | sed '/^#.*/d; /^[[:space:]]*$/d; s/^export //' | xargs) | envsubst) $@"
     # make lines conform
-    items=($(sed '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $file))
-    for f in $items; do
-      eval export $f
+    IFS=$'\n'
+    env_vars=($(sed '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $file))
+    for v in $env_vars; do
+      eval export $v
     done
-    $@
   else
     echo "$file does not exist"
     return 1
@@ -162,6 +180,10 @@ function b64 {
 
 # ~~ rest ~~
 function restsb() {
+  if [ -d './.rest' ]; then
+    nvim ./.rest/*.rest
+    return
+  fi
   mkdir -p $HOME/.tmp
   nvim $HOME/.tmp/sandbox.rest
 }
