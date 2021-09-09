@@ -90,8 +90,18 @@ return require('packer').startup({function()
       { 'hrsh7th/cmp-calc' },
       { 'hrsh7th/cmp-nvim-lua' },
       { 'hrsh7th/cmp-nvim-lsp' },
+      { 'L3MON4D3/LuaSnip' },
+      { 'saadparwaiz1/cmp_luasnip' },
+      { 'L3MON4D3/LuaSnip' },
     },
     config = function() require('tb/plugins/cmp').setup() end,
+  }
+
+  use {
+    'L3MON4D3/LuaSnip',
+    config = function()
+      require('tb/plugins/luasnip')
+    end,
   }
 
   -- comment using text objects
@@ -241,7 +251,9 @@ return require('packer').startup({function()
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
-      vim.cmd('au FileType help IndentBlanklineDisable')
+      require('indent_blankline').setup{
+        filetype_exclude = {'help', 'TelescopePrompt'}
+      }
     end
   }
   -- bash escape coloring TODO lazy load this on cmd "FixShellColors"

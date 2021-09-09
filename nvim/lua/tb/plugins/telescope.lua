@@ -18,7 +18,7 @@ function M.setup()
       find_files = { hidden = true },
     },
   })
-  require('telescope').load_extension('fzf')
+  -- require('telescope').load_extension('fzf')
 end
 
 function M.edit_config()
