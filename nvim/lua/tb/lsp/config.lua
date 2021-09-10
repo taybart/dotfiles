@@ -21,9 +21,9 @@ return {
         workspace = {
           -- Make the server aware of Neovim runtime files
           library = {
-            [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-            [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-            [vim.fn.expand('/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/')] = true,
+            vim.fn.expand('$VIMRUNTIME/lua'),
+            vim.fn.expand('$VIMRUNTIME/lua/vim/lsp'),
+            vim.fn.expand('/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'),
           },
         },
       }
