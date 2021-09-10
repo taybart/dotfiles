@@ -11,19 +11,15 @@ end
 
 return require('packer').startup({function()
   local use = require('packer').use
-  use { 'wbthomason/packer.nvim' }
+  use { 'wbthomason/packer.nvim', opt = true }
 
   ---------------------------------
   ---------- Probation ------------
   ---------------------------------
 
-  use {
-    "SmiteshP/nvim-gps",
-    requires = "nvim-treesitter/nvim-treesitter",
-    config = function()
-      require('nvim-gps').setup()
-    end,
-  }
+  -- use { 'Iron-E/nvim-highlite' }
+  use { 'metakirby5/codi.vim' }
+  use { 'michaelb/sniprun', run = 'bash ./install.sh'}
 
   use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
@@ -230,9 +226,8 @@ return require('packer').startup({function()
   -- status
   use {
     'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons','SmiteshP/nvim-gps'},
+    requires = {'kyazdani42/nvim-web-devicons'},
     config = function()
-      local gps = require('nvim-gps')
       require('tb/utils').reload_module('lualine')
       require('lualine').setup{
         sections = {
@@ -241,7 +236,6 @@ return require('packer').startup({function()
             { 'filename', file_status = true, path = 1 },
             -- { 'diagnostics', sources = { 'nvim_lsp' } },
           },
-          lualine_y = {{ gps.get_location, condition = gps.is_available }},
         }
       }
     end,
