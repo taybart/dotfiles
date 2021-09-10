@@ -6,8 +6,6 @@ local lspinstall = require('lspinstall')
 
 local u = require('tb/utils/maps')
 
-
-
 require('tb/lsp/go')
 require('tb/lsp/lua')
 
@@ -44,12 +42,6 @@ local function make_base_config()
   return {capabilities = capabilities, on_attach = on_attach }
 end
 
-local function merge_config(first, second)
-  for k, v in pairs(second) do first[k] = v end
-end
-
-
-
 -- LSP Setup
 local function setup()
 
@@ -61,7 +53,10 @@ local function setup()
   for _, server in pairs(servers) do
     local config = make_base_config()
     if lsp_configs[server] ~= nil then
-      require('tb/utils').merge(config, lsp_configs[server])
+      config = vim.tbl_deep_extend('force', config, lsp_configs[server])
+    end
+    if server == "lua" then
+      config = require("lua-dev").setup({ lspconfig = config })
     end
     lspconfig[server].setup(config)
   end
@@ -75,16 +70,6 @@ lspinstall.post_install_hook = function ()
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 
-function M.reload(lang, lang_config)
-  lspinstall.setup()
-
-  local config = make_base_config()
-  if lang_config ~= nil then
-    merge_config(config, lang_config)
-  end
-
-  lspconfig[lang].setup(config)
-end
 -- LSP looks
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "✗", texthl = "GruvboxRed"})
 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", texthl = "GruvboxYellow"})

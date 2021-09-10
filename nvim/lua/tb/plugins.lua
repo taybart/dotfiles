@@ -20,6 +20,7 @@ return require('packer').startup({function()
   -- use { 'Iron-E/nvim-highlite' }
   use { 'metakirby5/codi.vim' }
   use { 'michaelb/sniprun', run = 'bash ./install.sh'}
+  use { 'folke/lua-dev.nvim' }
 
   use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
@@ -84,7 +85,7 @@ return require('packer').startup({function()
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-calc' },
-      { 'hrsh7th/cmp-nvim-lua' },
+      -- { 'hrsh7th/cmp-nvim-lua' },
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'L3MON4D3/LuaSnip' },
       { 'saadparwaiz1/cmp_luasnip' },
