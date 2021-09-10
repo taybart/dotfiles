@@ -4,3 +4,6 @@
 [submodule "shell/z"]
 	path = shell/z
 	url = https://github.com/rupa/z/
+[submodule "macos/hammerspoon/Spoons/SkyRocket.spoon"]
+	path = macos/hammerspoon/Spoons/SkyRocket.spoon
+	url = https://dbalatero/SkyRocket.spoon
