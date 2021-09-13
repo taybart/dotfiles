@@ -3,12 +3,11 @@
 ----------------------
 local M = {}
 
-local merge = require('tb/utils').merge
 local map = vim.api.nvim_set_keymap
 
 function M.mode_map_group(mode, opts, maps)
   for _,v in ipairs(maps) do
-    if v[3] then merge(opts, v[3]) end
+    if v[3] then vim.tbl_deep_extend("force", opts, v[3]) end
     map(mode, v[1], v[2], opts)
   end
 end
@@ -19,11 +18,11 @@ function M.map_group(opts, maps)
     if type(v[2]) == "table" then
       for i = 2,#v do
         local v_in = v[i]
-        if v_in[3] then merge(opts, v_in[3]) end
+        if v_in[3] then vim.tbl_deep_extend("force", opts, v_in[3]) end
         map(mode, v_in[1], v_in[2], opts)
       end
     else
-    if v[4] then merge(opts, v[4]) end
+    if v[4] then vim.tbl_deep_extend("force", opts, v[4]) end
     map(mode, v[2], v[3], opts)
     end
   end
@@ -40,7 +39,7 @@ end
 
 function M.nnoremap(key, cmd, opts)
   if opts ~= nil then
-    merge(opts, { noremap = true })
+    vim.tbl_deep_extend("force", opts, { noremap = true })
   else
     opts = {}
   end
@@ -57,7 +56,7 @@ function M.imap(key, cmd, opts)
 end
 function M.inoremap(key, cmd, opts)
   if opts ~= nil then
-    merge(opts, { noremap = true })
+    vim.tbl_deep_extend("force", opts, { noremap = true })
   else
     opts = {}
   end
@@ -73,7 +72,7 @@ function M.vmap(key, cmd, opts)
 end
 function M.vnoremap(key, cmd, opts)
   if opts ~= nil then
-    merge(opts, { noremap = true })
+    vim.tbl_deep_extend("force", opts, { noremap = true })
   else
     opts = {}
   end
@@ -89,7 +88,7 @@ function M.cmap(key, cmd, opts)
 end
 function M.cnoremap(key, cmd, opts)
   if opts ~= nil then
-    merge(opts, { noremap = true })
+    vim.tbl_deep_extend("force", opts, { noremap = true })
   else
     opts = {}
   end
@@ -106,7 +105,7 @@ function M.tmap(key, cmd, opts)
 end
 function M.tnoremap(key, cmd, opts)
   if opts ~= nil then
-    merge(opts, { noremap = true })
+    vim.tbl_deep_extend("force", opts, { noremap = true })
   else
     opts = {}
   end
@@ -123,7 +122,7 @@ function M.smap(key, cmd, opts)
 end
 function M.snoremap(key, cmd, opts)
   if opts ~= nil then
-    merge(opts, { noremap = true })
+    vim.tbl_deep_extend("force", opts, { noremap = true })
   else
     opts = {}
   end

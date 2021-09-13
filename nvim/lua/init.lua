@@ -92,6 +92,10 @@ require ('tb/looks')
 require ('tb/keymaps')
 require ('tb/lsp')
 
+if require('tb/utils').is_darwin() then
+  vim.g.tagbar_ctags_bin='/opt/homebrew/bin/ctags'
+end
+
 -- setups
 
 -- -- different config if in browser

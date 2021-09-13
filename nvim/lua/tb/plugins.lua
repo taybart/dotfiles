@@ -11,16 +11,20 @@ end
 
 return require('packer').startup({function()
   local use = require('packer').use
-  use { 'wbthomason/packer.nvim', opt = true }
+  use { 'wbthomason/packer.nvim' }
 
   ---------------------------------
   ---------- Probation ------------
   ---------------------------------
 
-  -- use { 'Iron-E/nvim-highlite' }
-  use { 'metakirby5/codi.vim' }
-  use { 'michaelb/sniprun', run = 'bash ./install.sh'}
+  use { 'metakirby5/codi.vim', cmd = { 'Codi' } }
+  use { 'michaelb/sniprun', run = 'bash ./install.sh', cmd = {'SnipRun'} }
+  -- use { 'folke/lua-dev.nvim', ft = 'lua' }
   use { 'folke/lua-dev.nvim' }
+
+  -- use { 'simrat39/rust-tools.nvim', ft = 'rust' }
+  use { 'simrat39/rust-tools.nvim' }
+  use { 'preservim/tagbar', cmd = { 'TagbarOpen', 'TagbarToggle' } }
 
   use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
@@ -85,7 +89,6 @@ return require('packer').startup({function()
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-calc' },
-      -- { 'hrsh7th/cmp-nvim-lua' },
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'L3MON4D3/LuaSnip' },
       { 'saadparwaiz1/cmp_luasnip' },
@@ -139,9 +142,6 @@ return require('packer').startup({function()
 
   -- b64.nvim
   use { 'taybart/b64.nvim' }
-
-  -- useful lua functions
-  use { 'nvim-lua/plenary.nvim' }
 
   -- required with tmux
   use { 'christoomey/vim-tmux-navigator' }

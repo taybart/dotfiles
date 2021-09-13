@@ -24,6 +24,7 @@ return {
             [vim.fn.expand('$VIMRUNTIME/lua')] = true,
             [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
             ['/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'] = true,
+            [vim.fn.expand('$HOME/.hammerspoon/Spoons/EmmyLua.spoon/annotations')] = true,
           },
         },
       }
