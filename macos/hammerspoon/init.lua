@@ -8,6 +8,7 @@ SkyRocket:new({
   moveModifiers = {'cmd', 'ctrl'},
   resizeModifiers = {'alt', 'ctrl'},
 })
+hs.loadSpoon("EmmyLua")
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "r", hs.reload)
 
