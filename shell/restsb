@@ -1,0 +1,7 @@
+#!/bin/zsh
+if [ -d './.rest' ]; then
+  nvim ./.rest/*.rest
+  return
+fi
+mkdir -p $HOME/.tmp
+nvim $HOME/.tmp/sandbox.rest
