@@ -42,6 +42,7 @@ function sife() { [ -f $1 ] && source $1 }
 
 sife $DOTFILES/shell/alias.zsh
 sife $DOTFILES/shell/functions.zsh
+sife $DOTFILES/shell/op.zsh
 
 bindkey '^E' autosuggest-accept
 bindkey '^ ' forward-word
