@@ -6,7 +6,7 @@
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
-  vim.api.nvim_command 'packadd packer.nvim'
+  vim.api.nvim_command('packadd packer.nvim')
 end
 
 return require('packer').startup({function()
@@ -24,7 +24,39 @@ return require('packer').startup({function()
 
   -- use { 'simrat39/rust-tools.nvim', ft = 'rust' }
   use { 'simrat39/rust-tools.nvim' }
-  use { 'preservim/tagbar', cmd = { 'TagbarOpen', 'TagbarToggle' } }
+  use {
+    'preservim/tagbar',
+    cmd = { 'TagbarOpen', 'TagbarToggle' },
+    setup = function()
+      vim.g.tagbar_type_go = {
+        ctagstype= 'go',
+        kinds     = {
+          'p:package',
+          'i:imports:1',
+          'c:constants',
+          'v:variables',
+          't:types',
+          'n:interfaces',
+          'w:fields',
+          'e:embedded',
+          'm:methods',
+          'r:constructor',
+          'f:functions'
+        },
+        sro = '.',
+        kind2scope = {
+          t = 'ctype',
+          n = 'ntype'
+        },
+        scope2kind = {
+          ctype = 't',
+          ntype = 'n'
+        },
+        ctagsbin  = 'gotags',
+        ctagsargs = '-sort -silent'
+      }
+    end,
+  }
 
   use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
@@ -50,16 +82,23 @@ return require('packer').startup({function()
     'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     cmd = {'NvimTreeToggle', 'NvimTreeFindFile'},
+    config = function()
+      require('nvim-tree').setup {
+        auto_close = true,
+        hijack_cursor = true,
+        view = {
+          width = '30%',
+          auto_resize = false,
+        },
+      }
+    end,
     setup = function()
       local c = {
-        width = '30%',
-        auto_close = true,
         hide_dotfiles = true,
         group_empty = true,
         highlight_opened_files = true,
-        auto_resize = false,
         window_picker_exclude = {
-          filetype = { 'packer' },
+          filetype = { 'packer', 'tagbar' },
         },
       }
       for opt, value in pairs(c) do
@@ -144,8 +183,12 @@ return require('packer').startup({function()
   use { 'taybart/b64.nvim' }
 
   -- required with tmux
-  use { 'christoomey/vim-tmux-navigator' }
-  vim.g.tmux_navigator_no_mappings = 1
+  use {
+    'christoomey/vim-tmux-navigator',
+    setup = function()
+      vim.g.tmux_navigator_no_mappings = 1
+    end,
+  }
 
   -- nice indicators for fF/tT
   use { 'unblevable/quick-scope' }

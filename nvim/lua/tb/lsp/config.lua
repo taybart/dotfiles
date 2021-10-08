@@ -6,7 +6,7 @@ return {
         buildFlags =  {"-tags="},
         analyses = {
           unusedparams = true,
-          shadow = true,
+          -- shadow = true,
         },
         staticcheck = true,
       },

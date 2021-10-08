@@ -14,8 +14,8 @@ local str = function(text)
   return t { text }
 end
 
-local ts_locals = require ("nvim-treesitter.locals")
-local ts_utils = require ("nvim-treesitter.ts_utils")
+local ts_locals = require("nvim-treesitter.locals")
+local ts_utils = require("nvim-treesitter.ts_utils")
 
 local get_node_text = vim.treesitter.get_node_text
 

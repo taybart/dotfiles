@@ -82,6 +82,8 @@ u.tnoremap('<Esc>', '<c-\\><c-n>')
 ----- FORMAT ------
 -------------------
 
+u.nnoremap('ff', ':Format<cr>:w<cr>')
+
 -- These create newlines like o and O but stay in normal mode
 u.mode_map_group('n', {silent=true},{
   {'zj', 'o<Esc>k'},
@@ -145,6 +147,9 @@ u.mode_map_group('v', {noremap=true, silent=true}, {
   {'<leader>bd', ':lua require("b64").decode()<cr>'},
   {'<leader>be', ':lua require("b64").encode()<cr>'},
 })
+
+-- tagbar
+u.nnoremap('<F8>', ':TagbarToggle<cr>')
 
 ---------------
 ----- Searching

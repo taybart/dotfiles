@@ -224,7 +224,9 @@ for_window [title="Picture-in-Picture"] floating enable sticky enable normal
 for_window [class="SimpleScreenRecorder"] floating enable sticky enable normal
 for_window [class="Slack" title="screen share"] floating enable sticky enable normal
 for_window [class="GStreamer"] floating enable sticky enable normal
+for_window [class="SpeedCrunch"] floating enable sticky enable normal
 for_window [class="kitty" instance="fzfmenu"] floating enable
+for_window [class="1Password"] floating enable
 # for_window [title="Slack | Slack call*"] floating enable
 
 # switch to workspace with urgent window automatically

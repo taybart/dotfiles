@@ -56,7 +56,7 @@ vim.opt.swapfile=false
 vim.opt.backup=false
 
 -- keep it tight
-vim.opt.colorcolumn='80'
+vim.opt.colorcolumn='81'
 
 
 ----- AU ------
