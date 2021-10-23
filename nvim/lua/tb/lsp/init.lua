@@ -2,7 +2,6 @@ local M = {}
 
 
 local lspconfig = require('lspconfig')
-local lspinstall = require('lspinstall')
 
 local u = require('tb/utils/maps')
 
@@ -45,34 +44,12 @@ end
 
 -- LSP Setup
 local function setup()
-  -- TODO set up extra plugins when the ft = language, so they can lazy load
-
   local lsp_configs = require('tb/lsp/config')
 
-  lspinstall.setup()
-
-  local servers = lspinstall.installed_servers()
-  for _, server in pairs(servers) do
-    local config = make_base_config()
-    if lsp_configs[server] ~= nil then
-      config = vim.tbl_deep_extend('force', config, lsp_configs[server])
-    end
-    if server == "lua" then
-      config = require("lua-dev").setup({ lspconfig = config })
-    end
-    if server == "rust" then
-      require('rust-tools').setup({
-        server = vim.tbl_deep_extend('force', config, {
-          cmd = { vim.fn.stdpath('data').."/lspinstall/rust/rust-analyzer" },
-          settings = {
-            ["rust-analyzer"] = {
-              checkOnSave = { command = "clippy" },
-            }
-          }
-        }),
-      })
-    end
-    lspconfig[server].setup(config)
+  local config = make_base_config()
+  for lsp, lsp_config in pairs(lsp_configs) do
+    config = vim.tbl_deep_extend('force', config, lsp_config)
+    lspconfig[lsp].setup(config)
   end
 end
 
@@ -84,12 +61,6 @@ function M.update_config(lang, update)
 end
 
 setup()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-lspinstall.post_install_hook = function ()
-  setup() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
 
 -- LSP looks
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "✗", texthl = "GruvboxRed"})

@@ -66,32 +66,6 @@ function M.sync_nvim_tree_width()
   vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
 end
 
-function M.table_print(tt, indent, done)
-  done = done or {}
-  indent = indent or 0
-  if type(tt) == "table" then
-    local sb = {}
-    for key, value in pairs (tt) do
-      table.insert(sb, string.rep (" ", indent)) -- indent it
-      if type (value) == "table" and not done [value] then
-        done [value] = true
-        table.insert(sb, key .. " = {\n");
-        table.insert(sb, M.table_print (value, indent + 2, done))
-        table.insert(sb, string.rep (" ", indent)) -- indent it
-        table.insert(sb, "}\n");
-      elseif "number" == type(key) then
-        table.insert(sb, string.format("\"%s\"\n", tostring(value)))
-      else
-        table.insert(sb, string.format(
-            "%s = \"%s\"\n", tostring (key), tostring(value)))
-       end
-    end
-    return table.concat(sb)
-  else
-    return tt .. "\n"
-  end
-end
-
 function M.to_string(tbl)
     if "nil" == type(tbl) then return tostring(nil)
     elseif "table" == type(tbl) then return M.table_print(tbl)

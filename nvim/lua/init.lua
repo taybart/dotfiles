@@ -59,6 +59,16 @@ vim.opt.backup=false
 vim.opt.colorcolumn='81'
 
 
+
+require ('tb/plugins')
+require ('tb/looks')
+require ('tb/keymaps')
+require ('tb/lsp')
+
+if require('tb/utils').is_darwin() then
+  vim.g.tagbar_ctags_bin='/opt/homebrew/bin/ctags'
+end
+
 ----- AU ------
 require('tb/utils').create_augroups({
   nvim = {
@@ -84,17 +94,23 @@ require('tb/utils').create_augroups({
     { 'FileType svelte setlocal commentstring=<!--\\ %s\\ -->' },
     { 'FileType gomod setlocal commentstring=//\\ %s' },
   },
-
+  looks = {
+    { 'BufEnter,FocusGained,InsertLeave', '*',
+    'lua require("tb/looks").toggle_num(true)' },
+    { 'BufLeave,FocusLost,InsertEnter', '*',
+    'lua require("tb/looks").toggle_num(false)' },
+  },
+  whitespace = {
+    { 'BufWinEnter', '<buffer>', 'match Error /\\s\\+$/' },
+    { 'InsertEnter', '<buffer>', 'match Error /\\s\\+\\%#\\@<!$/' },
+    { 'InsertLeave', '<buffer>', 'match Error /\\s\\+$/' },
+    { 'BufWinLeave', '<buffer>', 'call clearmatches()' },
+  },
+  goyo = {
+    { 'User GoyoEnter nested lua require("tb/autocmds").goyo_enter()' },
+    { 'User GoyoLeave nested lua require("tb/autocmds").goyo_leave()' },
+  },
 })
-
-require ('tb/plugins')
-require ('tb/looks')
-require ('tb/keymaps')
-require ('tb/lsp')
-
-if require('tb/utils').is_darwin() then
-  vim.g.tagbar_ctags_bin='/opt/homebrew/bin/ctags'
-end
 
 -- setups
 

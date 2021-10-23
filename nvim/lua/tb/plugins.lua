@@ -120,7 +120,6 @@ return require('packer').startup({function()
   ----------
   -- lsp
   use { 'neovim/nvim-lspconfig' }
-  use { 'kabouzeid/nvim-lspinstall' }
 
   use {
     'hrsh7th/nvim-cmp',
@@ -269,7 +268,7 @@ return require('packer').startup({function()
 
   -- status
   use {
-    'hoob3rt/lualine.nvim',
+    'nvim-lualine/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons'},
     config = function()
       require('tb/utils').reload_module('lualine')
@@ -333,4 +332,4 @@ display = {
     return require('packer.util').float({ border = 'single' })
   end
 }
-}})
+              }})

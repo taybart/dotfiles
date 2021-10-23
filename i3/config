@@ -90,8 +90,9 @@ mode "resize" {
 exec --no-startup-id picom -b -C
 exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
 exec --no-startup-id 1password
-exec --no-startup-id timeular
+# exec --no-startup-id timeular
 exec --no-startup-id slack
+exec --no-startup-id discord
 exec --no-startup-id zoom
 
 

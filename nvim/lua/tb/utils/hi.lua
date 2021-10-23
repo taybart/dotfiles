@@ -1,7 +1,7 @@
 
 local M = {}
 
-function addopt(cmd, oname, value)
+local function addopt(cmd, oname, value)
   return cmd .. ' gui' .. oname .. '=' .. value .. ' cterm'.. oname ..'=' .. value
 end
 

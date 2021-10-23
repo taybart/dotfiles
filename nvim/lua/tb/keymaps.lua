@@ -22,7 +22,7 @@ u.mode_map_group('n', {}, {
 
 -- help vertical
 u.mode_map_group('c', {}, {
-  {'vh', 'vert bo h'},
+  {'vh', 'vert bo h '},
 })
 
 -- Idiot proofing
