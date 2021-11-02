@@ -51,6 +51,7 @@ local function setup()
     config = vim.tbl_deep_extend('force', config, lsp_config)
     lspconfig[lsp].setup(config)
   end
+  -- require('rust-tools').setup()
 end
 
 function M.update_config(lang, update)

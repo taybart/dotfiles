@@ -1,14 +1,16 @@
 #!/bin/sh
 
-usage="usage: $0 -c {up|down|mute} [-i increment] [-m mixer]"
+usage="usage: $0 -c {up|down|mute} [-i increment] [-m mixer] [-q quiet]"
 command=
 increment=2%
 mixer=Master
+quiet=false
 
-while getopts i:m:h o
+while getopts i:m:h:q o
 do case "$o" in
     i) increment=$OPTARG;;
     m) mixer=$OPTARG;;
+    m) quiet=true;;
     h) echo "$usage"; exit 0;;
     ?) echo "$usage"; exit 0;;
 esac
@@ -42,6 +44,10 @@ if [ "$command" = "mute" ]; then
     else
         display_volume=$(amixer set $mixer unmute | grep -m 1 "%]" | cut -d "[" -f2|cut -d "%" -f1)
     fi
+fi
+
+if [ quiet ]; then
+  exit 0;
 fi
 
 if [ "$icon_name" = "" ]; then

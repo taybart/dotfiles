@@ -30,7 +30,7 @@ function M.toggle_num(relon)
     return
   end
 
-  local re = vim.regex('tagbar\\|NvimTree\\|vista\\|packer\\|nnn')
+  local re = vim.regex('tagbar\\|NvimTree\\|vista\\|packer')
   if re:match_str(vim.bo.ft) then
     vim.opt.number=false
     return

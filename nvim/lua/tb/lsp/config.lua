@@ -1,5 +1,6 @@
 return {
   gopls = {
+    cmd = {'gopls'};
     settings = {
       gopls = {
         buildFlags =  {"-tags="},
@@ -11,7 +12,13 @@ return {
       },
     },
   },
-  tsserver = {},
+  rust_analyzer = {
+    cmd = { "rust-analyzer" },
+  },
+  tsserver = {
+    -- have to set every one for some reason
+    cmd = { "typescript-language-server", "--stdio" },
+  },
   sumneko_lua = require("lua-dev").setup({
     lspconfig = {
     cmd = {'lua-language-server'};

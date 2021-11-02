@@ -17,46 +17,12 @@ return require('packer').startup({function()
   ---------- Probation ------------
   ---------------------------------
 
-  use { 'metakirby5/codi.vim', cmd = { 'Codi' } }
-  use { 'michaelb/sniprun', run = 'bash ./install.sh', cmd = {'SnipRun'} }
-  -- use { 'folke/lua-dev.nvim', ft = 'lua' }
+  -- use { 'metakirby5/codi.vim', cmd = { 'Codi' } }
+  -- use { 'michaelb/sniprun', run = 'bash ./install.sh', cmd = {'SnipRun'} }
+
   use { 'folke/lua-dev.nvim' }
 
-  -- use { 'simrat39/rust-tools.nvim', ft = 'rust' }
-  use { 'simrat39/rust-tools.nvim' }
-  use {
-    'preservim/tagbar',
-    cmd = { 'TagbarOpen', 'TagbarToggle' },
-    setup = function()
-      vim.g.tagbar_type_go = {
-        ctagstype= 'go',
-        kinds     = {
-          'p:package',
-          'i:imports:1',
-          'c:constants',
-          'v:variables',
-          't:types',
-          'n:interfaces',
-          'w:fields',
-          'e:embedded',
-          'm:methods',
-          'r:constructor',
-          'f:functions'
-        },
-        sro = '.',
-        kind2scope = {
-          t = 'ctype',
-          n = 'ntype'
-        },
-        scope2kind = {
-          ctype = 't',
-          ntype = 'n'
-        },
-        ctagsbin  = 'gotags',
-        ctagsargs = '-sort -silent'
-      }
-    end,
-  }
+  -- use { 'simrat39/rust-tools.nvim' }
 
   use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
@@ -76,6 +42,7 @@ return require('packer').startup({function()
     },
     config = function()require('tb/plugins/telescope').setup()end,
   }
+
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   use {
@@ -113,6 +80,40 @@ return require('packer').startup({function()
         vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
       end
     end
+  }
+
+  use {
+    'preservim/tagbar',
+    cmd = { 'TagbarOpen', 'TagbarToggle' },
+    setup = function()
+      vim.g.tagbar_type_go = {
+        ctagstype= 'go',
+        kinds     = {
+          'p:package',
+          'i:imports:1',
+          'c:constants',
+          'v:variables',
+          't:types',
+          'n:interfaces',
+          'w:fields',
+          'e:embedded',
+          'm:methods',
+          'r:constructor',
+          'f:functions'
+        },
+        sro = '.',
+        kind2scope = {
+          t = 'ctype',
+          n = 'ntype'
+        },
+        scope2kind = {
+          ctype = 't',
+          ntype = 'n'
+        },
+        ctagsbin  = 'gotags',
+        ctagsargs = '-sort -silent'
+      }
+    end,
   }
 
   ----------
@@ -302,10 +303,9 @@ return require('packer').startup({function()
   }
 
   -- colorscheme
-  -- use { 'gruvbox-community/gruvbox' }
+  use { 'gruvbox-community/gruvbox' }
   -- fix lsp colors for gruvbox
   -- use { 'folke/lsp-colors.nvim' }
-  use { 'ellisonleao/gruvbox.nvim', requires = {'rktjmp/lush.nvim'} }
 
   -----------------------------
   --------- Extras ------------
