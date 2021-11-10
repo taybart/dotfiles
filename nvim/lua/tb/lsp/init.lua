@@ -20,6 +20,7 @@ local on_attach = function(client)
     {'[d', ':lua vim.lsp.diagnostic.goto_next()<CR>'},
     {']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>'},
     {'E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>'},
+    {'ca', ':lua vim.lsp.buf.code_action()<CR>'},
   })
 
   -- Set some keybinds conditional on server capabilities

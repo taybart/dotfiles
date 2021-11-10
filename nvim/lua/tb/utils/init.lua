@@ -12,13 +12,6 @@ function M.is_root()
   return ((output[1] or "") == "0")
 end
 
-function M.is_darwin()
-  local os_name = vim.loop.os_uname().sysname
-  return os_name == 'Darwin'
-  --[[ local output = vim.fn.systemlist "uname -s"
-  return not not string.find(output[1] or "", "Darwin") ]]
-end
-
 function M.reload_module(name)
  for k in pairs(package.loaded) do
    if k:match("^"..name) then

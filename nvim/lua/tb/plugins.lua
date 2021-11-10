@@ -22,8 +22,6 @@ return require('packer').startup({function()
 
   use { 'folke/lua-dev.nvim' }
 
-  -- use { 'simrat39/rust-tools.nvim' }
-
   use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
   ---------------------------------
@@ -57,15 +55,17 @@ return require('packer').startup({function()
           width = '30%',
           auto_resize = false,
         },
+        filters = {
+          dotfiles = true,
+        },
       }
     end,
     setup = function()
       local c = {
-        hide_dotfiles = true,
         group_empty = true,
         highlight_opened_files = true,
         window_picker_exclude = {
-          filetype = { 'packer', 'tagbar' },
+          filetype = { 'packer', 'tagbar', 'help' },
         },
       }
       for opt, value in pairs(c) do
@@ -167,7 +167,7 @@ return require('packer').startup({function()
     config = function()
       -- 2021-08-25 not really using these, put in the scrap in 2 weeks
       require('tb/utils/maps').mode_map_group('n', {}, {
-        {'<leader>gs', '<cmd>Git<cr>'},
+        {'gs', '<cmd>Git<cr>'},
         {'<leader>gj', '<cmd>diffget //3<cr>'},
         {'<leader>gf', '<cmd>diffget //2<cr>'},
       })

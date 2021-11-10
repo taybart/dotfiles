@@ -3,8 +3,9 @@ local go = {}
 require('tb/utils').create_augroups({
   go_lsp = {
     -- TODO add fuzzy finder from history list with no arguments
-    { 'FileType', 'go', 'command! -nargs=+ GoTags lua require("tb/lsp/go").set_build_tags(<f-args>)' },
-    { 'FileType', 'go', 'command! -nargs=* GoAddTags lua require("tb/lsp/go").add_tags(<f-args>)' },
+    { 'FileType', 'go', 'command! -nargs=+ BuildTags lua require("tb/lsp/go").set_build_tags(<f-args>)' },
+    { 'FileType', 'go', 'command! -nargs=+ BuildTagsAdd lua require("tb/lsp/go").add_build_tags(<f-args>)' },
+    { 'FileType', 'go', 'command! -nargs=* StructTags lua require("tb/lsp/go").add_tags(<f-args>)' },
     { 'FileType', 'go', 'command! -nargs=? Run lua require("tb/lsp/go").run(<f-args>)' },
     { 'BufWritePre', '*.go', 'lua require("tb/lsp/go").on_save()' },
   },
@@ -80,12 +81,25 @@ function go.run(file_name)
   vim.api.nvim_command('!go run '..file_name)
 end
 
+function go.add_build_tags(tags)
+  local go_config = require('tb/lsp/config').gopls
+  local current_tags = go_config.settings.gopls.buildFlags[1]
+  if not current_tags or current_tags == '' then
+    current_tags = "-tags="
+  elseif tags:sub(1, 1) ~= "," then
+    tags = ","..tags
+  end
+  go_config.settings.gopls.buildFlags = {current_tags..tags}
+
+  require('tb/lsp').update_config("gopls", go_config)
+end
+
 function go.set_build_tags(tags)
-  local go_config = require('tb/lsp/config').go
+  local go_config = require('tb/lsp/config').gopls
 
   go_config.settings.gopls.buildFlags = {"-tags="..tags}
 
-  require('tb/lsp').update_config("go", go_config)
+  require('tb/lsp').update_config("gopls", go_config)
 end
 
 function go.on_save()

@@ -65,7 +65,7 @@ require ('tb/looks')
 require ('tb/keymaps')
 require ('tb/lsp')
 
-if require('tb/utils').is_darwin() then
+if vim.fn.has("mac") then
   vim.g.tagbar_ctags_bin='/opt/homebrew/bin/ctags'
 end
 
