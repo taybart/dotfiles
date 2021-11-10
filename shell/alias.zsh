@@ -10,6 +10,10 @@ alias myip="curl https://taybart.com/ip"
 alias j="z"
 alias ct="certs"
 
+if [[ "$TERM" == "xterm-kitty" ]]; then
+  alias ssh="kitty +kitten ssh"
+fi
+
 # Git Aliases
 alias gs="git status"
 alias gf="git fetch --all --tags"
