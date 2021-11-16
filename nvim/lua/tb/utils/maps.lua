@@ -5,7 +5,8 @@ local M = {}
 
 local map = vim.api.nvim_set_keymap
 
-function M.mode_map_group(mode, opts, maps)
+function M.mode_map_group(mode, maps, opts)
+  opts = opts or {}
   for _,v in ipairs(maps) do
     if v[3] then vim.tbl_deep_extend("force", opts, v[3]) end
     map(mode, v[1], v[2], opts)

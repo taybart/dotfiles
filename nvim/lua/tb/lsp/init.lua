@@ -12,7 +12,7 @@ require('tb/lsp/matlab')
 
 -- Set keymap if attached
 local on_attach = function(client)
-  u.mode_map_group('n', { noremap=true, silent=true }, {
+  u.mode_map_group('n', {
     {'gD', ':lua vim.lsp.buf.declaration()<CR>'},
     {'gd', ':lua vim.lsp.buf.definition()<CR>'},
     {'gi', ':lua vim.lsp.buf.implementation()<CR>'},
@@ -21,7 +21,7 @@ local on_attach = function(client)
     {']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>'},
     {'E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>'},
     {'ca', ':lua vim.lsp.buf.code_action()<CR>'},
-  })
+  }, { noremap=true, silent=true })
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then

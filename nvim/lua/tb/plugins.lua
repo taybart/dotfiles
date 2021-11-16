@@ -17,8 +17,17 @@ return require('packer').startup({function()
   ---------- Probation ------------
   ---------------------------------
 
-  -- use { 'metakirby5/codi.vim', cmd = { 'Codi' } }
-  -- use { 'michaelb/sniprun', run = 'bash ./install.sh', cmd = {'SnipRun'} }
+  -- use { 'ggandor/lightspeed.nvim' }
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v1',
+    config = function()
+      require('hop').setup()
+
+      require('tb/utils/maps').nnoremap('s', "<cmd>HopChar1<cr>")
+      require('tb/utils/maps').nnoremap('S', "<cmd>HopWord<cr>")
+    end
+  }
 
   use { 'folke/lua-dev.nvim' }
 
@@ -129,18 +138,14 @@ return require('packer').startup({function()
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-calc' },
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'L3MON4D3/LuaSnip' },
       { 'saadparwaiz1/cmp_luasnip' },
-      { 'L3MON4D3/LuaSnip' },
     },
     config = function() require('tb/plugins/cmp').setup() end,
   }
 
   use {
     'L3MON4D3/LuaSnip',
-    config = function()
-      require('tb/plugins/luasnip')
-    end,
+    config = function() require('tb/plugins/luasnip') end,
   }
 
   -- comment using text objects
@@ -150,7 +155,7 @@ return require('packer').startup({function()
     'tpope/vim-surround',
     config = function()
       -- make surround around [",',`] work as expected
-      require('tb/utils/maps').mode_map_group('n', {}, {
+      require('tb/utils/maps').mode_map_group('n', {
         {'ysa\'', 'ys2i\''},
         {'ysa"', 'ys2i"'},
         {'ysa`', 'ys2i`'},
@@ -166,7 +171,7 @@ return require('packer').startup({function()
     'tpope/vim-fugitive',
     config = function()
       -- 2021-08-25 not really using these, put in the scrap in 2 weeks
-      require('tb/utils/maps').mode_map_group('n', {}, {
+      require('tb/utils/maps').mode_map_group('n', {
         {'gs', '<cmd>Git<cr>'},
         {'<leader>gj', '<cmd>diffget //3<cr>'},
         {'<leader>gf', '<cmd>diffget //2<cr>'},

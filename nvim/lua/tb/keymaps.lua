@@ -8,20 +8,20 @@ local u = require('tb/utils/maps')
 vim.g.mapleader = " " -- space as leader
 
 -- Easy escape from insert
-u.mode_map_group('i', {}, {
+u.mode_map_group('i', {
   {'jk', '<Esc>'},
   {'jK', '<Esc>'},
   {'JK', '<Esc>'},
 })
 
 -- Quickly open/reload nvim
-u.mode_map_group('n', {}, {
+u.mode_map_group('n', {
   {'<leader>ev', ':lua require("tb/plugins/telescope").edit_config()<cr>'},
   {'<leader>sv', ':lua require("tb/utils").reload_vim()<cr>'},
 })
 
 -- help vertical
-u.mode_map_group('c', {}, {
+u.mode_map_group('c', {
   {'vh', 'vert bo h '},
 })
 
@@ -67,13 +67,13 @@ u.map_group({noremap=true}, {
 -- u.nnoremap('<leader>d', ':bp <BAR> bd #<cr>')
 
 -- Buffer control
-u.mode_map_group('n', {noremap = true}, {
+u.mode_map_group('n', {
   {'<leader>l', ':BufferLineCycleNext<cr>'},
   {'<leader>h', ':BufferLineCyclePrev<cr>'},
   {'<leader>L', ':BufferLineMoveNext<cr>'},
   {'<leader>H', ':BufferLineMovePrev<cr>'},
   {'<leader>d', ':bp <BAR> bd #<cr>'},
-})
+}, {noremap = true})
 
 -- escape in terminal
 u.tnoremap('<Esc>', '<c-\\><c-n>')
@@ -85,25 +85,25 @@ u.tnoremap('<Esc>', '<c-\\><c-n>')
 u.nnoremap('ff', ':Format<cr>:w<cr>')
 
 -- These create newlines like o and O but stay in normal mode
-u.mode_map_group('n', {silent=true},{
+u.mode_map_group('n',{
   {'zj', 'o<Esc>k'},
   {'zk', 'O<Esc>j'},
-})
+}, {silent=true})
 
 
 -- Move lines in visual mode
-u.mode_map_group('v', {noremap = true}, {
+u.mode_map_group('v', {
   {'J', ':m \'>+1<cr>gv=gv'},
   {'K', ':m \'<-2<cr>gv=gv'},
-})
+}, {noremap = true})
 
 -- better undo breakpoints
-u.mode_map_group('i', {noremap = true}, {
+u.mode_map_group('i', {
   {',', ',<c-g>u'},
   {'.', '.<c-g>u'},
   {'!', '!<c-g>u'},
   {'?', '?<c-g>u'},
-})
+}, {noremap = true})
 
 -- make yank work like the others
 u.nnoremap('Y', 'y$')
@@ -128,25 +128,25 @@ u.nnoremap('gp', '`[v`]')
 -------------------
 
 -- drawer
-u.mode_map_group('n', {noremap = true, silent = true}, {
+u.mode_map_group('n', {
   {'<Leader>f', ':NvimTreeToggle<cr>'},
   {'<Leader>F', ':NvimTreeFindFile<cr>'}
-})
+}, {noremap = true, silent = true})
 
 -- tmux integration
-u.mode_map_group('n', {noremap = true, silent = true}, {
+u.mode_map_group('n', {
   {'<c-m>', ':TmuxNavigateDown<cr>'},
   {'<c-u>', ':TmuxNavigateUp<cr>' },
   {'<c-l>', ':TmuxNavigateRight<cr>'},
   {'<c-h>', ':TmuxNavigateLeft<cr>'},
   {'<c-;>', ':TmuxNavigatePrevious<cr>'},
-})
+}, {noremap = true, silent = true})
 
 -- base64
-u.mode_map_group('v', {noremap=true, silent=true}, {
+u.mode_map_group('v', {
   {'<leader>bd', ':lua require("b64").decode()<cr>'},
   {'<leader>be', ':lua require("b64").encode()<cr>'},
-})
+}, {noremap=true, silent=true})
 
 -- tagbar
 u.nnoremap('<F8>', ':TagbarToggle<cr>')
