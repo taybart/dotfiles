@@ -58,8 +58,6 @@ vim.opt.backup=false
 -- keep it tight
 vim.opt.colorcolumn='81'
 
-
-
 require ('tb/plugins')
 require ('tb/looks')
 require ('tb/keymaps')
@@ -111,6 +109,7 @@ require('tb/utils').create_augroups({
     { 'User GoyoLeave nested lua require("tb/autocmds").goyo_leave()' },
   },
 })
+
 
 -- setups
 

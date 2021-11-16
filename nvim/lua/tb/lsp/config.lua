@@ -11,6 +11,7 @@ end
 local sumneko_binary = sumneko_root_path..'/bin/'..sumneko_os..'/lua-language-server'
 
 return {
+  ccls = {},
   gopls = {
     cmd = {'gopls'};
     settings = {

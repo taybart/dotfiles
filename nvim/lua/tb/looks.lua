@@ -24,9 +24,8 @@ vim.g.markdown_fenced_languages = {
   'py=python',
 }
 
-function M.toggle_num(relon)
-  if vim.g.goyo_mode == 1 then
-    vim.opt.number=false
+function M.toggle_num(rel_on)
+  if vim.bo.ft == '' then
     return
   end
 
@@ -37,7 +36,7 @@ function M.toggle_num(relon)
   end
 
   vim.opt.number=true
-  vim.opt.relativenumber=relon
+  vim.opt.relativenumber=rel_on
 end
 
 return M
