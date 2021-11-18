@@ -19,7 +19,7 @@ return {
       },
       sources = {
         { name = 'code_actions' },
-        { name = 'buffer' },
+        { name = 'buffer', keyword_length = 4 },
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },

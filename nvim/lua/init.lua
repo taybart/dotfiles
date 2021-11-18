@@ -58,6 +58,8 @@ vim.opt.backup=false
 -- keep it tight
 vim.opt.colorcolumn='81'
 
+vim.g.c_syntax_for_h=1
+
 require ('tb/plugins')
 require ('tb/looks')
 require ('tb/keymaps')
@@ -80,7 +82,6 @@ require('tb/utils').create_augroups({
 
   nvim_tree = {
     { 'BufEnter NvimTree set cursorline' },
-    -- { 'VimResized * lua resize_nvim_tree()' },
   },
 
   language_autocmd = {
