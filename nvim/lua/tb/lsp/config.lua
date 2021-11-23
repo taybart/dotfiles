@@ -1,4 +1,3 @@
-local util = require('lspconfig/util')
 
 local sumneko_root_path = vim.fn.stdpath('data')..'/lua-language-server'
 local sumneko_os = ''
@@ -13,16 +12,8 @@ end
 local sumneko_binary = sumneko_root_path..'/bin/'..sumneko_os..'/lua-language-server'
 
 return {
-  clangd = {
-    cmd = { "clangd", "--background-index" },
-    filetypes = { "c", "cpp", "objc", "objcpp" },
-    root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git") or dirname,
-    single_file_support = true,
-  },
+  clangd = {},
   gopls = {
-    cmd = {'gopls'};
-    filetypes = { "go", "gomod" },
-    root_dir = util.root_pattern("go.mod", ".git"),
     settings = {
       gopls = {
         buildFlags =  {"-tags="},
@@ -35,33 +26,11 @@ return {
       },
     },
   },
-  rust_analyzer = {
-    cmd = { "rust-analyzer" },
-    filetypes = { "rust" },
-    root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
-  },
-  tsserver = {
-    cmd = { "typescript-language-server", "--stdio" },
-    filetypes = {
-      "javascript",
-      "javascriptreact",
-      "javascript.jsx",
-      "typescript",
-      "typescriptreact",
-      "typescript.tsx",
-    },
-    init_options = { hostInfo = "neovim" },
-    root_dir = util.root_pattern(
-    "package.json",
-    "tsconfig.json",
-    "jsconfig.json",
-    ".git"
-    ) or dirname,
-  },
+  rust_analyzer = {},
+  tsserver = {},
   sumneko_lua = require("lua-dev").setup({
     lspconfig = {
       cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-      filetypes = { "lua" },
       settings = {
         Lua = {
           diagnostics = {
