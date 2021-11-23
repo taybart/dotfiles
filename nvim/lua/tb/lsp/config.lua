@@ -19,13 +19,10 @@ return {
     root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git") or dirname,
     single_file_support = true,
   },
-  -- ccls = {
-  --   cmd = { "ccls" },
-  --   filetypes = { "c", "cpp", "objc", "objcpp" },
-  --   -- single_file_support = true
-  -- },
   gopls = {
     cmd = {'gopls'};
+    filetypes = { "go", "gomod" },
+    root_dir = util.root_pattern("go.mod", ".git"),
     settings = {
       gopls = {
         buildFlags =  {"-tags="},
@@ -64,6 +61,7 @@ return {
   sumneko_lua = require("lua-dev").setup({
     lspconfig = {
       cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+      filetypes = { "lua" },
       settings = {
         Lua = {
           diagnostics = {
