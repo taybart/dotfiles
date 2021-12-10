@@ -76,7 +76,7 @@ end
 
 function go.run(file_name)
   if not file_name then
-    file_name = '*.go'
+    file_name = '.'
   end
   vim.api.nvim_command('!go run '..file_name)
 end

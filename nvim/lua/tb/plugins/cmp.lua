@@ -1,4 +1,3 @@
-local luasnip = require("luasnip")
 
 return {
   setup = function()
@@ -12,7 +11,7 @@ return {
       preselect = cmp.PreselectMode.None,
       mapping = {
         ['<CR>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Insert,
+          -- behavior = cmp.ConfirmBehavior.Insert,
           select = true,
         }),
         ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
@@ -21,14 +20,14 @@ return {
         { name = 'code_actions' },
         { name = 'buffer', keyword_length = 4 },
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+        -- { name = 'luasnip' },
         { name = 'path' },
         { name = 'calc' },
         { name = 'neorg' },
       },
       snippet = {
         expand = function(args)
-          luasnip.lsp_expand(args.body)
+          require("luasnip").lsp_expand(args.body)
         end
       },
       sorting = {

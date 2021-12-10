@@ -10,24 +10,27 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup({
-  function()
-    local use = require('packer').use
+  function(use)
     use { 'wbthomason/packer.nvim' }
 
     ---------------------------------
     ---------- Probation ------------
     ---------------------------------
-
-    -- use { 'ggandor/lightspeed.nvim' }
+    use {'lewis6991/impatient.nvim'}
     use {
       'phaazon/hop.nvim',
       branch = 'v1',
       config = function()
         require('hop').setup()
-
-        require('tb/utils/maps').nnoremap('s', "<cmd>HopChar1<cr>")
-        require('tb/utils/maps').nnoremap('S', "<cmd>HopWord<cr>")
+        require('tb/utils/maps').mode_map_group('n', {
+          {'S', "<cmd>HopChar1<cr>"}, {'s', "<cmd>HopWord<cr>"},
+        })
       end
+    }
+    use {
+      'numToStr/Comment.nvim',
+      requires = {{ 'JoosepAlviste/nvim-ts-context-commentstring' }},
+      config = function()require('tb/plugins/comment').setup()end,
     }
 
     use { 'folke/lua-dev.nvim' }
@@ -150,7 +153,7 @@ return require('packer').startup({
     }
 
     -- comment using text objects
-    use { 'tpope/vim-commentary' }
+    -- use { 'tpope/vim-commentary' }
     -- surround using text objects
     use {
       'tpope/vim-surround',
@@ -202,7 +205,6 @@ return require('packer').startup({
     -- treesitter text objects
     use {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      branch = '0.5-compat',
       config = function() require('tb/plugins/treesitter').setup_textobjects() end
     }
 
@@ -250,7 +252,6 @@ return require('packer').startup({
     -- syntax highlighting with treesitter
     use {
       'nvim-treesitter/nvim-treesitter',
-      branch = '0.5-compat',
       run = ':TSUpdate',
       config = function() require('tb/plugins/treesitter').setup() end
     }

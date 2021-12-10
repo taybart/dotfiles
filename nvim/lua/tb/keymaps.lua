@@ -50,14 +50,14 @@ u.map_group({noremap=true}, {
     {'L', '$'},
   },
   -- Faster down and up
-  {'n',
-    {'<c-j>', '15gj'},
-    {'<c-k>', '15gk'}
-  },
-  { 'v',
-    {'<c-j>', '15gj'},
-    {'<c-k>', '15gk'},
-  },
+  -- {'n',
+  --   {'<c-j>', '15gj'},
+  --   {'<c-k>', '15gk'}
+  -- },
+  -- { 'v',
+  --   {'<c-j>', '15gj'},
+  --   {'<c-k>', '15gk'},
+  -- },
 })
 
 
@@ -106,7 +106,7 @@ u.mode_map_group('i', {
 }, {noremap = true})
 
 -- make yank work like the others
-u.nnoremap('Y', 'y$')
+-- u.nnoremap('Y', 'y$') -- now default!
 
 -- Fix all indents
 u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
@@ -136,7 +136,7 @@ u.mode_map_group('n', {
 -- tmux integration
 u.mode_map_group('n', {
   {'<c-m>', ':TmuxNavigateDown<cr>'},
-  {'<c-u>', ':TmuxNavigateUp<cr>' },
+  {'<c-k>', ':TmuxNavigateUp<cr>' },
   {'<c-l>', ':TmuxNavigateRight<cr>'},
   {'<c-h>', ':TmuxNavigateLeft<cr>'},
   {'<c-;>', ':TmuxNavigatePrevious<cr>'},

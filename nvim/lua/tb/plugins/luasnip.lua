@@ -19,15 +19,15 @@ local ts_utils = require("nvim-treesitter.ts_utils")
 
 local get_node_text = vim.treesitter.get_node_text
 
-vim.treesitter.set_query( "go", "LuaSnip_ReturnTypes",
-[[
-[
-(function_declaration result: (*) @id)
-(method_declaration result: (*) @id)
-(func_literal result: (*) @id)
-]
-]]
-)
+-- vim.treesitter.set_query( "go", "LuaSnip_ReturnTypes",
+-- [[
+-- [
+-- (function_declaration result: (*) @id)
+-- (method_declaration result: (*) @id)
+-- (func_literal result: (*) @id)
+-- ]
+-- ]]
+-- )
 
 local function get_zero_value(text)
   if text:find("^int")

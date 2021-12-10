@@ -17,9 +17,9 @@ local on_attach = function(client)
     {'gd', ':lua vim.lsp.buf.definition()<CR>'},
     {'gi', ':lua vim.lsp.buf.implementation()<CR>'},
     {'K', ':lua vim.lsp.buf.hover()<CR>'},
-    {'[d', ':lua vim.lsp.diagnostic.goto_next()<CR>'},
-    {']d', ':lua vim.lsp.diagnostic.goto_prev()<CR>'},
-    {'E', ':lua vim.lsp.diagnostic.show_line_diagnostics()<CR>'},
+    {'[d', ':lua vim.diagnostic.goto_next()<CR>'},
+    {']d', ':lua vim.diagnostic.goto_prev()<CR>'},
+    {'E', ':lua vim.diagnostic.open_float()<CR>'},
     {'ca', ':lua vim.lsp.buf.code_action()<CR>'},
   }, { noremap=true, silent=true })
 
@@ -31,9 +31,7 @@ local on_attach = function(client)
   end
 
   vim.cmd([[
-  command! Format lua vim.lsp.buf.formatting()
-  " autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
-  " autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
+  autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
   ]])
 end
 
@@ -63,10 +61,10 @@ end
 setup()
 
 -- LSP looks
-vim.fn.sign_define("LspDiagnosticsSignError", {text = "✗", texthl = "GruvboxRed"})
-vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", texthl = "GruvboxYellow"})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", texthl = "GruvboxBlue"})
-vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", texthl = "GruvboxAqua"})
+vim.fn.sign_define("DiagnosticsSignError", {text = "✗", texthl = "GruvboxRed"})
+vim.fn.sign_define("DiagnosticsSignWarning", {text = "", texthl = "GruvboxYellow"})
+vim.fn.sign_define("DiagnosticsSignInformation", {text = "", texthl = "GruvboxBlue"})
+vim.fn.sign_define("DiagnosticsSignHint", {text = "", texthl = "GruvboxAqua"})
 
 vim.cmd('command! -nargs=? Rename lua require("tb/lsp").rename(<f-args>)')
 function M.rename(new_name)
