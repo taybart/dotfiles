@@ -8,6 +8,8 @@ alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
 alias ctags="`brew --prefix`/bin/ctags"
 alias update="brew update && brew upgrade"
 alias install="brew install"
+alias d2u="sed -i '' -e 's/\r$//'"
+
 function remove() {
   brew rm $1
   brew rm $(join <(brew leaves) <(brew deps $1))

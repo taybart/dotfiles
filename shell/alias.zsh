@@ -9,6 +9,7 @@ alias virtualenv="python3 -m virtualenv"
 alias myip="curl https://taybart.com/ip"
 alias j="z"
 alias ct="certs"
+alias y="yarn"
 
 if [[ "$TERM" == "xterm-kitty" ]]; then
   alias ssh="kitty +kitten ssh"

@@ -49,6 +49,11 @@ u.map_group({noremap=true}, {
     {'H', '^'},
     {'L', '$'},
   },
+
+  {'n',
+    {'<c-d>', '15gj'},
+    {'<c-u>', '15gk'}
+  },
   -- Faster down and up
   -- {'n',
   --   {'<c-j>', '15gj'},
@@ -135,7 +140,7 @@ u.mode_map_group('n', {
 
 -- tmux integration
 u.mode_map_group('n', {
-  {'<c-m>', ':TmuxNavigateDown<cr>'},
+  {'<c-j>', ':TmuxNavigateDown<cr>'},
   {'<c-k>', ':TmuxNavigateUp<cr>' },
   {'<c-l>', ':TmuxNavigateRight<cr>'},
   {'<c-h>', ':TmuxNavigateLeft<cr>'},
