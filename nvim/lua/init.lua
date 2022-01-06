@@ -56,7 +56,7 @@ vim.opt.swapfile=false
 vim.opt.backup=false
 
 -- keep it tight
-vim.opt.colorcolumn='81'
+vim.opt.colorcolumn='100'
 
 -- vim.g.c_syntax_for_h=1
 

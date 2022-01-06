@@ -23,7 +23,7 @@ return require('packer').startup({
       config = function()
         require('hop').setup()
         require('tb/utils/maps').mode_map_group('n', {
-          {'S', "<cmd>HopChar1<cr>"}, {'s', "<cmd>HopWord<cr>"},
+          {'S', '<cmd>HopChar1<cr>'}, {'s', '<cmd>HopWord<cr>'},
         })
       end
     }
@@ -320,9 +320,9 @@ return require('packer').startup({
 
     -- neorg
     use {
-      'vhyrro/neorg',
-      ft = 'norg',
-      branch = 'unstable',
+      'nvim-neorg/neorg',
+      -- ft = 'norg',
+      after = {"nvim-treesitter"},
       config = function() require('tb/plugins/norg').setup() end,
       requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
     }
