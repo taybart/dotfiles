@@ -16,7 +16,7 @@ return require('packer').startup({
     ---------------------------------
     ---------- Probation ------------
     ---------------------------------
-    use {'lewis6991/impatient.nvim'}
+    use { "tami5/sqlite.lua" }
     use {
       'phaazon/hop.nvim',
       branch = 'v1',
@@ -27,13 +27,6 @@ return require('packer').startup({
         })
       end
     }
-    use {
-      'numToStr/Comment.nvim',
-      requires = {{ 'JoosepAlviste/nvim-ts-context-commentstring' }},
-      config = function()require('tb/plugins/comment').setup()end,
-    }
-
-    use { 'folke/lua-dev.nvim' }
 
     use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
@@ -70,6 +63,11 @@ return require('packer').startup({
           },
           filters = {
             dotfiles = true,
+          },
+          git = {
+            enable = true,
+            ignore = false,
+            timeout = 500,
           },
         }
       end,
@@ -150,6 +148,12 @@ return require('packer').startup({
     use {
       'L3MON4D3/LuaSnip',
       config = function() require('tb/plugins/luasnip') end,
+    }
+
+    use {
+      'numToStr/Comment.nvim',
+      requires = {{ 'JoosepAlviste/nvim-ts-context-commentstring' }},
+      config = function()require('tb/plugins/comment').setup()end,
     }
 
     -- comment using text objects
@@ -317,6 +321,8 @@ return require('packer').startup({
     -----------------------------
     --------- Extras ------------
     -----------------------------
+    use {'lewis6991/impatient.nvim'}
+    use { 'folke/lua-dev.nvim' }
 
     -- neorg
     use {
