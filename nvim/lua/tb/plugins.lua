@@ -16,17 +16,8 @@ return require('packer').startup({
     ---------------------------------
     ---------- Probation ------------
     ---------------------------------
-    use { "tami5/sqlite.lua" }
-    use {
-      'phaazon/hop.nvim',
-      branch = 'v1',
-      config = function()
-        require('hop').setup()
-        require('tb/utils/maps').mode_map_group('n', {
-          {'S', '<cmd>HopChar1<cr>'}, {'s', '<cmd>HopWord<cr>'},
-        })
-      end
-    }
+
+    use { 'ggandor/lightspeed.nvim' }
 
     use { 'tweekmonster/startuptime.vim', cmd = {'StartupTime'} }
 
