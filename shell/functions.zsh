@@ -42,7 +42,11 @@ function far() {
 
   if [ $# -eq 3 ]; then
     far=$3
-    rg $search $dir --files-with-matches | xargs sed -i $far
+    if [ "$(uname)" = "Darwin" ]; then
+      rg $search $dir --files-with-matches | xargs sed -i '' $far
+    else
+      rg $search $dir --files-with-matches | xargs sed -i $far
+    fi
   else
     rg $search $dir
   fi
