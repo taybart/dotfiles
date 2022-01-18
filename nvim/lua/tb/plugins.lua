@@ -207,10 +207,6 @@ return require('packer').startup({
       'lewis6991/gitsigns.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
       config = function ()
-        vim.cmd[[
-        command! HunkReset lua require'gitsigns'.reset_hunk()
-        command! HunkStage lua require'gitsigns'.stage_hunk()
-        ]]
         require('gitsigns').setup{
           current_line_blame = true,
           current_line_blame_opts = {
