@@ -1,6 +1,6 @@
 export DOTFILES="$HOME/.dotfiles"
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.local/bin:$HOME/.cargo/bin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/.bin:$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/bin"
 
 if ! type "nvim" > /dev/null; then
   export EDITOR=vim
