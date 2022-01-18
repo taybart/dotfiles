@@ -1,14 +1,17 @@
+hs.loadSpoon("EmmyLua")
+
+-- local SkyRocket = hs.loadSpoon("SkyRocket")
+-- SkyRocket:new({
+--   noClick = true,
+--   moveModifiers = {'cmd', 'ctrl'},
+--   resizeModifiers = {'alt', 'ctrl'},
+-- })
+
+
+-- require('middleclick')
 require('volume')
 require('brightness')
-require('snap_windows')
-
-local SkyRocket = hs.loadSpoon("SkyRocket")
-SkyRocket:new({
-  noClick = true,
-  moveModifiers = {'cmd', 'ctrl'},
-  resizeModifiers = {'alt', 'ctrl'},
-})
-hs.loadSpoon("EmmyLua")
+-- require('snap_windows')
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "r", hs.reload)
 
