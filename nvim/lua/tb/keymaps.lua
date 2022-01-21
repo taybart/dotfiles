@@ -82,7 +82,7 @@ u.tnoremap('<Esc>', '<c-\\><c-n>')
 ----- FORMAT ------
 -------------------
 
-u.nnoremap('ff', ':Format<cr>:w<cr>')
+-- u.nnoremap('ff', ':Format<cr>:w<cr>')
 
 -- These create newlines like o and O but stay in normal mode
 u.mode_map_group('n',{

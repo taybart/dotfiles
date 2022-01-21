@@ -7,7 +7,7 @@ return {
     ]]
     local cmp = require('cmp')
     local compare = require('cmp.config.compare')
-    cmp.setup {
+    cmp.setup({
       preselect = cmp.PreselectMode.None,
       mapping = {
         ['<CR>'] = cmp.mapping.confirm({
@@ -17,11 +17,10 @@ return {
         ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
       },
       sources = {
-        { name = 'code_actions' },
-        { name = 'buffer', keyword_length = 4 },
         { name = 'nvim_lsp' },
-        -- { name = 'luasnip' },
+        { name = 'code_actions' },
         { name = 'path' },
+        { name = 'buffer', keyword_length = 6 },
         { name = 'calc' },
         { name = 'neorg' },
       },
@@ -57,6 +56,6 @@ return {
       experimental = {
         ghost_text = true,
       },
-    }
+    })
   end,
 }
