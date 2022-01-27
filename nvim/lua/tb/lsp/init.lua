@@ -6,7 +6,6 @@ local u = require('tb/utils/maps')
 
 require('tb/lsp/go')
 require('tb/lsp/lua')
-require('tb/lsp/ts')
 require('tb/lsp/matlab')
 
 -- Set keymap if attached
@@ -24,10 +23,13 @@ local on_attach = function()
 	}, { noremap = true, silent = true })
 
 	vim.cmd([[
-    command! Format lua vim.lsp.buf.formatting_sync()
+    command! Format lua vim.lsp.buf.formatting_seq_sync()
+    augroup formatting
+    autocmd!
     autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
     let ftToIgnore = ['go']
-    autocmd BufWritePre * if index(ftToIgnore, &ft) < 0 | lua vim.lsp.buf.formatting_sync()
+    autocmd BufWritePre * if index(ftToIgnore, &ft) < 0 | lua vim.lsp.buf.formatting_seq_sync()
+    augroup end
     ]])
 	--[[ if client.resolved_capabilities.document_formatting then
     vim.cmd(" command! Format lua vim.lsp.buf.formatting()")

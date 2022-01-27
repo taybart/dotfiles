@@ -29,24 +29,22 @@ return require('packer').startup({
 						null_ls.builtins.formatting.stylua.with({
 							extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
 						}),
-						null_ls.builtins.formatting.prettier.with({ extra_args = { '--no-semi', '--single-quote' } }),
+						-- null_ls.builtins.formatting.prettier.with({
+						-- 	extra_args = { '--no-semi', '--single-quote' },
+						-- }),
 						null_ls.builtins.diagnostics.eslint,
-						null_ls.builtins.completion.spell,
 					},
+					root_dir = require('lspconfig.util').root_pattern(
+						'.null-ls-root',
+						'Makefile',
+						'.git',
+						'package.json'
+					),
 				})
 			end,
 		})
 
-		use({
-			'ggandor/lightspeed.nvim',
-			setup = function()
-				vim.g.lightspeed_no_default_keymaps = true
-				require('tb/utils/maps').mode_map_group('n', {
-					{ 's', '<Plug>Lightspeed_s' },
-					{ 'S', '<Plug>Lightspeed_S' },
-				})
-			end,
-		})
+		use({ 'ggandor/lightspeed.nvim' })
 
 		use({ 'tweekmonster/startuptime.vim', cmd = { 'StartupTime' } })
 
@@ -250,20 +248,6 @@ return require('packer').startup({
 					current_line_blame = true,
 					current_line_blame_opts = {
 						delay = 0,
-					},
-					keymaps = {
-						['n ]c'] = {
-							expr = true,
-							"&diff ? ']c' : '<cmd>lua require\"gitsigns.actions\".next_hunk()<CR>'",
-						},
-						['n [c'] = {
-							expr = true,
-							"&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'",
-						},
-						['n <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
-						['v <leader>gr'] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-						['n <leader>gp'] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
-						['n <leader>b'] = '<cmd>lua require"gitsigns".toggle_current_line_blame()<CR>',
 					},
 				})
 			end,

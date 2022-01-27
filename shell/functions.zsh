@@ -1,22 +1,9 @@
 
 # ~~ util ~~
 
-ghi() {
-  item=$(gh issue list | fzf | awk '{print $1}')
-  [ -z $item ] && return 0
-  gh issue view $item --web
-}
-
-ghprl() {
-  prid=$(gh pr list | fzf | awk '{print $1}')
-  [ -z $prid ] && return 0
-  gh pr view $prid --web
-}
-
-ghprr() {
-  prid=$(gh pr list -L 100 --search "is:open is:pr review-requested:@me" | fzf | awk '{print $1}')
-  [ -z $prid ] && return 0
-  gh pr view $prid --web
+function cdir() {
+  mkdir $1
+  cd $1
 }
 
 # bring up configs
