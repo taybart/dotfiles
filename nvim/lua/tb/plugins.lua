@@ -29,10 +29,10 @@ return require('packer').startup({
 						null_ls.builtins.formatting.stylua.with({
 							extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
 						}),
-						-- null_ls.builtins.formatting.prettier.with({
-						-- 	extra_args = { '--no-semi', '--single-quote' },
-						-- }),
-						null_ls.builtins.diagnostics.eslint,
+						null_ls.builtins.formatting.prettier.with({
+							extra_args = { '--no-semi', '--single-quote' },
+						}),
+						-- null_ls.builtins.diagnostics.eslint,
 					},
 					root_dir = require('lspconfig.util').root_pattern(
 						'.null-ls-root',
@@ -63,7 +63,7 @@ return require('packer').startup({
 				{ 'nvim-telescope/telescope-fzf-native.nvim' },
 			},
 			config = function()
-				require('tb/plugins/telescope').setup()
+				require('tb/plugins/telescope').configure()
 			end,
 		})
 
@@ -162,7 +162,7 @@ return require('packer').startup({
 				{ 'saadparwaiz1/cmp_luasnip' },
 			},
 			config = function()
-				require('tb/plugins/cmp').setup()
+				require('tb/plugins/cmp').configure()
 			end,
 		})
 
@@ -177,7 +177,7 @@ return require('packer').startup({
 			'numToStr/Comment.nvim',
 			requires = { { 'JoosepAlviste/nvim-ts-context-commentstring' } },
 			config = function()
-				require('tb/plugins/comment').setup()
+				require('tb/plugins/comment').configure()
 			end,
 		})
 
@@ -273,7 +273,7 @@ return require('packer').startup({
 			'nvim-treesitter/nvim-treesitter',
 			run = ':TSUpdate',
 			config = function()
-				require('tb/plugins/treesitter').setup()
+				require('tb/plugins/treesitter').configure()
 			end,
 		})
 
@@ -295,6 +295,32 @@ return require('packer').startup({
 			end,
 		})
 
+		-- use({
+		-- 	'feline-nvim/feline.nvim',
+		-- 	config = function()
+		-- 		local feline = require('feline')
+		-- 		feline.setup({
+		-- 			force_inactive = {
+		-- 				filetypes = { 'NvimTree', 'packer', 'help' },
+		-- 			},
+		-- 		})
+		-- 		feline.use_theme({
+		-- 			fg = '#ebdbb2',
+		-- 			bg = '#32302f',
+		-- 			black = '#32302f',
+		-- 			skyblue = '#83a598',
+		-- 			cyan = '#a89984',
+		-- 			green = '#98971a',
+		-- 			oceanblue = '#458588',
+		-- 			magenta = '#fb4934',
+		-- 			orange = '#d65d0e',
+		-- 			red = '#fb4934',
+		-- 			violet = '#b16286',
+		-- 			white = '#ebdbb2',
+		-- 			yellow = '#d79921',
+		-- 		})
+		-- 	end,
+		-- })
 		-- status
 		use({
 			'nvim-lualine/lualine.nvim',
@@ -306,7 +332,6 @@ return require('packer').startup({
 						lualine_b = { 'b:gitsigns_status' },
 						lualine_c = {
 							{ 'filename', file_status = true, path = 1 },
-							-- { 'diagnostics', sources = { 'nvim_lsp' } },
 						},
 					},
 				})
@@ -322,8 +347,7 @@ return require('packer').startup({
 				})
 			end,
 		})
-		-- bash escape coloring TODO lazy load this on cmd "FixShellColors"
-		-- use { 'chrisbra/Colorizer' {opt=true}}
+
 		use({
 			'norcalli/nvim-colorizer.lua',
 			opt = true,
@@ -334,8 +358,6 @@ return require('packer').startup({
 
 		-- colorscheme
 		use({ 'gruvbox-community/gruvbox' })
-		-- fix lsp colors for gruvbox
-		-- use { 'folke/lsp-colors.nvim' }
 
 		-----------------------------
 		--------- Extras ------------
@@ -343,16 +365,16 @@ return require('packer').startup({
 		use({ 'lewis6991/impatient.nvim' })
 		use({ 'folke/lua-dev.nvim' })
 
-		-- neorg
-		use({
-			'nvim-neorg/neorg',
-			-- ft = 'norg',
-			after = { 'nvim-treesitter' },
-			config = function()
-				require('tb/plugins/norg').setup()
-			end,
-			requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
-		})
+		-- -- neorg
+		-- use({
+		-- 	'nvim-neorg/neorg',
+		-- 	-- ft = 'norg',
+		-- 	after = { 'nvim-treesitter' },
+		-- 	config = function()
+		-- 		require('tb/plugins/norg').setup()
+		-- 	end,
+		-- 	requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
+		-- })
 
 		-- cool treesitter debugger
 		use({
