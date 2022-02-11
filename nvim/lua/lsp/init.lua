@@ -2,11 +2,11 @@ local M = {}
 
 local lspconfig = require('lspconfig')
 
-local u = require('tb/utils/maps')
+local u = require('utils/maps')
 
-require('tb/lsp/go')
-require('tb/lsp/lua')
-require('tb/lsp/matlab')
+require('lsp/go')
+require('lsp/lua')
+require('lsp/matlab')
 
 -- Set keymap if attached
 -- local on_attach = function(client)
@@ -27,7 +27,7 @@ local on_attach = function()
     augroup formatting
     autocmd!
     autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-    let ftToIgnore = ['go']
+    let ftToIgnore = ['go','lua']
     autocmd BufWritePre * if index(ftToIgnore, &ft) < 0 | lua vim.lsp.buf.formatting_seq_sync()
     augroup end
     ]])
@@ -46,7 +46,7 @@ end
 
 -- LSP Setup
 local function setup()
-	local lsp_configs = require('tb/lsp/config')
+	local lsp_configs = require('lsp/config')
 
 	for lsp, lsp_config in pairs(lsp_configs) do
 		local config = vim.tbl_deep_extend('force', make_base_config(), lsp_config)
@@ -69,7 +69,7 @@ vim.fn.sign_define('DiagnosticsSignWarning', { text = '', texthl = 'GruvboxYe
 vim.fn.sign_define('DiagnosticsSignInformation', { text = '', texthl = 'GruvboxBlue' })
 vim.fn.sign_define('DiagnosticsSignHint', { text = '', texthl = 'GruvboxAqua' })
 
-vim.cmd('command! -nargs=? Rename lua require("tb/lsp").rename(<f-args>)')
+vim.cmd('command! -nargs=? Rename lua require("lsp").rename(<f-args>)')
 function M.rename(new_name)
 	if not new_name then
 		new_name = vim.fn.input('to -> ')

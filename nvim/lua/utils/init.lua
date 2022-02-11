@@ -1,0 +1,111 @@
+local M = {}
+
+function M.has_neovim_v05()
+	if vim.fn.has('nvim-0.5') == 1 then
+		return true
+	end
+	return false
+end
+
+function M.is_root()
+	local output = vim.fn.systemlist('id -u')
+	return ((output[1] or '') == '0')
+end
+
+function M.reload_module(name)
+	for k in pairs(package.loaded) do
+		if k:match('^' .. name) then
+			package.loaded[k] = nil
+		end
+	end
+	require(name)
+end
+
+function M.reload_vim()
+	-- M.reload_module('plugins')
+	vim.cmd('source ' .. vim.fn.stdpath('config') .. '/lua/plugins.lua | PackerCompile')
+	M.reload_module('utils')
+	M.reload_module('keymaps')
+	M.reload_module('looks')
+	M.reload_module('lsp')
+	M.reload_module('init')
+end
+
+-- https://github.com/norcalli/nvim_utils
+function M.create_augroups(definitions)
+	for group_name, definition in pairs(definitions) do
+		vim.api.nvim_command('augroup ' .. group_name)
+		vim.api.nvim_command('autocmd!')
+		for _, def in ipairs(definition) do
+			local command = table.concat(vim.tbl_flatten({ 'autocmd', def }), ' ')
+			vim.api.nvim_command(command)
+		end
+		vim.api.nvim_command('augroup END')
+	end
+end
+
+-- function M.create_vim_function(name, package, method)
+--   print("function! "..name.."()\n  lua require('"..package.."')."..method.."()\nendfunction")
+--   vim.cmd("function! "..name.."()\n lua require('"..package.."')."..method.."()\nendfunction")
+-- end
+
+function M.sync_nvim_tree_width()
+	local width = vim.g.nvim_tree_auto_width
+	if type(vim.g.nvim_tree_auto_width) == 'string' then
+		local as_number = tonumber(vim.g.nvim_tree_auto_width:sub(0, -2))
+		width = math.floor(vim.o.columns * (as_number / 100))
+	end
+	vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
+end
+
+function M.to_string(tbl)
+	if 'nil' == type(tbl) then
+		return tostring(nil)
+	elseif 'table' == type(tbl) then
+		return M.table_print(tbl)
+	elseif 'string' == type(tbl) then
+		return tbl
+	else
+		return tostring(tbl)
+	end
+end
+
+function M.run_job(cmd, args)
+	local ret = ''
+	require('plenary.job')
+		:new({
+			command = cmd,
+			args = args,
+			on_exit = function(j, return_val)
+				if return_val ~= 0 then
+					print('could not get remote url')
+				end
+				ret = j:result()[1]
+			end,
+		})
+		:sync()
+	return ret
+end
+
+vim.cmd([[command! ShowGH lua require('tb/utils').open_file_in_github()]])
+function M.open_file_in_github()
+	local opener = ''
+	if vim.fn.has('mac') == 1 then
+		opener = 'open'
+	elseif vim.fn.has('unix') then
+		opener = 'xdg-open'
+	else
+		print('unknown os')
+		return
+	end
+
+	local buf_name = vim.api.nvim_buf_get_name(0)
+	local url = M.run_job('git', { 'config', '--get', 'remote.origin.url' })
+		.. '/blob/'
+		.. M.run_job('git', { 'branch', '--show-current' })
+		.. buf_name:gsub(M.run_job('git', { 'rev-parse', '--show-toplevel' }), '')
+
+	M.run_job(opener, { url })
+end
+
+return M

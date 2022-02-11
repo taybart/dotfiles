@@ -1,8 +1,8 @@
-require('tb/utils').create_augroups({
+require('utils').create_augroups({
   matlab_lsp = {
-    { 'FileType', 'matlab', 'command! Run lua require("tb/lsp/matlab").run()' },
-    { 'FileType', 'matlab', 'autocmd! BufWritePre', '<buffer>', 'lua require("tb/lsp/matlab").run()' },
-    { 'FileType', 'matlab', 'autocmd! BufEnter', '<buffer>', 'lua require("tb/lsp/matlab").run()' },
+    { 'FileType', 'matlab', 'command! Run lua require("lsp/matlab").run()' },
+    { 'FileType', 'matlab', 'autocmd! BufWritePre', '<buffer>', 'lua require("lsp/matlab").run()' },
+    { 'FileType', 'matlab', 'autocmd! BufEnter', '<buffer>', 'lua require("lsp/matlab").run()' },
   },
 })
 
@@ -26,7 +26,7 @@ function M.run()
   local job = 'octave '..vim.fn.expand('%')
   vim.fn.jobstart(job, {
     on_stdout = function(_, data)
-      data = require('tb/utils/job').handle_data(data)
+      data = require('utils/job').handle_data(data)
       if not data then return end
       -- Get file contents
       local lines = strip_whitespace(vim.api.nvim_buf_get_lines(0, 0, -1, true))

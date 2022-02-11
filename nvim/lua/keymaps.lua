@@ -3,7 +3,7 @@
 ------------------------------
 
 -- helpful things
-local u = require('tb/utils/maps')
+local u = require('utils/maps')
 
 vim.g.mapleader = " " -- space as leader
 
@@ -16,8 +16,8 @@ u.mode_map_group('i', {
 
 -- Quickly open/reload nvim
 u.mode_map_group('n', {
-  {'<leader>ev', ':lua require("tb/plugins/telescope").edit_config()<cr>'},
-  {'<leader>sv', ':lua require("tb/utils").reload_vim()<cr>'},
+  {'<leader>ev', ':lua require("plugins/telescope").edit_config()<cr>'},
+  {'<leader>sv', ':lua require("utils").reload_vim()<cr>'},
 })
 
 -- help vertical
@@ -159,7 +159,7 @@ u.map_group({noremap = true}, {
     -- Live grep
     {'<c-s>', ':lua require("telescope.builtin").live_grep()<cr>'},
     -- Search under cursor
-    {'<c-a>', ':lua require("tb/plugins/telescope").search_cword()<cr>'},
+    {'<c-a>', ':lua require("plugins/telescope").search_cword()<cr>'},
     -- Find files
     {'<c-p>', ':lua require("telescope.builtin").find_files()<cr>'},
     -- Find open buffers
@@ -169,6 +169,6 @@ u.map_group({noremap = true}, {
   },
   {'v',
     -- Search using selected text
-    {'<c-a>', ':lua require("tb/plugins/telescope").search_selection()<cr>'},
+    {'<c-a>', ':lua require("plugins/telescope").search_selection()<cr>'},
   },
 })

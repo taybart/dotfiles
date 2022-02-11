@@ -17,6 +17,7 @@ function M.configure()
 			['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
 		},
 		sources = {
+			{ name = 'luasnip' },
 			{ name = 'nvim_lsp' },
 			{ name = 'code_actions' },
 			{ name = 'path' },

@@ -1,4 +1,4 @@
-require('tb/utils').create_augroups({
+require('utils').create_augroups({
   lua_lsp = {
     { 'FileType', 'lua', 'command! Run luafile %' },
   },

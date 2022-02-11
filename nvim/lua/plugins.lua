@@ -17,32 +17,32 @@ return require('packer').startup({
 		---------- Probation ------------
 		---------------------------------
 
-		use({
-			'jose-elias-alvarez/null-ls.nvim',
-			requires = {
-				{ 'nvim-lua/plenary.nvim' },
-			},
-			setup = function()
-				local null_ls = require('null-ls')
-				null_ls.setup({
-					sources = {
-						null_ls.builtins.formatting.stylua.with({
-							extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
-						}),
-						null_ls.builtins.formatting.prettier.with({
-							extra_args = { '--no-semi', '--single-quote' },
-						}),
-						-- null_ls.builtins.diagnostics.eslint,
-					},
-					root_dir = require('lspconfig.util').root_pattern(
-						'.null-ls-root',
-						'Makefile',
-						'.git',
-						'package.json'
-					),
-				})
-			end,
-		})
+		-- use({
+		-- 	'jose-elias-alvarez/null-ls.nvim',
+		-- 	requires = {
+		-- 		{ 'nvim-lua/plenary.nvim' },
+		-- 	},
+		-- 	setup = function()
+		-- 		local null_ls = require('null-ls')
+		-- 		null_ls.setup({
+		-- 			sources = {
+		-- 				null_ls.builtins.formatting.stylua.with({
+		-- 					extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
+		-- 				}),
+		-- 				null_ls.builtins.formatting.prettier.with({
+		-- 					extra_args = { '--no-semi', '--single-quote' },
+		-- 				}),
+		-- 				-- null_ls.builtins.diagnostics.eslint,
+		-- 			},
+		-- 			root_dir = require('lspconfig.util').root_pattern(
+		-- 				'.null-ls-root',
+		-- 				'Makefile',
+		-- 				'.git',
+		-- 				'package.json'
+		-- 			),
+		-- 		})
+		-- 	end,
+		-- })
 
 		use({ 'ggandor/lightspeed.nvim' })
 
@@ -63,7 +63,7 @@ return require('packer').startup({
 				{ 'nvim-telescope/telescope-fzf-native.nvim' },
 			},
 			config = function()
-				require('tb/plugins/telescope').configure()
+				require('plugins/telescope').configure()
 			end,
 		})
 
@@ -162,14 +162,14 @@ return require('packer').startup({
 				{ 'saadparwaiz1/cmp_luasnip' },
 			},
 			config = function()
-				require('tb/plugins/cmp').configure()
+				require('plugins/cmp').configure()
 			end,
 		})
 
 		use({
 			'L3MON4D3/LuaSnip',
 			config = function()
-				require('tb/plugins/luasnip')
+				require('plugins/luasnip')
 			end,
 		})
 
@@ -177,7 +177,7 @@ return require('packer').startup({
 			'numToStr/Comment.nvim',
 			requires = { { 'JoosepAlviste/nvim-ts-context-commentstring' } },
 			config = function()
-				require('tb/plugins/comment').configure()
+				require('plugins/comment').configure()
 			end,
 		})
 
@@ -188,7 +188,7 @@ return require('packer').startup({
 			'tpope/vim-surround',
 			config = function()
 				-- make surround around [",',`] work as expected
-				require('tb/utils/maps').mode_map_group('n', {
+				require('utils/maps').mode_map_group('n', {
 					{ "ysa'", "ys2i'" },
 					{ 'ysa"', 'ys2i"' },
 					{ 'ysa`', 'ys2i`' },
@@ -204,7 +204,7 @@ return require('packer').startup({
 			'tpope/vim-fugitive',
 			config = function()
 				-- 2021-08-25 not really using these, put in the scrap in 2 weeks
-				require('tb/utils/maps').mode_map_group('n', {
+				require('utils/maps').mode_map_group('n', {
 					{ 'gs', '<cmd>Git<cr>' },
 					{ '<leader>gj', '<cmd>diffget //3<cr>' },
 					{ '<leader>gf', '<cmd>diffget //2<cr>' },
@@ -235,7 +235,7 @@ return require('packer').startup({
 		use({
 			'nvim-treesitter/nvim-treesitter-textobjects',
 			config = function()
-				require('tb/plugins/treesitter').setup_textobjects()
+				require('plugins/treesitter').setup_textobjects()
 			end,
 		})
 
@@ -273,7 +273,7 @@ return require('packer').startup({
 			'nvim-treesitter/nvim-treesitter',
 			run = ':TSUpdate',
 			config = function()
-				require('tb/plugins/treesitter').configure()
+				require('plugins/treesitter').configure()
 			end,
 		})
 
@@ -295,38 +295,11 @@ return require('packer').startup({
 			end,
 		})
 
-		-- use({
-		-- 	'feline-nvim/feline.nvim',
-		-- 	config = function()
-		-- 		local feline = require('feline')
-		-- 		feline.setup({
-		-- 			force_inactive = {
-		-- 				filetypes = { 'NvimTree', 'packer', 'help' },
-		-- 			},
-		-- 		})
-		-- 		feline.use_theme({
-		-- 			fg = '#ebdbb2',
-		-- 			bg = '#32302f',
-		-- 			black = '#32302f',
-		-- 			skyblue = '#83a598',
-		-- 			cyan = '#a89984',
-		-- 			green = '#98971a',
-		-- 			oceanblue = '#458588',
-		-- 			magenta = '#fb4934',
-		-- 			orange = '#d65d0e',
-		-- 			red = '#fb4934',
-		-- 			violet = '#b16286',
-		-- 			white = '#ebdbb2',
-		-- 			yellow = '#d79921',
-		-- 		})
-		-- 	end,
-		-- })
-		-- status
 		use({
 			'nvim-lualine/lualine.nvim',
 			requires = { 'kyazdani42/nvim-web-devicons' },
 			config = function()
-				require('tb/utils').reload_module('lualine')
+				require('utils').reload_module('lualine')
 				require('lualine').setup({
 					sections = {
 						lualine_b = { 'b:gitsigns_status' },
@@ -362,7 +335,6 @@ return require('packer').startup({
 		-----------------------------
 		--------- Extras ------------
 		-----------------------------
-		use({ 'lewis6991/impatient.nvim' })
 		use({ 'folke/lua-dev.nvim' })
 
 		-- -- neorg
@@ -371,7 +343,7 @@ return require('packer').startup({
 		-- 	-- ft = 'norg',
 		-- 	after = { 'nvim-treesitter' },
 		-- 	config = function()
-		-- 		require('tb/plugins/norg').setup()
+		-- 		require('plugins/norg').setup()
 		-- 	end,
 		-- 	requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
 		-- })
@@ -381,7 +353,7 @@ return require('packer').startup({
 			'nvim-treesitter/playground',
 			cmd = 'TSPlaygroundToggle',
 			config = function()
-				require('tb/plugins/treesitter').setup_playground()
+				require('plugins/treesitter').setup_playground()
 			end,
 		})
 	end,
