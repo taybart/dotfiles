@@ -105,9 +105,6 @@ u.mode_map_group('i', {
   {'?', '?<c-g>u'},
 }, {noremap = true})
 
--- make yank work like the others
--- u.nnoremap('Y', 'y$') -- now default!
-
 -- Fix all indents
 u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 

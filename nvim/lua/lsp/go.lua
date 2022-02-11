@@ -1,5 +1,7 @@
 local go = {}
 
+local run_job = require('utils/job').run_job
+
 require('utils').create_augroups({
 	go_lsp = {
 		-- TODO add fuzzy finder from history list with no arguments
@@ -12,8 +14,8 @@ require('utils').create_augroups({
 })
 
 function go.install_deps()
-	vim.fn.jobstart('go install github.com/fatih/gomodifytags@latest')
-	vim.fn.jobstart('go install github.com/jstemmer/gotags@latest')
+	run_job('go', { 'install', 'github.com/fatih/gomodifytags@latest' })
+	run_job('go', { 'install', 'github.com/jstemmer/gotags@latest' })
 end
 
 function go.add_tags(tag_types, format)
@@ -27,14 +29,13 @@ function go.add_tags(tag_types, format)
   (field_declaration name:(field_identifier) @definition.struct (struct_type))
   ]]
 
-	local ns = require('utils/ts').nodes_at_cursor(query)
+	local ns = require('utils/treesitter').nodes_at_cursor(query)
 	if ns == nil then
 		error('struct not found')
 	end
 
 	local struct_name = ns[#ns].name
-	local modify = {
-		'gomodifytags',
+	local data = require('utils/job').run_job('gomodifytags', {
 		'-format',
 		'json',
 		'-file',
@@ -48,21 +49,14 @@ function go.add_tags(tag_types, format)
 		'-transform',
 		format,
 		'--skip-unexported',
-	}
-	vim.fn.jobstart(modify, {
-		on_stdout = function(_, data)
-			data = require('utils/job').handle_data(data)
-			if not data then
-				return
-			end
-			local tagged = vim.fn.json_decode(data)
-			if tagged.errors ~= nil or tagged.lines == nil or tagged['start'] == nil or tagged['start'] == 0 then
-				print('failed to set tags' .. vim.inspect(tagged))
-			end
-			vim.api.nvim_buf_set_lines(0, tagged['start'] - 1, tagged['start'] - 1 + #tagged.lines, false, tagged.lines)
-			vim.cmd('write')
-		end,
-	})
+	}, true)
+	local tagged = vim.fn.json_decode(data)
+	if tagged.errors ~= nil or tagged.lines == nil or tagged['start'] == nil or tagged['start'] == 0 then
+		print('failed to set tags' .. vim.inspect(tagged))
+		return
+	end
+	vim.api.nvim_buf_set_lines(0, tagged['start'] - 1, tagged['end'], false, tagged.lines)
+	vim.cmd('write')
 end
 
 function go.run(file_name)

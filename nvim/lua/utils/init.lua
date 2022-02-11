@@ -70,24 +70,9 @@ function M.to_string(tbl)
 	end
 end
 
-function M.run_job(cmd, args)
-	local ret = ''
-	require('plenary.job')
-		:new({
-			command = cmd,
-			args = args,
-			on_exit = function(j, return_val)
-				if return_val ~= 0 then
-					print('could not get remote url')
-				end
-				ret = j:result()[1]
-			end,
-		})
-		:sync()
-	return ret
-end
-
-vim.cmd([[command! ShowGH lua require('tb/utils').open_file_in_github()]])
+vim.cmd([[
+command! GH lua require('tb/utils').open_file_in_github()
+]])
 function M.open_file_in_github()
 	local opener = ''
 	if vim.fn.has('mac') == 1 then
@@ -99,13 +84,15 @@ function M.open_file_in_github()
 		return
 	end
 
-	local buf_name = vim.api.nvim_buf_get_name(0)
-	local url = M.run_job('git', { 'config', '--get', 'remote.origin.url' })
-		.. '/blob/'
-		.. M.run_job('git', { 'branch', '--show-current' })
-		.. buf_name:gsub(M.run_job('git', { 'rev-parse', '--show-toplevel' }), '')
+	local run_job = require('utils/job')
 
-	M.run_job(opener, { url })
+	local buf_name = vim.api.nvim_buf_get_name(0)
+	local url = run_job('git', { 'config', '--get', 'remote.origin.url' })
+		.. '/blob/'
+		.. run_job('git', { 'branch', '--show-current' })
+		.. buf_name:gsub(run_job('git', { 'rev-parse', '--show-toplevel' }), '')
+
+	run_job(opener, { url })
 end
 
 return M
