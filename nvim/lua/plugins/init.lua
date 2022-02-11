@@ -249,6 +249,10 @@ return require('packer').startup({
 						delay = 0,
 					},
 				})
+        require('utils/maps').mode_map_group('n',{
+          {']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'" },
+          {'[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'" },
+        },{expr=true})
 			end,
 		})
 
