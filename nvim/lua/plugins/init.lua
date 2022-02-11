@@ -17,32 +17,31 @@ return require('packer').startup({
 		---------- Probation ------------
 		---------------------------------
 
-		-- use({
-		-- 	'jose-elias-alvarez/null-ls.nvim',
-		-- 	requires = {
-		-- 		{ 'nvim-lua/plenary.nvim' },
-		-- 	},
-		-- 	setup = function()
-		-- 		local null_ls = require('null-ls')
-		-- 		null_ls.setup({
-		-- 			sources = {
-		-- 				null_ls.builtins.formatting.stylua.with({
-		-- 					extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
-		-- 				}),
-		-- 				null_ls.builtins.formatting.prettier.with({
-		-- 					extra_args = { '--no-semi', '--single-quote' },
-		-- 				}),
-		-- 				-- null_ls.builtins.diagnostics.eslint,
-		-- 			},
-		-- 			root_dir = require('lspconfig.util').root_pattern(
-		-- 				'.null-ls-root',
-		-- 				'Makefile',
-		-- 				'.git',
-		-- 				'package.json'
-		-- 			),
-		-- 		})
-		-- 	end,
-		-- })
+		use({
+			'jose-elias-alvarez/null-ls.nvim',
+			requires = {
+				{ 'nvim-lua/plenary.nvim' },
+			},
+			config = function()
+				local null_ls = require('null-ls')
+				null_ls.setup({
+					sources = {
+						null_ls.builtins.formatting.stylua.with({
+							extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
+						}),
+						null_ls.builtins.formatting.prettier.with({
+							extra_args = { '--no-semi', '--single-quote' },
+						}),
+					},
+					root_dir = require('lspconfig.util').root_pattern(
+						'.null-ls-root',
+						'Makefile',
+						'.git',
+						'package.json'
+					),
+				})
+			end,
+		})
 
 		use({ 'ggandor/lightspeed.nvim' })
 
