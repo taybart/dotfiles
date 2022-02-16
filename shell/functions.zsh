@@ -120,10 +120,18 @@ function kp {
 }
 
 function usingport {
-  if [[ $2 == "-kill" ]]; then
-    sudo ss -lptn "sport = :$1" | rg -o "pid=(\d+)" -r '$1' | xargs kill -9
+  if [[ $(uname) == "Darwin" ]]; then
+    if [[ $2 == "-kill" ]]; then
+      lsof -t -i":$1" | xargs kill -9
+    else
+      lsof -i":$1"
+    fi
   else
-    sudo ss -lptn "sport = :$1"
+    if [[ $2 == "-kill" ]]; then
+      sudo ss -lptn "sport = :$1" | rg -o "pid=(\d+)" -r '$1' | xargs kill -9
+    else
+      sudo ss -lptn "sport = :$1"
+    fi
   fi
 }
 
