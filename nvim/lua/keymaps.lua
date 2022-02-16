@@ -5,24 +5,24 @@
 -- helpful things
 local u = require('utils/maps')
 
-vim.g.mapleader = " " -- space as leader
+vim.g.mapleader = ' ' -- space as leader
 
 -- Easy escape from insert
 u.mode_map_group('i', {
-  {'jk', '<Esc>'},
-  {'jK', '<Esc>'},
-  {'JK', '<Esc>'},
+  { 'jk', '<Esc>' },
+  { 'jK', '<Esc>' },
+  { 'JK', '<Esc>' },
 })
 
 -- Quickly open/reload nvim
 u.mode_map_group('n', {
-  {'<leader>ev', ':lua require("plugins/telescope").edit_config()<cr>'},
-  {'<leader>sv', ':lua require("utils").reload_vim()<cr>'},
+  { '<leader>ev', ':lua require("plugins/telescope").edit_config()<cr>' },
+  { '<leader>sv', ':lua require("utils").reload_vim()<cr>' },
 })
 
 -- help vertical
 u.mode_map_group('c', {
-  {'vh', 'vert bo h '},
+  { 'vh', 'vert bo h ' },
 })
 
 -- Idiot proofing
@@ -35,31 +35,26 @@ vim.cmd('command! Wq wq')
 ---- MOVEMENT -----
 -------------------
 
-u.map_group({noremap=true}, {
-  {'c',
+u.map_group({ noremap = true }, {
+  {
+    'c',
     -- Allow for homerow up and down in command mode
-    {'<c-j>', '<down>'},
-    {'<c-k>', '<up>'},
+    { '<c-j>', '<down>' },
+    { '<c-k>', '<up>' },
   },
-  {'n',
+  {
+    'n',
     -- Allow for innerline navagation
-    {'j', 'gj'},
-    {'k', 'gk'},
+    { 'j', 'gj' },
+    { 'k', 'gk' },
     -- End and beg of line easier
-    {'H', '^'},
-    {'L', '$'},
+    { 'H', '^' },
+    { 'L', '$' },
   },
 
-  {'n',
-    {'<c-d>', '15gj'},
-    {'<c-u>', '15gk'}
-  },
-  { 'v',
-    {'<c-d>', '15gj'},
-    {'<c-u>', '15gk'}
-  },
+  { 'n', { '<c-d>', '15gj' }, { '<c-u>', '15gk' } },
+  { 'v', { '<c-d>', '15gj' }, { '<c-u>', '15gk' } },
 })
-
 
 -- u.nnoremap('<leader>l', ':bnext<cr>')
 -- u.nnoremap('<leader>n', ':bnext<cr>')
@@ -68,12 +63,12 @@ u.map_group({noremap=true}, {
 
 -- Buffer control
 u.mode_map_group('n', {
-  {'<leader>l', ':BufferLineCycleNext<cr>'},
-  {'<leader>h', ':BufferLineCyclePrev<cr>'},
-  {'<leader>L', ':BufferLineMoveNext<cr>'},
-  {'<leader>H', ':BufferLineMovePrev<cr>'},
-  {'<leader>d', ':bp <BAR> bd #<cr>'},
-}, {noremap = true})
+  { '<leader>l', ':BufferLineCycleNext<cr>' },
+  { '<leader>h', ':BufferLineCyclePrev<cr>' },
+  { '<leader>L', ':BufferLineMoveNext<cr>' },
+  { '<leader>H', ':BufferLineMovePrev<cr>' },
+  { '<leader>d', ':bp <BAR> bd #<cr>' },
+}, { noremap = true })
 
 -- escape in terminal
 u.tnoremap('<Esc>', '<c-\\><c-n>')
@@ -85,25 +80,24 @@ u.tnoremap('<Esc>', '<c-\\><c-n>')
 -- u.nnoremap('ff', ':Format<cr>:w<cr>')
 
 -- These create newlines like o and O but stay in normal mode
-u.mode_map_group('n',{
-  {'zj', 'o<Esc>k'},
-  {'zk', 'O<Esc>j'},
-}, {silent=true})
-
+u.mode_map_group('n', {
+  { 'zj', 'o<Esc>k' },
+  { 'zk', 'O<Esc>j' },
+}, { silent = true })
 
 -- Move lines in visual mode
 u.mode_map_group('v', {
-  {'J', ':m \'>+1<cr>gv=gv'},
-  {'K', ':m \'<-2<cr>gv=gv'},
-}, {noremap = true})
+  { 'J', ":m '>+1<cr>gv=gv" },
+  { 'K', ":m '<-2<cr>gv=gv" },
+}, { noremap = true })
 
 -- better undo breakpoints
 u.mode_map_group('i', {
-  {',', ',<c-g>u'},
-  {'.', '.<c-g>u'},
-  {'!', '!<c-g>u'},
-  {'?', '?<c-g>u'},
-}, {noremap = true})
+  { ',', ',<c-g>u' },
+  { '.', '.<c-g>u' },
+  { '!', '!<c-g>u' },
+  { '?', '?<c-g>u' },
+}, { noremap = true })
 
 -- Fix all indents
 u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
@@ -126,24 +120,24 @@ u.nnoremap('gp', '`[v`]')
 
 -- drawer
 u.mode_map_group('n', {
-  {'<Leader>f', ':NvimTreeToggle<cr>'},
-  {'<Leader>F', ':NvimTreeFindFile<cr>'}
-}, {noremap = true, silent = true})
+  { '<Leader>f', ':NvimTreeToggle<cr>' },
+  { '<Leader>F', ':NvimTreeFindFile<cr>' },
+}, { noremap = true, silent = true })
 
 -- tmux integration
 u.mode_map_group('n', {
-  {'<c-j>', ':TmuxNavigateDown<cr>'},
-  {'<c-k>', ':TmuxNavigateUp<cr>' },
-  {'<c-l>', ':TmuxNavigateRight<cr>'},
-  {'<c-h>', ':TmuxNavigateLeft<cr>'},
-  {'<c-;>', ':TmuxNavigatePrevious<cr>'},
-}, {noremap = true, silent = true})
+  { '<c-j>', ':TmuxNavigateDown<cr>' },
+  { '<c-k>', ':TmuxNavigateUp<cr>' },
+  { '<c-l>', ':TmuxNavigateRight<cr>' },
+  { '<c-h>', ':TmuxNavigateLeft<cr>' },
+  { '<c-;>', ':TmuxNavigatePrevious<cr>' },
+}, { noremap = true, silent = true })
 
 -- base64
 u.mode_map_group('v', {
-  {'<leader>bd', ':lua require("b64").decode()<cr>'},
-  {'<leader>be', ':lua require("b64").encode()<cr>'},
-}, {noremap=true, silent=true})
+  { '<leader>bd', ':lua require("b64").decode()<cr>' },
+  { '<leader>be', ':lua require("b64").encode()<cr>' },
+}, { noremap = true, silent = true })
 
 -- tagbar
 u.nnoremap('<F8>', ':TagbarToggle<cr>')
@@ -151,21 +145,23 @@ u.nnoremap('<F8>', ':TagbarToggle<cr>')
 ---------------
 ----- Searching
 ---------------
-u.map_group({noremap = true}, {
-  { 'n',
+u.map_group({ noremap = true }, {
+  {
+    'n',
     -- Live grep
-    {'<c-s>', ':lua require("telescope.builtin").live_grep()<cr>'},
+    { '<c-s>', ':lua require("telescope.builtin").live_grep()<cr>' },
     -- Search under cursor
-    {'<c-a>', ':lua require("plugins/telescope").search_cword()<cr>'},
+    { '<c-a>', ':lua require("plugins/telescope").search_cword()<cr>' },
     -- Find files
-    {'<c-p>', ':lua require("telescope.builtin").find_files()<cr>'},
+    { '<c-p>', ':lua require("telescope.builtin").find_files()<cr>' },
     -- Find open buffers
-    {'<c-b>', ':lua require("telescope.builtin").buffers()<cr>'},
+    { '<c-b>', ':lua require("telescope.builtin").buffers()<cr>' },
     -- Find code actions
-    {'<c-c>', ':lua require("telescope.builtin").lsp_code_actions()<cr>'},
+    { '<c-c>', ':lua require("telescope.builtin").lsp_code_actions()<cr>' },
   },
-  {'v',
+  {
+    'v',
     -- Search using selected text
-    {'<c-a>', ':lua require("plugins/telescope").search_selection()<cr>'},
+    { '<c-a>', ':lua require("plugins/telescope").search_selection()<cr>' },
   },
 })

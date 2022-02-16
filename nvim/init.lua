@@ -66,5 +66,5 @@ require('keymaps')
 require('lsp')
 
 if vim.fn.has('mac') then
-	vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags'
+  vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags'
 end
