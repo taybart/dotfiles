@@ -55,7 +55,11 @@ local function go_ret_vals()
 
   local function_node
   for _, v in ipairs(scope) do
-    if v:type() == 'function_declaration' or v:type() == 'method_declaration' or v:type() == 'func_literal' then
+    if
+      v:type() == 'function_declaration'
+      or v:type() == 'method_declaration'
+      or v:type() == 'func_literal'
+    then
       function_node = v
       break
     end
@@ -89,7 +93,7 @@ ls.snippets = {
   },
 }
 
-require('utils/maps').map_group({ silent = true }, {
+require('utils/maps').group({ silent = true }, {
   { 'i', '<c-e>', "<cmd>lua require('luasnip').jump(1)<CR>" },
   { 's', '<c-e>', "<cmd>lua require('luasnip').jump(1)<CR>" },
 })

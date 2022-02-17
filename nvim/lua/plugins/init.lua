@@ -33,7 +33,12 @@ return require('packer').startup({
               extra_args = { '--no-semi', '--single-quote' },
             }),
           },
-          root_dir = require('lspconfig.util').root_pattern('.null-ls-root', 'Makefile', '.git', 'package.json'),
+          root_dir = require('lspconfig.util').root_pattern(
+            '.null-ls-root',
+            'Makefile',
+            '.git',
+            'package.json'
+          ),
         })
       end,
     })
@@ -184,7 +189,7 @@ return require('packer').startup({
       'tpope/vim-surround',
       config = function()
         -- make surround around [",',`] work as expected
-        require('utils/maps').mode_map_group('n', {
+        require('utils/maps').mode_group('n', {
           { "ysa'", "ys2i'" },
           { 'ysa"', 'ys2i"' },
           { 'ysa`', 'ys2i`' },
@@ -200,7 +205,7 @@ return require('packer').startup({
       'tpope/vim-fugitive',
       config = function()
         -- 2021-08-25 not really using these, put in the scrap in 2 weeks
-        require('utils/maps').mode_map_group('n', {
+        require('utils/maps').mode_group('n', {
           { 'gs', '<cmd>Git<cr>' },
           { '<leader>gj', '<cmd>diffget //3<cr>' },
           { '<leader>gf', '<cmd>diffget //2<cr>' },
@@ -246,7 +251,7 @@ return require('packer').startup({
             delay = 0,
           },
         })
-        require('utils/maps').mode_map_group('n', {
+        require('utils/maps').mode_group('n', {
           { ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'" },
           { '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'" },
         }, { expr = true })

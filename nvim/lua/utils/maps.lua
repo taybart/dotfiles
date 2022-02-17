@@ -5,7 +5,7 @@ local M = {}
 
 local map = vim.api.nvim_set_keymap
 
-function M.mode_map_group(mode, maps, opts)
+function M.mode_group(mode, maps, opts)
   opts = opts or {}
   for _, v in ipairs(maps) do
     if v[3] then
@@ -15,7 +15,7 @@ function M.mode_map_group(mode, maps, opts)
   end
 end
 
-function M.map_group(opts, maps)
+function M.group(opts, maps)
   for _, v in ipairs(maps) do
     local mode = v[1]
     if type(v[2]) == 'table' then
@@ -61,6 +61,7 @@ function M.imap(key, cmd, opts)
   end
   map('i', key, cmd, opts)
 end
+
 function M.inoremap(key, cmd, opts)
   if opts ~= nil then
     vim.tbl_deep_extend('force', opts, { noremap = true })
@@ -77,6 +78,7 @@ function M.vmap(key, cmd, opts)
   end
   map('v', key, cmd, opts)
 end
+
 function M.vnoremap(key, cmd, opts)
   if opts ~= nil then
     vim.tbl_deep_extend('force', opts, { noremap = true })
@@ -93,6 +95,7 @@ function M.cmap(key, cmd, opts)
   end
   map('c', key, cmd, opts)
 end
+
 function M.cnoremap(key, cmd, opts)
   if opts ~= nil then
     vim.tbl_deep_extend('force', opts, { noremap = true })
@@ -110,6 +113,7 @@ function M.tmap(key, cmd, opts)
   end
   map('t', key, cmd, opts)
 end
+
 function M.tnoremap(key, cmd, opts)
   if opts ~= nil then
     vim.tbl_deep_extend('force', opts, { noremap = true })
@@ -127,6 +131,7 @@ function M.smap(key, cmd, opts)
   end
   map('s', key, cmd, opts)
 end
+
 function M.snoremap(key, cmd, opts)
   if opts ~= nil then
     vim.tbl_deep_extend('force', opts, { noremap = true })

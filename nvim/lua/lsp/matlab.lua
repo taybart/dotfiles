@@ -1,7 +1,13 @@
 require('utils').create_augroups({
   matlab_lsp = {
     { 'FileType', 'matlab', 'command! Run lua require("lsp/matlab").run()' },
-    { 'FileType', 'matlab', 'autocmd! BufWritePre', '<buffer>', 'lua require("lsp/matlab").run()' },
+    {
+      'FileType',
+      'matlab',
+      'autocmd! BufWritePre',
+      '<buffer>',
+      'lua require("lsp/matlab").run()',
+    },
     { 'FileType', 'matlab', 'autocmd! BufEnter', '<buffer>', 'lua require("lsp/matlab").run()' },
   },
 })

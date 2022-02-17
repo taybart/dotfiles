@@ -11,7 +11,7 @@ require('lsp/matlab')
 -- Set keymap if attached
 -- local on_attach = function(client)
 local on_attach = function()
-  u.mode_map_group('n', {
+  u.mode_group('n', {
     { 'gD', ':lua vim.lsp.buf.declaration()<CR>' },
     { 'gd', ':lua vim.lsp.buf.definition()<CR>' },
     { 'gi', ':lua vim.lsp.buf.implementation()<CR>' },
@@ -27,7 +27,7 @@ local on_attach = function()
     augroup formatting
     autocmd!
     autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-    let ftToIgnore = ['go','lua']
+    let ftToIgnore = ['go']
     autocmd BufWritePre * if index(ftToIgnore, &ft) < 0 | lua vim.lsp.buf.formatting_seq_sync()
     augroup end
     ]])

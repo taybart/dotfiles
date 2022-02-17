@@ -3,7 +3,6 @@ local M = {}
 require('utils').create_augroups({
   lua_lsp = {
     { 'FileType', 'lua', 'command! Run luafile %' },
-    { 'BufWritePre', '*.lua', 'lua require("lsp/lua").on_save()' },
   },
 })
 

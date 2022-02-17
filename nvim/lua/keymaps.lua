@@ -3,25 +3,25 @@
 ------------------------------
 
 -- helpful things
-local u = require('utils/maps')
+local map = require('utils/maps')
 
 vim.g.mapleader = ' ' -- space as leader
 
 -- Easy escape from insert
-u.mode_map_group('i', {
+map.mode_group('i', {
   { 'jk', '<Esc>' },
   { 'jK', '<Esc>' },
   { 'JK', '<Esc>' },
 })
 
 -- Quickly open/reload nvim
-u.mode_map_group('n', {
+map.mode_group('n', {
   { '<leader>ev', ':lua require("plugins/telescope").edit_config()<cr>' },
   { '<leader>sv', ':lua require("utils").reload_vim()<cr>' },
 })
 
 -- help vertical
-u.mode_map_group('c', {
+map.mode_group('c', {
   { 'vh', 'vert bo h ' },
 })
 
@@ -35,7 +35,7 @@ vim.cmd('command! Wq wq')
 ---- MOVEMENT -----
 -------------------
 
-u.map_group({ noremap = true }, {
+map.group({ noremap = true }, {
   {
     'c',
     -- Allow for homerow up and down in command mode
@@ -62,7 +62,7 @@ u.map_group({ noremap = true }, {
 -- u.nnoremap('<leader>d', ':bp <BAR> bd #<cr>')
 
 -- Buffer control
-u.mode_map_group('n', {
+map.mode_group('n', {
   { '<leader>l', ':BufferLineCycleNext<cr>' },
   { '<leader>h', ':BufferLineCyclePrev<cr>' },
   { '<leader>L', ':BufferLineMoveNext<cr>' },
@@ -71,7 +71,7 @@ u.mode_map_group('n', {
 }, { noremap = true })
 
 -- escape in terminal
-u.tnoremap('<Esc>', '<c-\\><c-n>')
+map.tnoremap('<Esc>', '<c-\\><c-n>')
 
 -------------------
 ----- FORMAT ------
@@ -80,19 +80,19 @@ u.tnoremap('<Esc>', '<c-\\><c-n>')
 -- u.nnoremap('ff', ':Format<cr>:w<cr>')
 
 -- These create newlines like o and O but stay in normal mode
-u.mode_map_group('n', {
+map.mode_group('n', {
   { 'zj', 'o<Esc>k' },
   { 'zk', 'O<Esc>j' },
 }, { silent = true })
 
 -- Move lines in visual mode
-u.mode_map_group('v', {
+map.mode_group('v', {
   { 'J', ":m '>+1<cr>gv=gv" },
   { 'K', ":m '<-2<cr>gv=gv" },
 }, { noremap = true })
 
 -- better undo breakpoints
-u.mode_map_group('i', {
+map.mode_group('i', {
   { ',', ',<c-g>u' },
   { '.', '.<c-g>u' },
   { '!', '!<c-g>u' },
@@ -100,18 +100,18 @@ u.mode_map_group('i', {
 }, { noremap = true })
 
 -- Fix all indents
-u.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
+map.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 
 -- Emacs indent
-u.nnoremap('<Tab>', '==')
-u.vnoremap('<Tab>', '=')
+map.nnoremap('<Tab>', '==')
+map.vnoremap('<Tab>', '=')
 
 -- Get rid of the fucking stupid OCD whitespace
 -- Get rid of the fucking stupid <200b>
-u.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>:%s/\\%u200b//g<cr>:noh<cr>')
+map.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>:%s/\\%u200b//g<cr>:noh<cr>')
 
 -- highlight pasted text
-u.nnoremap('gp', '`[v`]')
+map.nnoremap('gp', '`[v`]')
 
 --
 -------------------
@@ -119,13 +119,13 @@ u.nnoremap('gp', '`[v`]')
 -------------------
 
 -- drawer
-u.mode_map_group('n', {
+map.mode_group('n', {
   { '<Leader>f', ':NvimTreeToggle<cr>' },
   { '<Leader>F', ':NvimTreeFindFile<cr>' },
 }, { noremap = true, silent = true })
 
 -- tmux integration
-u.mode_map_group('n', {
+map.mode_group('n', {
   { '<c-j>', ':TmuxNavigateDown<cr>' },
   { '<c-k>', ':TmuxNavigateUp<cr>' },
   { '<c-l>', ':TmuxNavigateRight<cr>' },
@@ -134,18 +134,18 @@ u.mode_map_group('n', {
 }, { noremap = true, silent = true })
 
 -- base64
-u.mode_map_group('v', {
+map.mode_group('v', {
   { '<leader>bd', ':lua require("b64").decode()<cr>' },
   { '<leader>be', ':lua require("b64").encode()<cr>' },
 }, { noremap = true, silent = true })
 
 -- tagbar
-u.nnoremap('<F8>', ':TagbarToggle<cr>')
+map.nnoremap('<F8>', ':TagbarToggle<cr>')
 
 ---------------
 ----- Searching
 ---------------
-u.map_group({ noremap = true }, {
+map.group({ noremap = true }, {
   {
     'n',
     -- Live grep

@@ -5,8 +5,16 @@ local run_job = require('utils/job').run_job
 require('utils').create_augroups({
   go_lsp = {
     -- TODO add fuzzy finder from history list with no arguments
-    { 'FileType', 'go', 'command! -nargs=+ BuildTags lua require("lsp/go").set_build_tags(<f-args>)' },
-    { 'FileType', 'go', 'command! -nargs=+ BuildTagsAdd lua require("lsp/go").add_build_tags(<f-args>)' },
+    {
+      'FileType',
+      'go',
+      'command! -nargs=+ BuildTags lua require("lsp/go").set_build_tags(<f-args>)',
+    },
+    {
+      'FileType',
+      'go',
+      'command! -nargs=+ BuildTagsAdd lua require("lsp/go").add_build_tags(<f-args>)',
+    },
     { 'FileType', 'go', 'command! -nargs=* StructTags lua require("lsp/go").add_tags(<f-args>)' },
     { 'FileType', 'go', 'command! -nargs=? Run lua require("lsp/go").run(<f-args>)' },
     { 'BufWritePre', '*.go', 'lua require("lsp/go").on_save()' },
@@ -51,7 +59,12 @@ function go.add_tags(tag_types, format)
     '--skip-unexported',
   }, true)
   local tagged = vim.fn.json_decode(data)
-  if tagged.errors ~= nil or tagged.lines == nil or tagged['start'] == nil or tagged['start'] == 0 then
+  if
+    tagged.errors ~= nil
+    or tagged.lines == nil
+    or tagged['start'] == nil
+    or tagged['start'] == 0
+  then
     print('failed to set tags' .. vim.inspect(tagged))
     return
   end
