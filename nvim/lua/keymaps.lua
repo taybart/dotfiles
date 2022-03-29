@@ -120,17 +120,17 @@ map.nnoremap('gp', '`[v`]')
 
 -- drawer
 map.mode_group('n', {
-  { '<Leader>f', ':NvimTreeToggle<cr>' },
-  { '<Leader>F', ':NvimTreeFindFile<cr>' },
+  -- { '<Leader>f', ':NeoTreeShowToggle<cr>' },
+  { '<Leader>f', ':NeoTreeRevealToggle<cr>' },
 }, { noremap = true, silent = true })
 
 -- tmux integration
 map.mode_group('n', {
-  { '<c-j>', ':TmuxNavigateDown<cr>' },
-  { '<c-k>', ':TmuxNavigateUp<cr>' },
-  { '<c-l>', ':TmuxNavigateRight<cr>' },
-  { '<c-h>', ':TmuxNavigateLeft<cr>' },
-  { '<c-;>', ':TmuxNavigatePrevious<cr>' },
+  { '<C-f><Left>', ':TmuxNavigateLeft<cr>' },
+  { '<C-f><Down>', ':TmuxNavigateDown<cr>' },
+  { '<C-f><Up>', ':TmuxNavigateUp<cr>' },
+  { '<C-f><Right>', ':TmuxNavigateRight<cr>' },
+  -- { '<;>', ':TmuxNavigatePrevious<cr>' },
 }, { noremap = true, silent = true })
 
 -- base64

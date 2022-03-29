@@ -6,7 +6,6 @@ function M.configure()
     hi CmpItemMenu guifg=#d5c4a1
     ]])
   local cmp = require('cmp')
-  -- local compare = require('cmp.config.compare')
   cmp.setup({
     preselect = cmp.PreselectMode.None,
     mapping = {

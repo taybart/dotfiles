@@ -5,14 +5,9 @@ ls.config.set_config({
   -- updateevents = 'TextChanged,TextChangedI',
 })
 
-local t = ls.text_node
+-- local t = ls.text_node
 local i = ls.insert_node
-local d = ls.dynamic_node
--- local f = ls.function_node
-
-local str = function(text)
-  return t({ text })
-end
+local f = ls.function_node
 
 local ts_locals = require('nvim-treesitter.locals')
 local ts_utils = require('nvim-treesitter.ts_utils')
@@ -71,7 +66,6 @@ local function go_ret_vals()
     if node:type() == 'parameter_list' then
       local count = node:named_child_count()
       for j = 0, count - 1 do
-        print(get_zero_value(get_node_text(node:named_child(j), 0)))
         result = result .. get_zero_value(get_node_text(node:named_child(j), 0))
         if j ~= count - 1 then
           result = result .. ', '
@@ -81,17 +75,44 @@ local function go_ret_vals()
       result = get_zero_value(get_node_text(node, 0))
     end
   end
-  return str(result)
+  return result
 end
 
 local s = ls.s
 local fmt = require('luasnip.extras.fmt').fmt
-ls.snippets = {
-  go = {
-    s('main', fmt('package main\nfunc main(){{\n\t{}\n}}', { i(0) })),
-    s('ife', fmt('if err != nil {{\n\treturn {}\n}}\n', { d(1, go_ret_vals, {}) })),
-  },
-}
+ls.add_snippets('all', {
+  s(
+    -- TODO: should make a title comment
+    'title',
+    fmt([[{}{}{}]], {
+      f(function()
+        -- TODO: get comment string
+        return ''
+      end),
+      i(2), -- TODO: function to surround input and break if too long
+      f(function()
+        -- TODO: get comment string
+        return ''
+      end),
+    })
+  ),
+})
+ls.add_snippets('lua', {
+  s(
+    'req',
+    fmt([[local {} = require('{}')]], {
+      f(function(name)
+        local sp = vim.split(name[1][1], '.', true)
+        return sp[#sp] or ''
+      end, { 1 }),
+      i(1),
+    })
+  ),
+})
+ls.add_snippets('go', {
+  s('main', fmt('package main\nfunc main(){{\n\t{}\n}}', { i(0) })),
+  s('ife', fmt('if err != nil {{\n\treturn {}{}\n}}\n', { f(go_ret_vals), i(0) })),
+})
 
 require('utils/maps').group({ silent = true }, {
   { 'i', '<c-e>', "<cmd>lua require('luasnip').jump(1)<CR>" },

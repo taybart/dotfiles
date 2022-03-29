@@ -5,6 +5,7 @@ table.insert(runtime_path, 'lua/?/init.lua')
 return {
   clangd = {},
   gopls = {
+    root_dir = require('lspconfig/util').root_pattern('go.work', 'go.mod', '.git'),
     settings = {
       gopls = {
         buildFlags = { '-tags=' },
@@ -17,6 +18,7 @@ return {
   },
   rust_analyzer = {},
   tsserver = {},
+  svelte = {},
   sumneko_lua = require('lua-dev').setup({
     lspconfig = {
       cmd = { vim.fn.stdpath('data') .. '/lua-language-server/bin/lua-language-server' },

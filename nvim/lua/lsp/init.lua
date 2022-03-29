@@ -9,7 +9,6 @@ require('lsp/lua')
 require('lsp/matlab')
 
 -- Set keymap if attached
--- local on_attach = function(client)
 local on_attach = function()
   u.mode_group('n', {
     { 'gD', ':lua vim.lsp.buf.declaration()<CR>' },
@@ -24,18 +23,13 @@ local on_attach = function()
 
   vim.cmd([[
     command! Format lua vim.lsp.buf.formatting_seq_sync()
-    augroup formatting
+    augroup lsp
     autocmd!
-    autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+    autocmd FileType go setlocal omnifunc=v:lua.vim.lsp.omnifunc " not sure if this is necessary
     let ftToIgnore = ['go']
     autocmd BufWritePre * if index(ftToIgnore, &ft) < 0 | lua vim.lsp.buf.formatting_seq_sync()
     augroup end
     ]])
-  --[[ if client.resolved_capabilities.document_formatting then
-    vim.cmd(" command! Format lua vim.lsp.buf.formatting()")
-  elseif client.resolved_capabilities.document_range_formatting then
-    vim.cmd(" command! Format lua vim.lsp.buf.range_formatting()")
-  end ]]
 end
 
 local function make_base_config()
@@ -64,12 +58,12 @@ end
 setup()
 
 -- LSP looks
-vim.fn.sign_define('DiagnosticsSignError', { text = '✗', texthl = 'GruvboxRed' })
-vim.fn.sign_define('DiagnosticsSignWarning', { text = '', texthl = 'GruvboxYellow' })
-vim.fn.sign_define('DiagnosticsSignInformation', { text = '', texthl = 'GruvboxBlue' })
-vim.fn.sign_define('DiagnosticsSignHint', { text = '', texthl = 'GruvboxAqua' })
+vim.fn.sign_define('DiagnosticSignError', { text = '✗', texthl = 'GruvboxRed' })
+vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYellow' })
+vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
+vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
 
-vim.cmd('command! -nargs=? Rename lua require("lsp").rename(<f-args>)')
+vim.cmd([[command! -nargs=? Rename lua require('lsp').rename(<f-args>)]])
 function M.rename(new_name)
   if not new_name then
     new_name = vim.fn.input('to -> ')

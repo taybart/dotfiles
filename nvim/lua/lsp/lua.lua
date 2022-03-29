@@ -6,13 +6,4 @@ require('utils').create_augroups({
   },
 })
 
-function M.on_save()
-  require('utils/job').run_job('stylua', {
-    '--config-path',
-    vim.fn.expand('~/.dotfiles/nvim/stylua.toml'),
-    vim.fn.expand('%'),
-  })
-  vim.cmd('bufdo e')
-end
-
 return M

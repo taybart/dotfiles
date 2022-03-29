@@ -9,6 +9,13 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command('packadd packer.nvim')
 end
 
+vim.cmd([[
+augroup packer_user_config
+  autocmd!
+  autocmd BufWritePost */lua/plugins/init.lua source <afile> | PackerCompile
+augroup end
+]])
+
 return require('packer').startup({
   function(use)
     use({ 'wbthomason/packer.nvim' })
@@ -18,34 +25,30 @@ return require('packer').startup({
     ---------------------------------
 
     use({
-      'jose-elias-alvarez/null-ls.nvim',
+      'nvim-neo-tree/neo-tree.nvim',
+      branch = 'v2.x',
       requires = {
-        { 'nvim-lua/plenary.nvim' },
+        'nvim-lua/plenary.nvim',
+        'kyazdani42/nvim-web-devicons',
+        'MunifTanjim/nui.nvim',
       },
       config = function()
-        local null_ls = require('null-ls')
-        null_ls.setup({
-          sources = {
-            null_ls.builtins.formatting.stylua.with({
-              extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
-            }),
-            null_ls.builtins.formatting.prettier.with({
-              extra_args = { '--no-semi', '--single-quote' },
-            }),
+        require('neo-tree').setup({
+          close_if_last_window = true,
+          enable_diagnostics = false,
+          enable_git_status = false,
+          default_component_configs = {
+            icon = {
+              default = '',
+            },
           },
-          root_dir = require('lspconfig.util').root_pattern(
-            '.null-ls-root',
-            'Makefile',
-            '.git',
-            'package.json'
-          ),
         })
       end,
     })
 
     use({ 'ggandor/lightspeed.nvim' })
-
-    use({ 'tweekmonster/startuptime.vim', cmd = { 'StartupTime' } })
+    -- NOTE: update for > 0.7
+    -- use({ 'ggandor/leap.nvim' })
 
     ---------------------------------
     --------- Productivity ----------
@@ -59,57 +62,73 @@ return require('packer').startup({
       requires = {
         { 'nvim-lua/popup.nvim' },
         { 'nvim-lua/plenary.nvim' },
-        { 'nvim-telescope/telescope-fzf-native.nvim' },
       },
       config = function()
         require('plugins/telescope').configure()
       end,
     })
 
-    use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
-
-    use({
-      'kyazdani42/nvim-tree.lua',
-      requires = { 'kyazdani42/nvim-web-devicons' },
-      config = function()
-        require('nvim-tree').setup({
-          auto_close = true,
-          hijack_cursor = true,
-          view = {
-            width = '30%',
-            auto_resize = false,
-          },
-          filters = {
-            dotfiles = true,
-          },
-          git = {
-            enable = true,
-            ignore = false,
-            timeout = 500,
-          },
-        })
-      end,
-      setup = function()
-        local c = {
-          group_empty = true,
-          highlight_opened_files = true,
-          window_picker_exclude = {
-            filetype = { 'packer', 'tagbar', 'help' },
-          },
-        }
-        for opt, value in pairs(c) do
-          if type(value) == 'boolean' then
-            value = value and 1 or 0
-          end
-          vim.g['nvim_tree_' .. opt] = value
-        end
-        function _G.resize_nvim_tree()
-          local percent_as_decimal = 30 / 100
-          local width = math.floor(vim.o.columns * percent_as_decimal)
-          vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
-        end
-      end,
-    })
+    -- use({
+    --   'kyazdani42/nvim-tree.lua',
+    --   requires = { 'kyazdani42/nvim-web-devicons' },
+    --   config = function()
+    --     require('nvim-tree').setup({
+    --       -- auto_close = true,
+    --       hijack_cursor = true,
+    --       view = {
+    --         width = '30%',
+    --         auto_resize = false,
+    --       },
+    --       filters = {
+    --         dotfiles = true,
+    --       },
+    --       git = {
+    --         enable = true,
+    --         ignore = false,
+    --         timeout = 500,
+    --       },
+    --       open_file = {
+    --         window_picker = {
+    --           exclude = {
+    --             filetype = {
+    --               'notify',
+    --               'packer',
+    --               'qf',
+    --               'diff',
+    --               'fugitive',
+    --               'fugitiveblame',
+    --               'tagbar',
+    --             },
+    --             buftype = { 'nofile', 'terminal', 'help' },
+    --           },
+    --         },
+    --       },
+    --     })
+    --     vim.cmd([[
+    --     augroup nvim_tree
+    --     au!
+    --     autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+    --     augroup end
+    --     ]])
+    --   end,
+    --   setup = function()
+    --     local c = {
+    --       group_empty = true,
+    --       highlight_opened_files = true,
+    --     }
+    --     for opt, value in pairs(c) do
+    --       if type(value) == 'boolean' then
+    --         value = value and 1 or 0
+    --       end
+    --       vim.g['nvim_tree_' .. opt] = value
+    --     end
+    --     function _G.resize_nvim_tree()
+    --       local percent_as_decimal = 30 / 100
+    --       local width = math.floor(vim.o.columns * percent_as_decimal)
+    --       vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
+    --     end
+    --   end,
+    -- })
 
     use({
       'preservim/tagbar',
@@ -150,7 +169,33 @@ return require('packer').startup({
     ----------
     -- lsp
     use({ 'neovim/nvim-lspconfig' })
+    use({
+      'jose-elias-alvarez/null-ls.nvim',
+      requires = {
+        { 'nvim-lua/plenary.nvim' },
+      },
+      config = function()
+        local null_ls = require('null-ls')
+        null_ls.setup({
+          sources = {
+            null_ls.builtins.formatting.stylua.with({
+              extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
+            }),
+            null_ls.builtins.formatting.prettier.with({
+              extra_args = { '--no-semi', '--single-quote' },
+            }),
+          },
+          root_dir = require('lspconfig.util').root_pattern(
+            '.null-ls-root',
+            'Makefile',
+            '.git',
+            'package.json'
+          ),
+        })
+      end,
+    })
 
+    -- completions
     use({
       'hrsh7th/nvim-cmp',
       requires = {
@@ -293,6 +338,7 @@ return require('packer').startup({
             separator_style = 'slant',
             max_name_length = 30,
             show_close_icon = false,
+            show_buffer_close_icons = false,
             right_mouse_command = nil,
             middle_mouse_command = 'bdelete! %d',
           },
@@ -341,6 +387,8 @@ return require('packer').startup({
     --------- Extras ------------
     -----------------------------
     use({ 'folke/lua-dev.nvim' })
+
+    use({ 'tweekmonster/startuptime.vim', cmd = { 'StartupTime' } })
 
     -- -- neorg
     -- use({
