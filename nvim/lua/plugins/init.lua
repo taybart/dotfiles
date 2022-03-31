@@ -37,6 +37,7 @@ return require('packer').startup({
           close_if_last_window = true,
           enable_diagnostics = false,
           enable_git_status = false,
+          log_level = 'warn', -- "trace", "debug", "info", "warn", "error", "fatal"
           default_component_configs = {
             icon = {
               default = '',

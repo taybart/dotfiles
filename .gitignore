@@ -7,3 +7,5 @@ ranger/history
 vim/plugged
 nvim/plugged
 nvim/plugin/packer_compiled.lua
+macos/hammerspoon/Spoons
+
