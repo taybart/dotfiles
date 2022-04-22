@@ -2,10 +2,12 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
+local lcutil = require('lspconfig/util')
+
 return {
   clangd = {},
   gopls = {
-    root_dir = require('lspconfig/util').root_pattern('go.work', 'go.mod', '.git'),
+    root_dir = lcutil.root_pattern('go.work', 'go.mod', '.git'),
     settings = {
       gopls = {
         buildFlags = { '-tags=' },
@@ -19,6 +21,7 @@ return {
   rust_analyzer = {},
   tsserver = {},
   svelte = {},
+  pylsp = {},
   sumneko_lua = require('lua-dev').setup({
     lspconfig = {
       cmd = { vim.fn.stdpath('data') .. '/lua-language-server/bin/lua-language-server' },
@@ -35,12 +38,12 @@ return {
             globals = { 'vim', 'hs' },
           },
           workspace = {
-            library = {
-              [vim.fn.stdpath('config') .. '/lua'] = true,
-              [vim.fn.stdpath('config') .. '/lua/vim/lsp'] = true,
-              ['/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'] = true,
-              [vim.fn.expand('$HOME/.hammerspoon/Spoons/EmmyLua.spoon/annotations')] = true,
-            },
+            library = vim.api.nvim_get_runtime_file('', true),
+            --{
+
+            --   ['/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'] = true,
+            --   [vim.fn.expand('$HOME/.hammerspoon/Spoons/EmmyLua.spoon/annotations')] = true,
+            -- },
           },
         },
       },

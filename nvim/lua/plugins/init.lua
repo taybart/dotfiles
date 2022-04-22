@@ -47,9 +47,12 @@ return require('packer').startup({
       end,
     })
 
-    use({ 'ggandor/lightspeed.nvim' })
-    -- NOTE: update for > 0.7
-    -- use({ 'ggandor/leap.nvim' })
+    use({
+      'ggandor/leap.nvim',
+      config = function()
+        require('leap').set_default_keymaps()
+      end,
+    })
 
     ---------------------------------
     --------- Productivity ----------
@@ -179,12 +182,18 @@ return require('packer').startup({
         local null_ls = require('null-ls')
         null_ls.setup({
           sources = {
+            -- lua
             null_ls.builtins.formatting.stylua.with({
               extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
             }),
+            -- javascript
             null_ls.builtins.formatting.prettier.with({
               extra_args = { '--no-semi', '--single-quote' },
             }),
+            -- sh
+            null_ls.builtins.code_actions.shellcheck,
+            -- python
+            null_ls.builtins.formatting.black,
           },
           root_dir = require('lspconfig.util').root_pattern(
             '.null-ls-root',

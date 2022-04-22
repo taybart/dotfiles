@@ -24,31 +24,19 @@ function M.reload_vim()
   M.reload_module('init')
 end
 
--- https://github.com/norcalli/nvim_utils
 function M.create_augroups(definitions)
-  for group_name, definition in pairs(definitions) do
-    vim.api.nvim_command('augroup ' .. group_name)
-    vim.api.nvim_command('autocmd!')
-    for _, def in ipairs(definition) do
-      local command = table.concat(vim.tbl_flatten({ 'autocmd', def }), ' ')
-      vim.api.nvim_command(command)
+  for group_name, autocmd in pairs(definitions) do
+    -- print(group_name, autocmd[1])
+    vim.api.nvim_create_augroup(group_name, {})
+    for _, au in ipairs(autocmd) do
+      -- print(vim.inspect(au))
+      vim.api.nvim_create_autocmd(au.event, {
+        group = group_name,
+        pattern = au.pattern,
+        callback = au.callback,
+      })
     end
-    vim.api.nvim_command('augroup END')
   end
-end
-
--- function M.create_vim_function(name, package, method)
---   print("function! "..name.."()\n  lua require('"..package.."')."..method.."()\nendfunction")
---   vim.cmd("function! "..name.."()\n lua require('"..package.."')."..method.."()\nendfunction")
--- end
-
-function M.sync_nvim_tree_width()
-  local width = vim.g.nvim_tree_auto_width
-  if type(vim.g.nvim_tree_auto_width) == 'string' then
-    local as_number = tonumber(vim.g.nvim_tree_auto_width:sub(0, -2))
-    width = math.floor(vim.o.columns * (as_number / 100))
-  end
-  vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
 end
 
 function M.to_string(tbl)
@@ -63,10 +51,7 @@ function M.to_string(tbl)
   end
 end
 
-vim.cmd([[
-command! GH lua require('utils').open_file_in_github()
-]])
-function M.open_file_in_github()
+vim.api.nvim_create_user_command('GH', function()
   local opener = ''
   if vim.fn.has('mac') == 1 then
     opener = 'open'
@@ -77,15 +62,17 @@ function M.open_file_in_github()
     return
   end
 
-  local run_job = require('utils/job')
+  local job = require('utils/job')
 
   local buf_name = vim.api.nvim_buf_get_name(0)
-  local url = run_job('git', { 'config', '--get', 'remote.origin.url' })
+  local url = job.run('git', { 'config', '--get', 'remote.origin.url' })
     .. '/blob/'
-    .. run_job('git', { 'branch', '--show-current' })
-    .. buf_name:gsub(run_job('git', { 'rev-parse', '--show-toplevel' }), '')
+    .. job.run('git', { 'branch', '--show-current' })
+    .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }), '')
 
-  run_job(opener, { url })
-end
+  job.run(opener, { url })
+end, {
+  desc = 'Open file in GitHub',
+})
 
 return M

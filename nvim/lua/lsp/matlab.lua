@@ -1,18 +1,16 @@
+local M = {}
+
 require('utils').create_augroups({
   matlab_lsp = {
-    { 'FileType', 'matlab', 'command! Run lua require("lsp/matlab").run()' },
     {
-      'FileType',
-      'matlab',
-      'autocmd! BufWritePre',
-      '<buffer>',
-      'lua require("lsp/matlab").run()',
+      event = 'FileType',
+      pattern = 'matlab',
+      callback = function()
+        vim.api.nvim_create_user_command('Run', M.run, {})
+      end,
     },
-    { 'FileType', 'matlab', 'autocmd! BufEnter', '<buffer>', 'lua require("lsp/matlab").run()' },
   },
 })
-
-local M = {}
 
 local function strip_whitespace(tbl)
   local ret = {}

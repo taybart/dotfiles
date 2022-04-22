@@ -13,7 +13,7 @@ function M.handle_data(data)
   return data
 end
 
-function M.run_job(cmd, args, takeAll)
+function M.run(cmd, args, takeAll)
   local ret
   require('plenary.job')
     :new({

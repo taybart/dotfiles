@@ -21,15 +21,17 @@ local on_attach = function()
     { 'ca', ':lua vim.lsp.buf.code_action()<CR>' },
   }, { noremap = true, silent = true })
 
-  vim.cmd([[
-    command! Format lua vim.lsp.buf.formatting_seq_sync()
-    augroup lsp
-    autocmd!
-    autocmd FileType go setlocal omnifunc=v:lua.vim.lsp.omnifunc " not sure if this is necessary
-    let ftToIgnore = ['go']
-    autocmd BufWritePre * if index(ftToIgnore, &ft) < 0 | lua vim.lsp.buf.formatting_seq_sync()
-    augroup end
-    ]])
+  vim.api.nvim_create_augroup('lsp', {})
+  vim.api.nvim_create_autocmd('BufWritePre', {
+    group = 'lsp',
+    pattern = '*',
+    callback = function()
+      if vim.bo.filetype ~= 'go' then
+        vim.lsp.buf.formatting_seq_sync()
+      end
+    end,
+  })
+  vim.api.nvim_create_user_command('Format', vim.lsp.buf.formatting_seq_sync, {})
 end
 
 local function make_base_config()
@@ -63,8 +65,8 @@ vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYel
 vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
 vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
 
-vim.cmd([[command! -nargs=? Rename lua require('lsp').rename(<f-args>)]])
-function M.rename(new_name)
+vim.api.nvim_create_user_command('Rename', function(args)
+  local new_name = args.fargs[1]
   if not new_name then
     new_name = vim.fn.input('to -> ')
   end
@@ -92,6 +94,8 @@ function M.rename(new_name)
       vim.api.nvim_buf_set_lines(bufnr, to[1], to[3], true, r)
     end
   end
-end
+end, {
+  nargs = '?',
+})
 
 return M
