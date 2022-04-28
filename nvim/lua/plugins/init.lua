@@ -194,6 +194,7 @@ return require('packer').startup({
             null_ls.builtins.code_actions.shellcheck,
             -- python
             null_ls.builtins.formatting.black,
+            null_ls.builtins.diagnostics.mypy,
           },
           root_dir = require('lspconfig.util').root_pattern(
             '.null-ls-root',

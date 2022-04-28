@@ -2,26 +2,6 @@ local go = {}
 
 local job = require('utils/job')
 
-require('utils').create_augroups({
-  go_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'go',
-      callback = function()
-        vim.api.nvim_create_user_command('BuildTags', go.set_build_tags, { nargs = '+' })
-        vim.api.nvim_create_user_command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
-        vim.api.nvim_create_user_command('StructTags', go.add_tags, { nargs = '*' })
-        vim.api.nvim_create_user_command('Run', go.run, { nargs = '?' })
-      end,
-    },
-    {
-      event = 'BufWritePre',
-      pattern = '*.go',
-      callback = go.on_save,
-    },
-  },
-})
-
 function go.install_deps()
   job.run('go', { 'install', 'github.com/fatih/gomodifytags@latest' })
   job.run('go', { 'install', 'github.com/jstemmer/gotags@latest' })
@@ -29,11 +9,11 @@ end
 
 function go.add_tags(args)
   local tag_types = args.fargs[1]
-  if tag_types == '' then
+  if not tag_types or tag_types == '' then
     tag_types = 'json'
   end
   local format = args.fargs[2]
-  if format == '' then
+  if not format or format == '' then
     format = 'snakecase'
   end
 
@@ -50,7 +30,7 @@ function go.add_tags(args)
   end
 
   local struct_name = ns[#ns].name
-  local data = require('utils/job').run_job('gomodifytags', {
+  local data = job.run('gomodifytags', {
     '-format',
     'json',
     '-file',
@@ -126,5 +106,28 @@ function go.on_save()
   end
   vim.lsp.buf.formatting_sync()
 end
+
+require('utils').create_augroups({
+  go_lsp = {
+    {
+      event = 'FileType',
+      pattern = 'go',
+      callback = function()
+        vim.api.nvim_create_user_command('BuildTags', go.set_build_tags, { nargs = '+' })
+        vim.api.nvim_create_user_command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
+        vim.api.nvim_create_user_command('StructTags', go.add_tags, { nargs = '*' })
+        vim.api.nvim_create_user_command('Run', go.run, { nargs = '?' })
+        vim.api.nvim_create_user_command('Tidy', function()
+          vim.api.nvim_command('!go mod tidy')
+        end, { nargs = '?' })
+      end,
+    },
+    {
+      event = 'BufWritePre',
+      pattern = '*.go',
+      callback = go.on_save,
+    },
+  },
+})
 
 return go
