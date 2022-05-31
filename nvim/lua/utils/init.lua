@@ -68,7 +68,7 @@ vim.api.nvim_create_user_command('GH', function()
   local url = job.run('git', { 'config', '--get', 'remote.origin.url' })
     .. '/blob/'
     .. job.run('git', { 'branch', '--show-current' })
-    .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }), '')
+    .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }):gsub('%p', '%%%1'), '')
 
   job.run(opener, { url })
 end, {

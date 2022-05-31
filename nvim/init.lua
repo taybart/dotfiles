@@ -2,6 +2,9 @@
 ------------ init ------------
 ------------------------------
 
+vim.g.did_load_filetypes = 0
+vim.g.do_filetype_lua = 1
+
 -- long live zsh
 vim.opt.shell = '/bin/zsh'
 

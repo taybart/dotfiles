@@ -279,7 +279,37 @@ function gobuildall() {
   GOOS=windows go build -ldflags '-s -w' -o $2_windows.exe $1
 }
 
+function sb() {
+  ret=$(pwd)
+  r=$(head -c 8 /dev/random | base64 | tr -d '/')
+  folder=~/.tmp/sandbox_$r
+  mkdir -p $folder
+  cd $folder
+  # create project
+  if [[ $1 == "node" ]]; then
+    echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.js", "license": "UNLICENSED","scripts":{"start":"node ."}}' > package.json
+    touch index.js
+    nvim index.js
+  elif [[ $1 == "wapp" ]]; then
+  else
+    go mod init sandbox
+    echo "package main\n\nfunc main() {\n}" > main.go
+    nvim -c 'exe "normal jj"' main.go
+  fi
+
+  cd $ret
+  read "keep?Keep sandbox? [y/N] "
+  if [[ "$keep" =~ ^[Yy]$ ]]; then
+    read "name?Name: "
+    mkdir -p ~/dev/sandboxes
+    mv $folder ~/dev/sandboxes/$name
+  else
+    rm -rf $folder
+  fi
+}
+
 function gosb() {
+  echo "[WARN] deprecated, use sb instead"
   ret=$(pwd)
   r=$(head -c 8 /dev/random | base64 | tr -d '/')
   folder=~/.tmp/sandbox_$r

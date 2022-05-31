@@ -22,6 +22,8 @@ return {
   tsserver = {},
   svelte = {},
   pylsp = {},
+  terraformls = {},
+  ocamllsp = {},
   sumneko_lua = require('lua-dev').setup({
     lspconfig = {
       cmd = { vim.fn.stdpath('data') .. '/lua-language-server/bin/lua-language-server' },

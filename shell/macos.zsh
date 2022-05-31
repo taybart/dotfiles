@@ -1,4 +1,3 @@
-# export PATH="$PATH:/opt/homebrew/bin"
 alias copy="pbcopy"
 alias grep="grep -RIns --color=auto --exclude=\"tags\""
 alias ls="ls -G -l -h"
