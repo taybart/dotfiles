@@ -25,29 +25,6 @@ return require('packer').startup({
     ---------------------------------
 
     use({
-      'nvim-neo-tree/neo-tree.nvim',
-      branch = 'v2.x',
-      requires = {
-        'nvim-lua/plenary.nvim',
-        'kyazdani42/nvim-web-devicons',
-        'MunifTanjim/nui.nvim',
-      },
-      config = function()
-        require('neo-tree').setup({
-          close_if_last_window = true,
-          enable_diagnostics = false,
-          enable_git_status = false,
-          log_level = 'warn', -- "trace", "debug", "info", "warn", "error", "fatal"
-          default_component_configs = {
-            icon = {
-              default = '',
-            },
-          },
-        })
-      end,
-    })
-
-    use({
       'ggandor/leap.nvim',
       config = function()
         require('leap').set_default_keymaps()
@@ -72,67 +49,33 @@ return require('packer').startup({
       end,
     })
 
-    -- use({
-    --   'kyazdani42/nvim-tree.lua',
-    --   requires = { 'kyazdani42/nvim-web-devicons' },
-    --   config = function()
-    --     require('nvim-tree').setup({
-    --       -- auto_close = true,
-    --       hijack_cursor = true,
-    --       view = {
-    --         width = '30%',
-    --         auto_resize = false,
-    --       },
-    --       filters = {
-    --         dotfiles = true,
-    --       },
-    --       git = {
-    --         enable = true,
-    --         ignore = false,
-    --         timeout = 500,
-    --       },
-    --       open_file = {
-    --         window_picker = {
-    --           exclude = {
-    --             filetype = {
-    --               'notify',
-    --               'packer',
-    --               'qf',
-    --               'diff',
-    --               'fugitive',
-    --               'fugitiveblame',
-    --               'tagbar',
-    --             },
-    --             buftype = { 'nofile', 'terminal', 'help' },
-    --           },
-    --         },
-    --       },
-    --     })
-    --     vim.cmd([[
-    --     augroup nvim_tree
-    --     au!
-    --     autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
-    --     augroup end
-    --     ]])
-    --   end,
-    --   setup = function()
-    --     local c = {
-    --       group_empty = true,
-    --       highlight_opened_files = true,
-    --     }
-    --     for opt, value in pairs(c) do
-    --       if type(value) == 'boolean' then
-    --         value = value and 1 or 0
-    --       end
-    --       vim.g['nvim_tree_' .. opt] = value
-    --     end
-    --     function _G.resize_nvim_tree()
-    --       local percent_as_decimal = 30 / 100
-    --       local width = math.floor(vim.o.columns * percent_as_decimal)
-    --       vim.api.nvim_win_set_width(require('nvim-tree.view').get_winnr(), width)
-    --     end
-    --   end,
-    -- })
+    use({
+      'nvim-neo-tree/neo-tree.nvim',
+      branch = 'v2.x',
+      requires = {
+        'nvim-lua/plenary.nvim',
+        'kyazdani42/nvim-web-devicons',
+        'MunifTanjim/nui.nvim',
+      },
+      config = function()
+        require('neo-tree').setup({
+          close_if_last_window = true,
+          enable_diagnostics = false,
+          enable_git_status = false,
+          log_level = 'warn', -- "trace", "debug", "info", "warn", "error", "fatal"
+          default_component_configs = {
+            icon = {
+              default = '',
+            },
+          },
+        })
+
+        require('utils/maps').mode_group('n', {
+          { '<Leader>o', ':NeoTreeRevealToggle<cr>' },
+          { '<Leader>f', ':Neotree toggle reveal position=float<cr>' },
+        }, { noremap = true, silent = true })
+      end,
+    })
 
     use({
       'preservim/tagbar',

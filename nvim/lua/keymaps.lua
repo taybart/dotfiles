@@ -121,7 +121,7 @@ map.nnoremap('gp', '`[v`]')
 -- drawer
 map.mode_group('n', {
   -- { '<Leader>f', ':NeoTreeShowToggle<cr>' },
-  { '<Leader>f', ':NeoTreeRevealToggle<cr>' },
+  -- { '<Leader>f', ':NeoTreeRevealToggle<cr>' },
 }, { noremap = true, silent = true })
 
 -- tmux integration

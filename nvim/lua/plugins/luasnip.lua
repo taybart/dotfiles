@@ -120,6 +120,14 @@ ls.add_snippets('go', {
   ),
   s('ife', fmt('if err != nil {{\n\treturn {}{}\n}}\n', { f(go_ret_vals), i(0) })),
 })
+ls.add_snippets('markdown', {
+  s(
+    'td',
+    fmt([[- [ ] {}]], {
+      i(1),
+    })
+  ),
+})
 
 require('utils/maps').group({ silent = true }, {
   { 'i', '<c-e>', "<cmd>lua require('luasnip').jump(1)<CR>" },
