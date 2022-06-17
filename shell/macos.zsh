@@ -1,3 +1,7 @@
+export HOMEBREW_NO_ENV_HINTS=true
+
+. $(brew --prefix asdf)/libexec/asdf.sh
+
 alias copy="pbcopy"
 alias grep="grep -RIns --color=auto --exclude=\"tags\""
 alias ls="ls -G -l -h"
@@ -8,6 +12,8 @@ alias ctags="$(brew --prefix)/bin/ctags"
 alias update="brew update && brew upgrade"
 alias install="brew install"
 alias d2u="sed -i '' -e 's/\r$//'"
+alias python="python3"
+
 
 function remove() {
   brew rm $1

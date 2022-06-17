@@ -18,6 +18,11 @@ function config {
   esac
 }
 
+function tunnel {
+  echo "forwarding $1..."
+  \ssh -o "ExitOnForwardFailure yes" -i ~/ssh_cp/ssh_cp/id_ed25519 -N -R 9000:localhost:$1 root@$TUNNEL 
+}
+
 # find and replace
 function far() {
   if [ $# -lt 2 ]; then
@@ -328,3 +333,4 @@ function gosb() {
     rm -rf $folder
   fi
 }
+

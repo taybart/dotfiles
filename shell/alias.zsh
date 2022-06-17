@@ -12,6 +12,8 @@ alias j="z"
 alias ct="certs"
 alias y="yarn"
 
+alias luamake=$HOME/.local/share/nvim/lua-language-server/3rd/luamake/luamake
+
 if [[ "$TERM" == "xterm-kitty" ]]; then
   alias ssh="kitty +kitten ssh"
 fi
@@ -20,8 +22,8 @@ fi
 alias gs="git status"
 alias gf="git fetch --all --tags"
 alias gcm="git commit -m"
-alias gcm="git commit -m"
-alias gdc="git diff --cached"
+alias gco="git checkout"
+alias gds="git diff --cached"
 alias gd="git diff --patience --ignore-space-change"
 # alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 
