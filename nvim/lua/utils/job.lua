@@ -21,7 +21,7 @@ function M.run(cmd, args, takeAll)
       args = args,
       on_exit = function(j, return_val)
         if return_val ~= 0 then
-          print('could not get remote url')
+          print('issue running command', vim.inspect(j.result), vim.inspect(return_val))
         end
         if takeAll then
           ret = j:result()

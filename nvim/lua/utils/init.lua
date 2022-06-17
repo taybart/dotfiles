@@ -36,10 +36,13 @@ local function gen_github_url(include_line)
   if include_line then
     url = url .. '#L' .. vim.api.nvim_win_get_cursor(0)[1]
   end
+  return url
 end
 
 vim.api.nvim_create_user_command('GH', function()
-  job.open({ gen_github_url() })
+  local x = gen_github_url()
+  print(x)
+  job.open({ x })
 end, {
   desc = 'Open file in GitHub',
 })
