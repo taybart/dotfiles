@@ -34,4 +34,18 @@ function M.run(cmd, args, takeAll)
   return ret
 end
 
+function M.open(args)
+  local opener = ''
+  if vim.fn.has('mac') == 1 then
+    opener = 'open'
+  elseif vim.fn.has('unix') then
+    opener = 'xdg-open'
+  else
+    print('unknown os')
+    return
+  end
+
+  require('utils/job').run(opener, args)
+end
+
 return M
