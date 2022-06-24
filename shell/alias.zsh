@@ -11,6 +11,7 @@ alias myip="curl https://taybart.com/ip"
 alias j="z"
 alias ct="certs"
 alias y="yarn"
+alias p="pnpm"
 
 alias luamake=$HOME/.local/share/nvim/lua-language-server/3rd/luamake/luamake
 
@@ -23,7 +24,7 @@ alias gs="git status"
 alias gf="git fetch --all --tags"
 alias gcm="git commit -m"
 alias gco="git checkout"
-alias gds="git diff --cached"
+alias gdc="git diff --cached"
 alias gd="git diff --patience --ignore-space-change"
 # alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
 
