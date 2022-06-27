@@ -18,6 +18,10 @@ function config {
   esac
 }
 
+function tab-title {
+  printf "\x1b]1;>$1\x1b\\"
+}
+
 function tunnel {
   echo "forwarding $1..."
   \ssh -o "ExitOnForwardFailure yes" -i ~/ssh_cp/ssh_cp/id_ed25519 -N -R 9000:localhost:$1 root@$TUNNEL 

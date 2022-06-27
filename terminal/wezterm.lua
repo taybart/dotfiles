@@ -18,6 +18,31 @@ local colors = {
 local SOLID_RIGHT_ARROW = utf8.char(0xe0b0) -- The  symbol
 local SOLID_LEFT_ARROW = utf8.char(0xe0b2) -- The  symbol
 
+-- nightly
+-- Sets the title of the active tab in the current window.
+-- This method is intended to be called from the debug overlay repl
+function set_tab_title(title)
+  -- The debug overlay defines a global `window` variable that is a Gui Window object; let's
+  -- access it via the special `_G` lua table that always references the global variables
+  local gui_window = _G.window
+  -- "Convert" the gui window into a mux window
+  local window = wezterm.mux.get_window(gui_window:window_id())
+  -- Locate the active tab
+  for _, tab_info in ipairs(window:tabs_with_info()) do
+    if tab_info.is_active then
+      -- Set the title and log something to indicate the changes that we made
+      tab_info.tab:set_title(title)
+      wezterm.log_info(
+        'Changed title for tab '
+          .. tostring(tab_info.tab:tab_id())
+          .. ' to '
+          .. tab_info.tab:get_title()
+      )
+      break
+    end
+  end
+end
+
 wezterm.on('update-right-status', function(window)
   local date = wezterm.strftime(' %Y/%m/%d %H:%M:%S ')
   local utc = wezterm.strftime_utc('[%H]')
@@ -34,12 +59,29 @@ wezterm.on('update-right-status', function(window)
   }))
 end)
 
-wezterm.on('format-tab-title', function(tab)
+wezterm.GLOBAL.tab_titles = {}
+wezterm.on('format-tab-title', function(tab, _, panes)
+  local tab_id = tostring(tab.tab_id)
+
+  if tab.is_active then
+    for _, pane in ipairs(panes) do
+      local pane_title = pane.title
+      if pane_title:sub(1, 1) == '>' then
+        local title = pane_title:sub(2)
+        local current_titles = wezterm.GLOBAL.tab_titles
+        current_titles[tab_id] = title
+        wezterm.GLOBAL.tab_titles = current_titles
+      end
+    end
+  end
+
+  local title = wezterm.GLOBAL.tab_titles[tab_id] or tab.active_pane.title
+
   if tab.is_active then
     local style = {
       { Background = { Color = colors.dark_blue } },
       { Foreground = { Color = colors.yellow } },
-      { Text = ' ' .. tab.active_pane.title .. ' ' },
+      { Text = ' ' .. title .. ' ' },
       { Background = { Color = colors.status_bg } },
       { Foreground = { Color = colors.dark_blue } },
       { Text = SOLID_RIGHT_ARROW },
@@ -52,13 +94,14 @@ wezterm.on('format-tab-title', function(tab)
     return style
   end
 
-  return '  ' .. tab.active_pane.title .. '  '
+  return '  ' .. title .. '  '
 end)
 
+-- lighten up background
 local gb_dark = wezterm.get_builtin_color_schemes()['Gruvbox Dark']
 gb_dark.background = colors.bg
-return {
 
+return {
   -- look
   color_schemes = {
     ['Gruvbox Dark'] = gb_dark,
@@ -88,7 +131,14 @@ return {
   window_padding = { left = 0, right = 0, top = 0, bottom = 0 },
 
   -- behavior
-  -- replace tmux
+  -- mux
+  default_gui_startup_args = { 'connect', 'unix' },
+  unix_domains = {
+    {
+      name = 'unix',
+    },
+  },
+  -- tmux bindings
   leader = { key = 'f', mods = 'CTRL' },
   keys = {
     { key = ':', mods = 'LEADER', action = 'ShowLauncher' },
