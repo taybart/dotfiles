@@ -8,7 +8,7 @@ function add_path() {
 add_path "/opt/homebrew/sbin:/opt/homebrew/bin"
 # go
 export GOPATH="$HOME/.go"
-add_path="$HOME/.go/bin"
+add_path "$GOPATH/bin"
 # rust
 add_path "$HOME/.cargo/bin"
 # deno

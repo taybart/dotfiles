@@ -1,7 +1,7 @@
 export DOTFILES="$HOME/.dotfiles"
 
 function sife() { [ -f $1 ] && source $1 }
-sife $DOTFILES/shell/path.zsh
+source $DOTFILES/shell/path.zsh
 
 
 if ! type "nvim" > /dev/null; then
