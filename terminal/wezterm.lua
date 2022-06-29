@@ -116,11 +116,12 @@ return {
       background = colors.status_bg,
       active_tab = { bg_color = colors.blue, fg_color = colors.yellow, intensity = 'Bold' },
       inactive_tab = { bg_color = colors.status_bg, fg_color = colors.white },
-      -- inactive_tab_hover = { bg_color = colors.white, fg_color = colors.bg },
+      inactive_tab_hover = { bg_color = colors.status_bg, fg_color = colors.white },
     },
   },
   tab_bar_style = {
     new_tab = '',
+    new_tab_hover = '',
   },
 
   -- window

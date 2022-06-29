@@ -13,7 +13,7 @@ function M.handle_data(data)
   return data
 end
 
-function M.run(cmd, args, takeAll)
+function M.run(cmd, args, opts)
   local ret
   require('plenary.job')
     :new({
@@ -21,16 +21,16 @@ function M.run(cmd, args, takeAll)
       args = args,
       on_exit = function(j, return_val)
         if return_val ~= 0 then
-          print('issue running command', vim.inspect(j.result), vim.inspect(return_val))
+          print('issue running command', vim.inspect(j.result()), vim.inspect(return_val))
         end
-        if takeAll then
+        if opts.return_all then
           ret = j:result()
         else
           ret = j:result()[1]
         end
       end,
     })
-    :sync()
+    :sync(opts.timeout)
   return ret
 end
 

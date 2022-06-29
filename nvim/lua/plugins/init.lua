@@ -215,7 +215,7 @@ return require('packer').startup({
     use({ 'tpope/vim-scriptease' })
 
     -- rest.vim
-    use({ 'taybart/rest.vim' })
+    -- use({ 'taybart/rest.vim' })
 
     -- b64.nvim
     use({ 'taybart/b64.nvim' })

@@ -7,6 +7,8 @@ local u = require('utils/maps')
 require('lsp/go')
 require('lsp/lua')
 require('lsp/matlab')
+require('lsp/arduino')
+require('lsp/rest')
 
 -- Set keymap if attached
 local on_attach = function()

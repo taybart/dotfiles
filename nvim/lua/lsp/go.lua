@@ -17,12 +17,12 @@ function go.add_tags(args)
     format = 'snakecase'
   end
 
-  local query = [[
-  ((type_declaration
-  (type_spec name:(type_identifier) @struct.name
-  type: (struct_type))) @struct.declaration)
-  (field_declaration name:(field_identifier) @definition.struct (struct_type))
-  ]]
+  local query = [[(
+  (type_declaration
+    (type_spec name:(type_identifier) @struct.name type: (struct_type))
+  ) @struct.declaration)
+  (field_declaration name:(field_identifier) @definition.struct (struct_type)
+  )]]
 
   local ns = require('utils/treesitter').nodes_at_cursor(query)
   if ns == nil then
@@ -44,7 +44,7 @@ function go.add_tags(args)
     '-transform',
     format,
     '--skip-unexported',
-  }, true)
+  }, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
     tagged.errors ~= nil
@@ -110,6 +110,11 @@ end
 require('utils').create_augroups({
   go_lsp = {
     {
+      event = 'BufWritePre',
+      pattern = '*.go',
+      callback = go.on_save,
+    },
+    {
       event = 'FileType',
       pattern = 'go',
       callback = function()
@@ -121,11 +126,6 @@ require('utils').create_augroups({
           vim.api.nvim_command('!go mod tidy')
         end, { nargs = '?' })
       end,
-    },
-    {
-      event = 'BufWritePre',
-      pattern = '*.go',
-      callback = go.on_save,
     },
   },
 })

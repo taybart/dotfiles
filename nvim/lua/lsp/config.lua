@@ -5,6 +5,17 @@ table.insert(runtime_path, 'lua/?/init.lua')
 local lcutil = require('lspconfig/util')
 
 return {
+  arduino_language_server = {
+    cmd = {
+      vim.fn.expand('$GOPATH/bin/arduino-language-server'),
+      '-cli-config',
+      vim.fn.expand('$HOME/.arduinoIDE/arduino-cli.yaml'),
+      '-cli',
+      'arduino-cli',
+      '-fqbn',
+      require('lsp/arduino').get_board(),
+    },
+  },
   clangd = {},
   gopls = {
     root_dir = lcutil.root_pattern('go.work', 'go.mod', '.git'),

@@ -60,6 +60,7 @@ M.get_all_nodes = function(query, lang, bufnr, pos_row)
     return vim.treesitter.parse_query(lang, query)
   end)
   if not success then
+    error('ts query parse failure')
     return nil
   end
 
@@ -112,7 +113,7 @@ M.nodes_at_cursor = function(query)
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   local nodes = M.get_all_nodes(query, ft, bufnr, row)
   if nodes == nil then
-    print('Unable to find any nodes.  Is your query correct?')
+    print('Unable to find any nodes. Is your query correct?')
     return nil
   end
 
