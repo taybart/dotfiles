@@ -12,6 +12,7 @@ alias j="z"
 alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
+alias btm="btm -b"
 
 alias luamake=$HOME/.local/share/nvim/lua-language-server/3rd/luamake/luamake
 
