@@ -14,6 +14,7 @@ function M.handle_data(data)
 end
 
 function M.run(cmd, args, opts)
+  opts = opts or {}
   local ret
   require('plenary.job')
     :new({

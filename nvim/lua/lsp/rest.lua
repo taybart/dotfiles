@@ -34,7 +34,6 @@ local function get_requests()
         block_num = block_num + 1
         local c_row = unpack(vim.api.nvim_win_get_cursor(0)) - 1
         local s_row, _, e_row, _ = ts_utils.get_node_range(node)
-        -- print(node:type(), s_row, e_row, c_row)
         if c_row >= s_row and c_row <= e_row then
           vim.cmd(rest_cmd .. ' -f % -b ' .. block_num)
           did_execute = true
