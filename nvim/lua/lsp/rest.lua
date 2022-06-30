@@ -7,20 +7,23 @@ local locals = require('nvim-treesitter.locals')
 
 local maps = require('utils/maps')
 
+local rest_cmd = '!rest -nc'
+local surrogate_language = 'hcl'
+
 local ft_to_parser = parsers.filetype_to_parsername
-ft_to_parser.rest = 'hcl'
+ft_to_parser.rest = surrogate_language
 
 local function get_requests()
   local query = [[(block (identifier) @requests (#eq? @requests "request")) @block]]
   local success, parsed_query = pcall(function()
-    return vim.treesitter.parse_query('hcl', query)
+    return vim.treesitter.parse_query(surrogate_language, query)
   end)
   if not success then
     error('ts query parse failure')
     return nil
   end
 
-  local parser = parsers.get_parser(0, 'hcl')
+  local parser = parsers.get_parser(0, surrogate_language)
   local root = parser:parse()[1]:root()
   local start_row, _, end_row, _ = root:range()
   local block_num = -1
@@ -33,7 +36,7 @@ local function get_requests()
         local s_row, _, e_row, _ = ts_utils.get_node_range(node)
         -- print(node:type(), s_row, e_row, c_row)
         if c_row >= s_row and c_row <= e_row then
-          vim.cmd('!rest -nc -f % -b ' .. block_num)
+          vim.cmd(rest_cmd .. ' -f % -b ' .. block_num)
           did_execute = true
           return
         end
@@ -58,18 +61,23 @@ require('utils').create_augroups({
       event = 'FileType',
       pattern = 'rest',
       callback = function()
-        vim.api.nvim_create_user_command('ExecuteBlock', M.execute_block, { nargs = '?' })
+        vim.api.nvim_create_user_command('Execute', M.execute_block, { nargs = '?' })
 
         maps.mode_group('n', {
-          { '<c-E>', ':!rest -nc -f %<cr>' },
-          { '<c-e>', ':ExecuteBlock<cr>' },
+          { '<c-E>', ':' .. rest_cmd .. ' -f %<cr>' },
+          { '<c-e>', ':Execute<cr>' },
         })
       end,
     },
   },
 })
 
-function M.execute_block()
+function M.execute_block(args)
+  local label = args.fargs[1]
+  if label ~= '' then
+    vim.cmd(rest_cmd .. [[ -f % -l ]] .. label)
+    return
+  end
   get_requests()
 end
 
