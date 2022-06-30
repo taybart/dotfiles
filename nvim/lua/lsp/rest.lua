@@ -24,6 +24,7 @@ local function get_requests()
   local root = parser:parse()[1]:root()
   local start_row, _, end_row, _ = root:range()
   local block_num = -1
+  local did_execute = false
   for match in ts_query.iter_prepared_matches(parsed_query, root, 0, start_row, end_row) do
     locals.recurse_local_nodes(match, function(_, node)
       if node:type() == 'block' then
@@ -32,15 +33,16 @@ local function get_requests()
         local s_row, _, e_row, _ = ts_utils.get_node_range(node)
         -- print(node:type(), s_row, e_row, c_row)
         if c_row >= s_row and c_row <= e_row then
-          print('exec block ' .. block_num)
           vim.cmd('!rest -nc -f % -b ' .. block_num)
+          did_execute = true
           return
         end
       end
     end)
   end
-
-  print('error: no block under cursor')
+  if not did_execute then
+    print('error: no block under cursor')
+  end
 end
 
 require('utils').create_augroups({
