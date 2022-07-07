@@ -18,6 +18,7 @@ local colors = {
 local SOLID_RIGHT_ARROW = utf8.char(0xe0b0) -- The  symbol
 local SOLID_LEFT_ARROW = utf8.char(0xe0b2) -- The  symbol
 
+--[===[
 -- nightly
 -- Sets the title of the active tab in the current window.
 -- This method is intended to be called from the debug overlay repl
@@ -42,6 +43,7 @@ function set_tab_title(title)
     end
   end
 end
+--]===]
 
 wezterm.on('update-right-status', function(window)
   local date = wezterm.strftime(' %Y/%m/%d %H:%M:%S ')
