@@ -60,11 +60,11 @@ require('utils').create_augroups({
       event = 'FileType',
       pattern = 'rest',
       callback = function()
-        vim.api.nvim_create_user_command('Execute', M.execute_block, { nargs = '?' })
+        vim.api.nvim_create_user_command('ExecuteBlock', M.execute_block, { nargs = '?' })
 
         maps.mode_group('n', {
           { '<c-E>', ':' .. rest_cmd .. ' -f %<cr>' },
-          { '<c-e>', ':Execute<cr>' },
+          { '<c-e>', ':ExecuteBlock<cr>' },
         })
       end,
     },

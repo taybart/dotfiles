@@ -1,3 +1,8 @@
+function is_installed() {
+  test $1 > /dev/null
+}
+
+
 # -- Aliases --
 alias q="exit"
 alias :q="exit"
@@ -12,7 +17,16 @@ alias j="z"
 alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
-alias btm="btm -b"
+
+if is_installed btm; then
+  alias btm="btm -b"
+  alias top="btm"
+fi
+
+if is_installed bat; then
+  alias bat="bat --map-syntax='*.rest:Terraform'"
+  alias cat="bat --pager never"
+fi
 
 alias luamake=$HOME/.local/share/nvim/lua-language-server/3rd/luamake/luamake
 
