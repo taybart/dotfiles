@@ -67,6 +67,14 @@ function go.run(args)
   vim.api.nvim_command('!go run ' .. file_name)
 end
 
+function go.test(args)
+  local file_name = args.fargs[1]
+  if file_name == '' then
+    file_name = '.'
+  end
+  vim.api.nvim_command('!LOG_PLAIN=true go test -count=1 -v ' .. file_name)
+end
+
 function go.add_build_tags(args)
   local tags = vim.tbl_flatten(args.fargs)
   local go_config = require('lsp/config').gopls
@@ -122,6 +130,7 @@ require('utils').create_augroups({
         vim.api.nvim_create_user_command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
         vim.api.nvim_create_user_command('StructTags', go.add_tags, { nargs = '*' })
         vim.api.nvim_create_user_command('Run', go.run, { nargs = '?' })
+        vim.api.nvim_create_user_command('Test', go.test, { nargs = '?' })
         vim.api.nvim_create_user_command('Tidy', function()
           vim.api.nvim_command('!go mod tidy')
         end, { nargs = '?' })
