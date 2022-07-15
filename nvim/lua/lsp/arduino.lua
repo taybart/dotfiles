@@ -4,6 +4,60 @@ local picker = require('utils/picker')
 local board = 'm5stack:esp32:m5stick-c-plus'
 local port = ''
 
+--[==[
+-- testing with nui
+local function pick_port()
+  local Menu = require('nui.menu')
+  local event = require('nui.utils.autocmd').event
+
+  local ports = job.run('arduino-cli', { 'board', 'list' }, { return_all = true })
+  table.remove(ports, 1) -- remove title
+  table.remove(ports, #ports) -- remove whitespace
+
+  local menu_items = {}
+  for i, p in ipairs(ports) do
+    menu_items[i] = Menu.item(p:match('%S+'))
+  end
+
+  local menu = Menu({
+    position = '50%',
+    size = {
+      width = 75,
+      height = 5,
+    },
+    border = {
+      style = 'single',
+      text = {
+        top = 'Select Port',
+        top_align = 'center',
+      },
+    },
+    win_options = {
+      winhighlight = 'Normal:Normal,FloatBorder:Normal',
+    },
+  }, {
+    lines = menu_items,
+    -- max_width = 20,
+    keymap = {
+      focus_next = { 'j', '<Down>', '<Tab>' },
+      focus_prev = { 'k', '<Up>', '<S-Tab>' },
+      close = { '<Esc>', '<C-c>' },
+      submit = { '<CR>', '<Space>' },
+    },
+    on_submit = function(item)
+      print('selected', item.text)
+      port = item.text
+    end,
+  })
+
+  -- mount the component
+  menu:mount()
+
+  -- close menu when cursor leaves buffer
+  menu:on(event.BufLeave, menu.menu_props.on_close, { once = true })
+end
+--]==]
+
 local function set_board()
   local boards = job.run('arduino-cli', { 'board', 'listall' }, { return_all = true })
   table.remove(boards, 1) -- remove title
@@ -28,34 +82,32 @@ local function set_port()
   end)
 end
 
+local function compile()
+  if board == '' then
+    print('no board selected run :SetBoard first')
+    return
+  end
+  vim.cmd('!arduino-cli --no-color compile -b ' .. board)
+end
+
+local function upload()
+  if port == '' then
+    print('no device/port selected run :SetPort first')
+    return
+  end
+  vim.cmd('!arduino-cli --no-color upload -p ' .. port .. ' -b ' .. board)
+end
+
 require('utils').create_augroups({
   arduino_lsp = {
     {
       event = 'FileType',
       pattern = 'arduino',
       callback = function()
-        vim.api.nvim_create_user_command('Compile', function()
-          if board == '' then
-            print('no board selected run SetBoard first')
-            return
-          end
-          job.run('arduino-cli', { 'compile', '-b', board }, { timeout = 60000 })
-          print('compiled for ' .. board)
-        end, {})
+        vim.api.nvim_create_user_command('Compile', compile, {})
         vim.api.nvim_create_user_command('Upload', function()
-          if port == '' then
-            print('no port selected run SetPort first')
-            return
-          end
-          if board == '' then
-            print('no board selected run SetBoard first')
-            return
-          end
-
-          job.run('arduino-cli', { 'compile', '-b', board }, { timeout = 120000 })
-          print('compiled for ' .. board)
-          job.run('arduino-cli', { 'upload', '-p', port, '-b', board }, { timeout = 300000 })
-          print('upload complete to' .. port)
+          compile()
+          upload()
         end, {})
         vim.api.nvim_create_user_command('SetBoard', set_board, {})
         vim.api.nvim_create_user_command('SetPort', set_port, {})
