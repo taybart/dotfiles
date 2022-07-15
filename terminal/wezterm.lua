@@ -82,16 +82,18 @@ wezterm.on('format-tab-title', function(tab, _, panes)
   if tab.is_active then
     local style = {
       { Background = { Color = colors.dark_blue } },
+      { Foreground = { Color = colors.status_bg } },
+      { Text = SOLID_RIGHT_ARROW },
+      { Background = { Color = colors.dark_blue } },
       { Foreground = { Color = colors.yellow } },
       { Text = ' ' .. title .. ' ' },
       { Background = { Color = colors.status_bg } },
       { Foreground = { Color = colors.dark_blue } },
       { Text = SOLID_RIGHT_ARROW },
     }
-    if tab.tab_index ~= 0 then
-      table.insert(style, 1, { Background = { Color = colors.dark_blue } })
-      table.insert(style, 2, { Foreground = { Color = colors.status_bg } })
-      table.insert(style, 3, { Text = SOLID_RIGHT_ARROW })
+    -- no arrow on first tab
+    if tab.tab_index == 0 then
+      style[3] = { Text = ' ' }
     end
     return style
   end
