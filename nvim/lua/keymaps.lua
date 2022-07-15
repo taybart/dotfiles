@@ -108,7 +108,7 @@ map.vnoremap('<Tab>', '=')
 
 -- Get rid of the fucking stupid OCD whitespace
 -- Get rid of the fucking stupid <200b>
-map.nnoremap('<leader>w<cr>', ':%s/\\s\\+$//<cr>:w<cr>:noh<cr>:%s/\\%u200b//g<cr>:noh<cr>')
+map.nnoremap('<leader>w<cr>', ':silent! %s/\\s\\+$//<cr>:silent! %s/\\%u200b//g<cr>:w<cr>:noh<cr>')
 
 -- highlight pasted text
 map.nnoremap('gp', '`[v`]')
