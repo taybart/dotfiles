@@ -42,6 +42,7 @@ alias gco="git checkout"
 alias gdc="git diff --cached"
 alias gd="git diff --patience --ignore-space-change"
 # alias gitclean="git branch --merged master | \grep -v master | xargs -n 1 git branch -d"
+alias GH="gh repo view --web"
 
 # K8s Aliases
 # alias kc="kubectl"

@@ -44,6 +44,7 @@ function sife() { [ -f $1 ] && source $1 }
 
 sife $DOTFILES/shell/alias.zsh
 sife $DOTFILES/shell/functions.zsh
+sife $DOTFILES/shell/pms.zsh
 sife $DOTFILES/shell/op.zsh
 
 bindkey '^E' autosuggest-accept
@@ -69,3 +70,10 @@ sife $HOME/.zshrc.local
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+
+# bun completions
+[ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
+
+# Bun
+export BUN_INSTALL="/Users/taylor/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
