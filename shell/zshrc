@@ -22,40 +22,39 @@ if ! type "antibody" > /dev/null; then
   $DOTFILES/shell/get_antibody.sh -b $HOME/.local/bin
 fi
 
+# ohmyzsh/ohmyzsh
+# ohmyzsh/ohmyzsh path:plugins/z
+# ohmyzsh/ohmyzsh path:plugins/fzf
+# ohmyzsh/ohmyzsh path:plugins/sudo
+# ohmyzsh/ohmyzsh path:plugins/docker
+# ohmyzsh/ohmyzsh path:plugins/docker-compose
+# ohmyzsh/ohmyzsh path:plugins/kubectl
 source <(antibody init)
 antibody bundle <<BUNDLE
-ohmyzsh/ohmyzsh
-ohmyzsh/ohmyzsh path:plugins/z
-ohmyzsh/ohmyzsh path:plugins/fzf
-ohmyzsh/ohmyzsh path:plugins/sudo
-ohmyzsh/ohmyzsh path:plugins/docker
-ohmyzsh/ohmyzsh path:plugins/docker-compose
-ohmyzsh/ohmyzsh path:plugins/kubectl
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-completions
 BUNDLE
 
-# theme
-source $DOTFILES/shell/zsh-prompt.zsh-theme
+# # theme
+# source $DOTFILES/shell/zsh-prompt.zsh-theme
 
 # source if exists
 function sife() { [ -f $1 ] && source $1 }
 
+sife $DOTFILES/shell/z.sh
 sife $DOTFILES/shell/alias.zsh
 sife $DOTFILES/shell/functions.zsh
 sife $DOTFILES/shell/pms.zsh
 sife $DOTFILES/shell/op.zsh
 
+# keybinds
 bindkey '^E' autosuggest-accept
 bindkey '^ ' forward-word
-
-unalias z 2> /dev/null
-z() {
-  [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
-}
-
+bindkey '^[[1;5C' forward-word                    # ctrl + ->
+bindkey '^[[1;5D' backward-word                   # ctrl + <-
+bindkey '^[[1;3C' forward-word                    # alt + ->
+bindkey '^[[1;3D' backward-word                   # alt + <-
 
 # Disable command auto-correction.
 export ENABLE_CORRECTION=false
@@ -63,17 +62,12 @@ export DISABLE_AUTO_TITLE=true
 
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
-[ -f /usr/local/bin/mc ] && complete -o nospace -C /usr/local/bin/mc mc
 
-# -- Sources --
+if type starship >> /dev/null; then
+  eval `starship init zsh`
+else
+  echo 'starship missing'
+fi
+
+# -- overrides --
 sife $HOME/.zshrc.local
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-
-# bun completions
-[ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
-
-# Bun
-export BUN_INSTALL="/Users/taylor/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"

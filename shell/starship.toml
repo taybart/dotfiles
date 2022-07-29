@@ -1,0 +1,41 @@
+format = """$hostname $directory $git_branch$git_status$character"""
+
+add_newline = false
+
+right_format = "$cmd_duration$status"
+
+
+[character]
+success_symbol = "[»](bold green)"
+error_symbol = "[»](red)"
+
+
+[hostname]
+ssh_only = false
+format = "[$hostname]($style)"
+
+[directory]
+truncation_length = 2
+style = 'bold blue'
+format = '[$path]($style)[$read_only]($read_only_style)'
+
+[git_branch]
+format = '[$branch(:$remote_branch)]($style)'
+style = 'yellow'
+
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style) "
+style = "cyan"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[status]
+disabled = false
+style = "red"
+format = "[$status ↵]($style)"

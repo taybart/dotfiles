@@ -1,5 +1,6 @@
 function is_installed() {
-  test $1 > /dev/null
+  type $1 > /dev/null
+  return $?
 }
 
 
@@ -13,10 +14,18 @@ alias lzd="lazydocker"
 alias python=python3
 alias venv="python3 -m venv .venv && . ./.venv/bin/activate"
 alias myip="curl https://taybart.com/ip"
-alias j="z"
 alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
+
+# jump around
+alias j="z"
+unalias z 2> /dev/null
+z() {
+  [ $# -gt 0 ] && _z "$*" && return
+  cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}
+
 
 if is_installed btm; then
   alias btm="btm -b"

@@ -302,8 +302,14 @@ function sb() {
   elif [[ $1 == "wapp" ]]; then
   else
     go mod init sandbox
-    echo "package main\n\nfunc main() {\n}" > main.go
-    nvim -c 'exe "normal jj"' main.go
+    echo "package main\n" > main.go
+    echo "import (\"fmt\"\n\"os\")" >> main.go
+    echo "func main() {" >> main.go
+    echo "if err := run(); err != nil{" >> main.go
+    echo "fmt.Println(err)\nos.Exit(1)}}" >> main.go
+    echo "func run() error {\nreturn nil\n}" >> main.go
+    go fmt main.go
+    nvim -c 'exe "15"' main.go
   fi
 
   cd $ret
@@ -316,25 +322,3 @@ function sb() {
     rm -rf $folder
   fi
 }
-
-function gosb() {
-  echo "[WARN] deprecated, use sb instead"
-  ret=$(pwd)
-  r=$(head -c 8 /dev/random | base64 | tr -d '/')
-  folder=~/.tmp/sandbox_$r
-  mkdir -p $folder
-  cd $folder
-  go mod init sandbox
-  echo "package main\n\nfunc main() {\n}" > main.go
-  nvim -c 'exe "normal jj"' main.go
-  cd $ret
-  read "keep?Keep sandbox? [y/N] "
-  if [[ "$keep" =~ ^[Yy]$ ]]; then
-    read "name?Name: "
-    mkdir -p ~/dev/sandboxes
-    mv $folder ~/dev/sandboxes/$name
-  else
-    rm -rf $folder
-  fi
-}
-
