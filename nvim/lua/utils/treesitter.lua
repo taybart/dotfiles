@@ -83,8 +83,7 @@ M.get_all_nodes = function(query, lang, bufnr, pos_row)
       --
       -- may not handle complex node
       if op == 'name' then
-        -- ulog("node name " .. name)
-        name = ts_utils.get_node_text(node, bufnr)[1]
+        name = vim.treesitter.query.get_node_text(node, bufnr)
       elseif op == 'declaration' or op == 'clause' then
         declaration_node = node
         sRow, sCol, eRow, eCol = node:range()

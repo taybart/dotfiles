@@ -7,16 +7,7 @@ function go.install_deps()
   job.run('go', { 'install', 'github.com/jstemmer/gotags@latest' })
 end
 
-function go.add_tags(args)
-  local tag_types = args.fargs[1]
-  if not tag_types or tag_types == '' then
-    tag_types = 'json'
-  end
-  local format = args.fargs[2]
-  if not format or format == '' then
-    format = 'snakecase'
-  end
-
+function go.get_struct_name()
   local query = [[(
   (type_declaration
     (type_spec name:(type_identifier) @struct.name type: (struct_type))
@@ -28,9 +19,21 @@ function go.add_tags(args)
   if ns == nil then
     error('struct not found')
   end
+  return ns[#ns].name
+end
 
-  local struct_name = ns[#ns].name
-  local data = job.run('gomodifytags', {
+function go.add_tags(args)
+  local tag_types = args.fargs[1]
+  if not tag_types or tag_types == '' then
+    tag_types = 'json'
+  end
+  local format = args.fargs[2]
+  if not format or format == '' then
+    format = 'snakecase'
+  end
+
+  local struct_name = go.get_struct_name()
+  local job_args = {
     '-format',
     'json',
     '-file',
@@ -39,12 +42,45 @@ function go.add_tags(args)
     struct_name,
     '-add-tags',
     tag_types,
-    '-add-options',
-    tag_types .. '=omitempty',
+    -- '-add-options',
+    -- tag_types .. '=omitempty',
     '-transform',
     format,
     '--skip-unexported',
-  }, { return_all = true })
+  }
+  if tag_types == 'json' then
+    table.insert(job_args, '-add-options')
+    table.insert(job_args, tag_types .. '=omitempty')
+  end
+
+  local data = job.run('gomodifytags', job_args, { return_all = true })
+  local tagged = vim.fn.json_decode(data)
+  if
+    tagged.errors ~= nil
+    or tagged.lines == nil
+    or tagged['start'] == nil
+    or tagged['start'] == 0
+  then
+    print('failed to set tags' .. vim.inspect(tagged))
+    return
+  end
+  vim.api.nvim_buf_set_lines(0, tagged['start'] - 1, tagged['end'], false, tagged.lines)
+  vim.cmd('write')
+end
+
+function go.clear_tags()
+  local struct_name = go.get_struct_name()
+  local job_args = {
+    '-format',
+    'json',
+    '-file',
+    vim.fn.expand('%'),
+    '-struct',
+    struct_name,
+    '-clear-tags',
+  }
+
+  local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
     tagged.errors ~= nil
@@ -129,6 +165,7 @@ require('utils').create_augroups({
         vim.api.nvim_create_user_command('BuildTags', go.set_build_tags, { nargs = '+' })
         vim.api.nvim_create_user_command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
         vim.api.nvim_create_user_command('StructTags', go.add_tags, { nargs = '*' })
+        vim.api.nvim_create_user_command('ClearStructTags', go.clear_tags, {})
         vim.api.nvim_create_user_command('Run', go.run, { nargs = '?' })
         vim.api.nvim_create_user_command('Test', go.test, { nargs = '?' })
         vim.api.nvim_create_user_command('Tidy', function()
