@@ -29,12 +29,12 @@ fi
 # ohmyzsh/ohmyzsh path:plugins/docker
 # ohmyzsh/ohmyzsh path:plugins/docker-compose
 # ohmyzsh/ohmyzsh path:plugins/kubectl
-source <(antibody init)
-antibody bundle <<BUNDLE
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-completions
-BUNDLE
+# source <(antibody init)
+# antibody bundle <<BUNDLE
+# zsh-users/zsh-autosuggestions
+# zsh-users/zsh-syntax-highlighting
+# zsh-users/zsh-completions
+# BUNDLE
 
 # # theme
 # source $DOTFILES/shell/zsh-prompt.zsh-theme
@@ -42,14 +42,18 @@ BUNDLE
 # source if exists
 function sife() { [ -f $1 ] && source $1 }
 
-sife $DOTFILES/shell/z.sh
+# sife $DOTFILES/shell/plugins/vi-mode.plugin.zsh
+# sife $DOTFILES/shell/plugins/z.sh
 sife $DOTFILES/shell/alias.zsh
 sife $DOTFILES/shell/functions.zsh
 sife $DOTFILES/shell/pms.zsh
 sife $DOTFILES/shell/op.zsh
+sife $DOTFILES/shell/plugins/plugins.zsh
 
 # keybinds
 bindkey '^E' autosuggest-accept
+bindkey '^P' up-history
+bindkey '^N' down-history
 bindkey '^ ' forward-word
 bindkey '^[[1;5C' forward-word                    # ctrl + ->
 bindkey '^[[1;5D' backward-word                   # ctrl + <-
