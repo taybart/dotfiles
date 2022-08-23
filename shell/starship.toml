@@ -1,4 +1,4 @@
-format = """$hostname $directory $git_branch$git_status$character"""
+format = """$python$hostname $directory $git_branch$git_status$character"""
 
 add_newline = false
 
@@ -39,3 +39,6 @@ stashed = "≡"
 disabled = false
 style = "red"
 format = "[$status ↵]($style)"
+
+[python]
+format = '[(\($virtualenv\) )]($style)'

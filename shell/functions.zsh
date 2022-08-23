@@ -124,7 +124,8 @@ function kp {
 
   if [ "x$pid" != "x" ]; then
     echo $pid | xargs kill -${1:-9}
-    kp
+    echo "killed $pid"
+    # kp
   fi
 }
 
@@ -144,7 +145,7 @@ function usingport {
   fi
 }
 
-function copyrand() {
+function copyrand() { 
   charset='a-zA-Z0-9~!@#$%^&*_-'
   size=32
 
@@ -166,7 +167,7 @@ function copyrand() {
   if [ $charset = '__base64__' ]; then
     head -c $size /dev/urandom | base64 | copy
   else
-    head /dev/urandom | tr -dc "$charset" | fold -w $size | head -n 1 | tr -d '\n' | copy
+    head /dev/urandom | LC_CTYPE=C LANG=C tr -dc "$charset" | fold -w $size | head -n 1 | tr -d '\n' | copy
   fi
 }
 

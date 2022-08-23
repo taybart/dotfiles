@@ -1,3 +1,7 @@
+# fix for starship
+# export LANG="en_US.UTF-8"
+# export LC_ALL="en_US.UTF-8"
+
 export DOTFILES="$HOME/.dotfiles"
 
 function sife() { [ -f $1 ] && source $1 }
@@ -67,11 +71,12 @@ export DISABLE_AUTO_TITLE=true
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
-if type starship >> /dev/null; then
-  eval `starship init zsh`
-else
-  echo 'starship missing'
+if ! type starship >> /dev/null; then
+  echo 'installing starship'
+  curl -sS https://starship.rs/install.sh | sh
 fi
+
+eval $(starship init zsh)
 
 # -- overrides --
 sife $HOME/.zshrc.local

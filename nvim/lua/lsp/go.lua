@@ -23,13 +23,13 @@ function go.get_struct_name()
 end
 
 function go.add_tags(args)
-  local tag_types = args.fargs[1]
-  if not tag_types or tag_types == '' then
-    tag_types = 'json'
-  end
-  local format = args.fargs[2]
+  local format = args.fargs[1]
   if not format or format == '' then
     format = 'snakecase'
+  end
+  local tag_types = args.fargs[2]
+  if not tag_types or tag_types == '' then
+    tag_types = 'json'
   end
 
   local struct_name = go.get_struct_name()

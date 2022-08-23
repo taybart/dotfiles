@@ -24,6 +24,14 @@ return require('packer').startup({
     ---------- Probation ------------
     ---------------------------------
 
+    -- use({
+    --   'IndianBoy42/tree-sitter-just',
+    --   config = function()
+    --     require('tree-sitter-just').setup({})
+    --     require('Comment.ft').set('just', '#%s')
+    --   end,
+    -- })
+
     use({
       'ggandor/leap.nvim',
       config = function()
