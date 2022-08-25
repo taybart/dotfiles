@@ -40,7 +40,7 @@ fi
 alias luamake=$HOME/.local/share/nvim/lua-language-server/3rd/luamake/luamake
 
 if [[ "$TERM" == "xterm-kitty" ]]; then
-  alias ssh="kitty +kitten ssh"
+  alias ssh="TERM=xterm-256color ssh"
 fi
 
 # Git Aliases

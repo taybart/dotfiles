@@ -126,7 +126,8 @@ function go.add_build_tags(args)
 end
 
 function go.set_build_tags(args)
-  local tags = vim.tbl_flatten(args.fargs)
+  -- local tags = vim.tbl_flatten(args.fargs[1])
+  local tags = args.fargs[1]
   local go_config = require('lsp/config').gopls
 
   go_config.settings.gopls.buildFlags = { '-tags=' .. tags }
