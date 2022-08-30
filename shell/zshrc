@@ -22,9 +22,9 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 
 # -- Plugins --
-if ! type "antibody" > /dev/null; then
-  $DOTFILES/shell/get_antibody.sh -b $HOME/.local/bin
-fi
+# if ! type "antibody" > /dev/null; then
+#   $DOTFILES/shell/get_antibody.sh -b $HOME/.local/bin
+# fi
 
 # ohmyzsh/ohmyzsh
 # ohmyzsh/ohmyzsh path:plugins/z
