@@ -1,4 +1,5 @@
-format = """$python$hostname $directory $git_branch$git_status$character"""
+# format = """$python$hostname $directory $git_branch$git_status$character"""
+format = """$python$hostname$directory$git_branch$character"""
 
 add_newline = false
 
@@ -12,22 +13,21 @@ error_symbol = "[»](red)"
 
 [hostname]
 ssh_only = false
-format = "[$hostname]($style)"
+format = "[$hostname]($style) "
 
 [directory]
 truncation_length = 2
 style = 'bold blue'
-format = '[$path]($style)[$read_only]($read_only_style)'
+format = '[$path]($style)[$read_only]($read_only_style) '
 
 [git_branch]
-format = '[$branch(:$remote_branch)]($style)'
+format = '[$branch(:$remote_branch)]($style) '
 style = 'yellow'
-
 
 [git_status]
 ignore_submodules = true
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style) "
-style = "cyan"
+format = '[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed)]($style) '
+style = 'cyan'
 conflicted = "​"
 untracked = "​"
 modified = "​"
@@ -38,8 +38,8 @@ stashed = "≡"
 
 [status]
 disabled = false
-style = "red"
-format = "[$status ↵]($style)"
+style = 'red'
+format = '[$status ↵]($style)'
 
 [python]
 format = '[(\($virtualenv\) )]($style)'

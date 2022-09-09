@@ -204,11 +204,11 @@ nnoremap <Leader>h :bprevious<CR>
 nnoremap <Leader>d :bp <BAR> bd #<CR>
 
 " tmux integration
-nnoremap <silent> <c-m> :TmuxNavigateDown<CR>
-nnoremap <silent> <c-u> :TmuxNavigateUp<CR>
-nnoremap <silent> <c-l> :TmuxNavigateRight<CR>
-nnoremap <silent> <c-h> :TmuxNavigateLeft<CR>
-nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
+nnoremap <silent> <c-f><down> :TmuxNavigateDown<CR>
+nnoremap <silent> <c-f><up> :TmuxNavigateUp<CR>
+nnoremap <silent> <c-f><right> :TmuxNavigateRight<CR>
+nnoremap <silent> <c-f><left> :TmuxNavigateLeft<CR>
+" nnoremap <silent> <C-;> :TmuxNavigatePrevious<cr>
 
 " Move text
 nnoremap ∆ :m .+1<CR>==
