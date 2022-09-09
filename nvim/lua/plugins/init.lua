@@ -32,10 +32,19 @@ return require('packer').startup({
     --   end,
     -- })
 
+    -- uses 1/3wk
     use({
       'ggandor/leap.nvim',
       config = function()
         require('leap').set_default_keymaps()
+      end,
+    })
+
+    -- function context
+    use({
+      'nvim-treesitter/nvim-treesitter-context',
+      config = function()
+        require('treesitter-context').setup()
       end,
     })
 
@@ -144,7 +153,7 @@ return require('packer').startup({
             -- sh
             null_ls.builtins.code_actions.shellcheck,
             -- python
-            null_ls.builtins.formatting.black,
+            -- null_ls.builtins.formatting.black,
             null_ls.builtins.diagnostics.mypy,
           },
           root_dir = require('lspconfig.util').root_pattern(
