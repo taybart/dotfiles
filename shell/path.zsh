@@ -14,5 +14,6 @@ add_path "$HOME/.cargo/bin"
 # deno
 add_path "$HOME/.deno/bin"
 # python
+add_path "$HOME/.asdf/installs/python/$(asdf current python | awk '{print $2}')/bin/"
 add_path "$HOME/.poetry/bin:.venv/bin"
 

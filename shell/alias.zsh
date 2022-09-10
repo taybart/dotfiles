@@ -11,7 +11,7 @@ alias zshrc="nvim ~/.zshrc && . ~/.zshrc"
 alias redis="docker run -p 6379:6379 redis"
 alias dev="ENV=development"
 alias lzd="lazydocker"
-alias python=python3
+# alias python=python3
 alias venv="python3 -m venv .venv && . ./.venv/bin/activate"
 alias myip="curl https://taybart.com/ip"
 alias ct="certs"
