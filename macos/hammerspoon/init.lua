@@ -1,23 +1,18 @@
-hs.loadSpoon('EmmyLua')
-
--- local SkyRocket = hs.loadSpoon("SkyRocket")
--- SkyRocket:new({
---   noClick = true,
---   moveModifiers = {'cmd', 'ctrl'},
---   resizeModifiers = {'alt', 'ctrl'},
--- })
+-- hs.loadSpoon('EmmyLua')
 
 hs.hotkey.bind({ 'cmd', 'alt', 'ctrl' }, 'a', function()
-  local success = hs.audiodevice.findOutputByName('TAPs'):setDefaultOutputDevice()
+  local source = 'taps'
+  local success = hs.audiodevice.findOutputByName(source):setDefaultOutputDevice()
   if not success then
     hs.alert.show('could not set output device')
     return
   end
-  success = hs.audiodevice.findInputByName('TAPs'):setDefaultInputDevice()
+  success = hs.audiodevice.findInputByName(source):setDefaultInputDevice()
   if not success then
     hs.alert.show('could not set input device')
+    return
   end
-  hs.alert.show('switched to airpods')
+  hs.alert.show('switched to output to ' .. source)
 end)
 
 -- require('middleclick')
@@ -38,6 +33,7 @@ local function reload_config(files)
     hs.reload()
   end
 end
+
 hs.pathwatcher.new(os.getenv('HOME') .. '/.hammerspoon/', reload_config):start()
 
 hs.alert.show('Config loaded')
