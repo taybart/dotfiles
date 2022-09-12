@@ -142,6 +142,8 @@ return {
       name = 'unix',
     },
   },
+  enable_tab_bar = false,
+  --[===[
   -- tmux bindings
   leader = { key = 'f', mods = 'CTRL' },
   keys = {
@@ -198,4 +200,5 @@ return {
     { key = '{', mods = 'LEADER', action = action({ RotatePanes = 'Clockwise' }) },
     { key = '}', mods = 'LEADER', action = action({ RotatePanes = 'CounterClockwise' }) },
   },
+  --]===]
 }
