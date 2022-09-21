@@ -27,6 +27,11 @@ function tunnel {
   \ssh -o "ExitOnForwardFailure yes" -N -R 9000:localhost:$1 root@$TUNNEL 
 }
 
+function rundocker() {
+  # TODO: take volume/ports
+  docker run --rm "$@" $(docker build -q .)
+}
+
 # find and replace
 function far() {
   if [ $# -lt 2 ]; then

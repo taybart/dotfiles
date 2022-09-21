@@ -17,6 +17,7 @@ alias myip="curl https://taybart.com/ip"
 alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
+alias tf="terraform"
 
 # jump around
 alias j="z"
@@ -46,6 +47,7 @@ fi
 # Git Aliases
 alias gs="git status"
 alias gf="git fetch --all --tags"
+alias gap="git add -p"
 alias gcm="git commit -m"
 alias gco="git checkout"
 alias gdc="git diff --cached"

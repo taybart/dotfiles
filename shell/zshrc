@@ -1,14 +1,17 @@
-# fix for starship
-# export LANG="en_US.UTF-8"
-# export LC_ALL="en_US.UTF-8"
-
 export DOTFILES="$HOME/.dotfiles"
 
+# source if exists
 function sife() { [ -f $1 ] && source $1 }
-source $DOTFILES/shell/path.zsh
+
+sife $DOTFILES/shell/path.zsh
+sife $DOTFILES/shell/alias.zsh
+sife $DOTFILES/shell/functions.zsh
+sife $DOTFILES/shell/pms.zsh
+sife $DOTFILES/shell/op.zsh
+sife $DOTFILES/shell/plugins/plugins.zsh
 
 
-if ! type "nvim" > /dev/null; then
+if ! type nvim > /dev/null; then
   export EDITOR=vim
   export MANPAGER="sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu' \
     -c 'nnoremap i <nop>' \
@@ -21,43 +24,8 @@ fi
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 
-# -- Plugins --
-# if ! type "antibody" > /dev/null; then
-#   $DOTFILES/shell/get_antibody.sh -b $HOME/.local/bin
-# fi
-
-# ohmyzsh/ohmyzsh
-# ohmyzsh/ohmyzsh path:plugins/z
-# ohmyzsh/ohmyzsh path:plugins/fzf
-# ohmyzsh/ohmyzsh path:plugins/sudo
-# ohmyzsh/ohmyzsh path:plugins/docker
-# ohmyzsh/ohmyzsh path:plugins/docker-compose
-# ohmyzsh/ohmyzsh path:plugins/kubectl
-# source <(antibody init)
-# antibody bundle <<BUNDLE
-# zsh-users/zsh-autosuggestions
-# zsh-users/zsh-syntax-highlighting
-# zsh-users/zsh-completions
-# BUNDLE
-
-# # theme
-# source $DOTFILES/shell/zsh-prompt.zsh-theme
-
-# source if exists
-function sife() { [ -f $1 ] && source $1 }
-
-# sife $DOTFILES/shell/plugins/vi-mode.plugin.zsh
-# sife $DOTFILES/shell/plugins/z.sh
-sife $DOTFILES/shell/alias.zsh
-sife $DOTFILES/shell/functions.zsh
-sife $DOTFILES/shell/pms.zsh
-sife $DOTFILES/shell/op.zsh
-sife $DOTFILES/shell/plugins/plugins.zsh
-
 # keybinds
-bindkey '^E' autosuggest-accept
-bindkey '^P' up-history
-bindkey '^N' down-history
+bindkey -v
 bindkey '^ ' forward-word
 bindkey '^[[1;5C' forward-word                    # ctrl + ->
 bindkey '^[[1;5D' backward-word                   # ctrl + <-
@@ -65,12 +33,20 @@ bindkey '^[[1;3C' forward-word                    # alt + ->
 bindkey '^[[1;3D' backward-word                   # alt + <-
 
 # Disable command auto-correction.
-export ENABLE_CORRECTION=false
-export DISABLE_AUTO_TITLE=true
+unsetopt correct
 
-autoload -U +X compinit && compinit
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=$HISTSIZE
+
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu select
+autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
+
+# -- overrides --
+sife $HOME/.zshrc.local
 
 if ! type starship >> /dev/null; then
   echo 'installing starship'
@@ -78,6 +54,3 @@ if ! type starship >> /dev/null; then
 fi
 
 eval $(starship init zsh)
-
-# -- overrides --
-sife $HOME/.zshrc.local
