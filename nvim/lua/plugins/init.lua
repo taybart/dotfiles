@@ -144,7 +144,10 @@ return require('packer').startup({
           sources = {
             -- lua
             null_ls.builtins.formatting.stylua.with({
-              extra_args = { '--config-path', vim.fn.expand('~/.dotfiles/nvim/stylua.toml') },
+              extra_args = {
+                '--config-path',
+                vim.fn.expand('~/.dotfiles/nvim/stylua.toml', nil, nil),
+              },
             }),
             -- javascript
             null_ls.builtins.formatting.prettier.with({
@@ -310,7 +313,7 @@ return require('packer').startup({
             max_name_length = 30,
             show_close_icon = false,
             show_buffer_close_icons = false,
-            right_mouse_command = nil,
+            right_mouse_command = '',
             middle_mouse_command = 'bdelete! %d',
           },
         })

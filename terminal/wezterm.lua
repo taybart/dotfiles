@@ -1,5 +1,5 @@
 local wezterm = require('wezterm')
-local action = wezterm.action
+-- local action = wezterm.action
 
 local colors = {
   -- status_bg = '#071317',
@@ -18,11 +18,11 @@ local colors = {
 local SOLID_RIGHT_ARROW = utf8.char(0xe0b0) -- The  symbol
 local SOLID_LEFT_ARROW = utf8.char(0xe0b2) -- The  symbol
 
---[===[
+--[==[
 -- nightly
 -- Sets the title of the active tab in the current window.
 -- This method is intended to be called from the debug overlay repl
-function set_tab_title(title)
+local function set_tab_title(title)
   -- The debug overlay defines a global `window` variable that is a Gui Window object; let's
   -- access it via the special `_G` lua table that always references the global variables
   local gui_window = _G.window
@@ -43,7 +43,12 @@ function set_tab_title(title)
     end
   end
 end
---]===]
+
+wezterm.on('custom-event', function()
+  print('test')
+  set_tab_title('ooo')
+end)
+--]==]
 
 wezterm.on('update-right-status', function(window)
   local date = wezterm.strftime(' %Y/%m/%d %H:%M:%S ')
@@ -143,9 +148,9 @@ return {
     },
   },
   enable_tab_bar = false,
-  --[===[
-  -- tmux bindings
-  leader = { key = 'f', mods = 'CTRL' },
+  --[=[
+  -- tmux-bindings
+  leader = { key = 'b', mods = 'CTRL' },
   keys = {
     { key = ':', mods = 'LEADER', action = 'ShowLauncher' },
     {
@@ -195,10 +200,15 @@ return {
       mods = 'LEADER',
       action = action({ CloseCurrentPane = { confirm = true } }),
     },
+    {
+      key = 'r',
+      mods = 'LEADER',
+      action = action.EmitEvent('custom-event'),
+    },
     { key = 'z', mods = 'LEADER', action = 'TogglePaneZoomState' },
     { key = '[', mods = 'LEADER', action = 'ActivateCopyMode' },
     { key = '{', mods = 'LEADER', action = action({ RotatePanes = 'Clockwise' }) },
     { key = '}', mods = 'LEADER', action = action({ RotatePanes = 'CounterClockwise' }) },
   },
-  --]===]
+  --]=]
 }
