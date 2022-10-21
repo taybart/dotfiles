@@ -35,31 +35,29 @@ return {
   pylsp = {},
   terraformls = {},
   ocamllsp = {},
-  sumneko_lua = require('lua-dev').setup({
-    lspconfig = {
-      cmd = { vim.fn.stdpath('data') .. '/lua-language-server/bin/lua-language-server' },
-      settings = {
-        Lua = {
-          runtime = {
-            version = 'LuaJIT',
-            path = runtime_path,
-          },
-          telemetry = {
-            enable = false,
-          },
-          diagnostics = {
-            globals = { 'vim', 'hs', 'utf8' },
-          },
-          workspace = {
-            library = vim.api.nvim_get_runtime_file('', true),
-            --{
+  sumneko_lua = {
+    -- cmd = { vim.fn.stdpath('data') .. '/lua-language-server/bin/lua-language-server' },
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT',
+          path = runtime_path,
+        },
+        telemetry = {
+          enable = false,
+        },
+        diagnostics = {
+          globals = { 'vim', 'hs', 'utf8' },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file('', true),
+          {
 
-            --   ['/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'] = true,
-            --   [vim.fn.expand('$HOME/.hammerspoon/Spoons/EmmyLua.spoon/annotations')] = true,
-            -- },
+            ['/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'] = true,
+            [vim.fn.expand('$HOME/.hammerspoon/Spoons/EmmyLua.spoon/annotations')] = true,
           },
         },
       },
     },
-  }),
+  },
 }

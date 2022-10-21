@@ -56,7 +56,8 @@ function go.add_tags(args)
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged.errors ~= nil
+    tagged == nil
+    or tagged.errors ~= nil
     or tagged.lines == nil
     or tagged['start'] == nil
     or tagged['start'] == 0
@@ -83,7 +84,8 @@ function go.clear_tags()
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged.errors ~= nil
+    tagged == nil
+    or tagged.errors ~= nil
     or tagged.lines == nil
     or tagged['start'] == nil
     or tagged['start'] == 0
@@ -97,7 +99,7 @@ end
 
 function go.run(args)
   local file_name = args.fargs[1]
-  if file_name == '' then
+  if file_name == '' or file_name == nil then
     file_name = '.'
   end
   vim.api.nvim_command('!go run ' .. file_name)
@@ -149,7 +151,7 @@ function go.on_save()
       end
     end
   end
-  vim.lsp.buf.formatting_sync()
+  vim.lsp.buf.format()
 end
 
 require('utils').create_augroups({

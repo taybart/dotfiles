@@ -24,14 +24,6 @@ return require('packer').startup({
     ---------- Probation ------------
     ---------------------------------
 
-    -- use({
-    --   'IndianBoy42/tree-sitter-just',
-    --   config = function()
-    --     require('tree-sitter-just').setup({})
-    --     require('Comment.ft').set('just', '#%s')
-    --   end,
-    -- })
-
     -- uses 1/3wk
     use({
       'ggandor/leap.nvim',
@@ -146,7 +138,7 @@ return require('packer').startup({
             null_ls.builtins.formatting.stylua.with({
               extra_args = {
                 '--config-path',
-                vim.fn.expand('~/.dotfiles/nvim/stylua.toml', nil, nil),
+                vim.fn.expand('~/.dotfiles/nvim/stylua.toml'),
               },
             }),
             -- javascript
@@ -360,7 +352,12 @@ return require('packer').startup({
     -----------------------------
     --------- Extras ------------
     -----------------------------
-    use({ 'folke/lua-dev.nvim' })
+    use({
+      'folke/neodev.nvim',
+      config = function()
+        require('neodev').setup({})
+      end,
+    })
 
     use({ 'tweekmonster/startuptime.vim', cmd = { 'StartupTime' } })
 
