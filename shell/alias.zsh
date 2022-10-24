@@ -52,7 +52,7 @@ alias gcm="git commit -m"
 alias gco="git checkout"
 alias gdc="git diff --cached"
 alias gd="git diff --patience --ignore-space-change"
-alias GH="gh repo view --web"
+alias GH="gh repo view --web -b $(git branch --show-current)"
 
 # K8s Aliases
 # alias kc="kubectl"
