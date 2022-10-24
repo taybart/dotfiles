@@ -9,6 +9,7 @@ require('lsp/lua')
 require('lsp/matlab')
 require('lsp/arduino')
 require('lsp/rest')
+require('lsp/rust')
 
 -- Set keymap if attached
 local on_attach = function()
@@ -29,11 +30,11 @@ local on_attach = function()
     pattern = '*',
     callback = function()
       if vim.bo.filetype ~= 'go' then
-        vim.lsp.buf.formatting_seq_sync()
+        vim.lsp.buf.format()
       end
     end,
   })
-  vim.api.nvim_create_user_command('Format', vim.lsp.buf.formatting_seq_sync, {})
+  vim.api.nvim_create_user_command('Format', vim.lsp.buf.format, {})
 end
 
 local function make_base_config()

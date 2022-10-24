@@ -305,7 +305,10 @@ function sb() {
     echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.js", "license": "UNLICENSED","scripts":{"start":"node ."}}' > package.json
     touch index.js
     nvim index.js
-  elif [[ $1 == "wapp" ]]; then
+  elif [[ $1 == "rust" ]]; then
+    cargo new sandbox
+    cd sandbox
+    nvim src/main.rs
   else
     go mod init sandbox
     echo "package main\n" > main.go
@@ -321,7 +324,9 @@ function sb() {
   cd $ret
   read "keep?Keep sandbox? [y/N] "
   if [[ "$keep" =~ ^[Yy]$ ]]; then
-    read "name?Name: "
+    while [ "$name" = "" ] ; do
+      read "name?Name: "
+    done
     mkdir -p ~/dev/sandboxes
     mv $folder ~/dev/sandboxes/$name
   else
