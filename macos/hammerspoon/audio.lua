@@ -1,5 +1,5 @@
 hs.hotkey.bind({ 'cmd', 'alt', 'ctrl' }, 'a', function()
-  local source = 'taps'
+  local source = 'TAPs'
   local output = hs.audiodevice.findOutputByName(source)
   if output == nil then
     hs.alert.show('could not find output device')
