@@ -28,8 +28,11 @@ end
 
 local function gen_github_url(include_line)
   local buf_name = vim.api.nvim_buf_get_name(0)
+  -- if [No Name] open the main page
+  local blob_tree = (buf_name == '') and '/tree/' or '/blob/'
+
   local url = job.run('git', { 'config', '--get', 'remote.origin.url' })
-    .. '/blob/'
+    .. blob_tree
     .. job.run('git', { 'branch', '--show-current' })
     .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }):gsub('%p', '%%%1'), '')
 

@@ -14,7 +14,7 @@ require('lsp/rust')
 -- Set keymap if attached
 local on_attach = function()
   u.mode_group('n', {
-    { 'gD', ':lua vim.lsp.buf.declaration()<CR>' },
+    { 'gD', ':lua vim.lsp.buf.type_definition()<CR>' },
     { 'gd', ':lua vim.lsp.buf.definition()<CR>' },
     { 'gi', ':lua vim.lsp.buf.implementation()<CR>' },
     { 'K', ':lua vim.lsp.buf.hover()<CR>' },
