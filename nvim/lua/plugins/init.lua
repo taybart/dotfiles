@@ -72,6 +72,11 @@ return require('packer').startup({
           enable_diagnostics = false,
           enable_git_status = false,
           hijack_netrw_behavior = 'open_default',
+          window = {
+            mappings = {
+              ['<esc>'] = 'close_window',
+            },
+          },
           default_component_configs = {
             icon = {
               default = '',

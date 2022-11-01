@@ -103,8 +103,10 @@ map.mode_group('i', {
 map.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 
 -- Emacs indent
-map.nnoremap('<Tab>', '==')
-map.vnoremap('<Tab>', '=')
+-- map.nnoremap('<Tab>', '==')
+-- map.vnoremap('<Tab>', '=')
+-- -- mapping tab maps c-i?? #20126
+-- map.nnoremap('<c-i>', '<c-i>')
 
 -- Get rid of the fucking stupid OCD whitespace
 -- Get rid of the fucking stupid <200b>
