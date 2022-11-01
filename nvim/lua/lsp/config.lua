@@ -4,6 +4,25 @@ table.insert(runtime_path, 'lua/?/init.lua')
 
 local lcutil = require('lspconfig/util')
 
+local function filter(arr, fn)
+  if type(arr) ~= 'table' then
+    return arr
+  end
+
+  local filtered = {}
+  for k, v in pairs(arr) do
+    if fn(v, k, arr) then
+      table.insert(filtered, v)
+    end
+  end
+
+  return filtered
+end
+
+local function filterReactDTS(value)
+  return string.match(value.targetUri, 'react/index.d.ts') == nil
+end
+
 return {
   arduino_language_server = {
     cmd = {
@@ -31,16 +50,16 @@ return {
   },
   rust_analyzer = {},
   tsserver = {
-    -- https://github.com/samhh/dotfiles/blob/8d1261e06a94f93d232657f63194325c0c4277ba/headful/cfg/nvim/plugin/lsp.lua
-    -- Patch to solve goto definition in React opening quickfix:
-    --   - https://github.com/neovim/neovim/issues/14556
-    --   - https://github.com/typescript-language-server/typescript-language-server/issues/216
-    --   - https://github.com/microsoft/TypeScript/issues/37816
+    -- https://github.com/typescript-language-server/typescript-language-server/issues/216
     handlers = {
-      ['textDocument/definition'] = function(err, xs, ...)
-        if xs ~= nil then
-          vim.lsp.handlers['textDocument/definition'](err, xs[1], ...)
+      ['textDocument/definition'] = function(err, result, method, ...)
+        if vim.tbl_islist(result) then
+          if #result > 1 then
+            local filtered = filter(result, filterReactDTS)
+            return vim.lsp.handlers['textDocument/definition'](err, filtered, method, ...)
+          end
         end
+        vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
       end,
     },
   },
