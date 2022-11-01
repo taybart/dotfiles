@@ -24,7 +24,8 @@ function tab-title {
 
 function tunnel {
   echo "forwarding $1..."
-  \ssh -o "ExitOnForwardFailure yes" -N -R 9000:localhost:$1 root@$TUNNEL 
+  \ssh root@$TUNNEL 'pkill -o -u root sshd'
+  \ssh -o "ExitOnForwardFailure yes" -N -R 9000:localhost:$1 root@$TUNNEL
 }
 
 function rundocker() {
@@ -150,7 +151,7 @@ function usingport {
   fi
 }
 
-function copyrand() { 
+function copyrand() {
   charset='a-zA-Z0-9~!@#$%^&*_-'
   size=32
 
