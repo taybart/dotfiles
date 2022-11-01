@@ -30,7 +30,20 @@ return {
     },
   },
   rust_analyzer = {},
-  tsserver = {},
+  tsserver = {
+    -- https://github.com/samhh/dotfiles/blob/8d1261e06a94f93d232657f63194325c0c4277ba/headful/cfg/nvim/plugin/lsp.lua
+    -- Patch to solve goto definition in React opening quickfix:
+    --   - https://github.com/neovim/neovim/issues/14556
+    --   - https://github.com/typescript-language-server/typescript-language-server/issues/216
+    --   - https://github.com/microsoft/TypeScript/issues/37816
+    handlers = {
+      ['textDocument/definition'] = function(err, xs, ...)
+        if xs ~= nil then
+          vim.lsp.handlers['textDocument/definition'](err, xs[1], ...)
+        end
+      end,
+    },
+  },
   svelte = {},
   pylsp = {},
   terraformls = {},
