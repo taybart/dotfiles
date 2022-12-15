@@ -151,15 +151,14 @@ map.group({ noremap = true }, {
   {
     'n',
     -- Live grep
-    { '<c-s>', ':lua require("telescope.builtin").live_grep()<cr>' },
+    -- { '<c-s>', ':lua require("telescope.builtin").live_grep()<cr>' },
+    { '<c-s>', ':lua require("telescope").extensions.live_grep_args.live_grep_args()<cr>' },
     -- Search under cursor
     { 'g<c-s>', ':lua require("plugins/telescope").search_cword()<cr>' },
     -- Find files
     { '<c-p>', ':lua require("telescope.builtin").find_files()<cr>' },
     -- Find open buffers
     { '<c-b>', ':lua require("telescope.builtin").buffers()<cr>' },
-    -- Find code actions
-    -- { '<c-c>', ':lua require("telescope.builtin").lsp_code_actions()<cr>' },
   },
   {
     'v',

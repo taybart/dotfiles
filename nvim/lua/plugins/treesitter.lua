@@ -81,6 +81,7 @@ function M.setup_textobjects()
           ['if'] = '@function.inner',
           ['ac'] = '@class.outer',
           ['ic'] = '@class.inner',
+          ['uc'] = '@comment.outer',
         },
       },
     },

@@ -35,7 +35,10 @@ return {
       require('lsp/arduino').get_board(),
     },
   },
-  clangd = {},
+  clangd = {
+    -- remove "proto" for now since i use protobuf more
+    filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+  },
   gopls = {
     root_dir = lcutil.root_pattern('go.work', 'go.mod', '.git'),
     settings = {
@@ -49,6 +52,7 @@ return {
     },
   },
   rust_analyzer = {},
+  astro = {},
   tsserver = {
     -- https://github.com/typescript-language-server/typescript-language-server/issues/216
     handlers = {

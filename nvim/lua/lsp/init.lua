@@ -6,13 +6,14 @@ local u = require('utils/maps')
 
 require('lsp/go')
 require('lsp/lua')
+require('lsp/python')
 require('lsp/matlab')
 require('lsp/arduino')
 require('lsp/rest')
 require('lsp/rust')
 
 -- Set keymap if attached
-local on_attach = function()
+M.on_attach = function()
   u.mode_group('n', {
     { 'gD', ':lua vim.lsp.buf.type_definition()<CR>' },
     { 'gd', ':lua vim.lsp.buf.definition()<CR>' },
@@ -35,12 +36,13 @@ local on_attach = function()
     end,
   })
   vim.api.nvim_create_user_command('Format', vim.lsp.buf.format, {})
+  vim.api.nvim_create_user_command('Issues', vim.diagnostic.setqflist, {})
 end
 
 local function make_base_config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-  return { capabilities = capabilities, on_attach = on_attach }
+  return { capabilities = capabilities, on_attach = M.on_attach }
 end
 
 -- LSP Setup
@@ -87,6 +89,11 @@ vim.api.nvim_create_user_command('Rename', function(args)
       nil,
       { lookahead = lookahead }
     )
+
+    if not bufnr then
+      print('unknown bufnr')
+      return
+    end
 
     if to then
       local r = {}

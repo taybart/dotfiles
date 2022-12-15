@@ -23,20 +23,61 @@ return require('packer').startup({
     ---------------------------------
     ---------- Probation ------------
     ---------------------------------
-
-    -- uses 1/3wk
     use({
-      'ggandor/leap.nvim',
+      'eandrju/cellular-automaton.nvim',
+      -- config = function()
+      --   vim.keymap.set(
+      --     'n',
+      --     '<leader>fml',
+      --     '<cmd>set nowrap<CR><cmd>CellularAutomaton make_it_rain<CR>'
+      --   )
+      -- end,
+    })
+    -- Visualize lsp progress
+    use({
+      'j-hui/fidget.nvim',
       config = function()
-        require('leap').set_default_keymaps()
+        require('fidget').setup()
       end,
     })
 
-    -- function context
+    use({ 'nvim-telescope/telescope-live-grep-args.nvim' })
     use({
-      'nvim-treesitter/nvim-treesitter-context',
+      'simrat39/rust-tools.nvim',
       config = function()
-        require('treesitter-context').setup()
+        local opts = {
+          tools = {
+            runnables = {
+              use_telescope = true,
+            },
+            inlay_hints = {
+              auto = true,
+              show_parameter_hints = false,
+              parameter_hints_prefix = '',
+              other_hints_prefix = '',
+            },
+          },
+
+          -- all the opts to send to nvim-lspconfig
+          -- these override the defaults set by rust-tools.nvim
+          -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+          server = {
+            -- on_attach is a callback called when the language server attachs to the buffer
+            on_attach = require('lsp').on_attach,
+            settings = {
+              -- to enable rust-analyzer settings visit:
+              -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+              ['rust-analyzer'] = {
+                -- enable clippy on save
+                checkOnSave = {
+                  command = 'clippy',
+                },
+              },
+            },
+          },
+        }
+
+        require('rust-tools').setup(opts)
       end,
     })
 
@@ -154,7 +195,7 @@ return require('packer').startup({
             null_ls.builtins.code_actions.shellcheck,
             -- python
             -- null_ls.builtins.formatting.black,
-            null_ls.builtins.diagnostics.mypy,
+            -- null_ls.builtins.diagnostics.mypy,
           },
           root_dir = require('lspconfig.util').root_pattern(
             '.null-ls-root',
@@ -194,7 +235,10 @@ return require('packer').startup({
       'numToStr/Comment.nvim',
       requires = { { 'JoosepAlviste/nvim-ts-context-commentstring' } },
       config = function()
-        require('plugins/comment').configure()
+        require('Comment').setup({
+          ignore = '^$',
+          pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+        })
       end,
     })
 
@@ -248,14 +292,6 @@ return require('packer').startup({
     -- nice indicators for fF/tT
     use({ 'unblevable/quick-scope' })
 
-    -- treesitter text objects
-    use({
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      config = function()
-        require('plugins/treesitter').setup_textobjects()
-      end,
-    })
-
     -- git gutter
     use({
       'lewis6991/gitsigns.nvim',
@@ -268,23 +304,13 @@ return require('packer').startup({
           },
         })
         require('utils/maps').mode_group('n', {
+          { 'gb', "'<cmd>Gitsigns toggle_current_line_blame<CR>'" },
           { ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'" },
           { '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'" },
         }, { expr = true })
       end,
     })
 
-    -- treesitter commentstring
-    use({
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      config = function()
-        require('nvim-treesitter.configs').setup({
-          context_commentstring = {
-            enable = true,
-          },
-        })
-      end,
-    })
     -----------------------------
     --------- Looks -------------
     -----------------------------
@@ -295,6 +321,33 @@ return require('packer').startup({
       run = ':TSUpdate',
       config = function()
         require('plugins/treesitter').configure()
+      end,
+    })
+
+    -- treesitter text objects
+    use({
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      config = function()
+        require('plugins/treesitter').setup_textobjects()
+      end,
+    })
+
+    -- function context
+    use({
+      'nvim-treesitter/nvim-treesitter-context',
+      config = function()
+        require('treesitter-context').setup()
+      end,
+    })
+    -- treesitter commentstring
+    use({
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      config = function()
+        require('nvim-treesitter.configs').setup({
+          context_commentstring = {
+            enable = true,
+          },
+        })
       end,
     })
 
@@ -343,14 +396,6 @@ return require('packer').startup({
       end,
     })
 
-    use({
-      'norcalli/nvim-colorizer.lua',
-      opt = true,
-      config = function()
-        require('colorizer').setup()
-      end,
-    })
-
     -- colorscheme
     use({ 'gruvbox-community/gruvbox' })
 
@@ -365,17 +410,6 @@ return require('packer').startup({
     })
 
     use({ 'tweekmonster/startuptime.vim', cmd = { 'StartupTime' } })
-
-    -- -- neorg
-    -- use({
-    -- 	'nvim-neorg/neorg',
-    -- 	-- ft = 'norg',
-    -- 	after = { 'nvim-treesitter' },
-    -- 	config = function()
-    -- 		require('plugins/norg').setup()
-    -- 	end,
-    -- 	requires = { 'nvim-lua/plenary.nvim', 'hrsh7th/nvim-cmp' },
-    -- })
 
     -- cool treesitter debugger
     use({

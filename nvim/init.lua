@@ -36,6 +36,7 @@ vim.opt.softtabstop = 2
 
 -- allow mouse scrolling
 vim.opt.mouse = 'a'
+vim.opt.mousemodel = 'extend'
 
 -- show incomplete commands (like substitute)
 -- vim.opt.inccommand='nosplit' -- now default!
