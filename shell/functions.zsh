@@ -307,8 +307,7 @@ function sb() {
     touch index.js
     nvim index.js
   elif [[ $1 == "rust" ]]; then
-    cargo new sandbox
-    cd sandbox
+    cargo init --name sandbox .
     nvim src/main.rs
   else
     go mod init sandbox

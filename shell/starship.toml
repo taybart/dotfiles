@@ -1,4 +1,4 @@
-# format = """$python$hostname$directory$git_branch$git_status$character"""
+# format = """$hostname$directory$git_branch$git_status$character"""
 # format = """$python$hostname$directory$git_branch $character"""
 format = """$hostname$directory$git_branch $character"""
 
@@ -10,6 +10,8 @@ right_format = "$cmd_duration$status"
 [character]
 success_symbol = "[»](bold green)"
 error_symbol = "[»](red)"
+vimcmd_symbol = "[](bold green)"
+# vimcmd_symbol = "[«](bold green)"
 
 
 [hostname]
