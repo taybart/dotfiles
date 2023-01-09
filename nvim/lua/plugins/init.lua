@@ -9,75 +9,61 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command('packadd packer.nvim')
 end
 
-vim.cmd([[
-augroup packer_user_config
-  autocmd!
-  autocmd BufWritePost */lua/plugins/init.lua source <afile> | PackerCompile
-augroup end
-]])
+require('utils/augroup').create_augroups({
+  packer_user_config = {
+    {
+      event = 'BufWritePre',
+      pattern = '*/lua/plugins/init.lua',
+      command = 'source <afile> | silent! LspStop | silent! LspStart | PackerCompile',
+    },
+  },
+})
 
 return require('packer').startup({
   function(use)
     use({ 'wbthomason/packer.nvim' })
+    use({
+      'williamboman/mason.nvim',
+      config = function()
+        require('mason').setup({
+          ui = {
+            keymaps = {
+              apply_language_filter = '<C-g>',
+            },
+          },
+        })
+      end,
+    })
 
     ---------------------------------
     ---------- Probation ------------
     ---------------------------------
+    use({ 'mfussenegger/nvim-dap' })
+
+    use({ 'pest-parser/pest.vim' })
+
     use({
-      'eandrju/cellular-automaton.nvim',
-      -- config = function()
-      --   vim.keymap.set(
-      --     'n',
-      --     '<leader>fml',
-      --     '<cmd>set nowrap<CR><cmd>CellularAutomaton make_it_rain<CR>'
-      --   )
-      -- end,
-    })
-    -- Visualize lsp progress
-    use({
-      'j-hui/fidget.nvim',
+      'phaazon/mind.nvim',
+      branch = 'v2.2',
+      requires = { 'nvim-lua/plenary.nvim' },
       config = function()
-        require('fidget').setup()
+        require('mind').setup({})
       end,
     })
 
-    use({ 'nvim-telescope/telescope-live-grep-args.nvim' })
+    use({ 'eandrju/cellular-automaton.nvim' })
+
     use({
-      'simrat39/rust-tools.nvim',
+      'jiaoshijie/undotree',
+      requires = { 'nvim-lua/plenary.nvim' },
       config = function()
-        local opts = {
-          tools = {
-            runnables = {
-              use_telescope = true,
-            },
-            inlay_hints = {
-              auto = true,
-              show_parameter_hints = false,
-              parameter_hints_prefix = '',
-              other_hints_prefix = '',
-            },
-          },
-
-          -- all the opts to send to nvim-lspconfig
-          -- these override the defaults set by rust-tools.nvim
-          -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-          server = {
-            -- on_attach is a callback called when the language server attachs to the buffer
-            on_attach = require('lsp').on_attach,
-            settings = {
-              -- to enable rust-analyzer settings visit:
-              -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-              ['rust-analyzer'] = {
-                -- enable clippy on save
-                checkOnSave = {
-                  command = 'clippy',
-                },
-              },
-            },
-          },
-        }
-
-        require('rust-tools').setup(opts)
+        require('undotree').setup()
+        vim.keymap.set(
+          'n',
+          '<leader>u',
+          require('undotree').toggle,
+          { noremap = true, silent = true }
+        )
       end,
     })
 
@@ -88,11 +74,13 @@ return require('packer').startup({
     ----------
     -- find --
     ----------
+
     use({
       'nvim-telescope/telescope.nvim',
       requires = {
         { 'nvim-lua/popup.nvim' },
         { 'nvim-lua/plenary.nvim' },
+        { 'nvim-telescope/telescope-live-grep-args.nvim' },
       },
       config = function()
         require('plugins/telescope').configure()
@@ -163,6 +151,19 @@ return require('packer').startup({
           ctagsbin = 'gotags',
           ctagsargs = '-sort -silent',
         }
+        vim.g.tagbar_type_rust = {
+          ctagstype = 'rust',
+          kinds = {
+            'T:types',
+            'f:functions',
+            'g:enumerations',
+            's:structures',
+            'm:modules',
+            'c:constants',
+            't:traits',
+            'i:trait implementations',
+          },
+        }
       end,
     })
 
@@ -170,7 +171,54 @@ return require('packer').startup({
     -- edit --
     ----------
     -- lsp
-    use({ 'neovim/nvim-lspconfig' })
+    use({
+      'neovim/nvim-lspconfig',
+      requires = {
+        { -- Visualize lsp progress
+          'j-hui/fidget.nvim',
+          config = function()
+            require('fidget').setup()
+          end,
+        },
+      },
+      config = function()
+        require('lsp')
+      end,
+    })
+
+    use({
+      'simrat39/rust-tools.nvim',
+      config = function()
+        local opts = {
+          tools = {
+            runnables = {
+              use_telescope = true,
+            },
+            inlay_hints = {
+              auto = true,
+              show_parameter_hints = false,
+              parameter_hints_prefix = '',
+              other_hints_prefix = '',
+            },
+          },
+
+          server = {
+            on_attach = require('lsp').on_attach,
+            settings = {
+              ['rust-analyzer'] = {
+                -- enable clippy on save
+                checkOnSave = {
+                  command = 'clippy',
+                },
+              },
+            },
+          },
+        }
+
+        require('rust-tools').setup(opts)
+      end,
+    })
+
     use({
       'jose-elias-alvarez/null-ls.nvim',
       requires = {
@@ -197,7 +245,7 @@ return require('packer').startup({
             -- null_ls.builtins.formatting.black,
             -- null_ls.builtins.diagnostics.mypy,
           },
-          root_dir = require('lspconfig.util').root_pattern(
+          root_dir = require('lspconfig/util').root_pattern(
             '.null-ls-root',
             'Makefile',
             '.git',

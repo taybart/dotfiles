@@ -8,6 +8,7 @@ function M.create_augroups(definitions)
         group = group_name,
         pattern = au.pattern,
         callback = au.callback,
+        command = au.command,
       })
     end
   end

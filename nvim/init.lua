@@ -67,7 +67,6 @@ vim.opt.smartcase = true
 require('plugins')
 require('looks')
 require('keymaps')
-require('lsp')
 
 if vim.fn.has('mac') then
   vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags'

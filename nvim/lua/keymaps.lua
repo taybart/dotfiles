@@ -20,6 +20,9 @@ map.mode_group('n', {
   { '<leader>sv', ':lua require("utils").reload_vim()<cr>' },
 })
 
+-- paste without losing clipboard buffer
+vim.keymap.set('x', '<leader>p', '"_dP')
+
 -- help vertical
 map.mode_group('c', {
   { 'vh', 'vert bo h ' },

@@ -18,6 +18,7 @@ M.on_attach = function()
     { 'gD', ':lua vim.lsp.buf.type_definition()<CR>' },
     { 'gd', ':lua vim.lsp.buf.definition()<CR>' },
     { 'gi', ':lua vim.lsp.buf.implementation()<CR>' },
+    { 'gr', ':lua vim.lsp.buf.references()<CR>' },
     { 'K', ':lua vim.lsp.buf.hover()<CR>' },
     { '[d', ':lua vim.diagnostic.goto_next()<CR>' },
     { ']d', ':lua vim.diagnostic.goto_prev()<CR>' },
@@ -73,14 +74,16 @@ vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' 
 vim.api.nvim_create_user_command('Rename', function(args)
   local new_name = args.fargs[1]
   if not new_name then
-    new_name = vim.fn.input('to -> ')
+    new_name = vim.fn.input({ prompt = 'to -> ' })
   end
 
+  -- use lsp if available
   if vim.lsp.buf.server_ready() then
-    local position_params = vim.lsp.util.make_position_params()
+    local position_params = vim.lsp.util.make_position_params(nil, 'utf-8')
     position_params.newName = new_name
     vim.lsp.buf_request(0, 'textDocument/rename', position_params)
   else
+    -- otherwise
     local orig = vim.fn.expand('<cword>')
     local lookahead = require('nvim-treesitter.configs').get_module('textobjects.select').lookahead
     local bufnr, to = require('nvim-treesitter.textobjects.shared').textobject_at_point(
