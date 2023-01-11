@@ -64,8 +64,7 @@ vim.opt.smartcase = true
 
 -- vim.g.c_syntax_for_h=1
 
--- require('plugins')
-require('plugins/lazy')
+require('plugins')
 require('looks')
 require('keymaps')
 
