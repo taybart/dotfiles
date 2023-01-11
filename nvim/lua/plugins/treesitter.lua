@@ -1,47 +1,16 @@
 local M = {}
 
 -- treesitter
-function M.configure()
-  local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-  -- installation broken on macos
-  if not vim.fn.has('mac') then
-    parser_configs.norg = {
-      install_info = {
-        url = 'https://github.com/nvim-neorg/tree-sitter-norg',
-        files = { 'src/parser.c', 'src/scanner.cc' },
-        branch = 'main',
-      },
-    }
-
-    parser_configs.norg_meta = {
-      install_info = {
-        url = 'https://github.com/nvim-neorg/tree-sitter-norg-meta',
-        files = { 'src/parser.c' },
-        branch = 'main',
-      },
-    }
-
-    parser_configs.norg_table = {
-      install_info = {
-        url = 'https://github.com/nvim-neorg/tree-sitter-norg-table',
-        files = { 'src/parser.c' },
-        branch = 'main',
-      },
-    }
-  end
-
+function M.setup()
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     ignore_install = { 'phpdoc' },
     highlight = {
       enable = true,
     },
-  })
-end
-
--- treesitter/textobjects
-function M.setup_textobjects()
-  require('nvim-treesitter.configs').setup({
+    context_commentstring = {
+      enable = true,
+    },
     textobjects = {
       swap = {
         enable = true,
@@ -85,11 +54,6 @@ function M.setup_textobjects()
         },
       },
     },
-  })
-end
-
-function M.setup_playground()
-  require('nvim-treesitter.configs').setup({
     playground = {
       enable = true,
       disable = {},

@@ -79,7 +79,7 @@ local function stopinsert(callback)
 end
 
 local lga_actions = require('telescope-live-grep-args.actions')
-function M.configure()
+function M.setup()
   require('telescope').setup({
     defaults = {
       prompt_prefix = '   ',

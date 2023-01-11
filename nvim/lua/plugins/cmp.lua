@@ -1,6 +1,5 @@
-local M = {}
-
-function M.configure()
+return {
+setup = function()
   vim.cmd([[
     hi CmpItemKind guifg=#928374
     hi CmpItemMenu guifg=#d5c4a1
@@ -28,30 +27,6 @@ function M.configure()
         require('luasnip').lsp_expand(args.body)
       end,
     },
-    -- sorting = {
-    -- 	comparators = {
-    -- 		compare.offset,
-    -- 		compare.exact,
-    -- 		compare.score,
-    -- 		compare.length,
-    -- 		compare.kind,
-    -- 		compare.sort_text,
-    -- 		compare.order,
-    -- 	},
-    -- },
-    -- formatting = {
-    -- 	format = function(entry, vim_item)
-    -- 		vim_item.menu = ({
-    -- 			calc = '[calc]',
-    -- 			path = '[path]',
-    -- 			luasnip = '[snippet]',
-    -- 			buffer = '[buffer]',
-    -- 			nvim_lsp = '[lsp]',
-    -- 			nvim_lua = '[lua]',
-    -- 		})[entry.source.name]
-    -- 		return vim_item
-    -- 	end,
-    -- },
   })
-end
-return M
+end,
+}

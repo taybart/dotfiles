@@ -83,7 +83,7 @@ return require('packer').startup({
         { 'nvim-telescope/telescope-live-grep-args.nvim' },
       },
       config = function()
-        require('plugins/telescope').configure()
+        require('plugins/telescope').setup()
       end,
     })
 
@@ -268,7 +268,7 @@ return require('packer').startup({
         { 'hrsh7th/cmp-emoji' },
       },
       config = function()
-        require('plugins/cmp').configure()
+        require('plugins/cmp').setup()
       end,
     })
 
@@ -368,7 +368,7 @@ return require('packer').startup({
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
       config = function()
-        require('plugins/treesitter').configure()
+        require('plugins/treesitter').setup()
       end,
     })
 
