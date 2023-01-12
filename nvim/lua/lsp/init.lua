@@ -1,27 +1,35 @@
 local M = {}
 
-local lspconfig = require('lspconfig')
+-- LSP Setup
+function M.setup()
+  -- language specific stuff
+  require('lsp/go')
+  require('lsp/lua')
+  require('lsp/python')
+  require('lsp/matlab')
+  require('lsp/arduino')
+  require('lsp/rest')
+  require('lsp/rust')
 
-local u = require('utils/maps')
-
-require('lsp/go')
-require('lsp/lua')
-require('lsp/python')
-require('lsp/matlab')
-require('lsp/arduino')
-require('lsp/rest')
-require('lsp/rust')
+  -- lsp configs
+  local lspconfig = require('lspconfig')
+  local configs = require('lsp/config')
+  for lsp, lsp_config in pairs(configs) do
+    local config = vim.tbl_deep_extend('force', M.make_base_config(), lsp_config)
+    lspconfig[lsp].setup(config)
+  end
+end
 
 -- Set keymap if attached
 M.on_attach = function()
-  u.mode_group('n', {
+  require('utils/maps').mode_group('n', {
     { 'gD', ':lua vim.lsp.buf.type_definition()<CR>' },
     { 'gd', ':lua vim.lsp.buf.definition()<CR>' },
     { 'gi', ':lua vim.lsp.buf.implementation()<CR>' },
     { 'gr', ':lua vim.lsp.buf.references()<CR>' },
-    { 'K', ':lua vim.lsp.buf.hover()<CR>' },
     { '[d', ':lua vim.diagnostic.goto_next()<CR>' },
     { ']d', ':lua vim.diagnostic.goto_prev()<CR>' },
+    { 'K', ':lua vim.lsp.buf.hover()<CR>' },
     { 'E', ':lua vim.diagnostic.open_float()<CR>' },
     { 'ca', ':lua vim.lsp.buf.code_action()<CR>' },
   }, { noremap = true, silent = true })
@@ -38,77 +46,30 @@ M.on_attach = function()
   })
   vim.api.nvim_create_user_command('Format', vim.lsp.buf.format, {})
   vim.api.nvim_create_user_command('Issues', vim.diagnostic.setqflist, {})
+  vim.api.nvim_create_user_command('Rename', function(args)
+    local new_name = args.fargs[1]
+    if not new_name then
+      new_name = vim.fn.input({ prompt = 'to -> ' })
+    end
+
+    local position_params = vim.lsp.util.make_position_params(nil, 'utf-8')
+    position_params.newName = new_name
+    vim.lsp.buf_request(0, 'textDocument/rename', position_params)
+  end, {
+    nargs = '?',
+  })
 end
 
-local function make_base_config()
+function M.make_base_config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   return { capabilities = capabilities, on_attach = M.on_attach }
 end
 
--- LSP Setup
-local function setup()
-  local lsp_configs = require('lsp/config')
-
-  for lsp, lsp_config in pairs(lsp_configs) do
-    local config = vim.tbl_deep_extend('force', make_base_config(), lsp_config)
-    lspconfig[lsp].setup(config)
-  end
-end
-
 function M.update_config(lang, update)
-  local config = make_base_config()
-  config = vim.tbl_deep_extend('force', config, update)
-  lspconfig[lang].setup(config)
+  local lspconfig = require('lspconfig')
+  lspconfig[lang].setup(vim.tbl_deep_extend('force', M.make_base_config(), update))
   vim.cmd('bufdo e')
 end
-
-setup()
-
--- LSP looks
-vim.fn.sign_define('DiagnosticSignError', { text = '✗', texthl = 'GruvboxRed' })
-vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYellow' })
-vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
-vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
-
-vim.api.nvim_create_user_command('Rename', function(args)
-  local new_name = args.fargs[1]
-  if not new_name then
-    new_name = vim.fn.input({ prompt = 'to -> ' })
-  end
-
-  -- use lsp if available
-  if vim.lsp.buf.server_ready() then
-    local position_params = vim.lsp.util.make_position_params(nil, 'utf-8')
-    position_params.newName = new_name
-    vim.lsp.buf_request(0, 'textDocument/rename', position_params)
-  else
-    -- otherwise
-    local orig = vim.fn.expand('<cword>')
-    local lookahead = require('nvim-treesitter.configs').get_module('textobjects.select').lookahead
-    local bufnr, to = require('nvim-treesitter.textobjects.shared').textobject_at_point(
-      '@function.outer',
-      nil,
-      nil,
-      { lookahead = lookahead }
-    )
-
-    if not bufnr then
-      print('unknown bufnr')
-      return
-    end
-
-    if to then
-      local r = {}
-      local lines = vim.api.nvim_buf_get_lines(0, to[1], to[3], true)
-      for _, line in pairs(lines) do
-        table.insert(r, vim.fn.substitute(line, orig, new_name, 'g'))
-      end
-      vim.api.nvim_buf_set_lines(bufnr, to[1], to[3], true, r)
-    end
-  end
-end, {
-  nargs = '?',
-})
 
 return M

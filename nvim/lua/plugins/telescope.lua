@@ -1,40 +1,30 @@
-local M = {}
+-- local M = {}
 
-local builtin = require('telescope.builtin')
-local actions = require('telescope.actions')
-local transform_mod = require('telescope.actions.mt').transform_mod
-local action_state = require('telescope.actions.state')
+-- local builtin = require('telescope.builtin')
+-- local actions = require('telescope.actions')
 
--- local function open_in_tree()
---   local entry = action_state.get_selected_entry()[1]
---   vim.cmd('Neotree reveal_file=' .. entry)
-
---   local m = vim.fn.mode()
---   if m == 'i' then
---     vim.cmd('stopinsert')
---   end
--- end
-
-function M.edit_config()
-  builtin.find_files({
+function edit_config()
+  require('telescope.builtin').find_files({
     search_dirs = { '~/.dotfiles/nvim/lua' },
   })
 end
 
-function M.search_cword()
+function search_cword()
   local word = vim.fn.expand('<cword>')
-  builtin.grep_string({ search = word })
+  require('telescope.builtin').grep_string({ search = word })
 end
 
-function M.search_selection()
+function search_selection()
   local reg_cache = vim.fn.getreg(0)
   -- Reselect the visual mode text, cut to reg b
   vim.cmd('normal! gv"0y')
-  builtin.grep_string({ search = vim.fn.getreg(0) })
+  require('telescope.builtin').grep_string({ search = vim.fn.getreg(0) })
   vim.fn.setreg(0, reg_cache)
 end
 
 local function multiopen(prompt_bufnr, method)
+  local actions = require('telescope.actions')
+  local action_state = require('telescope.actions.state')
   local cmd_map = {
     vertical = 'vsplit',
     horizontal = 'split',
@@ -57,107 +47,108 @@ local function multiopen(prompt_bufnr, method)
   end
 end
 
-local custom_actions = transform_mod({
-  multi_selection_open_vertical = function(prompt_bufnr)
-    multiopen(prompt_bufnr, 'vertical')
-  end,
-  multi_selection_open_horizontal = function(prompt_bufnr)
-    multiopen(prompt_bufnr, 'horizontal')
-  end,
-  multi_selection_open = function(prompt_bufnr)
-    multiopen(prompt_bufnr, 'default')
-  end,
-})
+return {
+  'nvim-telescope/telescope.nvim',
+  dependencies = {
+    { 'nvim-lua/popup.nvim' },
+    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope-live-grep-args.nvim' },
+  },
+  config = function()
+    local transform_mod = require('telescope.actions.mt').transform_mod
+    local actions = require('telescope.actions')
+    local lga_actions = require('telescope-live-grep-args.actions')
 
-local function stopinsert(callback)
-  return function(prompt_bufnr)
-    vim.cmd.stopinsert()
-    vim.schedule(function()
-      callback(prompt_bufnr)
-    end)
-  end
-end
+    local custom_actions = transform_mod({
+      multi_selection_open_vertical = function(prompt_bufnr)
+        multiopen(prompt_bufnr, 'vertical')
+      end,
+      multi_selection_open_horizontal = function(prompt_bufnr)
+        multiopen(prompt_bufnr, 'horizontal')
+      end,
+      multi_selection_open = function(prompt_bufnr)
+        multiopen(prompt_bufnr, 'default')
+      end,
+    })
 
-local lga_actions = require('telescope-live-grep-args.actions')
-function M.setup()
-  require('telescope').setup({
-    defaults = {
-      prompt_prefix = '   ',
-      -- selection_caret = '  ',
-      selection_caret = '❯ ',
-      sorting_strategy = 'ascending',
-      layout_config = {
-        horizontal = {
-          prompt_position = 'top',
-          -- preview_width = 0.55,
-          -- results_width = 0.8,
+    local function stopinsert(callback)
+      return function(prompt_bufnr)
+        vim.cmd.stopinsert()
+        vim.schedule(function()
+          callback(prompt_bufnr)
+        end)
+      end
+    end
+
+    require('telescope').setup({
+      defaults = {
+        prompt_prefix = '   ',
+        -- selection_caret = '  ',
+        selection_caret = '❯ ',
+        sorting_strategy = 'ascending',
+        layout_config = {
+          horizontal = {
+            prompt_position = 'top',
+            -- preview_width = 0.55,
+            -- results_width = 0.8,
+          },
         },
-      },
-      border = {},
-      winblend = 0,
-      color_devicons = true,
-      use_less = true,
-      path_display = { 'truncate' },
-      file_ignore_patterns = {
-        'node_modules',
-        '.git',
-        'yarn.lock',
-        'package-lock.json',
-      },
-      vimgrep_arguments = {
-        'rg',
-        '--color=never',
-        '--no-heading',
-        '--with-filename',
-        '--line-number',
-        '--column',
-        '--smart-case',
-      },
-      mappings = {
-        i = {
-          ['<esc>'] = actions.close,
-          -- ['<c-s>'] = open_in_tree,
-          ['<c-v>'] = stopinsert(custom_actions.multi_selection_open_vertical),
-          ['<c-s>'] = stopinsert(custom_actions.multi_selection_open_horizontal),
-          ['<cr>'] = stopinsert(custom_actions.multi_selection_open),
+        border = {},
+        winblend = 0,
+        color_devicons = true,
+        use_less = true,
+        path_display = { 'truncate' },
+        file_ignore_patterns = {
+          'node_modules',
+          '.git',
+          'yarn.lock',
+          'package-lock.json',
         },
-        n = {
-          -- ['<c-s>'] = open_in_tree,
-          ['<c-v>'] = custom_actions.multi_selection_open_vertical,
-          ['<c-s>'] = custom_actions.multi_selection_open_horizontal,
-          ['<cr>'] = custom_actions.multi_selection_open,
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
         },
-      },
-    },
-    pickers = {
-      find_files = { hidden = true },
-      live_grep = {
         mappings = {
           i = {
-            ['<C-s>'] = actions.to_fuzzy_refine,
+            ['<esc>'] = actions.close,
+            ['<c-v>'] = stopinsert(custom_actions.multi_selection_open_vertical),
+            ['<c-s>'] = stopinsert(custom_actions.multi_selection_open_horizontal),
+            ['<cr>'] = stopinsert(custom_actions.multi_selection_open),
+          },
+          n = {
+            ['<c-v>'] = custom_actions.multi_selection_open_vertical,
+            ['<c-s>'] = custom_actions.multi_selection_open_horizontal,
+            ['<cr>'] = custom_actions.multi_selection_open,
           },
         },
       },
-    },
-    extensions = {
-      live_grep_args = {
-        auto_quoting = true, -- enable/disable auto-quoting
-        -- define mappings, e.g.
-        mappings = { -- extend mappings
-          i = {
-            ['<C-s>'] = actions.to_fuzzy_refine,
-            ['<C-k>'] = lga_actions.quote_prompt(),
-            ['<C-i>'] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+      pickers = {
+        find_files = { hidden = true },
+        live_grep = {
+          mappings = {
+            i = {
+              ['<C-s>'] = actions.to_fuzzy_refine,
+            },
           },
         },
-        -- ... also accepts theme settings, for example:
-        -- theme = "dropdown", -- use dropdown theme
-        -- theme = { }, -- use own theme spec
-        -- layout_config = { mirror=true }, -- mirror preview pane
       },
-    },
-  })
-  -- require('telescope').load_extension('live_grep_args')
-end
-
-return M
+      extensions = {
+        live_grep_args = {
+          auto_quoting = true, -- enable/disable auto-quoting
+          mappings = { -- extend mappings
+            i = {
+              ['<C-s>'] = actions.to_fuzzy_refine,
+              ['<C-k>'] = lga_actions.quote_prompt(),
+              ['<C-i>'] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+            },
+          },
+        },
+      },
+    })
+  end,
+}

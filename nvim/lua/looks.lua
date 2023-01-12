@@ -29,6 +29,12 @@ hi! link TelescopeResultsBorder GruvboxBg4
 hi! link TelescopePreviewBorder GruvboxBg4
 ]])
 
+-- LSP looks
+vim.fn.sign_define('DiagnosticSignError', { text = '✗', texthl = 'GruvboxRed' })
+vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYellow' })
+vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
+vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
+
 function M.toggle_num(rel_on)
   if vim.bo.ft == '' then
     return
