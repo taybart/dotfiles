@@ -97,7 +97,7 @@ return require('lazy').setup({
       },
     },
     keys = {
-      { '<Leader>o', ':NeoTreeRevealToggle<cr>', { noremap = true, silent = true } },
+      { '<Leader>o', ':Neotree reveal toggle<cr>', { noremap = true, silent = true } },
       {
         '<Leader>f',
         ':Neotree toggle reveal position=float<cr>',
@@ -160,53 +160,46 @@ return require('lazy').setup({
   {
     'neovim/nvim-lspconfig',
     dependencies = {
-      { -- Visualize lsp progress
-        'j-hui/fidget.nvim',
-        config = true,
-      },
-
-      {
-        'folke/neodev.nvim',
-        ft = 'lua',
-        config = true,
-      },
-      {
-        'simrat39/rust-tools.nvim',
-        ft = 'rust',
-        opts = {
-          tools = {
-            runnables = {
-              use_telescope = true,
-            },
-            inlay_hints = {
-              auto = true,
-              show_parameter_hints = false,
-              parameter_hints_prefix = '',
-              other_hints_prefix = '',
-            },
-          },
-
-          server = {
-            on_attach = function()
-              return require('lsp').on_attach
-            end,
-            settings = {
-              ['rust-analyzer'] = {
-                -- enable clippy on save
-                checkOnSave = {
-                  command = 'clippy',
-                },
-              },
-            },
-          },
-        },
-      },
+      { 'j-hui/fidget.nvim', config = true },
+      { 'folke/neodev.nvim', ft = 'lua', config = true },
     },
     config = function()
       require('lsp')
     end,
   },
 
+  {
+    'simrat39/rust-tools.nvim',
+    dependencies = { 'neovim/nvim-lspconfig' },
+    ft = 'rust',
+    opts = {
+      tools = {
+        runnables = {
+          use_telescope = true,
+        },
+        inlay_hints = {
+          auto = true,
+          show_parameter_hints = false,
+          parameter_hints_prefix = '',
+          other_hints_prefix = '',
+        },
+      },
+
+      server = {
+        on_attach = function()
+          return require('lsp').on_attach
+        end,
+        settings = {
+          ['rust-analyzer'] = {
+            -- enable clippy on save
+            checkonsave = {
+              command = 'clippy',
+            },
+          },
+        },
+      },
+    },
+  },
   {
     'williamboman/mason.nvim',
     config = function()
@@ -334,19 +327,37 @@ return require('lazy').setup({
   -- git gutter
   {
     'lewis6991/gitsigns.nvim',
-    lazy = false,
     dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = {
-      current_line_blame = true,
-      current_line_blame_opts = {
-        delay = 0,
-      },
-    },
-    keys = {
-      { 'gb', "'<cmd>Gitsigns toggle_current_line_blame<CR>'", { expr = true } },
-      { ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true } },
-      { '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true } },
-    },
+    config = function()
+      require('gitsigns').setup({
+        current_line_blame = true,
+        current_line_blame_opts = {
+          delay = 0,
+        },
+        on_attach = function()
+          local gs = package.loaded.gitsigns
+          vim.keymap.set('n', ']c', function()
+            if vim.wo.diff then
+              return ']c'
+            end
+            vim.schedule(function()
+              gs.next_hunk()
+            end)
+            return '<ignore>'
+          end, { expr = true })
+
+          vim.keymap.set('n', '[c', function()
+            if vim.wo.diff then
+              return '[c'
+            end
+            vim.schedule(function()
+              gs.prev_hunk()
+            end)
+            return '<ignore>'
+          end, { expr = true })
+        end,
+      })
+    end,
   },
 
   -----------------------------
