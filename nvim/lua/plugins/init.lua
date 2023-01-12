@@ -24,7 +24,7 @@ return require('lazy').setup({
   ---------- Probation ------------
   ---------------------------------
   --  { 'mfussenegger/nvim-dap' },
-  --
+
   { 'pest-parser/pest.vim', ft = 'pest' },
 
   {
@@ -35,7 +35,7 @@ return require('lazy').setup({
     config = true,
   },
 
-  --  { 'eandrju/cellular-automaton.nvim' },
+  { 'eandrju/cellular-automaton.nvim' },
 
   {
     'jiaoshijie/undotree',
@@ -200,17 +200,10 @@ return require('lazy').setup({
       },
     },
   },
+
   {
     'williamboman/mason.nvim',
-    config = function()
-      require('mason').setup({
-        ui = {
-          keymaps = {
-            apply_language_filter = '<C-g>',
-          },
-        },
-      })
-    end,
+    config = true,
   },
 
   {
