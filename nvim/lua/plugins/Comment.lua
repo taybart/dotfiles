@@ -1,6 +1,26 @@
 return {
   'numToStr/Comment.nvim',
-  dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+  dependencies = {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    ft = {
+      'javascriptreact',
+      'typescriptreact',
+      'javascript',
+      'typescript',
+      'tsx',
+      'css',
+      'scss',
+      'php',
+      'html',
+      'svelte',
+      'vue',
+      'astro',
+      'handlebars',
+      'glimmer',
+      'graphql',
+      'lua',
+    },
+  },
   config = function()
     require('Comment').setup({
       ignore = '^$',

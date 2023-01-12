@@ -41,9 +41,11 @@ function M.toggle_num(rel_on)
   end
 
   local re = vim.regex('tagbar\\|NvimTree\\|vista\\|packer')
-  if re:match_str(vim.bo.ft) then
-    vim.opt.number = false
-    return
+  if re ~= nil then
+    if re:match_str(vim.bo.ft) then
+      vim.opt.number = false
+      return
+    end
   end
 
   vim.opt.number = true
