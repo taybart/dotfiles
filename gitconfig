@@ -1,0 +1,18 @@
+; vim: ft=gitconfig
+
+[alias]
+  ls = log --graph --abbrev-commit --decorate --all --color=always --date=relative --format=format:'%C(bold blue)%h - %C(bold green)(%ar) %C(reset)%s - %C(magenta)%an%C(bold yellow)%d'
+  c = commit
+  s = status
+  p = push
+  co = checkout
+  br = branch
+[push]
+  default = current
+[pull]
+	rebase = false
+[init]
+  defaultBranch = main
+
+[include]
+  path = ~/.gitconfig.local
