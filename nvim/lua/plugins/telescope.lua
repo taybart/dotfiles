@@ -29,6 +29,7 @@ return {
     { 'nvim-lua/popup.nvim' },
     { 'nvim-lua/plenary.nvim' },
     { 'nvim-telescope/telescope-live-grep-args.nvim' },
+    { 'nvim-telescope/telescope-ui-select.nvim' },
   },
   config = function()
     local transform_mod = require('telescope.actions.mt').transform_mod
@@ -126,6 +127,7 @@ return {
         },
       },
     })
+    require('telescope').load_extension('ui-select')
   end,
 
   edit_config = function()
