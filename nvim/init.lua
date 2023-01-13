@@ -84,6 +84,7 @@ require('lazy').setup('plugins')
 
 require('looks')
 require('keymaps')
+require('commands')
 
 if vim.fn.has('mac') then
   vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags'

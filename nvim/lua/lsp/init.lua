@@ -23,15 +23,15 @@ end
 -- Set keymap if attached
 M.on_attach = function()
   require('utils/maps').mode_group('n', {
-    { 'gD', ':lua vim.lsp.buf.type_definition()<CR>' },
-    { 'gd', ':lua vim.lsp.buf.definition()<CR>' },
-    { 'gi', ':lua vim.lsp.buf.implementation()<CR>' },
-    { 'gr', ':lua vim.lsp.buf.references()<CR>' },
-    { '[d', ':lua vim.diagnostic.goto_next()<CR>' },
-    { ']d', ':lua vim.diagnostic.goto_prev()<CR>' },
-    { 'K', ':lua vim.lsp.buf.hover()<CR>' },
-    { 'E', ':lua vim.diagnostic.open_float()<CR>' },
-    { 'ca', ':lua vim.lsp.buf.code_action()<CR>' },
+    { 'gD', vim.lsp.buf.type_definition },
+    { 'gd', vim.lsp.buf.definition },
+    { 'gi', vim.lsp.buf.implementation },
+    { 'gr', vim.lsp.buf.references },
+    { '[d', vim.diagnostic.goto_next },
+    { ']d', vim.diagnostic.goto_prev },
+    { 'K', vim.lsp.buf.hover },
+    { 'E', vim.diagnostic.open_float },
+    { 'ca', vim.lsp.buf.code_action },
   }, { noremap = true, silent = true })
 
   vim.api.nvim_create_augroup('lsp', {})

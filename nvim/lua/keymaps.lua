@@ -16,8 +16,18 @@ map.mode_group('i', {
 
 -- Quickly open/reload nvim
 map.mode_group('n', {
-  { '<leader>ev', ':lua require("plugins/telescope").edit_config()<cr>' },
-  { '<leader>sv', ':lua require("utils").reload_vim()<cr>' },
+  {
+    '<leader>ev',
+    function()
+      require('plugins/telescope').edit_config()
+    end,
+  },
+  {
+    '<leader>sv',
+    function()
+      require('utils').reload_vim()
+    end,
+  },
 })
 
 -- paste without losing clipboard buffer
@@ -27,12 +37,6 @@ vim.keymap.set('x', '<leader>p', '"_dP')
 map.mode_group('c', {
   { 'vh', 'vert bo h ' },
 })
-
--- Idiot proofing
-vim.cmd('command! W w')
-vim.cmd('command! Q q')
-vim.cmd('command! WQ wq')
-vim.cmd('command! Wq wq')
 
 -------------------
 ---- MOVEMENT -----
@@ -58,11 +62,6 @@ map.group({ noremap = true }, {
   { 'n', { '<c-d>', '15gj' }, { '<c-u>', '15gk' } },
   { 'v', { '<c-d>', '15gj' }, { '<c-u>', '15gk' } },
 })
-
--- u.nnoremap('<leader>l', ':bnext<cr>')
--- u.nnoremap('<leader>n', ':bnext<cr>')
--- u.nnoremap('<leader>h', ':bprevious<cr>')
--- u.nnoremap('<leader>d', ':bp <BAR> bd #<cr>')
 
 -- Buffer control
 map.mode_group('n', {
@@ -140,8 +139,18 @@ map.mode_group('n', {
 
 -- base64
 map.mode_group('v', {
-  { '<leader>bd', ':lua require("b64").decode()<cr>' },
-  { '<leader>be', ':lua require("b64").encode()<cr>' },
+  {
+    '<leader>bd',
+    function()
+      require('b64').decode()
+    end,
+  },
+  {
+    '<leader>be',
+    function()
+      require('b64').encode()
+    end,
+  },
 }, { noremap = true, silent = true })
 
 -- tagbar
@@ -154,18 +163,42 @@ map.group({ noremap = true }, {
   {
     'n',
     -- Live grep
-    -- { '<c-s>', ':lua require("telescope.builtin").live_grep()<cr>' },
-    { '<c-s>', ':lua require("telescope").extensions.live_grep_args.live_grep_args()<cr>' },
+    {
+      '<c-s>',
+      function()
+        require('telescope').extensions.live_grep_args.live_grep_args()
+      end,
+    },
     -- Search under cursor
-    { 'g<c-s>', ':lua require("plugins/telescope").search_cword()<cr>' },
+    {
+      'g<c-s>',
+      function()
+        require('plugins/telescope').search_cword()
+      end,
+    },
     -- Find files
-    { '<c-p>', ':lua require("telescope.builtin").find_files()<cr>' },
+    {
+      '<c-p>',
+      function()
+        require('telescope.builtin').find_files()
+      end,
+    },
     -- Find open buffers
-    { '<c-b>', ':lua require("telescope.builtin").buffers()<cr>' },
+    {
+      '<c-b>',
+      function()
+        require('telescope.builtin').buffers()
+      end,
+    },
   },
   {
     'v',
     -- Search using selected text
-    { '<c-s>', ':lua require("plugins/telescope").search_selection()<cr>' },
+    {
+      '<c-s>',
+      function()
+        require('plugins/telescope').search_selection()
+      end,
+    },
   },
 })

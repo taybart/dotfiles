@@ -3,7 +3,7 @@
 ----------------------
 local M = {}
 
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
 function M.mode_group(mode, maps, opts)
   opts = opts or {}
@@ -35,7 +35,7 @@ function M.group(opts, maps)
   end
 end
 
---- OLD SHIT
+-- ez maps
 -- normal map
 function M.nmap(key, cmd, opts)
   if opts == nil then

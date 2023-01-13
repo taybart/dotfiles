@@ -4,7 +4,7 @@ return {
   { 'unblevable/quick-scope' },
   {
     'akinsho/nvim-bufferline.lua',
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('bufferline').setup({
         options = {
@@ -15,13 +15,16 @@ return {
           show_buffer_close_icons = false,
           right_mouse_command = '',
           middle_mouse_command = 'bdelete! %d',
+          custom_filter = function(buf_number)
+            return vim.bo[buf_number].filetype ~= 'qf'
+          end,
         },
       })
     end,
   },
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('utils').reload_module('lualine')
       require('lualine').setup({

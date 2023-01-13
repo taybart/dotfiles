@@ -1,27 +1,3 @@
--- local M = {}
-
--- local builtin = require('telescope.builtin')
--- local actions = require('telescope.actions')
-
-function edit_config()
-  require('telescope.builtin').find_files({
-    search_dirs = { '~/.dotfiles/nvim/lua' },
-  })
-end
-
-function search_cword()
-  local word = vim.fn.expand('<cword>')
-  require('telescope.builtin').grep_string({ search = word })
-end
-
-function search_selection()
-  local reg_cache = vim.fn.getreg(0)
-  -- Reselect the visual mode text, cut to reg b
-  vim.cmd('normal! gv"0y')
-  require('telescope.builtin').grep_string({ search = vim.fn.getreg(0) })
-  vim.fn.setreg(0, reg_cache)
-end
-
 local function multiopen(prompt_bufnr, method)
   local actions = require('telescope.actions')
   local action_state = require('telescope.actions.state')
@@ -150,5 +126,24 @@ return {
         },
       },
     })
+  end,
+
+  edit_config = function()
+    require('telescope.builtin').find_files({
+      search_dirs = { '~/.dotfiles/nvim/lua' },
+    })
+  end,
+
+  search_cword = function()
+    local word = vim.fn.expand('<cword>')
+    require('telescope.builtin').grep_string({ search = word })
+  end,
+
+  search_selection = function()
+    local reg_cache = vim.fn.getreg(0)
+    -- Reselect the visual mode text, cut to reg b
+    vim.cmd('normal! gv"0y')
+    require('telescope.builtin').grep_string({ search = vim.fn.getreg(0) })
+    vim.fn.setreg(0, reg_cache)
   end,
 }
