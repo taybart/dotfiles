@@ -1,5 +1,6 @@
 return {
   { 'gruvbox-community/gruvbox' },
+  { 'stevearc/dressing.nvim', config = true },
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
   {

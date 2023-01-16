@@ -1,13 +1,12 @@
 return {
-
-  --  { 'mfussenegger/nvim-dap' },
+  { 'mfussenegger/nvim-dap' },
 
   { 'pest-parser/pest.vim', ft = 'pest' },
 
   {
     'phaazon/mind.nvim',
     branch = 'v2.2',
-    cmd = { 'Mind' },
+    cmd = { 'MindOpenMain', 'MindOpenProject', 'MindOpenSmartProject' },
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = true,
   },

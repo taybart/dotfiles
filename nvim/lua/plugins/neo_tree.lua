@@ -23,7 +23,7 @@ return {
     },
   },
   keys = {
-    { '<Leader>o', ':Neotree reveal toggle<cr>', { noremap = true, silent = true } },
+    { '<Leader>o', ':Neotree reveal toggle position=left<cr>', { noremap = true, silent = true } },
     {
       '<Leader>f',
       ':Neotree toggle reveal position=float<cr>',
