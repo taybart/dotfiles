@@ -1,3 +1,22 @@
+local function edit_config()
+  require('telescope.builtin').find_files({
+    search_dirs = { '~/.dotfiles/nvim/lua' },
+  })
+end
+
+local function search_cword()
+  local word = vim.fn.expand('<cword>')
+  require('telescope.builtin').grep_string({ search = word })
+end
+
+local function search_selection()
+  local reg_cache = vim.fn.getreg(0)
+  -- Reselect the visual mode text, cut to reg b
+  vim.cmd('normal! gv"0y')
+  require('telescope.builtin').grep_string({ search = vim.fn.getreg(0) })
+  vim.fn.setreg(0, reg_cache)
+end
+
 local function multiopen(prompt_bufnr, method)
   local actions = require('telescope.actions')
   local action_state = require('telescope.actions.state')
@@ -26,11 +45,13 @@ end
 return {
   'nvim-telescope/telescope.nvim',
   dependencies = {
-    { 'nvim-lua/popup.nvim' },
     { 'nvim-lua/plenary.nvim' },
     { 'nvim-telescope/telescope-live-grep-args.nvim' },
+    { 'nvim-telescope/telescope-github.nvim' },
   },
   config = function()
+    local telescope = require('telescope')
+    local builtin = require('telescope.builtin')
     local transform_mod = require('telescope.actions.mt').transform_mod
     local actions = require('telescope.actions')
     local lga_actions = require('telescope-live-grep-args.actions')
@@ -55,6 +76,27 @@ return {
         end)
       end
     end
+
+    require('utils/maps').group({ noremap = true }, {
+      {
+        'n',
+        -- Live grep
+        { '<c-s>', telescope.extensions.live_grep_args.live_grep_args },
+        -- Search under cursor
+        { 'g<c-s>', search_cword },
+        -- Find files
+        { '<c-p>', builtin.find_files },
+        -- Find open buffers
+        { '<c-b>', builtin.buffers },
+
+        { '<leader>ev', edit_config },
+      },
+      {
+        'v',
+        -- Search using selected text
+        { '<c-s>', search_selection },
+      },
+    })
 
     require('telescope').setup({
       defaults = {
@@ -127,24 +169,5 @@ return {
       },
     })
     -- require('telescope').load_extension('ui-select')
-  end,
-
-  edit_config = function()
-    require('telescope.builtin').find_files({
-      search_dirs = { '~/.dotfiles/nvim/lua' },
-    })
-  end,
-
-  search_cword = function()
-    local word = vim.fn.expand('<cword>')
-    require('telescope.builtin').grep_string({ search = word })
-  end,
-
-  search_selection = function()
-    local reg_cache = vim.fn.getreg(0)
-    -- Reselect the visual mode text, cut to reg b
-    vim.cmd('normal! gv"0y')
-    require('telescope.builtin').grep_string({ search = vim.fn.getreg(0) })
-    vim.fn.setreg(0, reg_cache)
   end,
 }

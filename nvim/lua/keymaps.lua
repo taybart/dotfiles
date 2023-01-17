@@ -15,20 +15,20 @@ map.mode_group('i', {
 })
 
 -- Quickly open/reload nvim
-map.mode_group('n', {
-  {
-    '<leader>ev',
-    function()
-      require('plugins/telescope').edit_config()
-    end,
-  },
-  {
-    '<leader>sv',
-    function()
-      require('utils').reload_vim()
-    end,
-  },
-})
+-- map.mode_group('n', {
+--   {
+--     '<leader>ev',
+--     function()
+--       require('plugins/telescope').edit_config()
+--     end,
+--   },
+--   {
+--     '<leader>sv',
+--     function()
+--       require('utils').reload_vim()
+--     end,
+--   },
+-- })
 
 -- paste without losing clipboard buffer
 vim.keymap.set('x', '<leader>p', '"_dP')
@@ -159,46 +159,46 @@ map.nnoremap('<F8>', ':TagbarToggle<cr>')
 ---------------
 ----- Searching
 ---------------
-map.group({ noremap = true }, {
-  {
-    'n',
-    -- Live grep
-    {
-      '<c-s>',
-      function()
-        require('telescope').extensions.live_grep_args.live_grep_args()
-      end,
-    },
-    -- Search under cursor
-    {
-      'g<c-s>',
-      function()
-        require('plugins/telescope').search_cword()
-      end,
-    },
-    -- Find files
-    {
-      '<c-p>',
-      function()
-        require('telescope.builtin').find_files()
-      end,
-    },
-    -- Find open buffers
-    {
-      '<c-b>',
-      function()
-        require('telescope.builtin').buffers()
-      end,
-    },
-  },
-  {
-    'v',
-    -- Search using selected text
-    {
-      '<c-s>',
-      function()
-        require('plugins/telescope').search_selection()
-      end,
-    },
-  },
-})
+-- map.group({ noremap = true }, {
+--   {
+--     'n',
+--     -- Live grep
+--     {
+--       '<c-s>',
+--       function()
+--         require('telescope').extensions.live_grep_args.live_grep_args()
+--       end,
+--     },
+--     -- Search under cursor
+--     {
+--       'g<c-s>',
+--       function()
+--         require('plugins/telescope').search_cword()
+--       end,
+--     },
+--     -- Find files
+--     {
+--       '<c-p>',
+--       function()
+--         require('telescope.builtin').find_files()
+--       end,
+--     },
+--     -- Find open buffers
+--     {
+--       '<c-b>',
+--       function()
+--         require('telescope.builtin').buffers()
+--       end,
+--     },
+--   },
+--   {
+--     'v',
+--     -- Search using selected text
+--     {
+--       '<c-s>',
+--       function()
+--         require('plugins/telescope').search_selection()
+--       end,
+--     },
+--   },
+-- })

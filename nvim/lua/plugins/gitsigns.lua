@@ -9,6 +9,7 @@ return {
       },
       on_attach = function()
         local gs = package.loaded.gitsigns
+        vim.keymap.set('n', '<leader>gp', gs.preview_hunk)
         vim.keymap.set('n', ']c', function()
           if vim.wo.diff then
             return ']c'
