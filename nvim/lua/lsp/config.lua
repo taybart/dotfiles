@@ -64,7 +64,19 @@ return {
     },
   },
   svelte = {},
-  pylsp = {},
+  pylsp = {
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = {
+            enabled = false,
+            ignore = { 'E261', 'W391' },
+            maxLineLength = 100,
+          },
+        },
+      },
+    },
+  },
   terraformls = {},
   ocamllsp = {},
   sumneko_lua = {

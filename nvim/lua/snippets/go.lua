@@ -76,15 +76,47 @@ function M.setup()
   end
 
   ls.add_snippets('go', {
-    s('main', fmt('package main\nfunc main(){{\n\t{}\n}}', { i(0) })),
     s(
-      'gb',
+      { trig = 'pr', name = 'print var', dscr = 'Print a variable' },
+      fmt('fmt.Printf("%+v\n",{})', {
+        i(1, 'value'),
+      })
+    ),
+    s(
+      'main',
       fmt(
-        'func main(){{\nif err := run(); err != nil {{\nfmt.Println(err)\nos.Exit(1)\n}}\n}}\nfunc run() error {{\n{}\n}}',
+        [[package main 
+    func main(){{
+      \t{}
+    }}]],
         { i(0) }
       )
     ),
-    s('ife', fmt('if err != nil {{\n\treturn {}{}\n}}\n', { f(go_ret_vals), i(0) })),
+    s(
+      'gb',
+      fmt(
+        [[func main(){{
+          if err := run(); err != nil {{
+            fmt.Println(err)
+            os.Exit(1)
+          }}
+        }}
+        func run() error {{
+          {}
+        }}]],
+        { i(0) }
+      )
+    ),
+    s(
+      { trig = 'ife', name = 'if error', dscr = 'check err' },
+      fmt(
+        [[if err != nil {{
+        return {}{}
+      }}
+      ]],
+        { f(go_ret_vals), i(0) }
+      )
+    ),
   })
 end
 

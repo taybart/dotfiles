@@ -42,5 +42,8 @@ return {
         'i:trait implementations',
       },
     }
+
+    -- tagbar
+    vim.keymap.set('n', '<F8>', ':TagbarToggle<cr>', { noremap = true })
   end,
 }

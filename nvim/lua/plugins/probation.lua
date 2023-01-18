@@ -6,20 +6,23 @@ return {
       'rcarriga/nvim-dap-ui',
       'leoluz/nvim-dap-go',
     },
-    cmd = { 'DapContinue', 'DapToggleBreakpoint' },
+    -- cmd = { 'DapContinue', 'DapToggleBreakpoint' },
     config = function()
       local dap, dapui = require('dap'), require('dapui')
       dapui.setup()
       require('dap-go').setup()
       dap.listeners.after.event_initialized['dapui_config'] = function()
-        dapui.open()
+        dapui.open({})
       end
       dap.listeners.before.event_terminated['dapui_config'] = function()
-        dapui.close()
+        dapui.close({})
       end
       dap.listeners.before.event_exited['dapui_config'] = function()
-        dapui.close()
+        dapui.close({})
       end
+      require('nvim-dap-virtual-text').setup({
+        commented = true,
+      })
     end,
   },
 

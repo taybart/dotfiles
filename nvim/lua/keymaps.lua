@@ -14,22 +14,6 @@ map.mode_group('i', {
   { 'JK', '<Esc>' },
 })
 
--- Quickly open/reload nvim
--- map.mode_group('n', {
---   {
---     '<leader>ev',
---     function()
---       require('plugins/telescope').edit_config()
---     end,
---   },
---   {
---     '<leader>sv',
---     function()
---       require('utils').reload_vim()
---     end,
---   },
--- })
-
 -- paste without losing clipboard buffer
 vim.keymap.set('x', '<leader>p', '"_dP')
 
@@ -75,6 +59,13 @@ map.mode_group('n', {
 -- escape in terminal
 map.tnoremap('<Esc>', '<c-\\><c-n>')
 
+map.mode_group('n', {
+  { '[q', ':cprevious<cr>' },
+  { ']q', ':cnext<cr>' },
+  { '[Q', ':cfirst<cr>' },
+  { ']Q', ':clast<cr>' },
+})
+
 -------------------
 ----- FORMAT ------
 -------------------
@@ -116,89 +107,3 @@ map.nnoremap('<leader>w<cr>', ':silent! %s/\\s\\+$//<cr>:silent! %s/\\%u200b//g<
 
 -- highlight pasted text
 map.nnoremap('gp', '`[v`]')
-
---
--------------------
------ PLUGINS -----
--------------------
-
--- drawer
-map.mode_group('n', {
-  -- { '<Leader>f', ':NeoTreeShowToggle<cr>' },
-  -- { '<Leader>f', ':NeoTreeRevealToggle<cr>' },
-}, { noremap = true, silent = true })
-
--- tmux integration
-map.mode_group('n', {
-  { '<C-f><Left>', ':TmuxNavigateLeft<cr>' },
-  { '<C-f><Down>', ':TmuxNavigateDown<cr>' },
-  { '<C-f><Up>', ':TmuxNavigateUp<cr>' },
-  { '<C-f><Right>', ':TmuxNavigateRight<cr>' },
-  -- { '<;>', ':TmuxNavigatePrevious<cr>' },
-}, { noremap = true, silent = true })
-
--- base64
-map.mode_group('v', {
-  {
-    '<leader>bd',
-    function()
-      require('b64').decode()
-    end,
-  },
-  {
-    '<leader>be',
-    function()
-      require('b64').encode()
-    end,
-  },
-}, { noremap = true, silent = true })
-
--- tagbar
-map.nnoremap('<F8>', ':TagbarToggle<cr>')
-
----------------
------ Searching
----------------
--- map.group({ noremap = true }, {
---   {
---     'n',
---     -- Live grep
---     {
---       '<c-s>',
---       function()
---         require('telescope').extensions.live_grep_args.live_grep_args()
---       end,
---     },
---     -- Search under cursor
---     {
---       'g<c-s>',
---       function()
---         require('plugins/telescope').search_cword()
---       end,
---     },
---     -- Find files
---     {
---       '<c-p>',
---       function()
---         require('telescope.builtin').find_files()
---       end,
---     },
---     -- Find open buffers
---     {
---       '<c-b>',
---       function()
---         require('telescope.builtin').buffers()
---       end,
---     },
---   },
---   {
---     'v',
---     -- Search using selected text
---     {
---       '<c-s>',
---       function()
---         require('plugins/telescope').search_selection()
---       end,
---     },
---   },
--- })

@@ -160,14 +160,14 @@ return {
           auto_quoting = true, -- enable/disable auto-quoting
           mappings = { -- extend mappings
             i = {
-              ['<C-s>'] = actions.to_fuzzy_refine,
-              ['<C-k>'] = lga_actions.quote_prompt(),
-              ['<C-i>'] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+              ['<c-s>'] = actions.to_fuzzy_refine,
+              ['<c-k>'] = lga_actions.quote_prompt(),
+              ['<c-i>'] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
             },
           },
         },
       },
     })
-    -- require('telescope').load_extension('ui-select')
+    require('telescope').load_extension('live_grep_args')
   end,
 }
