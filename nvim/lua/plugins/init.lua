@@ -1,27 +1,15 @@
 return {
   { 'williamboman/mason.nvim', config = true },
 
-  -- rest.vim
-  -- { 'taybart/rest.vim' },
+  { 'taybart/rest.nvim', config = true },
+  -- { dir = '~/dev/taybart/rest.nvim', config = true },
 
-  -- b64.nvim
   {
     'taybart/b64.nvim',
     config = function()
-      -- base64
       require('utils/maps').mode_group('v', {
-        {
-          '<leader>bd',
-          function()
-            require('b64').decode()
-          end,
-        },
-        {
-          '<leader>be',
-          function()
-            require('b64').encode()
-          end,
-        },
+        { '<leader>bd', require('b64').decode },
+        { '<leader>be', require('b64').encode },
       }, { noremap = true, silent = true })
     end,
   },
@@ -31,18 +19,72 @@ return {
     init = function()
       vim.g.tmux_navigator_no_mappings = 1
     end,
-
     config = function()
       require('utils/maps').mode_group('n', {
-        { '<C-f><Left>', ':TmuxNavigateLeft<cr>' },
-        { '<C-f><Down>', ':TmuxNavigateDown<cr>' },
-        { '<C-f><Up>', ':TmuxNavigateUp<cr>' },
-        { '<C-f><Right>', ':TmuxNavigateRight<cr>' },
-        -- { '<;>', ':TmuxNavigatePrevious<cr>' },
+        { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
+        { '<c-f><down>', ':TmuxNavigateDown<cr>' },
+        { '<c-f><up>', ':TmuxNavigateUp<cr>' },
+        { '<c-f><right>', ':TmuxNavigateRight<cr>' },
       }, { noremap = true, silent = true })
     end,
   },
 
-  { 'nvim-treesitter/playground', cmd = { 'TSPlaygroundToggle' } },
   { 'tweekmonster/startuptime.vim', cmd = { 'StartupTime' } },
+
+  { 'eandrju/cellular-automaton.nvim', cmd = { 'CellularAutomaton' } },
+
+  --[==================[
+  -- Probation
+  --]==================]
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'theHamsta/nvim-dap-virtual-text',
+      'rcarriga/nvim-dap-ui',
+      'leoluz/nvim-dap-go',
+    },
+    -- cmd = { 'DapContinue', 'DapToggleBreakpoint' },
+    config = function()
+      local dap, dapui = require('dap'), require('dapui')
+      dapui.setup()
+      require('dap-go').setup()
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open({})
+      end
+      dap.listeners.before.event_terminated['dapui_config'] = function()
+        dapui.close({})
+      end
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        dapui.close({})
+      end
+      require('nvim-dap-virtual-text').setup({
+        commented = true,
+      })
+    end,
+  },
+
+  { 'pest-parser/pest.vim', ft = 'pest' },
+
+  {
+    'phaazon/mind.nvim',
+    branch = 'v2.2',
+    cmd = { 'MindOpenMain', 'MindOpenProject', 'MindOpenSmartProject' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = true,
+  },
+
+  {
+    'jiaoshijie/undotree',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = true,
+    keys = {
+      {
+        '<leader>u',
+        function()
+          require('undotree').toggle()
+        end,
+        { noremap = true, silent = true },
+      },
+    },
+  },
 }
