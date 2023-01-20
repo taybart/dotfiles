@@ -1,6 +1,4 @@
 return {
-  { 'williamboman/mason.nvim', config = true },
-
   { 'taybart/rest.nvim', config = true },
   -- { dir = '~/dev/taybart/rest.nvim', config = true },
 
@@ -86,5 +84,46 @@ return {
         { noremap = true, silent = true },
       },
     },
+  },
+  {
+    'goolord/alpha-nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      local alpha = require('alpha')
+      local dashboard = require('alpha.themes.dashboard')
+
+      dashboard.section.header.opts.hl = 'Include'
+      dashboard.section.header.val = {
+        -- [[             o\                                                                   ]],
+        -- [[   _________/__\__________                                                        ]],
+        -- [[  |                  - (  |                                                       ]],
+        -- [[ ,'-.                 . `-|    ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ]],
+        -- [[(____".       ,-.    '   ||    ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ]],
+        -- [[  |          /\,-\   ,-.  |    ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ]],
+        -- [[  |      ,-./     \ /'.-\ |    ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ]],
+        -- [[  |     /-.,\      /     \|    ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ]],
+        -- [[  |    /     \    ,-.     \    ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ]],
+        -- [[  |___/_______\__/___\_____\                                                      ]],
+
+        [[             o\                                                   ]],
+        [[   _________/__\__________                                        ]],
+        [[  |                  - (  |                                       ]],
+        [[ ,'-.                 . `-|    _   _                 _            ]],
+        [[(____".       ,-.    '   ||   | \ | | ___  _____   _(_)_ __ ___   ]],
+        [[  |          /\,-\   ,-.  |   |  \| |/ _ \/ _ \ \ / / | '_ ` _ \  ]],
+        [[  |      ,-./     \ /'.-\ |   | |\  |  __/ (_) \ V /| | | | | | | ]],
+        [[  |     /-.,\      /     \|   |_| \_|\___|\___/ \_/ |_|_| |_| |_| ]],
+        [[  |    /     \    ,-.     \                                       ]],
+        [[  |___/_______\__/___\_____\                                      ]],
+      }
+      dashboard.section.buttons.val = {
+        dashboard.button('i', '  Scratch', ':ene <BAR> startinsert <CR>'),
+        dashboard.button('l', '  Lazy', ':Lazy<CR>'),
+        dashboard.button('m', '  Mason', ':Mason<CR>'),
+        dashboard.button('s', '  Config', ':e $MYVIMRC | :cd %:p:h | pwd<CR>'),
+        dashboard.button('q', '  Quit NVIM', ':qa<CR>'),
+      }
+      alpha.setup(dashboard.config)
+    end,
   },
 }

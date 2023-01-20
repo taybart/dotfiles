@@ -1,5 +1,15 @@
 return {
-  { 'gruvbox-community/gruvbox' },
+  {
+    'gruvbox-community/gruvbox',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    init = function()
+      vim.opt.background = 'dark' -- or "light" for light mode
+      vim.g.gruvbox_italic = 1
+      vim.g.gruvbox_sign_column = 'bg0'
+      vim.cmd('colorscheme gruvbox')
+    end,
+  },
   { 'stevearc/dressing.nvim', config = true },
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
@@ -26,17 +36,14 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('utils').reload_module('lualine')
-      require('lualine').setup({
-        sections = {
-          lualine_b = { 'b:gitsigns_status' },
-          lualine_c = {
-            { 'filename', file_status = true, path = 1 },
-          },
+    opt = {
+      sections = {
+        lualine_b = { 'b:gitsigns_status' },
+        lualine_c = {
+          { 'filename', file_status = true, path = 1 },
         },
-      })
-    end,
+      },
+    },
   },
   {
     'lukas-reineke/indent-blankline.nvim',
