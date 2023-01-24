@@ -12,7 +12,8 @@ alias ctags="$(brew --prefix)/bin/ctags"
 alias update="brew update && brew upgrade"
 alias install="brew install"
 alias d2u="sed -i '' -e 's/\r$//'"
-alias python="python3"
+# alias python="python3"
+alias flushcache="sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache"
 
 function showhidden() {
   defaults write com.apple.finder AppleShowAllFiles -bool $1
