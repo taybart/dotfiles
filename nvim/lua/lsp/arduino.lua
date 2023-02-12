@@ -1,8 +1,29 @@
+local M = {
+  -- lsp = {
+  --   name = 'arduino_language_server',
+  --   config = {
+  --     cmd = {
+  --       vim.fn.expand('$GOPATH/bin/arduino-language-server'),
+  --       '-cli-config',
+  --       vim.fn.expand('$HOME/.arduinoIDE/arduino-cli.yaml'),
+  --       '-cli',
+  --       'arduino-cli',
+  --       '-fqbn',
+  --       require('lsp/arduino').get_board(),
+  --     },
+  --   },
+  -- },
+}
+
 local job = require('utils/job')
 local picker = require('utils/picker')
 
 local board = 'm5stack:esp32:m5stick-c-plus'
 local port = ''
+
+function M.get_board()
+  return board
+end
 
 --[==[
 -- testing with nui
@@ -98,26 +119,23 @@ local function upload()
   vim.cmd('!arduino-cli --no-color upload -p ' .. port .. ' -b ' .. board)
 end
 
-require('utils').create_augroups({
+require('utils/augroup').create({
   arduino_lsp = {
     {
       event = 'FileType',
       pattern = 'arduino',
       callback = function()
-        vim.api.nvim_create_user_command('Compile', compile, {})
-        vim.api.nvim_create_user_command('Upload', function()
+        local command = vim.api.nvim_create_user_command
+        command('Compile', compile, {})
+        command('Upload', function()
           compile()
           upload()
         end, {})
-        vim.api.nvim_create_user_command('SetBoard', set_board, {})
-        vim.api.nvim_create_user_command('SetPort', set_port, {})
+        command('SetBoard', set_board, {})
+        command('SetPort', set_port, {})
       end,
     },
   },
 })
 
-return {
-  get_board = function()
-    return board
-  end,
-}
+return M

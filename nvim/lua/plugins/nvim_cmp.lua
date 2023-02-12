@@ -3,7 +3,6 @@ return {
   dependencies = {
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
-    { 'hrsh7th/cmp-calc' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     { 'saadparwaiz1/cmp_luasnip' },
@@ -25,15 +24,12 @@ return {
         ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior }),
       },
       sources = {
+        { name = 'path' },
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'luasnip' },
-        -- { name = 'code_actions' },
-        { name = 'path' },
         { name = 'buffer', keyword_length = 6 },
         { name = 'emoji' },
-        { name = 'calc' },
-        -- { name = 'neorg' },
       },
       snippet = {
         expand = function(args)

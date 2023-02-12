@@ -11,6 +11,8 @@ function M.setup()
   require('lsp/rest')
   require('lsp/rust')
 
+  -- langs = {'go', 'lua', 'python', 'matlab'}
+
   -- lsp configs
   local lspconfig = require('lspconfig')
   local configs = require('lsp/config')
@@ -22,11 +24,24 @@ end
 
 -- Set keymap if attached
 M.on_attach = function()
+  require('utils/augroup').create({
+    lsp = {
+      {
+        event = 'BufWritePre',
+        pattern = '*',
+        callback = function()
+          vim.lsp.buf.format()
+        end,
+      },
+    },
+  })
+
   require('utils/maps').mode_group('n', {
     { 'gD', vim.lsp.buf.type_definition },
     { 'gd', vim.lsp.buf.definition },
     { 'gi', vim.lsp.buf.implementation },
-    { 'gr', vim.lsp.buf.references },
+    -- { 'gr', vim.lsp.buf.references },
+    { 'gr', require('telescope.builtin').lsp_references },
     { '[d', vim.diagnostic.goto_next },
     { ']d', vim.diagnostic.goto_prev },
     { 'K', vim.lsp.buf.hover },
@@ -34,19 +49,13 @@ M.on_attach = function()
     { 'ca', vim.lsp.buf.code_action },
   }, { noremap = true, silent = true })
 
-  vim.api.nvim_create_augroup('lsp', {})
-  vim.api.nvim_create_autocmd('BufWritePre', {
-    group = 'lsp',
-    pattern = '*',
-    callback = function()
-      if vim.bo.filetype ~= 'go' then
-        vim.lsp.buf.format()
-      end
-    end,
-  })
-  vim.api.nvim_create_user_command('Format', vim.lsp.buf.format, {})
-  vim.api.nvim_create_user_command('Issues', vim.diagnostic.setqflist, {})
-  vim.api.nvim_create_user_command('Rename', function(args)
+  local command = vim.api.nvim_create_user_command
+
+  command('Format', function()
+    vim.lsp.buf.format()
+  end, {})
+  command('Issues', vim.diagnostic.setqflist, {})
+  command('Rename', function(args)
     local new_name = args.fargs[1]
     if not new_name then
       new_name = vim.fn.input({ prompt = 'to -> ' })

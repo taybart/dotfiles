@@ -1,6 +1,6 @@
 local M = {}
 
-require('utils').create_augroups({
+require('utils/augroup').create({
   lua_lsp = {
     {
       event = 'FileType',

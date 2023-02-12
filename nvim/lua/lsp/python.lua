@@ -1,4 +1,4 @@
-require('utils').create_augroups({
+require('utils/augroup').create({
   python_lsp = {
     {
       event = 'FileType',

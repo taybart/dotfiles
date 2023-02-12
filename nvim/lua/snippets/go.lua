@@ -47,10 +47,9 @@ function M.setup()
 
     local function_node
     for _, v in ipairs(scope) do
-      if
-        v:type() == 'function_declaration'
-        or v:type() == 'method_declaration'
-        or v:type() == 'func_literal'
+      if v:type() == 'function_declaration'
+          or v:type() == 'method_declaration'
+          or v:type() == 'func_literal'
       then
         function_node = v
         break
@@ -83,12 +82,16 @@ function M.setup()
       })
     ),
     s(
+      { trig = 'dbg', name = 'debug format string', dscr = 'Add debug format string' },
+      fmt('%+v\n', {})
+    ),
+    s(
       'main',
       fmt(
         [[package main 
     func main(){{
       \t{}
-    }}]],
+    }}]] ,
         { i(0) }
       )
     ),
@@ -113,7 +116,7 @@ function M.setup()
         [[if err != nil {{
         return {}{}
       }}
-      ]],
+      ]] ,
         { f(go_ret_vals), i(0) }
       )
     ),

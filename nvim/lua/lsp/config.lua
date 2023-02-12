@@ -31,6 +31,7 @@ return {
       require('lsp/arduino').get_board(),
     },
   },
+  astro = {},
   clangd = {
     -- remove "proto" for now since i use protobuf more
     filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
@@ -47,39 +48,7 @@ return {
       },
     },
   },
-  rust_analyzer = {},
-  astro = {},
-  tsserver = {
-    -- https://github.com/typescript-language-server/typescript-language-server/issues/216
-    handlers = {
-      ['textDocument/definition'] = function(err, result, method, ...)
-        if vim.tbl_islist(result) then
-          if #result > 1 then
-            local filtered = filter(result, filterReactDTS)
-            return vim.lsp.handlers['textDocument/definition'](err, filtered, method, ...)
-          end
-        end
-        vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
-      end,
-    },
-  },
-  svelte = {},
-  pylsp = {
-    settings = {
-      pylsp = {
-        plugins = {
-          pycodestyle = {
-            enabled = false,
-            ignore = { 'E261', 'W391' },
-            maxLineLength = 100,
-          },
-        },
-      },
-    },
-  },
-  terraformls = {},
-  ocamllsp = {},
-  sumneko_lua = {
+  lua_ls = {
     settings = {
       Lua = {
         telemetry = {
@@ -97,6 +66,37 @@ return {
           },
         },
       },
+    },
+  },
+  ocamllsp = {},
+  pylsp = {
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = {
+            enabled = false,
+            ignore = { 'E261', 'W391' },
+            maxLineLength = 100,
+          },
+        },
+      },
+    },
+  },
+  rust_analyzer = {},
+  svelte = {},
+  terraformls = {},
+  tsserver = {
+    -- https://github.com/typescript-language-server/typescript-language-server/issues/216
+    handlers = {
+      ['textDocument/definition'] = function(err, result, method, ...)
+        if vim.tbl_islist(result) then
+          if #result > 1 then
+            local filtered = filter(result, filterReactDTS)
+            return vim.lsp.handlers['textDocument/definition'](err, filtered, method, ...)
+          end
+        end
+        vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
+      end,
     },
   },
 }

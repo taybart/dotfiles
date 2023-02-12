@@ -16,7 +16,7 @@ function rust.test(args)
   vim.api.nvim_command('!cargo test ' .. file_name)
 end
 
-require('utils').create_augroups({
+require('utils/augroup').create({
   rust_lsp = {
     {
       event = 'FileType',

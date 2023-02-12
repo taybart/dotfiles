@@ -1,7 +1,6 @@
 ------------------------------
 ------------ init ------------
 ------------------------------
-
 -- long live zsh
 vim.opt.shell = '/bin/zsh'
 
@@ -38,16 +37,12 @@ vim.opt.softtabstop = 2
 vim.opt.mouse = 'a'
 vim.opt.mousemodel = 'extend'
 
--- show incomplete commands (like substitute)
--- vim.opt.inccommand='nosplit' -- now default!
-
--- put signs in the number column
--- vim.opt.signcolumn='number'
+-- add sign column always
 vim.opt.signcolumn = 'yes'
 
 -- numbas
 vim.opt.number = true
--- vim.opt.relativenumber=true
+vim.opt.relativenumber = true
 
 -- allow more complicated font/color stuff
 vim.opt.termguicolors = true
@@ -89,6 +84,7 @@ require('lazy').setup('plugins', {
 require('looks')
 require('keymaps')
 require('commands')
+require('utils')
 
 if vim.fn.has('mac') then
   vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags'

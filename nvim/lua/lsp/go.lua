@@ -1,4 +1,20 @@
-local go = {}
+local go = {
+  -- lsp = {
+  --   name = 'gopls',
+  --   config = {
+  --     root_dir = require('lspconfig/util').root_pattern('go.work', 'go.mod', '.git'),
+  --     settings = {
+  --       gopls = {
+  --         buildFlags = { '-tags=' },
+  --         analyses = {
+  --           unusedparams = true,
+  --         },
+  --         staticcheck = true,
+  --       },
+  --     },
+  --   },
+  -- },
+}
 
 local job = require('utils/job')
 
@@ -137,43 +153,39 @@ function go.set_build_tags(args)
   require('lsp').update_config('gopls', go_config)
 end
 
-function go.on_save()
+function go.organize_imports()
   local params = vim.lsp.util.make_range_params()
   params.context = { only = { 'source.organizeImports' } }
-  local action = 'textDocument/codeAction'
-  local result = vim.lsp.buf_request_sync(0, action, params, 500)
-  for _, res in pairs(result or {}) do
+  local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 500)
+  for cid, res in pairs(result or {}) do
     for _, r in pairs(res.result or {}) do
       if r.edit then
-        vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
-      else
-        vim.lsp.buf.execute_command(r.command)
+        local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
+        vim.lsp.util.apply_workspace_edit(r.edit, enc)
       end
     end
   end
-  vim.lsp.buf.format()
 end
 
-require('utils').create_augroups({
+require('utils/augroup').create({
   go_lsp = {
     {
       event = 'BufWritePre',
       pattern = '*.go',
-      callback = go.on_save,
+      callback = go.organize_imports,
     },
     {
       event = 'FileType',
       pattern = 'go',
       callback = function()
-        vim.api.nvim_create_user_command('BuildTags', go.set_build_tags, { nargs = '+' })
-        vim.api.nvim_create_user_command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
-        vim.api.nvim_create_user_command('StructTags', go.add_tags, { nargs = '*' })
-        vim.api.nvim_create_user_command('ClearStructTags', go.clear_tags, {})
-        vim.api.nvim_create_user_command('Run', go.run, { nargs = '?' })
-        vim.api.nvim_create_user_command('Test', go.test, { nargs = '?' })
-        vim.api.nvim_create_user_command('Tidy', function()
-          vim.api.nvim_command('!go mod tidy')
-        end, { nargs = '?' })
+        local command = vim.api.nvim_create_user_command
+        command('BuildTags', go.set_build_tags, { nargs = '+' })
+        command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
+        command('StructTags', go.add_tags, { nargs = '*' })
+        command('ClearStructTags', go.clear_tags, {})
+        command('Run', go.run, { nargs = '?' })
+        command('Test', go.test, { nargs = '?' })
+        command('Tidy', '!go mod tidy', { nargs = '?' })
       end,
     },
   },

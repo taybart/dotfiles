@@ -36,14 +36,18 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opt = {
-      sections = {
-        lualine_b = { 'b:gitsigns_status' },
-        lualine_c = {
-          { 'filename', file_status = true, path = 1 },
+    config = function()
+      require('lualine').setup({
+        sections = {
+          lualine_a = {},
+          lualine_c = {
+            { 'filename', file_status = true, path = 1 },
+          },
+          lualine_x = { 'encoding', 'fileformat', 'filetype' },
+          lualine_y = {},
         },
-      },
-    },
+      })
+    end,
   },
   {
     'lukas-reineke/indent-blankline.nvim',

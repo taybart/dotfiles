@@ -1,6 +1,5 @@
-local M = {
-  create_augroups = require('utils/augroup').create_augroups,
-}
+local M = {}
+
 local job = require('utils/job')
 
 function M.is_root()
@@ -34,6 +33,23 @@ local function gen_github_url(include_line)
   local url = job.run('git', { 'config', '--get', 'remote.origin.url' })
     .. blob_tree
     .. job.run('git', { 'branch', '--show-current' })
+    .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }):gsub('%p', '%%%1'), '')
+
+  if include_line then
+    url = url .. '#L' .. vim.api.nvim_win_get_cursor(0)[1]
+  end
+  return url
+end
+
+local function gen_default_github_url(include_line)
+  local buf_name = vim.api.nvim_buf_get_name(0)
+  -- if [No Name] open the main page
+  local blob_tree = (buf_name == '') and '/tree/' or '/blob/'
+
+  local url = job.run('git', { 'config', '--get', 'remote.origin.url' })
+    .. blob_tree
+    -- TODO: just get last bit off of this
+    .. job.run('git', { 'symbolic-ref', ' refs/remotes/origin/HEAD' }):gsub()
     .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }):gsub('%p', '%%%1'), '')
 
   if include_line then

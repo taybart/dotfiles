@@ -1,6 +1,6 @@
 local M = {}
 
-require('utils').create_augroups({
+require('utils/augroup').create({
   matlab_lsp = {
     {
       event = 'FileType',
@@ -53,4 +53,5 @@ function M.run()
     end,
   })
 end
+
 return M
