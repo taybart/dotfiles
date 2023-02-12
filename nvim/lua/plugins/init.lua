@@ -1,7 +1,5 @@
 return {
-  -- { 'taybart/rest.nvim', config = true },
-  { dir = '~/dev/taybart/rest.nvim', config = true },
-
+  { 'taybart/rest.nvim', config = true },
   {
     'taybart/b64.nvim',
     config = function()
