@@ -28,7 +28,7 @@ return {
       '-cli',
       'arduino-cli',
       '-fqbn',
-      require('lsp/arduino').get_board(),
+      require('languages/arduino').get_board(),
     },
   },
   astro = {},

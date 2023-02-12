@@ -131,7 +131,7 @@ end
 
 function go.add_build_tags(args)
   local tags = vim.tbl_flatten(args.fargs)
-  local go_config = require('lsp/config').gopls
+  local go_config = require('languages/config').gopls
   local current_tags = go_config.settings.gopls.buildFlags[1]
   if not current_tags or current_tags == '' then
     current_tags = '-tags='
@@ -146,11 +146,11 @@ end
 function go.set_build_tags(args)
   -- local tags = vim.tbl_flatten(args.fargs[1])
   local tags = args.fargs[1]
-  local go_config = require('lsp/config').gopls
+  local go_config = require('languages/config').gopls
 
   go_config.settings.gopls.buildFlags = { '-tags=' .. tags }
 
-  require('lsp').update_config('gopls', go_config)
+  require('languages').update_config('gopls', go_config)
 end
 
 function go.organize_imports()

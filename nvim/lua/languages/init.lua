@@ -3,20 +3,20 @@ local M = {}
 -- LSP Setup
 function M.setup()
   -- language specific stuff
-  require('lsp/arduino')
-  require('lsp/go')
-  require('lsp/lua')
-  require('lsp/markdown')
-  require('lsp/matlab')
-  require('lsp/python')
-  require('lsp/rest')
-  require('lsp/rust')
+  require('languages/arduino')
+  require('languages/go')
+  require('languages/lua')
+  require('languages/markdown')
+  require('languages/matlab')
+  require('languages/python')
+  require('languages/rest')
+  require('languages/rust')
 
   -- langs = {'go', 'lua', 'python', 'matlab'}
 
   -- lsp configs
   local lspconfig = require('lspconfig')
-  local configs = require('lsp/config')
+  local configs = require('languages/config')
   for lsp, lsp_config in pairs(configs) do
     local config = vim.tbl_deep_extend('force', M.make_base_config(), lsp_config)
     lspconfig[lsp].setup(config)
