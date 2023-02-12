@@ -14,6 +14,12 @@ function M.setup()
         i(1),
       })
     ),
+    s(
+      'tdd',
+      fmt([[- [x] {}]], {
+        i(1),
+      })
+    ),
   })
 end
 

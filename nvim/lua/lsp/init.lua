@@ -3,11 +3,12 @@ local M = {}
 -- LSP Setup
 function M.setup()
   -- language specific stuff
+  require('lsp/arduino')
   require('lsp/go')
   require('lsp/lua')
-  require('lsp/python')
+  require('lsp/markdown')
   require('lsp/matlab')
-  require('lsp/arduino')
+  require('lsp/python')
   require('lsp/rest')
   require('lsp/rust')
 
