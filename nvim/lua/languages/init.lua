@@ -38,11 +38,14 @@ M.on_attach = function()
   })
 
   require('utils/maps').mode_group('n', {
-    { 'gD', vim.lsp.buf.type_definition },
-    { 'gd', vim.lsp.buf.definition },
-    { 'gi', vim.lsp.buf.implementation },
+    -- { 'gd', vim.lsp.buf.definition },
     -- { 'gr', vim.lsp.buf.references },
+    -- { 'gD', vim.lsp.buf.type_definition },
+    { 'gi', vim.lsp.buf.implementation },
     { 'gr', require('telescope.builtin').lsp_references },
+    { 'gD', require('telescope.builtin').lsp_type_definitions },
+    { 'gd', require('telescope.builtin').lsp_definitions },
+    { 'gi', require('telescope.builtin').lsp_implementations },
     { '[d', vim.diagnostic.goto_next },
     { ']d', vim.diagnostic.goto_prev },
     { 'K', vim.lsp.buf.hover },
