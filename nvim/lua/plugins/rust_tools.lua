@@ -18,9 +18,8 @@ return {
           auto_focus = true,
         },
       },
-
       server = {
-        on_attach = require('lsp').on_attach,
+        on_attach = require('languages').on_attach,
         settings = {
           ['rust-analyzer'] = {
             -- enable clippy on save
@@ -30,7 +29,6 @@ return {
           },
         },
       },
-
       -- https://github.com/LunarVim/LunarVim/issues/2894#issuecomment-1236420149
       -- https://github.com/simrat39/rust-tools.nvim/issues/302
       -- https://github.com/simrat39/rust-tools.nvim/discussions/303
