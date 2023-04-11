@@ -3,7 +3,7 @@ return {
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
   },
-  ft = { 'lua', 'sh', 'javascript', 'typescript', 'typescriptreact' },
+  -- ft = { 'lua', 'sh', 'javascript', 'typescript', 'typescriptreact' },
   config = function()
     local null_ls = require('null-ls')
     null_ls.setup({
@@ -17,11 +17,23 @@ return {
           },
         }),
         -- javascript
-        null_ls.builtins.formatting.prettier.with({
-          extra_args = { '--no-semi', '--single-quote' },
+        null_ls.builtins.formatting.rome.with({
+          extra_args = {
+            '--semicolons',
+            'as-needed',
+            '--quote-style',
+            'single',
+            '--line-width',
+            '99',
+          },
         }),
+        -- null_ls.builtins.formatting.prettier.with({
+        --   extra_args = { '--no-semi', '--single-quote' },
+        -- }),
         -- sh
         null_ls.builtins.code_actions.shellcheck,
+        -- protobuf
+        null_ls.builtins.formatting.buf,
       },
       root_dir = require('lspconfig/util').root_pattern(
         '.null-ls-root',
@@ -30,5 +42,9 @@ return {
         'package.json'
       ),
     })
+    -- always map ca for gitsigns
+    require('utils/maps').mode_group('n', {
+      { 'ca', vim.lsp.buf.code_action },
+    }, { noremap = true, silent = true })
   end,
 }

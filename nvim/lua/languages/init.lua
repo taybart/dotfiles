@@ -12,6 +12,25 @@ function M.setup()
   require('languages/rest')
   require('languages/rust')
 
+  -- procfile
+  vim.filetype.add({ filename = { ['Procfile'] = 'procfile' } })
+  require('utils/augroup').create({
+    procfile = {
+      {
+        event = 'FileType',
+        pattern = 'procfile',
+        callback = function()
+          vim.bo.commentstring = '# %s'
+          vim.cmd([[
+            highlight ProcfileCmd guibg=Red ctermbg=2
+            " syntax match ProcfileCmd "\vclient:"
+            syntax match ProcfileCmd "\v\w\+"
+          ]])
+        end,
+      },
+    },
+  })
+
   -- langs = {'go', 'lua', 'python', 'matlab'}
 
   -- lsp configs
@@ -37,15 +56,13 @@ M.on_attach = function()
     },
   })
 
+  local telescope = require('telescope.builtin')
   require('utils/maps').mode_group('n', {
-    -- { 'gd', vim.lsp.buf.definition },
-    -- { 'gr', vim.lsp.buf.references },
-    -- { 'gD', vim.lsp.buf.type_definition },
     { 'gi', vim.lsp.buf.implementation },
-    { 'gr', require('telescope.builtin').lsp_references },
-    { 'gD', require('telescope.builtin').lsp_type_definitions },
-    { 'gd', require('telescope.builtin').lsp_definitions },
-    { 'gi', require('telescope.builtin').lsp_implementations },
+    { 'gr', telescope.lsp_references },
+    { 'gD', telescope.lsp_type_definitions },
+    { 'gd', telescope.lsp_definitions },
+    { 'gi', telescope.lsp_implementations },
     { '[d', vim.diagnostic.goto_next },
     { ']d', vim.diagnostic.goto_prev },
     { 'K', vim.lsp.buf.hover },

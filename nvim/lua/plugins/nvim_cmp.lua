@@ -18,16 +18,20 @@ return {
     cmp.setup({
       preselect = cmp.PreselectMode.None,
       mapping = {
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
-        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior }),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        -- ['<C-y>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
         ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior }),
+        ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior }),
+        ['<C-j>'] = cmp.mapping({
+          i = cmp.mapping.abort(),
+          c = cmp.mapping.close(),
+        }),
       },
       sources = {
+        { name = 'luasnip' },
         { name = 'path' },
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
-        { name = 'luasnip' },
         { name = 'buffer', keyword_length = 6 },
         { name = 'emoji' },
       },
@@ -35,6 +39,12 @@ return {
         expand = function(args)
           require('luasnip').lsp_expand(args.body)
         end,
+      },
+    })
+    cmp.setup.cmdline({ '/', '?' }, {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' },
       },
     })
   end,

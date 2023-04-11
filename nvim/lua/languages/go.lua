@@ -72,11 +72,11 @@ function go.add_tags(args)
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged == nil
-    or tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged['start'] == nil
-    or tagged['start'] == 0
+      tagged == nil
+      or tagged.errors ~= nil
+      or tagged.lines == nil
+      or tagged['start'] == nil
+      or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -100,11 +100,11 @@ function go.clear_tags()
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged == nil
-    or tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged['start'] == nil
-    or tagged['start'] == 0
+      tagged == nil
+      or tagged.errors ~= nil
+      or tagged.lines == nil
+      or tagged['start'] == nil
+      or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -130,7 +130,7 @@ function go.test(args)
 end
 
 function go.add_build_tags(args)
-  local tags = vim.tbl_flatten(args.fargs)
+  local tags = args.fargs[1]
   local go_config = require('languages/config').gopls
   local current_tags = go_config.settings.gopls.buildFlags[1]
   if not current_tags or current_tags == '' then
@@ -140,7 +140,7 @@ function go.add_build_tags(args)
   end
   go_config.settings.gopls.buildFlags = { current_tags .. tags }
 
-  require('lsp').update_config('gopls', go_config)
+  require('languages').update_config('gopls', go_config)
 end
 
 function go.set_build_tags(args)
@@ -173,6 +173,13 @@ require('utils/augroup').create({
       event = 'BufWritePre',
       pattern = '*.go',
       callback = go.organize_imports,
+    },
+    {
+      event = 'FileType',
+      pattern = 'gomod',
+      callback = function()
+        vim.bo.commentstring = '// %s'
+      end,
     },
     {
       event = 'FileType',

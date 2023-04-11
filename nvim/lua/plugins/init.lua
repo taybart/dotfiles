@@ -11,7 +11,8 @@ return {
     end,
   },
 
-  { -- required with tmux
+  {
+    -- required with tmux
     'christoomey/vim-tmux-navigator',
     init = function()
       vim.g.tmux_navigator_no_mappings = 1
@@ -38,29 +39,16 @@ return {
   -- Probation
   --]==================]
   {
-    'mfussenegger/nvim-dap',
-    dependencies = {
-      'theHamsta/nvim-dap-virtual-text',
-      'rcarriga/nvim-dap-ui',
-      'leoluz/nvim-dap-go',
-    },
-    -- cmd = { 'DapContinue', 'DapToggleBreakpoint' },
-    config = function()
-      local dap, dapui = require('dap'), require('dapui')
-      dapui.setup()
-      require('dap-go').setup()
-      dap.listeners.after.event_initialized['dapui_config'] = function()
-        dapui.open({})
-      end
-      dap.listeners.before.event_terminated['dapui_config'] = function()
-        dapui.close({})
-      end
-      dap.listeners.before.event_exited['dapui_config'] = function()
-        dapui.close({})
-      end
-      require('nvim-dap-virtual-text').setup({
-        commented = true,
-      })
+    'github/copilot.vim',
+    init = function()
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.api.nvim_set_keymap(
+        'i',
+        '<c-j>',
+        'copilot#Accept("<CR>")',
+        { silent = true, expr = true }
+      )
     end,
   },
 
@@ -87,5 +75,28 @@ return {
         { noremap = true, silent = true },
       },
     },
+  },
+
+  {
+    'ziontee113/SnippetGenie',
+    config = function()
+      local genie = require('SnippetGenie')
+
+      genie.setup({
+        regex = [[-\+ Snippets go here]],
+        snippets_directory = vim.fn.expand('~/.config/nvim/lua/snippets/'),
+        file_name = 'generated',
+      })
+
+      vim.keymap.set('x', '<CR>', function()
+        print('start snippet')
+        genie.create_new_snippet_or_add_placeholder()
+        vim.cmd('norm! ')
+      end, {})
+
+      vim.keymap.set('n', '<CR>', function()
+        genie.finalize_snippet()
+      end, {})
+    end,
   },
 }

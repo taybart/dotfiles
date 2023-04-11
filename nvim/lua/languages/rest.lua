@@ -1,6 +1,5 @@
 -- local M = {}
 
--- local ts_utils = require('nvim-treesitter.ts_utils')
 -- local ts_query = require('nvim-treesitter.query')
 -- local parsers = require('nvim-treesitter.parsers')
 -- local locals = require('nvim-treesitter.locals')
@@ -33,7 +32,7 @@
 --       if node:type() == 'block' then
 --         block_num = block_num + 1
 --         local c_row = unpack(vim.api.nvim_win_get_cursor(0)) - 1
---         local s_row, _, e_row, _ = ts_utils.get_node_range(node)
+--         local s_row, _, e_row, _ = vim.treesitter.get_node_range(node)
 --         if c_row >= s_row and c_row <= e_row then
 --           vim.cmd(rest_cmd .. ' -f % -b ' .. block_num)
 --           did_execute = true
@@ -47,7 +46,7 @@
 --   end
 -- end
 
--- require('utils').create_augroups({
+-- require('utils/augroup').create({
 --   rest_lsp = {
 --     {
 --       event = 'BufRead,BufNewFile',
@@ -61,10 +60,10 @@
 --       pattern = 'rest',
 --       callback = function()
 --         vim.api.nvim_create_user_command('ExecuteFile', M.execute_block_under_cursor, {})
---         vim.api.nvim_create_user_command('ExecuteBlock', M.execute_block, { nargs = '?' })
+--         -- vim.api.nvim_create_user_command('ExecuteBlock', M.execute_block, { nargs = '?' })
 
 --         maps.mode_group('n', {
---           { '<c-e>', M.execute_block },
+--           { '<c-e>', M.execute_block_under_cursor },
 --           { '<c-t>', M.execute_file },
 --         })
 --       end,
