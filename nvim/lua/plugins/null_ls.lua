@@ -25,6 +25,8 @@ return {
             'single',
             '--line-width',
             '99',
+            '--indent-style',
+            'space',
           },
         }),
         -- null_ls.builtins.formatting.prettier.with({

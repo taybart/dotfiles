@@ -100,6 +100,8 @@ map.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 -- map.vnoremap('<Tab>', '=')
 -- -- mapping tab maps c-i?? #20126
 -- map.nnoremap('<c-i>', '<c-i>')
+map.vmap('<Tab>', '>gv')
+map.vmap('<S-Tab>', '<gv')
 
 -- Get rid of the fucking stupid OCD whitespace
 -- Get rid of the fucking stupid <200b>

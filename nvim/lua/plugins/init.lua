@@ -1,8 +1,12 @@
 return {
-  { 'taybart/rest.nvim', config = true },
-  -- { dir = '~/dev/taybart/rest.nvim', config = true },
+  {
+    -- 'taybart/rest.nvim',
+    dir = '~/dev/taybart/rest.nvim',
+    config = true,
+  },
   {
     'taybart/b64.nvim',
+    -- dir = '~/dev/taybart/rest.nvim',
     config = function()
       require('utils/maps').mode_group('v', {
         { '<leader>bd', require('b64').decode },

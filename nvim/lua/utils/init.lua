@@ -41,23 +41,6 @@ local function gen_github_url(include_line)
   return url
 end
 
-local function gen_default_github_url(include_line)
-  local buf_name = vim.api.nvim_buf_get_name(0)
-  -- if [No Name] open the main page
-  local blob_tree = (buf_name == '') and '/tree/' or '/blob/'
-
-  local url = job.run('git', { 'config', '--get', 'remote.origin.url' })
-    .. blob_tree
-    -- TODO: just get last bit off of this
-    .. job.run('git', { 'symbolic-ref', ' refs/remotes/origin/HEAD' }):gsub()
-    .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }):gsub('%p', '%%%1'), '')
-
-  if include_line then
-    url = url .. '#L' .. vim.api.nvim_win_get_cursor(0)[1]
-  end
-  return url
-end
-
 vim.api.nvim_create_user_command('GH', function()
   job.open({ gen_github_url() })
 end, {
@@ -69,5 +52,42 @@ vim.api.nvim_create_user_command('GHL', function()
 end, {
   desc = 'Open file in GitHub including line',
 })
+
+-- local id = vim.api.nvim_create_augroup('startup', {
+--   clear = false,
+-- })
+
+-- local persistbuffer = function(bufnr)
+--   bufnr = bufnr or vim.api.nvim_get_current_buf()
+--   vim.fn.setbufvar(bufnr, 'bufpersist', 1)
+-- end
+
+-- vim.api.nvim_create_autocmd({ 'BufRead' }, {
+--   group = id,
+--   pattern = { '*' },
+--   callback = function()
+--     vim.api.nvim_create_autocmd({ 'InsertEnter', 'BufModifiedSet' }, {
+--       buffer = 0,
+--       once = true,
+--       callback = function()
+--         persistbuffer()
+--       end,
+--     })
+--   end,
+-- })
+
+-- vim.keymap.set('n', '<Leader>b', function()
+--   local curbufnr = vim.api.nvim_get_current_buf()
+--   local buflist = vim.api.nvim_list_bufs()
+--   for _, bufnr in ipairs(buflist) do
+--     if
+--       vim.bo[bufnr].buflisted
+--       and bufnr ~= curbufnr
+--       and (vim.fn.getbufvar(bufnr, 'bufpersist') ~= 1)
+--     then
+--       vim.cmd('bd ' .. tostring(bufnr))
+--     end
+--   end
+-- end, { silent = true, desc = 'Close unused buffers' })
 
 return M
