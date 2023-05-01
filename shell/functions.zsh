@@ -105,8 +105,7 @@ function gitclean() {
 function envup {
   do_paths=false
   if [ "$1" = "paths" ]; then
-    do_paths=true
-    shift
+    do_paths=true; shift
   fi
   # select .env or .env.$1 initally
   file=$([ -z "$1" ] && echo ".env" || echo ".env.$1")
@@ -139,9 +138,8 @@ function envup {
       filepath="$(printenv $sp[1])"
       if [ ! -f $filepath ]; then
         echo "$filepath doesn't exist"; return 1
-      else
-        eval export $clean="$(cat $filepath | base64)"
       fi
+      eval export $clean="$(cat $filepath | base64)"
     done
   fi
 
