@@ -103,22 +103,48 @@ function gitclean() {
 
 
 function envup {
+  do_paths=false
+  if [ "$1" = "paths" ]; then
+    do_paths=true
+    shift
+  fi
   # select .env or .env.$1 initally
   file=$([ -z "$1" ] && echo ".env" || echo ".env.$1")
   # weird file name passed with -f
   [ "$1" = "-f" ] && shift && file=$1
 
-  if [ -f "$file" ]; then
-    # make lines conform
-    IFS=$'\n'
-    env_vars=($(sed '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $file))
-    for v in $env_vars; do
-      eval export $v
-    done
-  else
+  if [ ! -f "$file" ]; then
     echo "$file does not exist"
     return 1
   fi
+
+  # make lines conform
+  IFS=$'\n'
+  # clean file
+  env_vars=($(sed '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $file))
+  for v in $env_vars; do
+    eval export $v
+  done
+
+  # expand vars with *_PATH and base64 encode
+  if [ do_paths ]; then 
+    # filter vars with *_PATH
+    pattern="*_PATH*"
+    path_vars=(${(M)env_vars:#$~pattern})
+    for v in $path_vars; do
+      # split on =
+      sp=( ${(@s/=/)v} )
+      # remove _PATH
+      clean=${sp[1]%?????}
+      filepath="$(printenv $sp[1])"
+      if [ ! -f $filepath ]; then
+        echo "$filepath doesn't exist"; return 1
+      else
+        eval export $clean="$(cat $filepath | base64)"
+      fi
+    done
+  fi
+
 }
 
 function formatenv {
