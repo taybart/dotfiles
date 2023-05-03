@@ -23,25 +23,14 @@ return {
     end,
     config = function()
       require('utils/maps').mode_group('n', {
-        { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
-        { '<c-f><down>', ':TmuxNavigateDown<cr>' },
-        { '<c-f><up>', ':TmuxNavigateUp<cr>' },
+        { '<c-f><left>',  ':TmuxNavigateLeft<cr>' },
+        { '<c-f><down>',  ':TmuxNavigateDown<cr>' },
+        { '<c-f><up>',    ':TmuxNavigateUp<cr>' },
         { '<c-f><right>', ':TmuxNavigateRight<cr>' },
       }, { noremap = true, silent = true })
     end,
   },
 
-  {
-    'eandrju/cellular-automaton.nvim',
-    cmd = { 'CellularAutomaton', 'Rain' },
-    config = function()
-      vim.api.nvim_create_user_command('Rain', 'CellularAutomaton make_it_rain', {})
-    end,
-  },
-
-  --[==================[
-  -- Probation
-  --]==================]
   {
     'github/copilot.vim',
     init = function()
@@ -56,51 +45,9 @@ return {
     end,
   },
 
-  { 'pest-parser/pest.vim', ft = 'pest' },
+  --[==================[
+  -- Probation
+  --]==================]
 
-  {
-    'phaazon/mind.nvim',
-    branch = 'v2.2',
-    cmd = { 'MindOpenMain', 'MindOpenProject', 'MindOpenSmartProject' },
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = true,
-  },
-
-  {
-    'jiaoshijie/undotree',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = true,
-    keys = {
-      {
-        '<leader>u',
-        function()
-          require('undotree').toggle()
-        end,
-        { noremap = true, silent = true },
-      },
-    },
-  },
-
-  {
-    'ziontee113/SnippetGenie',
-    config = function()
-      local genie = require('SnippetGenie')
-
-      genie.setup({
-        regex = [[-\+ Snippets go here]],
-        snippets_directory = vim.fn.expand('~/.config/nvim/lua/snippets/'),
-        file_name = 'generated',
-      })
-
-      vim.keymap.set('x', '<CR>', function()
-        print('start snippet')
-        genie.create_new_snippet_or_add_placeholder()
-        vim.cmd('norm! ')
-      end, {})
-
-      vim.keymap.set('n', '<CR>', function()
-        genie.finalize_snippet()
-      end, {})
-    end,
-  },
+  { 'kkharji/sqlite.lua' },
 }
