@@ -13,7 +13,7 @@ alias dev="ENV=development"
 alias lzd="lazydocker"
 # alias python=python3
 alias venv="python3 -m venv .venv && . ./.venv/bin/activate"
-alias myip="curl https://taybart.com/ip"
+alias myip="curl -s ipinfo.io | jq -r '.ip'"
 alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
@@ -45,6 +45,7 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
 fi
 
 # Git Aliases
+alias g="git"
 alias gs="git status"
 alias gf="git fetch --all --tags"
 alias gap="git add -p"
