@@ -4,6 +4,9 @@ if type zsh > /dev/null; then
   rm -rf  $HOME/.zshrc
   ln -s $HOME/.dotfiles/shell/zshrc $HOME/.zshrc
   touch $HOME/.zshrc.local
+  #link starship config
+  ln -s $HOME/.dotfiles/shell/starship.toml $HOME/.config/starship.toml
+
 
   # vim
   echo "vim"
