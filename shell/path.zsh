@@ -1,3 +1,5 @@
+source "$DOTFILES/shell/essentials.zsh"
+
 export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 function add_path() {
@@ -14,6 +16,6 @@ add_path "$HOME/.cargo/bin"
 # deno
 add_path "$HOME/.deno/bin"
 # python
-add_path "$HOME/.asdf/installs/python/$(asdf current python | awk '{print $2}')/bin/"
+command_exists asdf && add_path "$HOME/.asdf/installs/python/$(asdf current python | awk '{print $2}')/bin/"
 add_path "$HOME/.poetry/bin:.venv/bin"
 
