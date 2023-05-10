@@ -1,0 +1,5 @@
+myproxy.website.life.io {
+  # @blocked not remote_ip ${MY_IP}
+  # respond @blocked 403
+  reverse_proxy 127.0.0.1:${PROXY_PORT}
+}

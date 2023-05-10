@@ -24,7 +24,7 @@ function tab-title {
 
 function tunnel {
   echo "forwarding $1..."
-  \ssh root@$TUNNEL 'pkill -o -u root sshd'
+  # \ssh root@$TUNNEL 'pkill -o -u root sshd'
   \ssh -o "ExitOnForwardFailure yes" -N -R 9000:localhost:$1 root@$TUNNEL
 }
 
