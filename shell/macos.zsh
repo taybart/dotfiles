@@ -14,6 +14,7 @@ alias install="brew install"
 alias d2u="sed -i '' -e 's/\r$//'"
 # alias python="python3"
 alias flushcache="sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelper;sudo dscacheutil -flushcache"
+alias airport="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport"
 
 function showhidden() {
   defaults write com.apple.finder AppleShowAllFiles -bool $1
