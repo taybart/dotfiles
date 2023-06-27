@@ -5,6 +5,7 @@ function M.setup()
   -- language specific stuff
   require('languages/arduino')
   require('languages/go')
+  require('languages/json')
   require('languages/lua')
   require('languages/markdown')
   require('languages/matlab')

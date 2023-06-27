@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# need ripgrep and fzf
 if type zsh > /dev/null; then
   echo "zsh"
   rm -rf  $HOME/.zshrc

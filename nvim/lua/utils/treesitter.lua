@@ -57,7 +57,7 @@ M.get_all_nodes = function(query, lang, bufnr, pos_row)
   -- todo a huge number
   pos_row = pos_row or 30000
   local success, parsed_query = pcall(function()
-    return vim.treesitter.parse_query(lang, query)
+    return vim.treesitter.query.parse_query(lang, query)
   end)
   if not success then
     error('ts query parse failure')

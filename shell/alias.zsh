@@ -18,6 +18,7 @@ alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
 alias tf="terraform"
+function ssesh(){eval `ssh-agent` && ssh-add}
 
 # jump around
 alias j="z"

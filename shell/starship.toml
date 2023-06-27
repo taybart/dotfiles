@@ -1,6 +1,6 @@
 # format = """$hostname$directory$git_branch$git_status$character"""
-# format = """$python$hostname$directory$git_branch $character"""
-format = """$hostname$directory$git_branch $character"""
+format = """$python$hostname$directory$git_branch $character"""
+# format = """$hostname$directory$git_branch $character"""
 
 add_newline = false
 

@@ -22,6 +22,11 @@ map.mode_group('c', {
   { 'vh', 'vert bo h ' },
 })
 
+map.mode_group('n', {
+  { '<F9>',  'cprev' },
+  { '<F10>', 'cnext' },
+})
+
 -------------------
 ---- MOVEMENT -----
 -------------------

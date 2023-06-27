@@ -23,31 +23,30 @@ return {
     end,
     config = function()
       require('utils/maps').mode_group('n', {
-        { '<c-f><left>',  ':TmuxNavigateLeft<cr>' },
-        { '<c-f><down>',  ':TmuxNavigateDown<cr>' },
-        { '<c-f><up>',    ':TmuxNavigateUp<cr>' },
+        { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
+        { '<c-f><down>', ':TmuxNavigateDown<cr>' },
+        { '<c-f><up>', ':TmuxNavigateUp<cr>' },
         { '<c-f><right>', ':TmuxNavigateRight<cr>' },
       }, { noremap = true, silent = true })
     end,
   },
 
-  {
-    'github/copilot.vim',
-    init = function()
-      vim.g.copilot_no_tab_map = true
-      vim.g.copilot_assume_mapped = true
-      vim.api.nvim_set_keymap(
-        'i',
-        '<c-j>',
-        'copilot#Accept("<CR>")',
-        { silent = true, expr = true }
-      )
-    end,
-  },
+  { 'zbirenbaum/copilot.lua', config = true },
+  -- {
+  --   'github/copilot.vim',
+  --   init = function()
+  --     vim.g.copilot_no_tab_map = true
+  --     vim.g.copilot_assume_mapped = true
+  --     vim.api.nvim_set_keymap(
+  --       'i',
+  --       '<c-j>',
+  --       'copilot#Accept("<CR>")',
+  --       { silent = true, expr = true }
+  --     )
+  --   end,
+  -- },
 
   --[==================[
   -- Probation
   --]==================]
-
-  { 'kkharji/sqlite.lua' },
 }

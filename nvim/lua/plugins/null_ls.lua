@@ -8,6 +8,7 @@ return {
     local null_ls = require('null-ls')
     null_ls.setup({
       sources = {
+        -- git
         null_ls.builtins.code_actions.gitsigns,
         -- lua
         null_ls.builtins.formatting.stylua.with({
@@ -16,22 +17,25 @@ return {
             vim.fn.expand('~/.dotfiles/nvim/stylua.toml'),
           },
         }),
+        -- go
+        null_ls.builtins.code_actions.gomodifytags,
         -- javascript
-        null_ls.builtins.formatting.rome.with({
-          extra_args = {
-            '--semicolons',
-            'as-needed',
-            '--quote-style',
-            'single',
-            '--line-width',
-            '99',
-            '--indent-style',
-            'space',
-          },
-        }),
-        -- null_ls.builtins.formatting.prettier.with({
-        --   extra_args = { '--no-semi', '--single-quote' },
+        -- null_ls.builtins.formatting.rome.with({
+        --   extra_args = {
+        --     '--semicolons',
+        --     'as-needed',
+        --     '--quote-style',
+        --     'single',
+        --     '--line-width',
+        --     '99',
+        --     '--indent-style',
+        --     'space',
+        --   },
         -- }),
+        null_ls.builtins.formatting.prettier.with({
+          extra_args = { '--no-semi', '--single-quote' },
+          disabled_filetypes = { 'json' },
+        }),
         -- sh
         null_ls.builtins.code_actions.shellcheck,
         -- protobuf
