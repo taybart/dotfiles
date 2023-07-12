@@ -55,7 +55,7 @@ local function go_ret_vals()
     end
   end
 
-  local query = vim.treesitter.query.get_query('go', 'LuaSnip_ReturnTypes')
+  local query = vim.treesitter.query.get('go', 'LuaSnip_ReturnTypes')
   local result = ''
   for _, node in query:iter_captures(function_node, 0) do
     if node:type() == 'parameter_list' then
