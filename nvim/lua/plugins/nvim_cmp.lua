@@ -7,7 +7,7 @@ return {
     { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     { 'saadparwaiz1/cmp_luasnip' },
     { 'hrsh7th/cmp-emoji' },
-    { 'zbirenbaum/copilot-cmp', config = true },
+    { 'zbirenbaum/copilot-cmp',             config = true },
   },
   event = 'InsertEnter',
   config = function()
@@ -29,17 +29,13 @@ return {
         }),
       },
       sources = {
-        -- { name = 'luasnip' },
+        { name = 'luasnip' },
         { name = 'copilot' },
         -- Other Sources
         { name = 'nvim_lsp' },
         { name = 'path' },
-        { name = 'luasnip' },
-        -- { name = 'copilot' },
-        -- { name = 'path' },
-        -- { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
-        { name = 'buffer', keyword_length = 6 },
+        { name = 'buffer',                 keyword_length = 6 },
         { name = 'emoji' },
       },
       snippet = {

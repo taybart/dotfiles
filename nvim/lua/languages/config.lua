@@ -82,7 +82,21 @@ return {
       },
     },
   },
-  rust_analyzer = {},
+  rust_analyzer = {
+    settings = {
+      ['rust-analyzer'] = {
+        procMacro = {
+          enable = true,
+          ignore = {
+            leptos_macro = {
+              'server',
+              'component',
+            },
+          },
+        },
+      },
+    },
+  },
   svelte = {},
   terraformls = {},
   tsserver = {
