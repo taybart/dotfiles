@@ -20,18 +20,6 @@ return {
         -- go
         null_ls.builtins.code_actions.gomodifytags,
         -- javascript
-        -- null_ls.builtins.formatting.rome.with({
-        --   extra_args = {
-        --     '--semicolons',
-        --     'as-needed',
-        --     '--quote-style',
-        --     'single',
-        --     '--line-width',
-        --     '99',
-        --     '--indent-style',
-        --     'space',
-        --   },
-        -- }),
         null_ls.builtins.formatting.prettier.with({
           extra_args = { '--no-semi', '--single-quote' },
           disabled_filetypes = { 'json' },

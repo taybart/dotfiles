@@ -327,9 +327,9 @@ function sb() {
   cd $folder
   # create project
   if [[ $1 == "node" ]]; then
-    echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.js", "license": "UNLICENSED","scripts":{"start":"node ."}}' > package.json
-    touch index.js
-    nvim index.js
+    echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.mjs", "license": "UNLICENSED","scripts":{"start":"node ."}}' > package.json
+    touch index.mjs
+    nvim index.mjs
   elif [[ $1 == "rust" ]]; then
     cargo init --name sandbox .
     nvim src/main.rs
