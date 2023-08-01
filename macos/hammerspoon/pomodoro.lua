@@ -82,7 +82,9 @@ log.getCompletedToday = function()
   local logItems = log.getLatestItems(20)
   local timestamp = os.date('%Y-%m-%d')
   local todayItems = hs.fnutils.filter(logItems, function(s)
-    return string.find(s, timestamp, 1, true) ~= nil
+    if type(timestamp) == 'string' then -- get rid of warning
+      return string.find(s, timestamp, 1, true) ~= nil
+    end
   end)
   return todayItems
 end
