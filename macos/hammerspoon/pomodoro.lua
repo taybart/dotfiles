@@ -56,8 +56,6 @@ log.read = function(count)
   if not count then
     count = 10
   end
-  -- Note the funky sed command at the end is to reverse the ordering of the lines:
-  -- return hs.execute('tail -' .. count .. ' ' .. LOG_FILE .. " | sed '1!G;h;$!d' ${inputfile}")
   return hs.execute('tail -' .. count .. ' ' .. LOG_FILE .. ' | sort -r ${inputfile}')
 end
 
