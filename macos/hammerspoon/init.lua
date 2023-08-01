@@ -5,8 +5,16 @@ require('volume')
 require('brightness')
 -- require('snap_windows')
 
-hs.hotkey.bind({ 'cmd', 'alt', 'ctrl' }, 'r', hs.reload)
+local mash = { 'ctrl', 'alt', 'cmd' }
 
+local pomodoro = require('pomodoro')
+hs.hotkey.bind(mash, 'U', pomodoro.startNew)
+hs.hotkey.bind(mash, 'I', pomodoro.togglePaused)
+hs.hotkey.bind(mash, 'O', pomodoro.toggleLatestDisplay)
+
+hs.hotkey.bind(mash, 'r', hs.reload)
+
+--[[
 local function reload_config(files)
   local do_reload = false
   for _, file in pairs(files) do
@@ -20,5 +28,6 @@ local function reload_config(files)
 end
 
 hs.pathwatcher.new(os.getenv('HOME') .. '/.hammerspoon/', reload_config):start()
+]]
 
 hs.alert.show('Config loaded')

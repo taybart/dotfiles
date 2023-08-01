@@ -49,6 +49,7 @@ return {
       },
     },
   },
+  gleam = {},
   lua_ls = {
     settings = {
       Lua = {
