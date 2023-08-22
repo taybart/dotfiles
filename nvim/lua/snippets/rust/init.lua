@@ -6,8 +6,8 @@ local fmt = require('luasnip.extras.fmt').fmt
 local snippets = {
   s(
     { trig = 'read', name = 'read_file', dscr = 'Read file to string' },
-    fmt([[let data = fs::read_to_string("{}").expect("Unable to read file");]], {
-      i(1, 'value'),
+    fmt([[let data = std::fs::read_to_string("{}").expect("Unable to read file");]], {
+      i(1, 'path'),
     })
   ),
 }
