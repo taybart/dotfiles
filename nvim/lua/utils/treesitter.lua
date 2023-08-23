@@ -57,7 +57,7 @@ M.get_all_nodes = function(query, lang, bufnr, pos_row)
   -- todo a huge number
   pos_row = pos_row or 30000
   local success, parsed_query = pcall(function()
-    return vim.treesitter.query.parse_query(lang, query)
+    return vim.treesitter.query.parse(lang, query)
   end)
   if not success then
     error('ts query parse failure')
@@ -83,7 +83,7 @@ M.get_all_nodes = function(query, lang, bufnr, pos_row)
       --
       -- may not handle complex node
       if op == 'name' then
-        name = vim.treesitter.query.get_node_text(node, bufnr)
+        name = vim.treesitter.get_node_text(node, bufnr)
       elseif op == 'declaration' or op == 'clause' then
         declaration_node = node
         sRow, sCol, eRow, eCol = node:range()
