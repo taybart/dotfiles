@@ -39,6 +39,17 @@ return {
         },
       }
     end
+    local function version()
+      local v = vim.version()
+      return {
+        type = 'text',
+        val = v.major .. '.' .. v.minor .. '.' .. v.patch,
+        opts = {
+          position = 'center',
+          hl = 'Number',
+        },
+      }
+    end
 
     dashboard.section.buttons.val = {
       dashboard.button('i', '  Scratch', ':ene<CR>'),
@@ -54,6 +65,7 @@ return {
       section.header,
       { type = 'padding', val = 2 },
       greeting(),
+      version(),
       { type = 'padding', val = 2 },
       section.buttons,
       section.footer,

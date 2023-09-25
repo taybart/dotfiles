@@ -6,6 +6,7 @@ require('utils/augroup').create({
       callback = function()
         local command = vim.api.nvim_create_user_command
         command('Expand', '.!jq', {})
+        command('Compact', '%!jq -c .', {})
       end,
     },
   },

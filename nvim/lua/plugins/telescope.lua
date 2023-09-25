@@ -81,13 +81,14 @@ return {
       {
         'n',
         -- Live grep
-        { '<c-s>', telescope.extensions.live_grep_args.live_grep_args },
+        { '<c-s>',      telescope.extensions.live_grep_args.live_grep_args },
         -- Search under cursor
-        { 'g<c-s>', search_cword },
+        { 'g<c-s>',     search_cword },
         -- Find files
-        { '<c-p>', builtin.find_files },
+        { '<c-p>',      builtin.find_files },
         -- Find open buffers
-        { '<c-b>', builtin.buffers },
+        { '<c-b>',      builtin.buffers },
+        { '<leader>of', builtin.oldfiles },
 
         { '<leader>ev', edit_config },
       },
@@ -158,7 +159,7 @@ return {
       extensions = {
         live_grep_args = {
           auto_quoting = true, -- enable/disable auto-quoting
-          mappings = { -- extend mappings
+          mappings = {         -- extend mappings
             i = {
               ['<c-s>'] = actions.to_fuzzy_refine,
               ['<c-k>'] = lga_actions.quote_prompt(),

@@ -54,3 +54,6 @@ if ! type starship >> /dev/null; then
 fi
 
 eval $(starship init zsh)
+
+# bun completions
+[ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"

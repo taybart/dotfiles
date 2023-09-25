@@ -58,7 +58,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- don't wrap lines
-vim.opt.wrap = false
+-- vim.opt.wrap = false
 
 -- vim.g.c_syntax_for_h=1
 
