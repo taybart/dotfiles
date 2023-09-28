@@ -57,6 +57,7 @@ return {
       dashboard.button('m', '  Mason', ':Mason<CR>'),
       dashboard.button('t', '  Todo', ':ene<CR>:MindOpenMain<CR>'),
       dashboard.button('s', '  Settings', ':e $MYVIMRC | :cd %:p:h | pwd<CR>'),
+      dashboard.button('d', '  DB', ':ene<CR>:DBUI<CR>'),
       dashboard.button('q', '  Quit NVIM', ':qa<CR>'),
     }
     local section = dashboard.section

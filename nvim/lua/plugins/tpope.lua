@@ -23,6 +23,10 @@ return {
       vim.g.db_ui_use_nerd_fonts = 1
       vim.g.db_ui_execute_on_save = false
     end,
+    config = function()
+      vim.cmd([[ autocmd FileType sql nnoremap <leader>g <Plug>(DBUI_ExecuteQuery) ]])
+      vim.cmd([[ autocmd FileType sql vnoremap <leader>g <Plug>(DBUI_ExecuteQuery) ]])
+    end,
   },
 
   -- repeat extra stuff

@@ -23,9 +23,9 @@ return {
     end,
     config = function()
       require('utils/maps').mode_group('n', {
-        { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
-        { '<c-f><down>', ':TmuxNavigateDown<cr>' },
-        { '<c-f><up>', ':TmuxNavigateUp<cr>' },
+        { '<c-f><left>',  ':TmuxNavigateLeft<cr>' },
+        { '<c-f><down>',  ':TmuxNavigateDown<cr>' },
+        { '<c-f><up>',    ':TmuxNavigateUp<cr>' },
         { '<c-f><right>', ':TmuxNavigateRight<cr>' },
       }, { noremap = true, silent = true })
     end,
@@ -49,4 +49,11 @@ return {
   --[==================[
   -- Probation
   --]==================]
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      require('oil').setup()
+      vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' })
+    end,
+  },
 }

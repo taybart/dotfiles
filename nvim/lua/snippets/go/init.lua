@@ -97,7 +97,8 @@ local snippets = {
   s(
     'sb',
     fmt(
-      [[func main(){{
+      [[package main
+      func main(){{
           if err := run(); err != nil {{
             fmt.Println(err)
             os.Exit(1)
@@ -105,6 +106,7 @@ local snippets = {
         }}
         func run() error {{
           {}
+          return nil
         }}]],
       { i(0) }
     )
