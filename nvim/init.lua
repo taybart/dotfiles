@@ -62,6 +62,7 @@ vim.opt.smartcase = true
 
 -- vim.g.c_syntax_for_h=1
 
+vim.loader.enable()
 -- ensure lazy is installed
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
