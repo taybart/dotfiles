@@ -96,7 +96,6 @@ require('lazy').setup('plugins', {
 
 require('looks')
 require('keymaps')
-require('commands')
 require('utils')
 
 if vim.fn.has('mac') then
