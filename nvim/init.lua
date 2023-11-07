@@ -62,7 +62,16 @@ vim.opt.smartcase = true
 
 -- vim.g.c_syntax_for_h=1
 
+-- speed up modules
 vim.loader.enable()
+
+-- Idiot proofing
+local cmd = vim.api.nvim_create_user_command
+cmd('W', 'w', {})
+cmd('Q', 'q', {})
+cmd('WQ', 'wq', {})
+cmd('Wq', 'wq', {})
+
 -- ensure lazy is installed
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then

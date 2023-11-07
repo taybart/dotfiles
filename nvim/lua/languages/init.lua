@@ -12,6 +12,7 @@ function M.setup()
   require('languages/python')
   require('languages/rest')
   require('languages/rust')
+  require('languages/sh')
 
   -- procfile
   vim.filetype.add({ filename = { ['Procfile'] = 'procfile' } })
