@@ -4,7 +4,8 @@ require('utils/augroup').create({
       event = 'FileType',
       pattern = 'sh',
       callback = function()
-        vim.api.nvim_create_user_command('Run', ':!./%', {})
+        local cmd = vim.api.nvim_create_user_command
+        cmd('Run', ':!chmod +x ./% && ./%', {})
       end,
     },
   },
