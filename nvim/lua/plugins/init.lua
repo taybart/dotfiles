@@ -1,6 +1,6 @@
 return {
   {
-    -- 'taybart/rest.nvim',
+    -- dir = 'taybart/rest.nvim',
     dir = '~/dev/taybart/rest.nvim',
     config = true,
   },
@@ -23,9 +23,9 @@ return {
     end,
     config = function()
       require('utils/maps').mode_group('n', {
-        { '<c-f><left>',  ':TmuxNavigateLeft<cr>' },
-        { '<c-f><down>',  ':TmuxNavigateDown<cr>' },
-        { '<c-f><up>',    ':TmuxNavigateUp<cr>' },
+        { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
+        { '<c-f><down>', ':TmuxNavigateDown<cr>' },
+        { '<c-f><up>', ':TmuxNavigateUp<cr>' },
         { '<c-f><right>', ':TmuxNavigateRight<cr>' },
       }, { noremap = true, silent = true })
     end,

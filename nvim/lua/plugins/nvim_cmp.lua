@@ -6,8 +6,7 @@ return {
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     { 'saadparwaiz1/cmp_luasnip' },
-    { 'hrsh7th/cmp-emoji' },
-    { 'zbirenbaum/copilot-cmp',             config = true },
+    { 'zbirenbaum/copilot-cmp', config = true },
   },
   event = 'InsertEnter',
   config = function()
@@ -20,7 +19,6 @@ return {
       preselect = cmp.PreselectMode.None,
       mapping = {
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-        -- ['<C-y>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
         ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior }),
         ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior }),
         ['<C-j>'] = cmp.mapping({
@@ -35,8 +33,7 @@ return {
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'nvim_lsp_signature_help' },
-        { name = 'buffer',                 keyword_length = 6 },
-        { name = 'emoji' },
+        { name = 'buffer', keyword_length = 6 },
       },
       snippet = {
         expand = function(args)
