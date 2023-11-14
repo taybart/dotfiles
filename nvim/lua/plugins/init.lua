@@ -1,7 +1,7 @@
 return {
   {
-    -- dir = 'taybart/rest.nvim',
-    dir = '~/dev/taybart/rest.nvim',
+    'taybart/rest.nvim',
+    -- dir = '~/dev/taybart/rest.nvim',
     config = true,
   },
   {
