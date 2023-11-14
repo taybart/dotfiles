@@ -6,6 +6,10 @@ function add_path() {
   export PATH="$PATH:$1"
 }
 
+# nixos
+add_path "/run/wrappers/bin"
+add_path "/run/current-system/sw/bin"
+
 # macos
 add_path "/opt/homebrew/sbin:/opt/homebrew/bin"
 # go
