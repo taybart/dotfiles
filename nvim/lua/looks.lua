@@ -30,6 +30,10 @@ vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYel
 vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
 vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
 
+-- fix neo-tree preview color issue
+vim.cmd('hi NormalFloat guibg=GruvBoxBg1')
+vim.cmd('hi FloatBorder guibg=GruvBoxBg1')
+
 function M.toggle_num(rel_on)
   if vim.bo.ft == '' then
     return
