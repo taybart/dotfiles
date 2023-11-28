@@ -1,5 +1,10 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  dependencies = {
+    { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    { 'nvim-treesitter/nvim-treesitter-context' },
+    { 'nvim-treesitter/playground', cmd = { 'TSPlaygroundToggle' } },
+  },
   build = function()
     pcall(require('nvim-treesitter.install').update({ with_sync = true }))
   end,
@@ -31,9 +36,9 @@ return {
       highlight = {
         enable = true,
       },
-      context_commentstring = {
-        enable = true,
-      },
+      -- context_commentstring = {
+      --   enable = true,
+      -- },
       textobjects = {
         swap = {
           enable = true,
@@ -103,9 +108,4 @@ return {
       },
     })
   end,
-  dependencies = {
-    { 'nvim-treesitter/nvim-treesitter-textobjects' },
-    { 'nvim-treesitter/nvim-treesitter-context' },
-    { 'nvim-treesitter/playground', cmd = { 'TSPlaygroundToggle' } },
-  },
 }
