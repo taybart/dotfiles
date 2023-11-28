@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Youtube shorts redirect
 // @namespace    https://youtube.com
-// @version      0.3
+// @version      0.4
 // @description  Youtuebe shorts > watch redirect
-// @author       Fuim
+// @author       Fuim, taybart
 // @match        *://*.youtube.com/*
 // @icon         https://www.google.com/s2/favicons?domain=youtube.com
 // @grant        none
@@ -17,12 +17,11 @@ if (window.location.href.indexOf('youtube.com/shorts') > -1) {
   )
 }
 window.onload = function () {
-  var bodyList = document.querySelector('body')
-  var observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
+  const bodyList = document.querySelector('body')
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((_mutation) => {
       if (oldHref != document.location.href) {
         oldHref = document.location.href
-        console.log('location changed!')
         if (window.location.href.indexOf('youtube.com/shorts') > -1) {
           window.location.replace(
             window.location.toString().replace('/shorts/', '/watch?v='),
