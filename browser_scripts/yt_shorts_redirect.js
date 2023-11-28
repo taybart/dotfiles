@@ -10,13 +10,13 @@
 // @run-at       document-start
 // @license      GNU GPLv2
 // ==/UserScript==
-var oldHref = document.location.href
+let oldHref = document.location.href
 if (window.location.href.indexOf('youtube.com/shorts') > -1) {
   window.location.replace(
     window.location.toString().replace('/shorts/', '/watch?v='),
   )
 }
-window.onload = function () {
+window.onload = () => {
   const bodyList = document.querySelector('body')
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((_mutation) => {
@@ -30,7 +30,7 @@ window.onload = function () {
       }
     })
   })
-  var config = {
+  const config = {
     childList: true,
     subtree: true,
   }
