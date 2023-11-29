@@ -5,6 +5,11 @@ return {
     config = true,
   },
   {
+    'taybart/resurrect.nvim',
+    -- dir = '~/dev/taybart/resurrect.nvim',
+    config = true,
+  },
+  {
     'taybart/b64.nvim',
     -- dir = '~/dev/taybart/rest.nvim',
     config = function()
