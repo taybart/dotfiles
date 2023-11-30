@@ -1,0 +1,26 @@
+--- nvim_session.sh	2023-11-30 13:37:39
++++ nvim_session.sh	2023-11-30 13:37:56
+@@ -8,20 +8,17 @@
+ DIRECTORY="$2"
+ 
+ nvim_session_file_exists() {
+-	[ -e "${DIRECTORY}/Session.vim" ]
++	[ -e "${DIRECTORY}/.resurrect" ]
+ }
+ 
+ original_command_contains_session_flag() {
+-	[[ "$ORIGINAL_COMMAND" =~ "-S" ]]
++	[[ "$ORIGINAL_COMMAND" =~ "-c Resurrect" ]]
+ }
+ 
+ main() {
+ 	if nvim_session_file_exists; then
+-		echo "nvim -S"
++		echo "nvim -c Resurrect"
+ 	elif original_command_contains_session_flag; then
+-		# Session file does not exist, yet the original nvim command contains
+-		# session flag `-S`. This will cause an error, so we're falling back to
+-		# starting plain nvim.
+ 		echo "nvim"
+ 	else
+ 		echo "$ORIGINAL_COMMAND"
