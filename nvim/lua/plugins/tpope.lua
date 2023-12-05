@@ -15,7 +15,7 @@ return {
   {
     'kristijanhusak/vim-dadbod-ui',
     dependencies = {
-      { 'tpope/vim-dadbod', lazy = true },
+      { 'tpope/vim-dadbod',                     lazy = true },
       { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
     },
     cmd = { 'DBUI', 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
@@ -34,7 +34,12 @@ return {
   -- additional subsitutions
   { 'tpope/vim-abolish' },
   -- git
-  { 'tpope/vim-fugitive' },
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      vim.cmd([[ autocmd FileType fugitive nnoremap <leader>gp :G push<cr> ]])
+    end,
+  },
   -- somebody come get her
   { 'tpope/vim-scriptease' },
   -- procfile support
