@@ -23,9 +23,12 @@ map.mode_group('c', {
 })
 
 map.mode_group('n', {
-  { '<F9>',  'cprev' },
+  { '<F9>', 'cprev' },
   { '<F10>', 'cnext' },
 })
+
+-- see language specific definitions of Run in languages/{language}
+map.nnoremap('<leader>r', ':Run<cr>')
 
 -------------------
 ---- MOVEMENT -----
@@ -103,10 +106,13 @@ map.nnoremap('<leader>t<cr>', 'mzgg=G`z:w<cr>')
 -- Emacs indent
 -- map.nnoremap('<Tab>', '==')
 -- map.vnoremap('<Tab>', '=')
--- -- mapping tab maps c-i?? #20126
+-- -- mapping tab maps c-i?? https://github.com/neovim/neovim/issues/20126
 -- map.nnoremap('<c-i>', '<c-i>')
+
 map.vmap('<Tab>', '>gv')
 map.vmap('<S-Tab>', '<gv')
+
+map.vnoremap('<leader>q', ':s/\\(\\S.*\\)/"\\1",<cr>:noh<cr>')
 
 -- Get rid of the fucking stupid OCD whitespace
 -- Get rid of the fucking stupid <200b>
