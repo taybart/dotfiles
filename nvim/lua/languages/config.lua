@@ -58,6 +58,7 @@ return {
         },
         diagnostics = {
           globals = { 'hs', 'utf8' },
+          disable = { 'missing-fields' },
         },
         workspace = {
           -- library = vim.api.nvim_get_runtime_file('', true),
@@ -70,19 +71,20 @@ return {
     },
   },
   ocamllsp = {},
-  pylsp = {
-    settings = {
-      pylsp = {
-        plugins = {
-          pycodestyle = {
-            enabled = false,
-            ignore = { 'E261', 'W391' },
-            maxLineLength = 100,
-          },
-        },
-      },
-    },
-  },
+  -- pylsp = {
+  --   settings = {
+  --     pylsp = {
+  --       plugins = {
+  --         pycodestyle = {
+  --           enabled = false,
+  --           ignore = { 'E261', 'W391' },
+  --           maxLineLength = 100,
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
+  ruff_lsp = {},
   rust_analyzer = {
     settings = {
       ['rust-analyzer'] = {

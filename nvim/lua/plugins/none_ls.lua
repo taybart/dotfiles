@@ -28,6 +28,9 @@ return {
         null_ls.builtins.code_actions.shellcheck,
         -- protobuf
         null_ls.builtins.formatting.buf,
+        -- python
+        -- null_ls.builtins.diagnostics.ruff,
+        -- null_ls.builtins.formatting.ruff,
       },
       root_dir = require('lspconfig/util').root_pattern(
         '.null-ls-root',

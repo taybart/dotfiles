@@ -33,6 +33,8 @@ function M.setup()
     },
   })
 
+  require('lspconfig.ui.windows').default_options.border = 'single'
+
   -- add borders to docs
   local border = {
     { '🭽', 'FloatBorder' },
