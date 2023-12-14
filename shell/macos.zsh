@@ -24,7 +24,12 @@ function showhidden() {
 
 function remove() {
   brew rm $1
-  brew rm $(join <(brew leaves) <(brew deps $1))
+  # maybe move to brew autoremove every once in a while
+  # leaves=$(join <(brew leaves) <(brew deps $1))
+  # if [ -z "$leaves" ]; then
+  #   brew rm $leaves
+  # fi
+  # brew rm $(join <(brew leaves) <(brew deps $1))
 }
 function title {
   echo -ne "\033]0;"$*"\007"
