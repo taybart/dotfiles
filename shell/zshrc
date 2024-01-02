@@ -53,7 +53,7 @@ if ! type starship >> /dev/null; then
   curl -sS https://starship.rs/install.sh | sh
 fi
 
-eval $(starship init zsh)
+source <(starship init zsh)
 
 # bun completions
 [ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
