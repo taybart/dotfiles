@@ -11,12 +11,11 @@
 // ==/UserScript==
 
 ;(() => {
-  var head, style
-  head = document.getElementsByTagName('head')[0]
+  const head = document.getElementsByTagName('head')[0]
   if (!head) {
     return
   }
-  style = document.createElement('style')
+  const style = document.createElement('style')
   // style.type = 'text/css'
   style.innerHTML = `
   [data-testid="sidebarColumn"] {
