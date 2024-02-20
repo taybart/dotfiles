@@ -3,7 +3,6 @@ return {
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
     { 'nvim-treesitter/nvim-treesitter-context' },
-    { 'nvim-treesitter/playground', cmd = { 'TSPlaygroundToggle' } },
   },
   build = function()
     pcall(require('nvim-treesitter.install').update({ with_sync = true }))
