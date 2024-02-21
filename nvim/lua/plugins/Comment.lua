@@ -1,25 +1,9 @@
 return {
   'numToStr/Comment.nvim',
+  event = 'InsertEnter',
   dependencies = {
     'JoosepAlviste/nvim-ts-context-commentstring',
-    ft = {
-      'javascriptreact',
-      'typescriptreact',
-      'javascript',
-      'typescript',
-      'tsx',
-      'css',
-      'scss',
-      'php',
-      'html',
-      'svelte',
-      'vue',
-      'astro',
-      'handlebars',
-      'glimmer',
-      'graphql',
-      'lua',
-    },
+    event = 'VeryLazy',
   },
   config = function()
     require('Comment').setup({

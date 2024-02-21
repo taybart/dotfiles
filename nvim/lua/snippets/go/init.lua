@@ -41,6 +41,9 @@ end
 
 local function go_ret_vals()
   local cursor_node = ts_utils.get_node_at_cursor()
+  if cursor_node == nil then
+    return ''
+  end
   local scope = ts_locals.get_scope_tree(cursor_node, 0)
 
   local function_node

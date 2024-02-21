@@ -1,12 +1,18 @@
 return {
   {
-    'gruvbox-community/gruvbox',
+    'ellisonleao/gruvbox.nvim',
     lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
-    init = function()
+    config = function()
+      local gb = require('gruvbox')
+      gb.setup({
+        overrides = {
+          SignColumn = { bg = gb.palette.dark0 },
+        },
+      })
       vim.opt.background = 'dark' -- or "light" for light mode
-      vim.g.gruvbox_italic = 1
-      vim.g.gruvbox_sign_column = 'bg0'
+      -- vim.g.gruvbox_italic = 1
+      -- vim.g.gruvbox_sign_column = 'bg0'
       vim.cmd('colorscheme gruvbox')
     end,
   },

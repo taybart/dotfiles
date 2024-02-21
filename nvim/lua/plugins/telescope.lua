@@ -44,6 +44,7 @@ end
 
 return {
   'nvim-telescope/telescope.nvim',
+  event = 'VeryLazy',
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
     { 'nvim-telescope/telescope-live-grep-args.nvim' },
@@ -81,13 +82,18 @@ return {
       {
         'n',
         -- Live grep
-        { '<c-s>',      telescope.extensions.live_grep_args.live_grep_args },
+        { '<c-s>', telescope.extensions.live_grep_args.live_grep_args },
         -- Search under cursor
-        { 'g<c-s>',     search_cword },
+        { 'g<c-s>', search_cword },
         -- Find files
-        { '<c-p>',      builtin.find_files },
+        {
+          '<c-p>',
+          function()
+            builtin.find_files({ follow = true })
+          end,
+        },
         -- Find open buffers
-        { '<c-b>',      builtin.buffers },
+        { '<c-b>', builtin.buffers },
         { '<leader>of', builtin.oldfiles },
 
         { '<leader>ev', edit_config },
@@ -99,7 +105,7 @@ return {
       },
     })
 
-    require('telescope').setup({
+    telescope.setup({
       defaults = {
         prompt_prefix = '   ',
         -- selection_caret = '  ',
@@ -131,6 +137,7 @@ return {
           '--line-number',
           '--column',
           '--smart-case',
+          '--follow',
         },
         mappings = {
           i = {
@@ -159,7 +166,7 @@ return {
       extensions = {
         live_grep_args = {
           auto_quoting = true, -- enable/disable auto-quoting
-          mappings = {         -- extend mappings
+          mappings = { -- extend mappings
             i = {
               ['<c-s>'] = actions.to_fuzzy_refine,
               ['<c-k>'] = lga_actions.quote_prompt(),
@@ -169,6 +176,6 @@ return {
         },
       },
     })
-    require('telescope').load_extension('live_grep_args')
+    telescope.load_extension('live_grep_args')
   end,
 }

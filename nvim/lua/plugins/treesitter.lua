@@ -1,5 +1,6 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  event = 'VeryLazy',
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
     { 'nvim-treesitter/nvim-treesitter-context' },
@@ -69,12 +70,34 @@ return {
           enable = true,
           lookahead = true,
           keymaps = {
+            ['aa'] = '@parameter.outer',
+            ['ia'] = '@parameter.inner',
             ['af'] = '@function.outer',
             ['if'] = '@function.inner',
             ['ac'] = '@class.outer',
             ['ic'] = '@class.inner',
             ['uc'] = '@comment.outer',
           },
+        },
+      },
+
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = '<CR>',
+          node_incremental = '<CR>',
+          scope_incremental = '<C-s>',
+          node_decremental = '<BS>',
+
+          -- init_selection = '<C-n>',
+          -- node_incremental = '<C-n>',
+          -- scope_incremental = '<C-s>',
+          -- node_decremental = '<C-p>',
+
+          -- init_selection = 'gnn',
+          -- node_incremental = 'grn',
+          -- node_decremental = '<bs>',
+          -- scope_incremental = '<tab>',
         },
       },
       playground = {
