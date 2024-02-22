@@ -5,8 +5,8 @@ return {
     config = true,
   },
   {
-    'taybart/resurrect.nvim',
-    -- dir = '~/dev/taybart/resurrect.nvim',
+    -- 'taybart/resurrect.nvim',
+    dir = '~/dev/taybart/resurrect.nvim',
     config = true,
   },
   {
@@ -47,5 +47,11 @@ return {
       require('oil').setup()
       vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' })
     end,
+  },
+
+  {
+    'NStefan002/2048.nvim',
+    cmd = 'Play2048',
+    config = true,
   },
 }

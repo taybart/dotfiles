@@ -92,6 +92,8 @@ return {
             builtin.find_files({ follow = true })
           end,
         },
+        -- Find help tags
+        { '<c-h>', builtin.help_tags },
         -- Find open buffers
         { '<c-b>', builtin.buffers },
         { '<leader>of', builtin.oldfiles },

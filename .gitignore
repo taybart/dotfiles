@@ -11,3 +11,4 @@ macos/hammerspoon/Spoons
 shell/plugins/*
 **/*.luarc.json
 **/.mind
+.resurrect

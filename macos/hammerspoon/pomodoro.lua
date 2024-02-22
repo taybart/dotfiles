@@ -8,9 +8,9 @@ local currentPomo = nil
 local alertId = nil
 
 local INTERVAL_SECONDS = 60 -- Set to 60 (one minute) for real use; set lower for debugging
-local POMO_LENGTH = 25 -- Number of intervals (minutes) in one work pomodoro
+local POMO_LENGTH = 45 -- Number of intervals (minutes) in one work pomodoro
 -- POMO_LENGTH = 1 -- Number of intervals (minutes) in one work pomodoro
-local BREAK_LENGTH = 5 -- Number of intervals (minutes) in one break time
+local BREAK_LENGTH = 20 -- Number of intervals (minutes) in one break time
 local LOG_FILE = '~/.pomo'
 
 -- Namespace tables
