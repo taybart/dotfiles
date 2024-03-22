@@ -8,17 +8,26 @@ return {
     local ls = require('luasnip')
     require('utils/maps').group({ silent = true }, {
       {
-        'i',
-        '<c-e>',
+        { 'i', 's' },
+        '<c-l>',
         function()
           ls.jump(1)
         end,
       },
       {
-        's',
+        { 'i', 's' },
+        '<c-j>',
+        function()
+          ls.jump(-1)
+        end,
+      },
+      {
+        { 'i', 's' },
         '<c-e>',
         function()
-          ls.jump(1)
+          if ls.choice_active() then
+            ls.change_choice(1)
+          end
         end,
       },
     })

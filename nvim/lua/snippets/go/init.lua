@@ -49,9 +49,9 @@ local function go_ret_vals()
   local function_node
   for _, v in ipairs(scope) do
     if
-      v:type() == 'function_declaration'
-      or v:type() == 'method_declaration'
-      or v:type() == 'func_literal'
+        v:type() == 'function_declaration'
+        or v:type() == 'method_declaration'
+        or v:type() == 'func_literal'
     then
       function_node = v
       break

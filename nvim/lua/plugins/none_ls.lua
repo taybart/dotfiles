@@ -25,8 +25,6 @@ return {
           extra_args = { '--no-semi', '--single-quote' },
           disabled_filetypes = { 'json' },
         }),
-        -- sh
-        null_ls.builtins.code_actions.shellcheck,
         -- protobuf
         null_ls.builtins.formatting.buf,
         -- python

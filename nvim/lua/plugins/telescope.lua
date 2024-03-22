@@ -147,6 +147,7 @@ return {
             ['<c-v>'] = stopinsert(custom_actions.multi_selection_open_vertical),
             ['<c-s>'] = stopinsert(custom_actions.multi_selection_open_horizontal),
             ['<cr>'] = stopinsert(custom_actions.multi_selection_open),
+            ['<C-e>'] = { '<esc>', type = 'command' },
           },
           n = {
             ['<c-v>'] = custom_actions.multi_selection_open_vertical,

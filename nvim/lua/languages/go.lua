@@ -114,11 +114,16 @@ function go.clear_tags()
 end
 
 function go.run(args)
-  local file_name = args.fargs[1]
-  if file_name == '' or file_name == nil then
-    file_name = '.'
+  -- local file_name = args.fargs[1]
+  -- if file_name == '' or file_name == nil then
+  --   file_name = '.'
+  -- end
+  -- vim.api.nvim_command('!go run ' .. file_name)
+  local cmd = '!go run . '
+  for _, v in ipairs(args.fargs) do
+    cmd = cmd .. v .. ' '
   end
-  vim.api.nvim_command('!go run ' .. file_name)
+  vim.api.nvim_command(cmd)
 end
 
 function go.test(args)
@@ -190,7 +195,7 @@ require('utils/augroup').create({
         command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
         command('StructTags', go.add_tags, { nargs = '*' })
         command('ClearStructTags', go.clear_tags, {})
-        command('Run', go.run, { nargs = '?' })
+        command('Run', go.run, { nargs = '*' })
         command('Test', go.test, { nargs = '?' })
         command('Tidy', '!go mod tidy', { nargs = '?' })
         command('R', 'LspRestart', { nargs = '?' })
