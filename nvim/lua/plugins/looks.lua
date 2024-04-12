@@ -32,9 +32,9 @@ return {
           show_buffer_close_icons = false,
           right_mouse_command = '',
           middle_mouse_command = 'bdelete! %d',
-          custom_filter = function(buf_number)
-            return vim.bo[buf_number].filetype ~= 'qf'
-          end,
+          -- custom_filter = function(buf_number)
+          --   return vim.bo[buf_number].filetype ~= 'qf'
+          -- end,
         },
       })
     end,

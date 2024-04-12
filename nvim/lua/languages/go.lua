@@ -199,6 +199,7 @@ require('utils/augroup').create({
         command('Test', go.test, { nargs = '?' })
         command('Tidy', '!go mod tidy', { nargs = '?' })
         command('R', 'LspRestart', { nargs = '?' })
+        command('Imports', go.organize_imports, {})
       end,
     },
   },

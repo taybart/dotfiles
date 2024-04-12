@@ -90,6 +90,8 @@ require('lazy').setup('plugins', {
   },
 })
 
+vim.cmd([[pa cfilter]])
+
 require('looks')
 require('keymaps')
 require('utils')
