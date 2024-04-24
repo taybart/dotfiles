@@ -88,6 +88,7 @@ M.on_attach = function()
     { 'K', vim.lsp.buf.hover },
     { 'E', vim.diagnostic.open_float },
     { 'ca', vim.lsp.buf.code_action },
+    { '<leader>rn', vim.lsp.buf.rename },
   }, { noremap = true, silent = true })
 
   local command = vim.api.nvim_create_user_command

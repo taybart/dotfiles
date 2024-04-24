@@ -67,6 +67,7 @@ return {
       },
     },
   },
+  htmx = {},
   lua_ls = {
     settings = {
       Lua = {
@@ -133,4 +134,5 @@ return {
       end,
     },
   },
+  zls = {},
 }
