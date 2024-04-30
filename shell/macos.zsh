@@ -24,6 +24,7 @@ function showhidden() {
 
 function remove() {
   brew rm $1
+  brew autoremove
   # maybe move to brew autoremove every once in a while
   # leaves=$(join <(brew leaves) <(brew deps $1))
   # if [ -z "$leaves" ]; then

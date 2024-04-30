@@ -126,7 +126,7 @@ function envup {
   done
 
   # expand vars with *_PATH and base64 encode
-  if [ do_paths ]; then 
+  if [ do_paths ]; then
     # filter vars with *_PATH
     pattern="*_PATH*"
     path_vars=(${(M)env_vars:#$~pattern})
