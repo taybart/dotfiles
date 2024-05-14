@@ -74,14 +74,23 @@ wezterm.on('format-tab-title', function(tab, _, panes)
   return '  ' .. title .. '  '
 end)
 
+local function scheme_for_appearance(appearance)
+  if appearance:find('Dark') then
+    return 'GruvboxDark'
+  else
+    return 'Catppuccin Latte'
+  end
+end
+
 return {
   -- look
-  color_scheme = 'GruvboxDark',
+  -- color_scheme = 'GruvboxDark',
+  color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
   font = wezterm.font('JetBrains Mono'),
   font_size = 18,
   cursor_blink_rate = 0,
   colors = {
-    background = colors.bg,
+    -- background = colors.bg,
     tab_bar = {
       background = colors.status_bg,
       active_tab = { bg_color = colors.blue, fg_color = colors.yellow, intensity = 'Bold' },
