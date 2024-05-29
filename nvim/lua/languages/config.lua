@@ -75,7 +75,7 @@ return {
           enable = false,
         },
         diagnostics = {
-          globals = { 'hs', 'utf8' },
+          globals = { 'vim', 'hs', 'utf8' },
           disable = { 'missing-fields' },
         },
         workspace = {
@@ -124,7 +124,7 @@ return {
     -- https://github.com/typescript-language-server/typescript-language-server/issues/216
     handlers = {
       ['textDocument/definition'] = function(err, result, method, ...)
-        if vim.tbl_islist(result) then
+        if vim.islist(result) then
           if #result > 1 then
             local filtered = filter(result, filterReactDTS)
             return vim.lsp.handlers['textDocument/definition'](err, filtered, method, ...)

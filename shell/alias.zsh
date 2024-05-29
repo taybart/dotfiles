@@ -58,7 +58,7 @@ alias gd="git diff --patience --ignore-space-change"
 function git() {
     if [ $1 = "clone" ]
     then 
-        command git $@ && cd "$(basename "$_" .git)"
+        command git $@ && cd "$(basename "$_" .git)" && $EDITOR
     else
         command git $@
     fi

@@ -7,6 +7,10 @@
 // @match        https://twitter.com/*
 // @match        https://www.twitter.com/
 // @match        https://www.twitter.com/*
+// @match        https://x.com/
+// @match        https://x.com/*
+// @match        https://www.x.com/
+// @match        https://www.x.com/*
 // @grant        none
 // ==/UserScript==
 

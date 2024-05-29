@@ -1,6 +1,6 @@
 source "$DOTFILES/shell/essentials.zsh"
 
-export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+export PATH="$HOME/.local/bin:/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 function add_path() {
   export PATH="$PATH:$1"
