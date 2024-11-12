@@ -32,7 +32,7 @@ return {
     },
   },
   astro = {},
-  bufls = {},
+  buf_ls = {},
   clangd = {
     -- remove "proto" for now since i use protobuf more
     filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
@@ -102,7 +102,7 @@ return {
   --     },
   --   },
   -- },
-  ruff_lsp = {},
+  ruff = {},
   rust_analyzer = {
     settings = {
       ['rust-analyzer'] = {
@@ -120,7 +120,7 @@ return {
   },
   svelte = {},
   terraformls = {},
-  tsserver = {
+  ts_ls = {
     -- https://github.com/typescript-language-server/typescript-language-server/issues/216
     handlers = {
       ['textDocument/definition'] = function(err, result, method, ...)
