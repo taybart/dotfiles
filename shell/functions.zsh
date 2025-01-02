@@ -330,9 +330,19 @@ function sb() {
     echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.mjs", "license": "UNLICENSED","scripts":{"start":"node ."}}' > package.json
     touch index.mjs
     nvim index.mjs
+  elif [[ $1 == "ts" ]]; then
+    echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.ts", "license": "UNLICENSED"}' > package.json
+    touch index.ts
+    # npx @biomejs/biome format --write index.ts
+    nvim index.ts
   elif [[ $1 == "rust" ]]; then
     cargo init --name sandbox .
     nvim src/main.rs
+  elif [[ $1 == "python" ]]; then
+    touch main.py
+    python3 -m venv .venv
+    source ./.venv/bin/activate
+    nvim main.py
   else
     go mod init sandbox
     echo "package main\n" > main.go

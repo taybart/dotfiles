@@ -37,6 +37,9 @@ return {
     -- remove "proto" for now since i use protobuf more
     filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
   },
+  denols = {
+    root_dir = lcutil.root_pattern('deno.json', 'deno.jsonc'),
+  },
   gopls = {
     root_dir = lcutil.root_pattern('go.work', 'go.mod', '.git'),
     settings = {

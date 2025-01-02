@@ -35,6 +35,8 @@ bindkey '^[[1;3D' backward-word                   # alt + <-
 # Disable command auto-correction.
 unsetopt correct
 
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -64,3 +66,5 @@ source <(starship init zsh)
 
 # bun completions
 [ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
