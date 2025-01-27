@@ -4,6 +4,7 @@ local M = {}
 function M.setup()
   -- language specific stuff
   require('languages/arduino')
+  require('languages/apex')
   require('languages/go')
   require('languages/json')
   require('languages/lua')
