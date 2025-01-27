@@ -343,6 +343,7 @@ function sb() {
     python3 -m venv .venv
     source ./.venv/bin/activate
     nvim main.py
+    deactivate
   else
     go mod init sandbox
     echo "package main\n" > main.go
