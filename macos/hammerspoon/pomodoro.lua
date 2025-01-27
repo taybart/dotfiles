@@ -199,7 +199,7 @@ app.completePomo = function(pomo)
 end
 
 app.getMenubarTitle = function(pomo)
-  local title = '🍅'
+  local title = '🕘'
   if pomo then
     title = title .. ('0:' .. string.format('%02d', pomo.minutesLeft))
     if pomo.paused then
