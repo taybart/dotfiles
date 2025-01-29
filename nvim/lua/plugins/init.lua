@@ -22,6 +22,76 @@ return {
   --]==================]
 
   {
+    -- 'taybart/inline.nvim',
+    dir = '~/dev/taybart/inline.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    config = function()
+      local il = require('inline').setup({
+        keymaps = {
+          enabled = false,
+        },
+        signcolumn = {
+          enabled = false,
+          -- note_icon = '->',
+        },
+        virtual_text = {
+          enabled = true,
+          icon = '📰',
+        },
+        popup = {
+          width = 20,
+          height = 4,
+        },
+      })
+      local command = vim.api.nvim_create_user_command
+      vim.keymap.set('n', '<leader>N', function()
+        il.notes.show(false)
+      end)
+      command('EditFileNote', function()
+        il.notes.show(true, true)
+      end, {})
+      command('AddNote', function()
+        il.notes.add()
+      end, {})
+      command('ShowNote', function()
+        il.notes.show()
+      end, {})
+    end,
+  },
+
+  {
+    'olimorris/codecompanion.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    opts = {
+      strategies = {
+        chat = {
+          adapter = 'copilot',
+        },
+        inline = {
+          adapter = 'copilot',
+        },
+      },
+    },
+  },
+
+  {
+    'atiladefreitas/dooing',
+    -- enabled = false,
+    opts = {
+      quick_keys = false,
+      window = {
+        position = 'top-right',
+      },
+      keymaps = {
+        toggle_window = false,
+      },
+    },
+  },
+
+  {
     'tzachar/local-highlight.nvim',
     config = true,
   },
