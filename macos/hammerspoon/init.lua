@@ -3,14 +3,14 @@ hs.loadSpoon('EmmyLua')
 require('audio')
 require('volume')
 require('brightness')
+require('pomodoro')
 -- require('snap_windows')
 
 local mash = { 'ctrl', 'alt', 'cmd' }
 
-local pomodoro = require('pomodoro')
-hs.hotkey.bind(mash, 'U', pomodoro.startNew)
-hs.hotkey.bind(mash, 'I', pomodoro.togglePaused)
-hs.hotkey.bind(mash, 'O', pomodoro.toggleLatestDisplay)
+-- hs.hotkey.bind(mash, 'U', pomodoro.startNew)
+-- hs.hotkey.bind(mash, 'I', pomodoro.togglePaused)
+-- hs.hotkey.bind(mash, 'O', pomodoro.toggleLatestDisplay)
 
 hs.hotkey.bind(mash, 'r', hs.reload)
 
