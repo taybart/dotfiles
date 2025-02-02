@@ -16,6 +16,7 @@ return {
       vim.cmd('colorscheme gruvbox')
     end,
   },
+
   {
     'catppuccin/nvim',
     name = 'catppuccin',
@@ -23,6 +24,7 @@ return {
   },
   {
     'f-person/auto-dark-mode.nvim',
+    enabled = vim.fn.has('mac'),
     config = {
       update_interval = 1000,
       set_dark_mode = function()
@@ -56,7 +58,7 @@ return {
           -- end,
         },
       })
-      vim.opt.showtabline = 1
+      -- vim.opt.showtabline = 1
       -- if using alpha
       vim.api.nvim_create_autocmd('User', {
         pattern = 'AlphaReady',

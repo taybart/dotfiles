@@ -3,7 +3,19 @@ return {
     'stevearc/oil.nvim',
     config = function()
       require('oil').setup()
-      vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' })
+      vim.keymap.set('n', '-', '<cmd>Oil --float<cr>', { desc = 'Open parent directory' })
+      require('utils/augroup').create({
+        oil = {
+          {
+            event = 'FileType',
+            pattern = 'oil',
+            callback = function()
+              vim.keymap.set('n', 'q', '<cmd>wq<cr>', {})
+              vim.keymap.set('n', '<esc>', '<cmd>wq<cr>', {})
+            end,
+          },
+        },
+      })
     end,
   },
   {

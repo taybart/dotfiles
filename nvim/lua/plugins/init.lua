@@ -24,43 +24,64 @@ return {
   {
     -- 'taybart/inline.nvim',
     dir = '~/dev/taybart/inline.nvim',
+    -- dependencies = { 'nvim-telescope/telescope.nvim', 'kkharji/sqlite.lua' },
     dependencies = { 'nvim-telescope/telescope.nvim' },
+    -- event = 'VeryLazy',
     config = function()
       local il = require('inline').setup({
-        keymaps = {
-          enabled = false,
-        },
-        signcolumn = {
-          enabled = false,
-          -- note_icon = '->',
-        },
-        virtual_text = {
-          enabled = true,
-          icon = '📰',
-        },
-        popup = {
-          width = 20,
-          height = 4,
-        },
+        keymaps = { enabled = false },
+        signcolumn = { enabled = false },
+        virtual_text = { icon = '📰' },
+        popup = { width = 20, height = 4 },
       })
-      local command = vim.api.nvim_create_user_command
       vim.keymap.set('n', '<leader>N', function()
         il.notes.show(false)
       end)
-      command('EditFileNote', function()
+      vim.api.nvim_create_user_command('EditFileNote', function()
         il.notes.show(true, true)
       end, {})
-      command('AddNote', function()
-        il.notes.add()
-      end, {})
-      command('ShowNote', function()
-        il.notes.show()
-      end, {})
+      vim.api.nvim_create_user_command('AddNote', il.notes.add, {})
+      vim.api.nvim_create_user_command('ShowNote', il.notes.show, {})
     end,
+  },
+  {
+    'mikavilpas/yazi.nvim',
+    event = 'VeryLazy',
+    keys = {
+      -- 👇 in this section, choose your own keymappings!
+      {
+        '<leader>-',
+        mode = { 'n', 'v' },
+        '<cmd>Yazi<cr>',
+        desc = 'Open yazi at the current file',
+      },
+      {
+        -- Open in the current working directory
+        '<leader>cw',
+        '<cmd>Yazi cwd<cr>',
+        desc = "Open the file manager in nvim's working directory",
+      },
+      {
+        -- NOTE: this requires a version of yazi that includes
+        -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
+        '<c-up>',
+        '<cmd>Yazi toggle<cr>',
+        desc = 'Resume the last yazi session',
+      },
+    },
+    ---@type YaziConfig
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = false,
+      keymaps = {
+        show_help = '<f1>',
+      },
+    },
   },
 
   {
     'olimorris/codecompanion.nvim',
+    event = 'VeryLazy',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
@@ -92,11 +113,6 @@ return {
   },
 
   {
-    'tzachar/local-highlight.nvim',
-    config = true,
-  },
-
-  {
     'OXY2DEV/markview.nvim',
     config = true,
   },
@@ -122,54 +138,6 @@ return {
       vim.keymap.set('n', '<c-e>', function()
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end)
-
-      -- -- basic telescope configuration
-      -- local conf = require('telescope.config').values
-      -- local function toggle_telescope(harpoon_files)
-      --   local file_paths = {}
-      --   for _, item in ipairs(harpoon_files.items) do
-      --     table.insert(file_paths, item.value)
-      --   end
-
-      --   local make_finder = function()
-      --     local paths = {}
-      --     for _, item in ipairs(harpoon_files.items) do
-      --       table.insert(paths, item.value)
-      --     end
-
-      --     return require('telescope.finders').new_table({
-      --       results = paths,
-      --     })
-      --   end
-
-      --   require('telescope.pickers')
-      --     .new({}, {
-      --       prompt_title = 'Harpoon',
-      --       finder = require('telescope.finders').new_table({
-      --         results = file_paths,
-      --       }),
-      --       previewer = conf.file_previewer({}),
-      --       sorter = conf.generic_sorter({}),
-      --       attach_mappings = function(prompt_buffer_number, map)
-      --         -- Delete selected entry from the list
-      --         map('i', '<C-d>', function()
-      --           local state = require('telescope.actions.state')
-      --           local selected_entry = state.get_selected_entry()
-      --           local current_picker = state.get_current_picker(prompt_buffer_number)
-
-      --           harpoon:list():remove_at(selected_entry.index)
-      --           print(vim.inspect(harpoon:list().items))
-      --           current_picker:refresh(make_finder())
-      --         end)
-      --         return true
-      --       end,
-      --     })
-      --     :find()
-      -- end
-
-      -- vim.keymap.set('n', '<C-e>', function()
-      --   toggle_telescope(harpoon:list())
-      -- end, { desc = 'Open harpoon window' })
     end,
   },
 }
