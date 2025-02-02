@@ -1,7 +1,7 @@
-local test = {
+local dev = {
   INTERVAL_SECONDS = 1,
-  POMO_LENGTH = 2,
-  BREAK_LENGTH = 3,
+  POMO_LENGTH = 30,
+  BREAK_LENGTH = 15,
 }
 
 local prod = {
@@ -10,4 +10,5 @@ local prod = {
   BREAK_LENGTH = 20, -- Number of intervals (minutes) in one break time
 }
 
+-- return dev
 return prod

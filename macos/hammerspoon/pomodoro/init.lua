@@ -2,203 +2,136 @@
   taken from -> https://github.com/af/dotfiles/blob/2e096c5cdf99c8e8f57a9d841e46e7d07885b76e/hammerspoon/pomodoro.lua
 ]]
 
-local config = require('pomodoro/config')
+-- require('pomodoro/db').setup_tables()
 local log = require('pomodoro/log')
 local chooser = require('pomodoro/chooser')
 
-local alertId = nil
+local state = require('pomodoro/state').init()
+local menu = assert(hs.menubar.new()):autosaveName('pomodoro_timer')
 
--- TODO: add file for sync across reloads
+local function complete_pomo()
+  log.write(state.pomo)
 
--- @class self
--- @field has_pomo boolean
--- @field has_break boolean
--- @field pomo self.pomo
--- @field take_break self.take_break
--- @field timer hs.timer
-
--- @class self.pomo
--- @field name string
--- @field paused boolean
--- @field minutes_left number
-
--- @class self.take_break
--- @field minutes_left number
-
-local app = {
-  has_pomo = false,
-  has_break = false,
-  pomo = { on = false, name = '', paused = false, minutes_left = 0 },
-  take_break = { on = false, minutes_left = 0 },
-  timer = nil,
-}
-
-local menu = hs.menubar.new()
-
-function app:timer_callback()
-  if self.has_pomo then
-    if self.pomo.paused then
-      return
-    end
-    self.pomo.minutes_left = self.pomo.minutes_left - 1
-    if self.pomo.minutes_left <= 0 then
-      app:complete_pomo()
-    end
-    app:update_ui()
-    return
-  end
-
-  if self.has_break then
-    self.take_break.minutes_left = self.take_break.minutes_left - 1
-    if self.take_break.minutes_left <= 0 then
-      app:complete_break()
-    end
-    app:update_ui()
-    return
-  end
-end
-
-function app:complete_pomo()
-  log.write_item(self.pomo)
-
-  hs.notify.show({
+  assert(hs.notify.new({
     title = 'Pomodoro complete',
-    subTitle = self.pomo.name,
+    subTitle = state.pomo.name,
     informativeText = 'Completed at ' .. os.date('%H:%M'),
-    soundName = 'Hero',
+    soundName = 'Blow',
     autoWithdraw = false,
     hasActionButton = false,
-  })
+  })):send()
 
-  self.has_pomo = false
-  self.pomo = { name = '', paused = false, minutes_left = 0 }
-
-  self.has_break = true
-  self.take_break = { minutes_left = config.BREAK_LENGTH }
+  state:break_time()
 end
 
-function app:complete_break()
-  if self.timer then
-    self.timer:stop()
-  end
-
-  hs.notify.show({
+local function complete_break()
+  assert(hs.notify.new({
     title = 'Get back to work',
     subTitle = 'Break time is over',
     informativeText = 'Sent at ' .. os.date('%H:%M'),
-    soundName = 'Hero',
+    soundName = 'Blow',
     autoWithdraw = false,
     hasActionButton = false,
-  })
+  })):send()
 
-  self.has_break = false
-  self.take_break = { minutes_left = 0 }
+  state:done()
 end
 
-function app:menubar_title()
+local function update_ui()
   local title = '🍅︎'
-  if self.has_pomo then
-    title = title .. string.format(' %02d', self.pomo.minutes_left)
-    if self.pomo.paused then
-      title = title .. ' (paused)'
+  if state.pomo.on then
+    title = ('%s: %02d ⏵'):format(state.pomo.name, state.pomo.time)
+    if state.pomo.paused then
+      title = ('%s: %02d ⏸'):format(state.pomo.name, state.pomo.time)
     end
-  elseif self.has_break then
-    title = title .. (' b' .. string.format('%02d', self.take_break.minutes_left))
+  elseif state.take_break.on then
+    title = ('🌴 %02d'):format(state.take_break.time)
+    if state.take_break.paused then
+      title = ('🌴 %02d ⏸'):format(state.pomo.time)
+    end
   end
-  return title
+  menu:setTitle(title)
 end
 
-function app:update_ui()
-  if not menu then
+local function tick()
+  if state.pomo.on then
+    if state.pomo.paused then
+      return
+    end
+    state.pomo.time = state.pomo.time - 1
+    if state.pomo.time <= 0 then
+      complete_pomo()
+    end
+    update_ui()
     return
   end
-  menu:setTitle(self:menubar_title())
+
+  if state.take_break.on then
+    state.take_break.time = state.take_break.time - 1
+    if state.take_break.time <= 0 then
+      complete_break()
+    end
+    update_ui()
+    return
+  end
 end
 
-function app:start_new()
+local function new()
   local options = log.get_recent_task_names()
-  chooser.show_prompt(options, function(task_name)
+  chooser.show(options, function(task_name)
     if task_name then
-      self.pomo = { minutes_left = config.POMO_LENGTH, name = task_name }
-      self.has_pomo = true
-      if self.timer then
-        self.timer:stop()
-      end
-      self.timer = hs.timer.doEvery(config.INTERVAL_SECONDS, function()
-        self:timer_callback()
-      end)
-      self:update_ui()
+      state:start(task_name, tick)
     end
+    update_ui()
   end)
 end
 
-function app:toggle_paused()
-  if not self.has_pomo then
-    return
-  end
-  self.pomo.paused = not self.pomo.paused
-  self:update_ui()
+local function toggle_paused()
+  state:toggle_paused()
+  state:save()
+  update_ui()
 end
 
-function app:stop()
-  self.current_pomo = nil
-  self:update_ui()
+local function stop()
+  state:stop()
+  update_ui()
 end
 
-function app:toggle_latest_display()
-  local logs = log.read(30)
-  if alertId then
-    hs.alert.closeSpecific(alertId)
-    alertId = nil
-  else
-    local msg = 'LATEST ACTIVITY\n\n' .. logs
-    if self.has_pomo then
-      msg = 'NOW: ' .. self.app.pomo.name .. '\n==========\n\n' .. msg
+local function menu_items()
+  local items = {
+    { title = 'New', fn = new },
+  }
+  if state.pomo.on or state.take_break.on then
+    items[1] = { title = 'pause ⏸', fn = toggle_paused }
+    if state.pomo.paused then
+      items[1].title = 'start ⏵'
     end
-    alertId = hs.alert(msg, { textSize = 17, textFont = 'Courier' }, 'indefinite')
+    items[2] = { title = 'stop ⏹', fn = stop }
   end
+  return items
 end
 
-function app:init()
-  if not menu then
-    return
-  end
-  menu:setMenu(function()
-    local completed_count = #(log.get_completed_today())
-
-    local pause_play = {
-      title = 'Start',
-      fn = function()
-        self:start_new()
+local function init()
+  if state.can_recover then
+    local ms = hs.screen.mainScreen():frame()
+    hs.dialog.alert(
+      ms.w * 0.5,
+      ms.h * 0.25,
+      function(result)
+        if result == 'Yes' then
+          state:recover(tick)
+          update_ui()
+        end
       end,
-    }
-    local stop = nil
-    if self.has_pomo then
-      pause_play = {
-        title = 'Pause',
-        fn = function()
-          self:toggle_paused()
-        end,
-      }
-      if self.pomo.paused then
-        pause_play.title = 'Resume'
-      end
-      stop = {
-        title = 'Stop',
-        fn = function()
-          self:stop()
-        end,
-      }
-    end
-    return {
-      { title = completed_count .. ' pomos completed today', disabled = true },
-      pause_play,
-      stop,
-    }
-  end)
+      'Pomodoro in progress',
+      ('Would you like to resume %s?'):format(state.last.pomo.name),
+      'Yes',
+      'No'
+    )
+  end
+  menu:setMenu(menu_items)
 
-  self:update_ui()
+  update_ui()
 end
 
-app:init()
-return app
+init()

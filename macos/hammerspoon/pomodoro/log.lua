@@ -1,26 +1,32 @@
-local log = {}
-local LOG_FILE = '~/.pomo'
+local log = {
+  _file_path = os.getenv('HOME') .. '/.pomo',
+  contents = {},
+}
 
 -- Read the last {count} lines of the log file, ordered with the most recent one first
 log.read = function(count)
   if not count then
     count = 10
   end
-  return hs.execute('tail -' .. count .. ' ' .. LOG_FILE .. ' | sort -r ${inputfile}')
+  return hs.execute('tail -' .. count .. ' ' .. log._file_path .. ' | sort -r ${inputfile}')
 end
 
-log.write_item = function(pomo)
+log.write = function(pomo)
   local timestamp = os.date('%Y-%m-%d %H:%M')
   local is_first_today = #(log.get_completed_today()) == 0
 
   if is_first_today then
-    hs.execute('echo "" >> ' .. LOG_FILE)
+    -- TODO: fix external commands
+    hs.execute('echo "" >> ' .. log._file_path)
   end -- Add linebreak between days
-  hs.execute('echo "[' .. timestamp .. '] ' .. pomo.name .. '" >> ' .. LOG_FILE)
+  hs.execute('echo "[' .. timestamp .. '] ' .. pomo.name .. '" >> ' .. log._file_path)
 end
 
 log.get_latest_items = function(count)
   local logs = log.read(count)
+  if not logs then
+    return
+  end
   local logItems = {}
   for match in logs:gmatch('(.-)\r?\n') do
     table.insert(logItems, match)

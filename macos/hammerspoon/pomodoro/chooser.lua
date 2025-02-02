@@ -1,6 +1,6 @@
 local chooser = {}
 -- (ab)use hs.chooser as a text input with the possibility of using other options
-function chooser.show_prompt(items, callback)
+function chooser.show(items, callback)
   local ch = nil
   ch = hs.chooser.new(function(item)
     if item then

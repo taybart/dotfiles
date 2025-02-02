@@ -1,18 +1,17 @@
+local mash = { 'ctrl', 'alt', 'cmd' }
+hs.hotkey.bind(mash, 'r', hs.reload)
+
 hs.loadSpoon('EmmyLua')
+
+-- local db = require('pomodoro/db')
+-- db:setup_tables()
+-- db:add_pomo({ name = 'test:pomo', on = true, paused = false, time = 30 })
+-- print(hs.inspect(db:get_latest_pomos(5)))
 
 require('audio')
 require('volume')
 require('brightness')
 require('pomodoro')
--- require('snap_windows')
-
-local mash = { 'ctrl', 'alt', 'cmd' }
-
--- hs.hotkey.bind(mash, 'U', pomodoro.startNew)
--- hs.hotkey.bind(mash, 'I', pomodoro.togglePaused)
--- hs.hotkey.bind(mash, 'O', pomodoro.toggleLatestDisplay)
-
-hs.hotkey.bind(mash, 'r', hs.reload)
 
 --[[
 local function reload_config(files)
