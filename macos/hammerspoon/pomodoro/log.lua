@@ -59,6 +59,10 @@ log.get_recent_task_names = function()
     }
   end)
 
+  if not names then
+    return
+  end
+
   -- dedupe
   local res, hash = {}, {}
   for _, v in ipairs(names) do

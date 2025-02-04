@@ -7,8 +7,8 @@ local state = {
   sync_timer = nil,
   pomo_timer = nil,
 
-  pomo = { on = false, name = '', paused = false, time = 0 },
-  take_break = { on = false, time = 0 },
+  pomo = { running = false, name = '', paused = false, time = 0 },
+  take_break = { running = false, time = 0 },
   can_recover = false,
   -- old state recovered from file
   last = {},
@@ -18,7 +18,7 @@ function state.init()
   state.load()
 
   state.sync_timer = hs.timer.doEvery(config.INTERVAL_SECONDS, function()
-    if state.pomo.on and not state.pomo.paused or state.take_break.on then
+    if state.pomo.running and not state.pomo.paused or state.take_break.running then
       state:save()
     end
   end)
@@ -31,13 +31,14 @@ function state.load()
   if file then
     local content = assert(file:read('*a'))
     file:close()
+    print('content', content)
     if not content or content == '' then
       return
     end
     local decoded = assert(hs.json.decode(content))
     state.last.pomo = decoded.pomo
     state.last.take_break = decoded.take_break
-    if state.last.pomo.on or state.last.take_break.on then
+    if state.last.pomo.running or state.last.take_break.running then
       state.can_recover = true
     end
   else
@@ -63,7 +64,7 @@ function state:start(name, tick)
   if self.pomo_timer then
     self.pomo_timer:stop()
   end
-  self.pomo = { on = true, time = config.POMO_LENGTH, name = name }
+  self.pomo = { running = true, time = config.POMO_LENGTH, name = name }
   self.pomo_timer = hs.timer.doEvery(config.INTERVAL_SECONDS, tick)
 end
 
@@ -75,8 +76,8 @@ function state:recover(tick)
 end
 
 function state:stop()
-  self.pomo = { on = false, name = '', paused = false, time = 0 }
-  self.take_break = { on = false, time = 0 }
+  self.pomo = { running = false, name = '', paused = false, time = 0 }
+  self.take_break = { running = false, time = 0 }
 end
 
 function state:toggle_paused()
@@ -84,15 +85,15 @@ function state:toggle_paused()
 end
 
 function state:break_time()
-  self.pomo = { on = false, name = '', paused = false, time = 0 }
-  self.take_break = { on = true, time = config.BREAK_LENGTH }
+  self.pomo = { running = false, name = '', paused = false, time = 0 }
+  self.take_break = { running = true, time = config.BREAK_LENGTH }
 end
 
 function state:done()
   if self.pomo_timer then
     self.pomo_timer:stop()
   end
-  self.take_break = { on = false, time = 0 }
+  self.take_break = { running = false, time = 0 }
   self:save() -- save that we are fully done
 end
 

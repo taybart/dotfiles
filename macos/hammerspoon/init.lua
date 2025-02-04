@@ -5,7 +5,7 @@ hs.loadSpoon('EmmyLua')
 
 -- local db = require('pomodoro/db')
 -- db:setup_tables()
--- db:add_pomo({ name = 'test:pomo', on = true, paused = false, time = 30 })
+-- -- db:add_pomo({ name = 'test:pomo', running = true, paused = false, time = 30 })
 -- print(hs.inspect(db:get_latest_pomos(5)))
 
 require('audio')

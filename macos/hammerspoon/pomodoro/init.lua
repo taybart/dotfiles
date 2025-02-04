@@ -39,12 +39,12 @@ end
 
 local function update_ui()
   local title = '🍅︎'
-  if state.pomo.on then
-    title = ('%s: %02d ⏵'):format(state.pomo.name, state.pomo.time)
+  if state.pomo.running then
+    title = ('%s (%02d) ⏵'):format(state.pomo.name, state.pomo.time)
     if state.pomo.paused then
-      title = ('%s: %02d ⏸'):format(state.pomo.name, state.pomo.time)
+      title = ('%s (%02d) ⏸'):format(state.pomo.name, state.pomo.time)
     end
-  elseif state.take_break.on then
+  elseif state.take_break.running then
     title = ('🌴 %02d'):format(state.take_break.time)
     if state.take_break.paused then
       title = ('🌴 %02d ⏸'):format(state.pomo.time)
@@ -54,7 +54,7 @@ local function update_ui()
 end
 
 local function tick()
-  if state.pomo.on then
+  if state.pomo.running then
     if state.pomo.paused then
       return
     end
@@ -66,7 +66,7 @@ local function tick()
     return
   end
 
-  if state.take_break.on then
+  if state.take_break.running then
     state.take_break.time = state.take_break.time - 1
     if state.take_break.time <= 0 then
       complete_break()
@@ -101,7 +101,7 @@ local function menu_items()
   local items = {
     { title = 'New', fn = new },
   }
-  if state.pomo.on or state.take_break.on then
+  if state.pomo.running or state.take_break.running then
     items[1] = { title = 'pause ⏸', fn = toggle_paused }
     if state.pomo.paused then
       items[1].title = 'start ⏵'
@@ -112,6 +112,7 @@ local function menu_items()
 end
 
 local function init()
+  state.init()
   if state.can_recover then
     local ms = hs.screen.mainScreen():frame()
     hs.dialog.alert(

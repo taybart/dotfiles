@@ -2,8 +2,8 @@ local client = {}
 local db = hs.sqlite3.open(os.getenv('HOME') .. '/.pomodb')
 
 function client:setup_tables()
-  -- pomo = { on = false, name = '', paused = false, time = 0 },
-  -- take_break = { on = false, time = 0 },
+  -- pomo = { running = false, name = '', paused = false, time = 0 },
+  -- take_break = { running = false, time = 0 },
   assert(db:exec([[
     CREATE TABLE IF NOT EXISTS pomos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,7 +44,7 @@ function client:add_pomo(pomo)
   local stmt = assert(db:prepare([[
         INSERT INTO pomos
         (name, time, running, paused) VALUES
-        (:name, :time, :on, :paused)
+        (:name, :time, :running, :paused)
         ]]))
   stmt:bind_names(pomo)
   stmt:step()
@@ -56,6 +56,23 @@ function client:completed_today()
     SELECT * FROM pomos
     WHERE date(created_at) = date('now')
     AND completed_at IS NOT NULL
+  ]]))
+
+  local todays_pomos = {}
+  for row in stmt:nrows() do
+    table.insert(todays_pomos, row)
+  end
+  stmt:finalize()
+  return todays_pomos
+end
+
+function client:get_unfinished()
+  local stmt = assert(client.conn:prepare([[
+    SELECT * FROM pomos
+    WHERE date(created_at) = date('now')
+    AND completed_at IS NULL
+    AND running=true
+    OR break_running=true
   ]]))
 
   local todays_pomos = {}
