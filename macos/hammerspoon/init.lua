@@ -13,6 +13,10 @@ require('volume')
 require('brightness')
 require('pomodoro')
 
+require('darkmode').subscribe(function(dark)
+  hs.console.darkMode(dark)
+end)
+
 --[[
 local function reload_config(files)
   local do_reload = false
