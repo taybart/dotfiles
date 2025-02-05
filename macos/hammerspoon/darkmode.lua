@@ -4,17 +4,21 @@ local M = {
   subs = {},
 }
 
-function M.get_dark_mode_from_system()
-  local _, darkmode = hs.osascript.javascript([[
-    Application('System Events').appearancePreferences.darkMode.get()
-    ]])
+local dm = "Application('System Events').appearancePreferences.darkMode"
+function M.system_preference()
+  local success, darkmode = hs.osascript.javascript(('%s.get()'):format(dm))
+  if not success then
+    error('failed to get system dark mode preference')
+    return
+  end
   return darkmode
 end
 
 function M.set_dark_mode(state)
-  hs.osascript.javascript(
-    ("Application('System Events').appearancePreferences.darkMode.set(%s)"):format(state)
-  )
+  local success = hs.osascript.javascript(('%s.set(%s)'):format(dm, state))
+  if not success then
+    error('could not set system dark mode preference')
+  end
 end
 
 function M.subscribe(fn)
@@ -30,7 +34,7 @@ local function init()
   end
 
   M.watcher = hs.distributednotifications.new(function()
-    local dark = M.get_dark_mode_from_system()
+    local dark = M.system_preference()
     if dark ~= M.darkmode then -- we switched
       M.darkmode = dark
       for _, fn in ipairs(M.subs) do
