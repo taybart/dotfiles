@@ -37,7 +37,8 @@ return {
       end,
     },
   },
-  { 'stevearc/dressing.nvim', config = true },
+  { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
+  { 'stevearc/dressing.nvim', opts = {} },
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
   {

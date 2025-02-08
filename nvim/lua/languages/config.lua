@@ -84,7 +84,8 @@ return {
         workspace = {
           -- library = vim.api.nvim_get_runtime_file('', true),
           library = {
-            vim.env.VIMRUNTIME,
+            -- vim.env.VIMRUNTIME,
+            vim.api.nvim_get_runtime_file('', true),
             '/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/',
             vim.fn.expand('$HOME/.hammerspoon/Spoons/EmmyLua.spoon/annotations'),
           },
@@ -106,6 +107,7 @@ return {
   --     },
   --   },
   -- },
+  pyright = {},
   ruff = {},
   rust_analyzer = {
     settings = {

@@ -15,42 +15,32 @@ return {
     end,
   },
 
-  { 'zbirenbaum/copilot.lua', config = true },
+  -- { 'zbirenbaum/copilot.lua', config = true },
+
+  { 'OXY2DEV/markview.nvim', config = true },
 
   --[==================[
   -- Probation
   --]==================]
 
   {
-    -- 'taybart/inline.nvim',
-    dir = '~/dev/taybart/inline.nvim',
-    -- dependencies = { 'nvim-telescope/telescope.nvim', 'kkharji/sqlite.lua' },
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    -- event = 'VeryLazy',
-    config = function()
-      local il = require('inline').setup({
-        keymaps = { enabled = false },
-        signcolumn = { enabled = false },
-        virtual_text = { icon = '📰' },
-        popup = { width = 20, height = 4 },
-      })
-      vim.keymap.set('n', '<leader>N', function()
-        il.notes.show(false)
-      end)
-      vim.api.nvim_create_user_command('EditFileNote', function()
-        il.notes.show(true, true)
-      end, {})
-      vim.api.nvim_create_user_command('AddNote', il.notes.add, {})
-      vim.api.nvim_create_user_command('ShowNote', il.notes.show, {})
+    'ggml-org/llama.vim',
+    init = function()
+      vim.g.llama_config = { show_info = 0 }
+      -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { fg = '#928374' })
+      -- -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
+
+      vim.cmd([[highlight llama_hl_hint guifg=#ff772f ctermfg=202]])
+      -- vim.cmd([[hi link llama_hl_hint Comment ]])
     end,
   },
+
   {
     'mikavilpas/yazi.nvim',
     event = 'VeryLazy',
     keys = {
-      -- 👇 in this section, choose your own keymappings!
       {
-        '<leader>-',
+        '<leader>f',
         mode = { 'n', 'v' },
         '<cmd>Yazi<cr>',
         desc = 'Open yazi at the current file',
@@ -61,18 +51,9 @@ return {
         '<cmd>Yazi cwd<cr>',
         desc = "Open the file manager in nvim's working directory",
       },
-      {
-        -- NOTE: this requires a version of yazi that includes
-        -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
-        '<c-up>',
-        '<cmd>Yazi toggle<cr>',
-        desc = 'Resume the last yazi session',
-      },
     },
-    ---@type YaziConfig
     opts = {
-      -- if you want to open yazi instead of netrw, see below for more info
-      open_for_directories = false,
+      open_for_directories = true,
       keymaps = {
         show_help = '<f1>',
       },
@@ -99,45 +80,47 @@ return {
   },
 
   {
-    'atiladefreitas/dooing',
-    -- enabled = false,
-    opts = {
-      quick_keys = false,
-      window = {
-        position = 'top-right',
-      },
-      keymaps = {
-        toggle_window = false,
-      },
-    },
-  },
-
-  {
-    'OXY2DEV/markview.nvim',
-    config = true,
-  },
-
-  {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
-      local harpoon = require('harpoon')
-      harpoon:setup()
+      local h = require('harpoon')
+      h:setup()
 
-      vim.keymap.set('n', '<leader>a', function()
-        harpoon:list():add()
-      end)
-      -- -- Toggle previous & next buffers stored within Harpoon list
-      -- vim.keymap.set('n', '<c-s-p>', function()
-      --   harpoon:list():prev()
+      -- vim.keymap.set('n', '<c-e>', function()
+      --   h.ui:toggle_quick_menu(h:list())
       -- end)
-      -- vim.keymap.set('n', '<c-s-n>', function()
-      --   harpoon:list():next()
-      -- end)
-      vim.keymap.set('n', '<c-e>', function()
-        harpoon.ui:toggle_quick_menu(harpoon:list())
-      end)
+      local conf = require('telescope.config').values
+      local function toggle_telescope(harpoon_files)
+        local file_paths = {}
+        for _, item in ipairs(harpoon_files.items) do
+          table.insert(file_paths, item.value)
+        end
+
+        require('telescope.pickers')
+          .new({}, {
+            prompt_title = 'Harpoon',
+            finder = require('telescope.finders').new_table({ results = file_paths }),
+            previewer = conf.file_previewer({}),
+            sorter = conf.generic_sorter({}),
+          })
+          :find()
+      end
+
+      require('utils/maps').mode_group('n', {
+        {
+          '<leader>a',
+          function()
+            h:list():add()
+          end,
+        },
+        {
+          '<C-e>',
+          function()
+            toggle_telescope(h:list())
+          end,
+        },
+      }, {})
     end,
   },
 }

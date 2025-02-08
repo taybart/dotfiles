@@ -19,4 +19,27 @@ return {
       }, { noremap = true, silent = true })
     end,
   },
+  {
+    'taybart/inline.nvim',
+    -- dir = '~/dev/taybart/inline.nvim',
+    -- dependencies = { 'nvim-telescope/telescope.nvim', 'kkharji/sqlite.lua' },
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    -- event = 'VeryLazy',
+    config = function()
+      local il = require('inline').setup({
+        keymaps = { enabled = false },
+        signcolumn = { enabled = false },
+        virtual_text = { icon = '📰' },
+        popup = { width = 20, height = 4 },
+      })
+      vim.keymap.set('n', '<leader>N', function()
+        il.notes.show(false)
+      end)
+      vim.api.nvim_create_user_command('EditFileNote', function()
+        il.notes.show(true, true)
+      end, {})
+      vim.api.nvim_create_user_command('AddNote', il.notes.add, {})
+      vim.api.nvim_create_user_command('ShowNote', il.notes.show, {})
+    end,
+  },
 }
