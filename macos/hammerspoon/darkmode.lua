@@ -22,11 +22,11 @@ function M.set_dark_mode(state)
 end
 
 function M.subscribe(fn)
-  M.subs[#M._.subs + 1] = fn
+  M.subs[#M.subs + 1] = fn
 end
 
 local function init()
-  M.darkmode = M.get_dark_mode_from_system()
+  M.darkmode = M.system_preference()
 
   -- init system watcher
   if M.watcher ~= nil then

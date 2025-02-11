@@ -1,13 +1,9 @@
 export HOMEBREW_NO_ENV_HINTS=true
 
-. $(brew --prefix asdf)/libexec/asdf.sh
-
 alias copy="pbcopy"
-# alias grep="grep -RIns --color=auto --exclude=\"tags\""
 alias ls="ls -G -l -h"
 alias lsusb="system_profiler SPUSBDataType"
 alias newmacaddr="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
-# alias showhidden="defaults write com.apple.finder AppleShowAllFiles"
 alias ctags="$(brew --prefix)/bin/ctags"
 alias update="brew update && brew upgrade"
 alias install="brew install"
