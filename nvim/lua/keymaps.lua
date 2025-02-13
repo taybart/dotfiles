@@ -23,7 +23,7 @@ map.mode_group('c', {
 })
 
 map.mode_group('n', {
-  { '<F9>', 'cprev' },
+  { '<F9>',  'cprev' },
   { '<F10>', 'cnext' },
 })
 
@@ -57,10 +57,8 @@ map.group({ noremap = true }, {
 
 -- Buffer control
 map.mode_group('n', {
-  { '<leader>l', ':BufferLineCycleNext<cr>' },
-  { '<leader>h', ':BufferLineCyclePrev<cr>' },
-  { '<leader>L', ':BufferLineMoveNext<cr>' },
-  { '<leader>H', ':BufferLineMovePrev<cr>' },
+  { '<leader>l', ':bn<cr>' },
+  { '<leader>h', ':bp<cr>' },
   { '<leader>d', ':bp <BAR> bd #<cr>' },
 }, { noremap = true })
 
@@ -87,10 +85,10 @@ map.mode_group('n', {
 }, { silent = true })
 
 -- Move lines in visual mode
-map.mode_group('v', {
-  { 'J', ":m '>+1<cr>gv=gv" },
-  { 'K', ":m '<-2<cr>gv=gv" },
-}, { noremap = true })
+-- map.mode_group('v', {
+--   { 'J', ":m '>+1<cr>gv=gv" },
+--   { 'K', ":m '<-2<cr>gv=gv" },
+-- }, { noremap = true })
 
 -- better undo breakpoints
 map.mode_group('i', {

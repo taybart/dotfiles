@@ -1,8 +1,8 @@
 return {
   {
     'ellisonleao/gruvbox.nvim',
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
+    lazy = false,
+    priority = 1000,
     config = function()
       local gb = require('gruvbox')
       gb.setup({
@@ -43,6 +43,7 @@ return {
   { 'unblevable/quick-scope' },
   {
     'akinsho/nvim-bufferline.lua',
+    enabled = false,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('bufferline').setup({
@@ -59,6 +60,14 @@ return {
           -- end,
         },
       })
+
+      require('utils/maps').mode_group('n', {
+        { '<leader>l', ':BufferLineCycleNext<cr>' },
+        { '<leader>h', ':BufferLineCyclePrev<cr>' },
+        { '<leader>L', ':BufferLineMoveNext<cr>' },
+        { '<leader>H', ':BufferLineMovePrev<cr>' },
+        { '<leader>d', ':bp <BAR> bd #<cr>' },
+      }, { noremap = true })
       -- vim.opt.showtabline = 1
       -- if using alpha
       vim.api.nvim_create_autocmd('User', {
