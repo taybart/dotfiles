@@ -51,7 +51,7 @@ zstyle ':completion:*' matcher-list '' \
   'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
 zstyle ':completion:*' menu select
-autoload -U +X compinit && compinit
+autoload -Uz +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
 # -- overrides --
@@ -63,8 +63,3 @@ if ! type starship >> /dev/null; then
 fi
 
 source <(starship init zsh)
-
-# bun completions
-[ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

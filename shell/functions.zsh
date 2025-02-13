@@ -1,10 +1,4 @@
-
-# ~~ util ~~
-
-function cdir() {
-  mkdir $1
-  cd $1
-}
+source "$DOTFILES/shell/essentials.zsh"
 
 # bring up configs
 function config {
@@ -271,21 +265,6 @@ function testREPL() {
   done
 }
 
-# function kcxt() {
-#   if [[ -z $1 ]]; then
-#       kubectl config get-contexts | awk '/^[^*|CURRENT]/{print $1} /^\*/{print "\033[1;32m" $2 "\033[0m "}'
-#   elif [[ $# -ge 1 ]]; then
-#     case "$1" in
-#       "ns" | "namespace" | "-ns" | "-namespace")
-#         kubectl config set-context --current --namespace="$2"
-#       ;;
-#       *)
-#         kubectl config use-context "$1"
-#       ;;
-#     esac
-#   fi
-# }
-
 function triage() {
   namespace=${1:-default}
 
@@ -368,3 +347,23 @@ function sb() {
     rm -rf $folder
   fi
 }
+
+##########
+### LLMs #
+##########
+function llm() {
+  if command_exists ollama; then
+    selected_model=$1
+    if [ -z $1 ]; then
+      models=($(ollama list | sed '1d' | awk '{print $1}'))
+      select model in $models; do
+          if [[ -n $model ]]; then
+              selected_model=$model
+              break
+          fi
+      done
+    fi
+    ollama run $selected_model
+  fi
+}
+

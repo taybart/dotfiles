@@ -4,3 +4,8 @@
 on   = "<C-s>"
 run  = 'shell "$SHELL" --block'
 desc = "Open shell here"
+
+[[manager.prepend_keymap]]
+on   = "<esc>"
+run  = 'quit'
+desc = "quit"
