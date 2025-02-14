@@ -353,6 +353,17 @@ function sb() {
 ##########
 function llm() {
   if command_exists ollama; then
+    if [ -f ~/.llm ]; then
+      pref=$(cat ~/.llm)
+      if [ ! -z $pref ]; then
+        read "use_pref?Use $pref [Y/n] "
+        if [[ "$use_pref" =~ ^[Yy]$ || "$use_pref" == "" ]]; then
+          selected_model=$pref
+          ollama run $pref
+          return
+        fi
+      fi
+    fi
     selected_model=$1
     if [ -z $1 ]; then
       models=($(ollama list | sed '1d' | awk '{print $1}'))
@@ -363,7 +374,15 @@ function llm() {
           fi
       done
     fi
-    ollama run $selected_model
+    if [[ "$pref" != "$selected_model" ]]; then
+      read "save?Save $selected_model as as default? [Y/n] "
+      if [[ "$save" =~ ^[Yy]$ || "$save" == "" ]]; then
+        echo $selected_model > ~/.llm
+      fi
+    fi
+    if [ ! -z $selected_model ]; then
+      ollama run $selected_model
+    fi
   fi
 }
 
