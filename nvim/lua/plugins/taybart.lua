@@ -10,6 +10,11 @@ return {
     config = true,
   },
   {
+    'taybart/serve.nvim',
+    -- dir = '~/dev/taybart/serve.nvim',
+    config = true,
+  },
+  {
     'taybart/b64.nvim',
     -- dir = '~/dev/taybart/rest.nvim',
     config = function()

@@ -37,7 +37,7 @@ return {
       end,
     },
   },
-  { 'stevearc/quicker.nvim',  ft = 'qf', opts = {} },
+  { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
   { 'stevearc/dressing.nvim', opts = {} },
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
@@ -97,7 +97,7 @@ return {
             { 'filename', file_status = true, path = 1 },
           },
           lualine_x = { 'encoding', 'fileformat', 'filetype' },
-          lualine_y = {},
+          lualine_y = { 'g:serving_status' },
         },
       })
     end,
