@@ -8,6 +8,7 @@
   co = checkout
   br = branch
   st = stash
+	fpush = push
 [push]
   default = current
 [pull]
@@ -17,3 +18,5 @@
 
 [include]
   path = ~/.gitconfig.local
+[branch]
+	sort = -committerdate
