@@ -6,12 +6,22 @@ return {
       vim.g.tmux_navigator_no_mappings = 1
     end,
     config = function()
-      require('utils/maps').mode_group('n', {
-        { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
-        { '<c-f><down>', ':TmuxNavigateDown<cr>' },
-        { '<c-f><up>', ':TmuxNavigateUp<cr>' },
-        { '<c-f><right>', ':TmuxNavigateRight<cr>' },
-      }, { noremap = true, silent = true })
+      require('utils/maps').group({ noremap = true, silent = true }, {
+        {
+          'n',
+          { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
+          { '<c-f><down>', ':TmuxNavigateDown<cr>' },
+          { '<c-f><up>', ':TmuxNavigateUp<cr>' },
+          { '<c-f><right>', ':TmuxNavigateRight<cr>' },
+        },
+        {
+          't',
+          { '<c-f><left>', '<c-\\><c-n>:TmuxNavigateLeft<cr>' },
+          { '<c-f><down>', '<c-\\><c-n>:TmuxNavigateDown<cr>' },
+          { '<c-f><up>', '<c-\\><c-n>:TmuxNavigateUp<cr>' },
+          { '<c-f><right>', '<c-\\><c-n>:TmuxNavigateRight<cr>' },
+        },
+      })
     end,
   },
   { 'vim-scripts/vis' },
@@ -123,6 +133,7 @@ return {
 
   {
     'mikavilpas/yazi.nvim',
+    dependencies = { 'folke/snacks.nvim', lazy = true },
     event = 'VeryLazy',
     keys = {
       {
