@@ -32,6 +32,8 @@ add_path "$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 # nixos
 add_path "/run/wrappers/bin"
 add_path "/run/current-system/sw/bin"
+add_path "$HOME/.local/state/nix/profile/bin"
+add_path "$HOME/.nix-profile/bin"
 
 # and finally regular system path
 add_path "/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
