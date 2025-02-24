@@ -43,10 +43,83 @@ return {
     end,
   },
 
-      vim.cmd([[highlight llama_hl_hint guifg=#ff772f ctermfg=202]])
-      -- vim.cmd([[hi link llama_hl_hint Comment ]])
-    end,
-  },
+  -- {
+  --   'ggml-org/llama.vim',
+  --   init = function()
+  --     vim.g.llama_config = { show_info = 0 }
+  --     -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { fg = '#928374' })
+  --     -- -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
+
+  --     vim.cmd([[highlight llama_hl_hint guifg=#ff772f ctermfg=202]])
+  --     -- vim.cmd([[hi link llama_hl_hint Comment ]])
+  --   end,
+  --   config = function()
+  --     -- vim.cmd([[
+  --     --   silent! iunmap <buffer> <Tab>
+  --     --   silent! iunmap <buffer> <S-Tab>
+  --     --   inoremap <buffer> <c-<space>>   <C-O>:call llama#fim_accept('full')<CR>
+  --     --   inoremap <buffer> <c-e>              <C-O>:call llama#fim_accept('line')<CR>
+  --     -- ]])
+  --   end,
+  -- },
+
+  -- {
+  --   'huggingface/llm.nvim',
+  --   enabled = false,
+  --   config = function()
+  --     require('llm').setup({
+  --       backend = 'ollama',
+  --       url = 'http://unicron:11435',
+  --       -- url = 'http://localhost:11434',
+  --       -- debounce_ms = 1000,
+  --       debounce_ms = 500,
+
+  --       -- model = 'codellama:7b',
+  --       model = 'qwen2.5-coder:3b',
+  --       tokens_to_clear = { '<|endoftext|>' },
+  --       fim = {
+  --         enabled = true,
+  --         prefix = '<|fim_prefix|>',
+  --         middle = '<|fim_middle|>',
+  --         suffix = '<|fim_suffix|>',
+  --       },
+  --       request_body = {
+  --         options = {
+  --           temperature = 0.2,
+  --           top_p = 0.95,
+  --         },
+  --       },
+  --       accept_keymap = '<c-e>',
+  --       dismiss_keymap = '<c-tab>',
+  --       -- context_window = 40,
+  --       -- context_window = 1024,
+  --       context_window = 4096,
+  --       -- context_window = 8192,
+
+  --       -- starcoder
+  --       -- model = 'starcoder2:3b',
+  --       -- tokens_to_clear = { '<|endoftext|>' },
+  --       -- fim = {
+  --       --   enabled = true,
+  --       --   prefix = '<fim_prefix>',
+  --       --   middle = '<fim_middle>',
+  --       --   suffix = '<fim_suffix>',
+  --       -- },
+  --       -- model = 'bigcode/starcoder',
+  --       -- tokenizer = {
+  --       --   repository = 'bigcode/starcoder',
+  --       -- },
+
+  --       lsp = {
+  --         bin_path = vim.api.nvim_call_function('stdpath', { 'data' }) .. '/mason/bin/llm-ls',
+  --         cmd_env = { LLM_LOG_LEVEL = 'DEBUG' },
+  --       },
+  --     })
+  --     vim.keymap.set('i', '<C-l>', function()
+  --       require('llm.completion').lsp_suggest()
+  --     end, { noremap = true, silent = true })
+  --   end,
+  -- },
 
   {
     'mikavilpas/yazi.nvim',
