@@ -9,6 +9,10 @@ function add_path() {
   export PATH="$PATH:$1"
 }
 
+function add_here() {
+  export PATH="$PATH:$(pwd)"
+}
+
 # asdf
 add_path "${ASDF_DATA_DIR:-$HOME/.asdf}/shims"
 # macos

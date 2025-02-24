@@ -11,7 +11,8 @@ return {
             pattern = 'oil',
             callback = function()
               vim.keymap.set('n', 'q', '<cmd>wq<cr>', {})
-              vim.keymap.set('n', '<esc>', '<cmd>wq<cr>', {})
+              -- TODO: only if floating
+              -- vim.keymap.set('n', '<esc>', '<cmd>wq<cr>', {})
             end,
           },
         },

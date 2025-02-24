@@ -25,7 +25,7 @@ return {
   {
     'f-person/auto-dark-mode.nvim',
     enabled = vim.fn.has('mac'),
-    config = {
+    opts = {
       update_interval = 1000,
       set_dark_mode = function()
         vim.opt.background = 'dark'
@@ -37,7 +37,7 @@ return {
       end,
     },
   },
-  { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
+  { 'stevearc/quicker.nvim',  ft = 'qf', opts = {} },
   { 'stevearc/dressing.nvim', opts = {} },
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },

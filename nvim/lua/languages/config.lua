@@ -124,6 +124,7 @@ return {
       },
     },
   },
+  sqls = {},
   svelte = {},
   terraformls = {},
   ts_ls = {

@@ -3,6 +3,7 @@ export HOMEBREW_NO_ENV_HINTS=true
 alias copy="pbcopy"
 alias ls="ls -G -l -h"
 alias lsusb="system_profiler SPUSBDataType"
+alias lsblk="diskutil list"
 alias newmacaddr="openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//' | xargs sudo ifconfig en0 ether"
 alias ctags="$(brew --prefix)/bin/ctags"
 alias update="brew update && brew upgrade"

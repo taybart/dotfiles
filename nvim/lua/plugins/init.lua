@@ -14,6 +14,7 @@ return {
       }, { noremap = true, silent = true })
     end,
   },
+  { 'vim-scripts/vis' },
 
   -- { 'zbirenbaum/copilot.lua', config = true },
 
@@ -24,11 +25,23 @@ return {
   --]==================]
 
   {
-    'ggml-org/llama.vim',
-    init = function()
-      vim.g.llama_config = { show_info = 0 }
-      -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { fg = '#928374' })
-      -- -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
+    'stevearc/conform.nvim',
+    opts = {},
+  },
+  {
+    'stevearc/aerial.nvim',
+    config = function()
+      require('aerial').setup({
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set('n', '{', '<cmd>AerialPrev<cr>', { buffer = bufnr })
+          vim.keymap.set('n', '}', '<cmd>AerialNext<cr>', { buffer = bufnr })
+        end,
+      })
+      vim.keymap.set('n', '<F8>', '<cmd>AerialToggle<cr>', { noremap = true })
+    end,
+  },
 
       vim.cmd([[highlight llama_hl_hint guifg=#ff772f ctermfg=202]])
       -- vim.cmd([[hi link llama_hl_hint Comment ]])
@@ -60,24 +73,24 @@ return {
     },
   },
 
-  {
-    'olimorris/codecompanion.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    opts = {
-      strategies = {
-        chat = {
-          adapter = 'copilot',
-        },
-        inline = {
-          adapter = 'copilot',
-        },
-      },
-    },
-  },
+  -- {
+  --   'olimorris/codecompanion.nvim',
+  --   event = 'VeryLazy',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-treesitter/nvim-treesitter',
+  --   },
+  --   opts = {
+  --     strategies = {
+  --       chat = {
+  --         adapter = 'copilot',
+  --       },
+  --       inline = {
+  --         adapter = 'copilot',
+  --       },
+  --     },
+  --   },
+  -- },
 
   {
     'ThePrimeagen/harpoon',

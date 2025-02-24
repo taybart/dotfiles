@@ -31,15 +31,15 @@ return {
           end
         end,
       },
-      {
-        { 'i', 's' },
-        '<c-e>',
-        function()
-          if ls.choice_active() then
-            ls.change_choice(1)
-          end
-        end,
-      },
+      -- {
+      --   { 'i', 's' },
+      --   '<c-e>',
+      --   function()
+      --     if ls.choice_active() then
+      --       ls.change_choice(1)
+      --     end
+      --   end,
+      -- },
     })
   end,
 }
