@@ -71,6 +71,17 @@ function dnd() {
 }
 
 function notes() {
+  mkdir -p ~/.notes && touch ~/.notes/new
+  note=$(\ls ~/.notes | fzf)
+  if [ "$note" = "new" ]; then
+    read "note?Name: "
+  fi
+  if [ ! -z "$note" ]; then
+    nvim ~/.notes/$note
+  fi
+}
+
+function cnotes() {
   local_notes_dir=~/.cloud_notes
   cloud_notes_dir=tb/taybart/notes
   if [ "$1" = "-pull" ]; then
@@ -353,6 +364,9 @@ function sb() {
 ##########
 function llm() {
   if command_exists ollama; then
+    if [[ "$1" == "local" ]]; then
+      export OLLAMA_HOST="localhost:11434"
+    fi
     if [ -f ~/.llm ]; then
       pref=$(cat ~/.llm)
       if [ ! -z $pref ]; then

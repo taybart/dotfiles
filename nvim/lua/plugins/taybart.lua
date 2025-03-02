@@ -10,9 +10,10 @@ return {
     config = true,
   },
   {
-    'taybart/serve.nvim',
-    -- dir = '~/dev/taybart/serve.nvim',
-    config = true,
+    -- 'taybart/serve.nvim',
+    dir = '~/dev/taybart/serve.nvim',
+    opts = { logs = { level = 'debug', no_color = true } },
+    -- config = true,
   },
   {
     'taybart/b64.nvim',
