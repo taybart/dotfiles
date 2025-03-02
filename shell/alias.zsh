@@ -31,7 +31,7 @@ z() {
 
 
 if is_installed btm; then
-  alias btm="btm -b"
+  # alias btm="btm -b"
   alias top="btm"
 fi
 
