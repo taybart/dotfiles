@@ -32,7 +32,7 @@ z() {
 
 if is_installed btm; then
   # alias btm="btm -b"
-  alias top="btm"
+  alias top="btm -b"
 fi
 
 if is_installed bat; then
