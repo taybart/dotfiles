@@ -19,6 +19,14 @@ alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
 alias tf="terraform"
+
+if is_installed nix; then
+  function run() {
+    nix run nixpkgs#$1 -- $@
+  }
+fi
+
+
 function ssesh(){eval `ssh-agent` && ssh-add}
 
 # jump around
