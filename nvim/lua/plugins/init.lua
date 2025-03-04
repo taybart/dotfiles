@@ -1,4 +1,5 @@
 return {
+  { 'nvim-lua/plenary.nvim', priority = 1000 },
   {
     -- required with tmux
     'christoomey/vim-tmux-navigator',
@@ -48,44 +49,30 @@ return {
   --===  Probation  ===
   --]==================]
 
-  {
-    'stevearc/conform.nvim',
-    opts = {},
-  },
-
-  -- {
-  --   'ggml-org/llama.vim',
-  --   init = function()
-  --     vim.g.llama_config = { show_info = 0 }
-  --   end,
-  --   config = function()
-  --     vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
-  --     vim.cmd([[
-  --       silent! iunmap <buffer> <Tab>
-  --       " inoremap <buffer> <c-e>              <C-O>:call llama#fim_accept('line')<CR>
-  --       inoremap <buffer> <c-e>              <C-O>:call llama#fim_accept('full')<CR>
-  --     ]])
-  --   end,
-  -- },
-  -- {
-  --   'one-d-wide/lazy-patcher.nvim',
-  --   ft = 'lazy', -- for lazy loading
-  --   config = function()
-  --     require('lazy-patcher').setup({
-  --       print_logs = true,
-  --     })
-  --   end,
-  -- },
+  { 'stevearc/conform.nvim', opts = {} },
 
   {
     'huggingface/llm.nvim',
-    -- enabled = false,
+    enabled = function()
+      local enabled = false
+      local res = require('plenary.curl').get({
+        url = 'http://localhost:8012/health',
+        timeout = 200,
+        on_error = function()
+          print('llm disabled')
+        end,
+      })
+      return res.status == 200
+    end,
     config = function()
       require('llm').setup({
         backend = 'openai',
         url = 'http://localhost:8012',
-        model = 'qwen2.5-coder:3b',
-        tokens_to_clear = { '<|endoftext|>' },
+        -- model = 'qwen2.5-coder:3b',
+        debounce_ms = 250,
+        accept_keymap = '<c-e>',
+        dismiss_keymap = '<c-tab>',
+        -- context_window = 8192, -- already set in server script
         fim = {
           enabled = true,
           prefix = '<|fim_prefix|>',
@@ -98,13 +85,8 @@ return {
             top_p = 0.95,
           },
         },
-        accept_keymap = '<c-e>',
-        dismiss_keymap = '<c-tab>',
-        -- context_window = 4096,
-        context_window = 8192,
         lsp = {
           bin_path = vim.api.nvim_call_function('stdpath', { 'data' }) .. '/mason/bin/llm-ls',
-          cmd_env = { LLM_LOG_LEVEL = 'DEBUG' },
         },
       })
       vim.keymap.set('i', '<C-l>', function()
