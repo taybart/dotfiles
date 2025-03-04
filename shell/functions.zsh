@@ -22,10 +22,6 @@ function tunnel {
   \ssh -o "ExitOnForwardFailure yes" -N -R 9000:localhost:$1 root@$TUNNEL
 }
 
-function rundocker() {
-  # TODO: take volume/ports
-  docker run --rm "$@" $(docker build -q .)
-}
 
 # find and replace
 function far() {
@@ -232,6 +228,16 @@ function restsb() {
   nvim $HOME/.tmp/sandbox.rest
 }
 
+# ~~ docker ~~
+function rundocker() {
+  # TODO: take volume/ports
+  docker run --rm "$@" $(docker build -q .)
+}
+
+function shdocker() {
+docker exec -it $1 /bin/bash
+}
+
 # ~~ kubernetes ~~
 function kcxt() {
   if [[ -z $1 ]]; then
@@ -357,9 +363,7 @@ function sb() {
   fi
 }
 
-##########
-### LLMs #
-##########
+# ~~ llm ~~
 function llm() {
   if command_exists ollama; then
     if [[ "$1" == "local" ]]; then
