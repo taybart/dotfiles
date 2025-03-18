@@ -5,10 +5,12 @@ return {
     config = true,
   },
   {
-    'taybart/resurrect.nvim',
-    -- dir = '~/dev/taybart/resurrect.nvim',
+    -- 'taybart/resurrect.nvim',
+    dir = '~/dev/taybart/resurrect.nvim',
     dependencies = { 'kkharji/sqlite.lua' },
-    opts = {},
+    opts = {
+      quiet = true,
+    },
   },
   {
     'taybart/serve.nvim',

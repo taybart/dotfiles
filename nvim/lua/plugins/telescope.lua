@@ -47,15 +47,14 @@ return {
   event = 'VeryLazy',
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
-    { 'nvim-telescope/telescope-live-grep-args.nvim' },
-    { 'nvim-telescope/telescope-github.nvim' },
+    -- { 'nvim-telescope/telescope-live-grep-args.nvim' },
   },
   config = function()
     local telescope = require('telescope')
     local builtin = require('telescope.builtin')
     local transform_mod = require('telescope.actions.mt').transform_mod
     local actions = require('telescope.actions')
-    local lga_actions = require('telescope-live-grep-args.actions')
+    -- local lga_actions = require('telescope-live-grep-args.actions')
 
     local custom_actions = transform_mod({
       multi_selection_open_vertical = function(prompt_bufnr)
@@ -82,7 +81,8 @@ return {
       {
         'n',
         -- Live grep
-        { '<c-s>', telescope.extensions.live_grep_args.live_grep_args },
+        { '<c-s>', builtin.live_grep },
+        -- { '<c-s>', telescope.extensions.live_grep_args.live_grep_args },
         -- Search under cursor
         { 'g<c-s>', search_cword },
         -- Find files
@@ -127,7 +127,7 @@ return {
         path_display = { 'truncate' },
         file_ignore_patterns = {
           'node_modules',
-          '.git',
+          '%.git',
           'yarn.lock',
           'package-lock.json',
         },
@@ -167,18 +167,18 @@ return {
         },
       },
       extensions = {
-        live_grep_args = {
-          auto_quoting = true, -- enable/disable auto-quoting
-          mappings = { -- extend mappings
-            i = {
-              ['<c-s>'] = actions.to_fuzzy_refine,
-              ['<c-k>'] = lga_actions.quote_prompt(),
-              ['<c-i>'] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
-            },
-          },
-        },
+        -- live_grep_args = {
+        --   auto_quoting = true, -- enable/disable auto-quoting
+        --   mappings = { -- extend mappings
+        --     i = {
+        --       ['<c-s>'] = actions.to_fuzzy_refine,
+        --       ['<c-k>'] = lga_actions.quote_prompt(),
+        --       ['<c-i>'] = lga_actions.quote_prompt({ postfix = ' --iglob ' }),
+        --     },
+        --   },
+        -- },
       },
     })
-    telescope.load_extension('live_grep_args')
+    -- telescope.load_extension('live_grep_args')
   end,
 }

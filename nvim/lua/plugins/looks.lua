@@ -38,7 +38,7 @@ return {
     },
   },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
-  { 'stevearc/dressing.nvim', opts = {} },
+
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
   { 'OXY2DEV/markview.nvim', opts = {} },
