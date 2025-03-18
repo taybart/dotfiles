@@ -22,6 +22,28 @@ function tunnel {
   \ssh -o "ExitOnForwardFailure yes" -N -R 9000:localhost:$1 root@$TUNNEL
 }
 
+function send {
+  local ssh_pid
+  local server_pid
+
+  mkdir -p ~/.send_server
+  cd ~/.send_server
+
+  # Setup trap to handle interrupts (SIGINT)
+  trap 'echo "Shutting down tunnel and server..."; kill $ssh_pid $server_pid 2>/dev/null; exit' INT TERM
+
+  \ssh -o "ExitOnForwardFailure yes" -N -R 9002:localhost:12000 root@$TUNNEL &
+  ssh_pid=$!
+  ~/.local/bin/send_server &
+  server_pid=$!
+  echo "listening for files... ssh: $ssh_pid server: $server_pid"
+
+  wait $ssh_pid $server_pid
+
+  trap - INT TERM
+}
+
+
 
 # find and replace
 function far() {

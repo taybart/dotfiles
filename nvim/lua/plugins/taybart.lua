@@ -7,7 +7,8 @@ return {
   {
     'taybart/resurrect.nvim',
     -- dir = '~/dev/taybart/resurrect.nvim',
-    config = true,
+    dependencies = { 'kkharji/sqlite.lua' },
+    opts = {},
   },
   {
     'taybart/serve.nvim',
@@ -47,5 +48,9 @@ return {
       vim.api.nvim_create_user_command('AddNote', il.notes.add, {})
       vim.api.nvim_create_user_command('ShowNote', il.notes.show, {})
     end,
+  },
+  {
+    'taybart/vis',
+    -- dir = '~/dev/taybart/vis',
   },
 }

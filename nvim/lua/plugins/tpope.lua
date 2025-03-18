@@ -11,11 +11,11 @@ return {
     end,
   },
 
-  -- sqeaaalll
+  -- squeaaalll
   {
     'kristijanhusak/vim-dadbod-ui',
     dependencies = {
-      { 'tpope/vim-dadbod',                     lazy = true },
+      { 'tpope/vim-dadbod', lazy = true },
       { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
     },
     cmd = { 'DBUI', 'DBUIToggle', 'DBUIAddConnection', 'DBUIFindBuffer' },
@@ -42,6 +42,6 @@ return {
   },
   -- somebody come get her
   { 'tpope/vim-scriptease' },
-  -- procfile support
-  { 'tpope/vim-dotenv' },
+  -- -- procfile support
+  -- { 'tpope/vim-dotenv' },
 }

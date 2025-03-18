@@ -54,21 +54,21 @@ return {
   },
   gleam = {},
   html = {
-    opts = {
-      settings = {
-        html = {
-          format = {
-            templating = true,
-            wrapLineLength = 120,
-            wrapAttributes = 'auto',
-          },
-          hover = {
-            documentation = true,
-            references = true,
-          },
-        },
-      },
-    },
+    -- opts = {
+    --   settings = {
+    --     html = {
+    --       format = {
+    --         templating = true,
+    --         wrapLineLength = 120,
+    --         wrapAttributes = 'auto',
+    --       },
+    --       hover = {
+    --         documentation = true,
+    --         references = true,
+    --       },
+    --     },
+    --   },
+    -- },
   },
   htmx = {},
   lua_ls = {
@@ -124,7 +124,14 @@ return {
       },
     },
   },
-  sqls = {},
+  sqls = {
+    on_attach = function(client, bufnr)
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+
+      require('sqls').on_attach(client, bufnr)
+    end,
+  },
   svelte = {},
   terraformls = {},
   ts_ls = {

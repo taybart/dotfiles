@@ -82,4 +82,18 @@ return {
       },
     },
   },
+  {
+    'stevearc/aerial.nvim',
+    config = function()
+      require('aerial').setup({
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set('n', '{', '<cmd>AerialPrev<cr>', { buffer = bufnr })
+          vim.keymap.set('n', '}', '<cmd>AerialNext<cr>', { buffer = bufnr })
+        end,
+      })
+      vim.keymap.set('n', '<F8>', '<cmd>AerialToggle<cr>', { noremap = true })
+    end,
+  },
 }

@@ -9,6 +9,8 @@ return {
     local null_ls = require('null-ls')
     null_ls.setup({
       sources = {
+        -- django html
+        null_ls.builtins.formatting.djhtml,
         -- git
         null_ls.builtins.code_actions.gitsigns,
         -- lua

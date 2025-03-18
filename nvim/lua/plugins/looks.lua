@@ -41,6 +41,7 @@ return {
   { 'stevearc/dressing.nvim', opts = {} },
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
+  { 'OXY2DEV/markview.nvim', opts = {} },
   {
     'akinsho/nvim-bufferline.lua',
     enabled = false,
@@ -89,18 +90,16 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('lualine').setup({
-        sections = {
-          lualine_a = {},
-          lualine_c = {
-            { 'filename', file_status = true, path = 1 },
-          },
-          lualine_x = { 'encoding', 'fileformat', 'filetype' },
-          lualine_y = { 'g:serving_status' },
+    opts = {
+      sections = {
+        lualine_a = {},
+        lualine_c = {
+          { 'filename', file_status = true, path = 1 },
         },
-      })
-    end,
+        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_y = { 'g:serving_status', 'g:has_resurrect_sessions' },
+      },
+    },
   },
   {
     'lukas-reineke/indent-blankline.nvim',
