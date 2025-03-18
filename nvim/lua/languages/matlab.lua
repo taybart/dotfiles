@@ -1,4 +1,4 @@
-local M = {}
+local matlab = {}
 
 require('utils/augroup').create({
   matlab_lsp = {
@@ -6,7 +6,7 @@ require('utils/augroup').create({
       event = 'FileType',
       pattern = 'matlab',
       callback = function()
-        vim.api.nvim_create_user_command('Run', M.run, {})
+        vim.api.nvim_create_user_command('Run', matlab.run, {})
       end,
     },
   },
@@ -23,7 +23,7 @@ local function strip_whitespace(tbl)
   return ret
 end
 
-function M.run()
+function matlab.run()
   if not vim.g.calc_nvim_namespace then
     vim.g.calc_nvim_namespace = vim.api.nvim_create_namespace('calc_nvim')
   end
@@ -54,4 +54,4 @@ function M.run()
   })
 end
 
-return M
+return matlab

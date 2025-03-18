@@ -1,5 +1,3 @@
-local M = {}
-
 require('utils/augroup').create({
   lua_lsp = {
     {
@@ -11,5 +9,3 @@ require('utils/augroup').create({
     },
   },
 })
-
-return M

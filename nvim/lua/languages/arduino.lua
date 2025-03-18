@@ -1,19 +1,4 @@
-local M = {
-  -- lsp = {
-  --   name = 'arduino_language_server',
-  --   config = {
-  --     cmd = {
-  --       vim.fn.expand('$GOPATH/bin/arduino-language-server'),
-  --       '-cli-config',
-  --       vim.fn.expand('$HOME/.arduinoIDE/arduino-cli.yaml'),
-  --       '-cli',
-  --       'arduino-cli',
-  --       '-fqbn',
-  --       require('lsp/arduino').get_board(),
-  --     },
-  --   },
-  -- },
-}
+local arduino = {}
 
 local job = require('utils/job')
 local picker = require('utils/picker')
@@ -21,70 +6,16 @@ local picker = require('utils/picker')
 local board = 'm5stack:esp32:m5stick-c-plus'
 local port = ''
 
-function M.get_board()
+function arduino.get_board()
   return board
 end
-
---[==[
--- testing with nui
-local function pick_port()
-  local Menu = require('nui.menu')
-  local event = require('nui.utils.autocmd').event
-
-  local ports = job.run('arduino-cli', { 'board', 'list' }, { return_all = true })
-  table.remove(ports, 1) -- remove title
-  table.remove(ports, #ports) -- remove whitespace
-
-  local menu_items = {}
-  for i, p in ipairs(ports) do
-    menu_items[i] = Menu.item(p:match('%S+'))
-  end
-
-  local menu = Menu({
-    position = '50%',
-    size = {
-      width = 75,
-      height = 5,
-    },
-    border = {
-      style = 'single',
-      text = {
-        top = 'Select Port',
-        top_align = 'center',
-      },
-    },
-    win_options = {
-      winhighlight = 'Normal:Normal,FloatBorder:Normal',
-    },
-  }, {
-    lines = menu_items,
-    -- max_width = 20,
-    keymap = {
-      focus_next = { 'j', '<Down>', '<Tab>' },
-      focus_prev = { 'k', '<Up>', '<S-Tab>' },
-      close = { '<Esc>', '<C-c>' },
-      submit = { '<CR>', '<Space>' },
-    },
-    on_submit = function(item)
-      print('selected', item.text)
-      port = item.text
-    end,
-  })
-
-  -- mount the component
-  menu:mount()
-
-  -- close menu when cursor leaves buffer
-  menu:on(event.BufLeave, menu.menu_props.on_close, { once = true })
-end
---]==]
 
 local function set_board()
   local boards = job.run('arduino-cli', { 'board', 'listall' }, { return_all = true })
   table.remove(boards, 1) -- remove title
   table.remove(boards, #boards) -- remove whitespace
 
-  picker.pick('boards', boards, function(res)
+  picker('boards', boards, function(res)
     for b in res:gmatch('%S+') do
       board = b
     end
@@ -97,7 +28,7 @@ local function set_port()
   table.remove(ports, 1) -- remove title
   table.remove(ports, #ports) -- remove whitespace
 
-  picker.pick('ports', ports, function(res)
+  picker('ports', ports, function(res)
     port = res:match('%S+') -- first
     print(port)
   end)
@@ -138,4 +69,4 @@ require('utils/augroup').create({
   },
 })
 
-return M
+return arduino

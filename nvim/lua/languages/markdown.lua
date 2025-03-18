@@ -1,5 +1,3 @@
-local M = {}
-
 -- opdavies/toggle-checkbox.nvim
 local function toggle()
   local checked = '%[x%]'
@@ -37,5 +35,3 @@ require('utils/augroup').create({
     },
   },
 })
-
-return M

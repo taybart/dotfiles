@@ -1,20 +1,4 @@
-local go = {
-  -- lsp = {
-  --   name = 'gopls',
-  --   config = {
-  --     root_dir = require('lspconfig/util').root_pattern('go.work', 'go.mod', '.git'),
-  --     settings = {
-  --       gopls = {
-  --         buildFlags = { '-tags=' },
-  --         analyses = {
-  --           unusedparams = true,
-  --         },
-  --         staticcheck = true,
-  --       },
-  --     },
-  --   },
-  -- },
-}
+local go = {}
 
 local job = require('utils/job')
 
@@ -72,11 +56,11 @@ function go.add_tags(args)
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-      tagged == nil
-      or tagged.errors ~= nil
-      or tagged.lines == nil
-      or tagged['start'] == nil
-      or tagged['start'] == 0
+    tagged == nil
+    or tagged.errors ~= nil
+    or tagged.lines == nil
+    or tagged['start'] == nil
+    or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -100,11 +84,11 @@ function go.clear_tags()
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-      tagged == nil
-      or tagged.errors ~= nil
-      or tagged.lines == nil
-      or tagged['start'] == nil
-      or tagged['start'] == 0
+    tagged == nil
+    or tagged.errors ~= nil
+    or tagged.lines == nil
+    or tagged['start'] == nil
+    or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
