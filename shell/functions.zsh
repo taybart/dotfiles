@@ -25,12 +25,13 @@ function tunnel {
 function send {
   local ssh_pid
   local server_pid
+  local cwd=$(pwd)
 
   mkdir -p ~/.send_server
   cd ~/.send_server
 
   # Setup trap to handle interrupts (SIGINT)
-  trap 'echo "Shutting down tunnel and server..."; kill $ssh_pid $server_pid 2>/dev/null; exit' INT TERM
+  trap 'echo "Shutting down tunnel and server..."; kill $ssh_pid $server_pid 2>/dev/null; cd $cwd' INT TERM
 
   \ssh -o "ExitOnForwardFailure yes" -N -R 9002:localhost:12000 root@$TUNNEL &
   ssh_pid=$!
