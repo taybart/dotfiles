@@ -1,5 +1,5 @@
 local config = require('pomodoro/config')
-local db = require('pomodoro/db')
+-- local db = require('pomodoro/db')
 
 local state = {
   _file_path = os.getenv('HOME') .. '/.pomo_state',
@@ -15,6 +15,7 @@ local state = {
 }
 
 function state.init()
+  -- db:setup_tables()
   state.load()
 
   state.sync_timer = hs.timer.doEvery(config.INTERVAL_SECONDS, function()
@@ -27,6 +28,12 @@ end
 
 function state.load()
   print('loading pomo state')
+  -- local unfinished = db:unfinished()
+  -- if unfinished then
+  --   state.last.pomo = unfinished.pomo
+  --   state.last.take_break = db:get_break()
+  --   state.can_recover = true
+  -- end
   local file = assert(io.open(state._file_path, 'r'))
   if file then
     local content = assert(file:read('*a'))

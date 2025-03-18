@@ -2,7 +2,6 @@
   taken from -> https://github.com/af/dotfiles/blob/2e096c5cdf99c8e8f57a9d841e46e7d07885b76e/hammerspoon/pomodoro.lua
 ]]
 
--- require('pomodoro/db').setup_tables()
 local log = require('pomodoro/log')
 local chooser = require('pomodoro/chooser')
 
@@ -97,16 +96,22 @@ local function stop()
   update_ui()
 end
 
+local function complete()
+  state:stop()
+  update_ui()
+end
+
 local function menu_items()
   local items = {
-    { title = 'New', fn = new },
+    { title = 'new', fn = new },
   }
   if state.pomo.running or state.take_break.running then
-    items[1] = { title = 'pause ⏸', fn = toggle_paused }
+    items[1] = { title = 'pause      ⏸', fn = toggle_paused }
     if state.pomo.paused then
-      items[1].title = 'start ⏵'
+      items[1].title = 'start        ⏵'
     end
-    items[2] = { title = 'stop ⏹', fn = stop }
+    items[2] = { title = 'stop         ⏹', fn = stop }
+    items[3] = { title = 'complete ✓', fn = complete }
   end
   return items
 end

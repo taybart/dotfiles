@@ -66,13 +66,12 @@ function client:completed_today()
   return todays_pomos
 end
 
-function client:get_unfinished()
+function client:unfinished()
   local stmt = assert(client.conn:prepare([[
     SELECT * FROM pomos
     WHERE date(created_at) = date('now')
     AND completed_at IS NULL
-    AND running=true
-    OR break_running=true
+    AND running=true OR break_running=true
   ]]))
 
   local todays_pomos = {}
