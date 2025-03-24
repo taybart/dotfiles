@@ -19,6 +19,7 @@ alias ct="certs"
 alias y="yarn"
 alias p="pnpm"
 alias tf="terraform"
+alias sshfingerprint="ssh-keygen -lvf"
 
 if is_installed nix; then
   function run() {

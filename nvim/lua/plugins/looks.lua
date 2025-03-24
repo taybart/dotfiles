@@ -38,10 +38,60 @@ return {
     },
   },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
+  {
+    'folke/snacks.nvim',
+    priority = 1000,
+    lazy = false,
+    opts = {
+      bigfile = { enabled = true },
+      indent = {
+        enabled = true,
+        animate = {
+          enabled = false,
+          duration = {
+            step = 10,
+            total = 200,
+          },
+        },
+      },
+      input = { enabled = true },
+      notifier = {
+        enabled = true,
+        timeout = 3000,
+      },
+      picker = {
+        enabled = true,
+        win = {
+          input = {
+            keys = {
+              ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
+            },
+          },
+        },
+      },
+      quickfile = { enabled = true },
+    },
+  },
 
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
-  { 'OXY2DEV/markview.nvim', opts = {} },
+  {
+    'OXY2DEV/markview.nvim',
+    config = function()
+      require('markview').setup({})
+      require('utils/augroup').create({
+        markview_ = {
+          {
+            event = 'FileType',
+            pattern = 'markdown',
+            callback = function()
+              vim.keymap.set('n', '<leader>m', '<cmd>Markview toggle<cr>')
+            end,
+          },
+        },
+      })
+    end,
+  },
   {
     'akinsho/nvim-bufferline.lua',
     enabled = false,
@@ -100,16 +150,5 @@ return {
         lualine_y = { 'g:serving_status', 'g:has_resurrect_sessions' },
       },
     },
-  },
-  {
-    'lukas-reineke/indent-blankline.nvim',
-    main = 'ibl',
-    config = function()
-      require('ibl').setup({
-        exclude = {
-          filetypes = { 'help', 'TelescopePrompt' },
-        },
-      })
-    end,
   },
 }
