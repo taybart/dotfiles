@@ -8,9 +8,7 @@ return {
     -- 'taybart/resurrect.nvim',
     dir = '~/dev/taybart/resurrect.nvim',
     dependencies = { 'kkharji/sqlite.lua' },
-    opts = {
-      quiet = true,
-    },
+    opts = { quiet = true },
   },
   {
     'taybart/serve.nvim',
