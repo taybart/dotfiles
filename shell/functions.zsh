@@ -367,7 +367,7 @@ function sb() {
     echo "import (\"fmt\"\n\"os\")" >> main.go
     echo "func main() {" >> main.go
     echo "if err := run(); err != nil{" >> main.go
-    echo "fmt.Println(err)\nos.Exit(1)}}" >> main.go
+    echo 'fmt.Fprintf(os.Stderr, "%v\\n",err)\nos.Exit(1)}}' >> main.go
     echo "func run() error {\nreturn nil\n}" >> main.go
     go fmt main.go
     nvim -c 'exe "15"' main.go

@@ -1,7 +1,7 @@
 local alert = hs.alert.show
 hs.hotkey.bind({ 'cmd', 'ctrl', 'shift' }, 'a', function()
   local source = 'TAPs'
-  local _, _, _, rc = hs.execute('blueutil --connect 48-E1-5C-E1-FF-59', true)
+  local _, _, _, rc = hs.execute('blueutil --connect 98-1C-A2-E3-A6-22', true)
   if rc ~= 0 then
     alert('could not connect to device')
     return

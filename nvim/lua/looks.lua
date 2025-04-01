@@ -25,10 +25,14 @@ hi! link TelescopePreviewBorder GruvboxBg4
 ]])
 
 -- LSP looks
-vim.fn.sign_define('DiagnosticSignError', { text = '✗', texthl = 'GruvboxRed' })
-vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYellow' })
-vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
-vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
+local x = vim.diagnostic.severity
+vim.diagnostic.config({
+  signs = { text = { [x.ERROR] = '󰅙', [x.WARN] = '', [x.INFO] = '', [x.HINT] = '󰌵' } },
+})
+-- vim.fn.sign_define('DiagnosticSignError', { text = '✗', texthl = 'GruvboxRed' })
+-- vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYellow' })
+-- vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
+-- vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
 
 -- fix neo-tree preview color issue
 vim.cmd('hi NormalFloat guibg=GruvBoxBg1')

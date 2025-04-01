@@ -7,7 +7,7 @@ return {
       local gb = require('gruvbox')
       gb.setup({
         overrides = {
-          SignColumn = { bg = gb.palette.dark0 },
+          -- SignColumn = { bg = gb.palette.dark0 },
         },
       })
       vim.opt.background = 'dark' -- or "light" for light mode
