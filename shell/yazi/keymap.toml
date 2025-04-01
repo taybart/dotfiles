@@ -2,7 +2,7 @@
 
 [[manager.prepend_keymap]]
 on   = "<C-s>"
-run  = 'shell "$SHELL" --block'
+run  = 'shell "$SHELL" --block --interactive'
 desc = "Open shell here"
 
 [[manager.prepend_keymap]]
