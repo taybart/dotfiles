@@ -18,41 +18,36 @@ vim.g.markdown_fenced_languages = {
   'py=python',
 }
 
-vim.cmd([[
-hi! link TelescopePromptBorder GruvboxBg4
-hi! link TelescopeResultsBorder GruvboxBg4
-hi! link TelescopePreviewBorder GruvboxBg4
-]])
-
+-- switch themes when background changes
+vim.api.nvim_create_autocmd('OptionSet', {
+  pattern = 'background',
+  callback = function()
+    if vim.o.background == 'light' then
+      vim.cmd.colorscheme('catppuccin-latte')
+    elseif vim.o.background == 'dark' then
+      vim.cmd.colorscheme('gruvbox')
+    end
+    -- re-set up lualine, for whatever reason when i don't set background
+    -- to support automatic colorscheme switching all of the colors are
+    -- messed up with it
+    require('lualine').setup({
+      sections = {
+        lualine_a = {},
+        lualine_c = {
+          { 'filename', file_status = true, path = 1 },
+        },
+        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_y = { 'g:serving_status', 'g:has_resurrect_sessions' },
+      },
+    })
+  end,
+})
 -- LSP looks
 local x = vim.diagnostic.severity
 vim.diagnostic.config({
-  signs = { text = { [x.ERROR] = '󰅙', [x.WARN] = '', [x.INFO] = '', [x.HINT] = '󰌵' } },
+  signs = {
+    text = { [x.ERROR] = '󰅙', [x.WARN] = '', [x.INFO] = '', [x.HINT] = '󰌵' },
+  },
 })
--- vim.fn.sign_define('DiagnosticSignError', { text = '✗', texthl = 'GruvboxRed' })
--- vim.fn.sign_define('DiagnosticSignWarning', { text = '', texthl = 'GruvboxYellow' })
--- vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'GruvboxBlue' })
--- vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'GruvboxAqua' })
-
--- fix neo-tree preview color issue
-vim.cmd('hi NormalFloat guibg=GruvBoxBg1')
-vim.cmd('hi FloatBorder guibg=GruvBoxBg1')
-
-function M.toggle_num(rel_on)
-  if vim.bo.ft == '' then
-    return
-  end
-
-  local re = vim.regex('tagbar\\|NvimTree\\|vista\\|packer')
-  if re ~= nil then
-    if re:match_str(vim.bo.ft) then
-      vim.opt.number = false
-      return
-    end
-  end
-
-  vim.opt.number = true
-  vim.opt.relativenumber = rel_on
-end
 
 return M

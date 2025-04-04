@@ -42,7 +42,9 @@ vim.opt.signcolumn = 'yes'
 
 -- numbas
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = 'number'
 
 -- allow more complicated font/color stuff
 vim.opt.termguicolors = true

@@ -3,10 +3,10 @@ return {
     'huggingface/llm.nvim',
     enabled = function()
       local llm_up = vim.fn
-          .system('curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8012/health')
-          :gsub('\n', '') == '200'
+        .system('curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8012/health')
+        :gsub('\n', '') == '200'
       if not llm_up then
-        print('llm disabled')
+        vim.notify('llm disabled', vim.log.levels.WARN)
       end
       return llm_up
     end,

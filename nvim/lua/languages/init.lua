@@ -31,7 +31,7 @@ function M.setup()
     { '▏', 'FloatBorder' },
   }
   local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-  function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
     opts = opts or {}
     opts.border = opts.border or border
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
@@ -39,7 +39,7 @@ function M.setup()
 
   -- lsp configs
   local lspconfig = require('lspconfig')
-  local configs = require('languages/config')
+  local configs = require('languages/lspconfig')
   for lsp, lsp_config in pairs(configs) do
     local config = vim.tbl_deep_extend('force', M.make_base_config(), lsp_config)
     lspconfig[lsp].setup(config)
@@ -62,13 +62,24 @@ M.on_attach = function()
 
   local telescope = require('telescope.builtin')
   require('utils/maps').mode_group('n', {
-    { 'gi', vim.lsp.buf.implementation },
-    { 'gr', telescope.lsp_references },
-    { 'gD', telescope.lsp_type_definitions },
-    { 'gd', telescope.lsp_definitions },
-    { 'gi', telescope.lsp_implementations },
-    { '[d', vim.diagnostic.goto_next },
-    { ']d', vim.diagnostic.goto_prev },
+    -- these have been mapped into default
+    -- { 'gi', vim.lsp.buf.implementation },
+    -- { 'gr', telescope.lsp_references },
+    -- { 'gD', telescope.lsp_type_definitions },
+    -- { 'gd', telescope.lsp_definitions },
+    -- { 'gi', telescope.lsp_implementations },
+    -- {
+    --   '[d',
+    --   function()
+    --     vim.diagnostic.jump({ count = 1 })
+    --   end,
+    -- },
+    -- {
+    --   ']d',
+    --   function()
+    --     vim.diagnostic.jump({ count = -1 })
+    --   end,
+    -- },
     { 'K', vim.lsp.buf.hover },
     { 'E', vim.diagnostic.open_float },
     { 'ca', vim.lsp.buf.code_action },
@@ -83,8 +94,12 @@ M.on_attach = function()
   command('Issues', vim.diagnostic.setqflist, {})
   command('Rename', function(args)
     local new_name = args.fargs[1]
+    local old_name = vim.fn.expand('<cword>')
     if not new_name then
-      new_name = vim.fn.input({ prompt = 'to -> ' })
+      new_name = vim.fn.input({ prompt = old_name .. ' to -> ' })
+      if not new_name or new_name == '' then
+        return
+      end
     end
 
     local position_params = vim.lsp.util.make_position_params(nil, 'utf-8')

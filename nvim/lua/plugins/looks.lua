@@ -5,72 +5,67 @@ return {
     priority = 1000,
     config = function()
       local gb = require('gruvbox')
+      local p = gb.palette
       gb.setup({
+        inverse = false,
         overrides = {
-          -- SignColumn = { bg = gb.palette.dark0 },
+          SignColumn = { bg = p.dark0 },
+          DiagnosticSignError = { fg = p.neutral_red, bg = p.dark0 },
+          DiagnosticSignWarn = { fg = p.neutral_yellow, bg = p.dark0 },
+          DiagnosticSignInfo = { fg = p.neutral_blue, bg = p.dark0 },
+          DiagnosticSignHing = { fg = p.neutral_aqua, bg = p.dark0 },
+          CursorLineNr = { fg = p.neutral_yellow, bg = p.dark0 },
         },
       })
-      vim.opt.background = 'dark' -- or "light" for light mode
-      -- vim.g.gruvbox_italic = 1
-      -- vim.g.gruvbox_sign_column = 'bg0'
-      vim.cmd('colorscheme gruvbox')
+      vim.cmd.colorscheme('gruvbox')
+      -- vim.api.nvim_set_hl(0, 'StatusLine', { reverse = false })
+      -- vim.api.nvim_set_hl(0, 'StatusLineNC', { reverse = false })
     end,
   },
-
   {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
   },
-  {
-    'f-person/auto-dark-mode.nvim',
-    enabled = vim.fn.has('mac'),
-    opts = {
-      update_interval = 1000,
-      set_dark_mode = function()
-        vim.opt.background = 'dark'
-        vim.cmd('colorscheme gruvbox')
-      end,
-      set_light_mode = function()
-        vim.opt.background = 'light'
-        vim.cmd('colorscheme catppuccin-latte')
-      end,
-    },
-  },
+  { 'brenoprata10/nvim-highlight-colors', opts = {} },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
   {
     'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
-    opts = {
-      bigfile = { enabled = true },
-      indent = {
-        enabled = true,
-        animate = {
-          enabled = false,
-          duration = {
-            step = 10,
-            total = 200,
-          },
-        },
-      },
-      input = { enabled = true },
-      notifier = {
-        enabled = true,
-        timeout = 3000,
-      },
-      picker = {
-        enabled = true,
-        win = {
-          input = {
-            keys = {
-              ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
+    config = function()
+      local s = require('snacks')
+      s.setup({
+        bigfile = { enabled = true },
+        indent = {
+          enabled = true,
+          animate = {
+            enabled = false,
+            duration = {
+              step = 10,
+              total = 200,
             },
           },
         },
-      },
-      quickfile = { enabled = true },
-    },
+        input = { enabled = true },
+        notifier = {
+          enabled = true,
+          timeout = 3000,
+        },
+        picker = {
+          enabled = true,
+          win = {
+            input = {
+              keys = {
+                ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
+              },
+            },
+          },
+        },
+        quickfile = { enabled = true },
+      })
+      vim.api.nvim_create_user_command('Notifications', s.notifier.show_history, {})
+    end,
   },
 
   -- nice indicators for fF/tT
@@ -93,53 +88,9 @@ return {
     end,
   },
   {
-    'akinsho/nvim-bufferline.lua',
-    enabled = false,
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('bufferline').setup({
-        options = {
-          diagnostics = 'nvim_lsp',
-          separator_style = 'slant',
-          max_name_length = 30,
-          show_close_icon = false,
-          show_buffer_close_icons = false,
-          right_mouse_command = '',
-          middle_mouse_command = 'bdelete! %d',
-          -- custom_filter = function(buf_number)
-          --   return vim.bo[buf_number].filetype ~= 'qf'
-          -- end,
-        },
-      })
-
-      require('utils/maps').mode_group('n', {
-        { '<leader>l', ':BufferLineCycleNext<cr>' },
-        { '<leader>h', ':BufferLineCyclePrev<cr>' },
-        { '<leader>L', ':BufferLineMoveNext<cr>' },
-        { '<leader>H', ':BufferLineMovePrev<cr>' },
-        { '<leader>d', ':bp <BAR> bd #<cr>' },
-      }, { noremap = true })
-      -- vim.opt.showtabline = 1
-      -- if using alpha
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'AlphaReady',
-        desc = 'disable tabline for alpha',
-        callback = function()
-          vim.opt.showtabline = 0
-        end,
-      })
-      vim.api.nvim_create_autocmd('BufUnload', {
-        buffer = 0,
-        desc = 'enable tabline after alpha',
-        callback = function()
-          vim.opt.showtabline = 2
-        end,
-      })
-    end,
-  },
-  {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    -- moved to lua/looks.lua because of stupid colorscheme bs
     opts = {
       sections = {
         lualine_a = {},

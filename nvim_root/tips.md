@@ -1,2 +1,0 @@
-:.!figlet
-:r!hostname

@@ -120,7 +120,7 @@ end
 
 function go.add_build_tags(args)
   local tags = args.fargs[1]
-  local go_config = require('languages/config').gopls
+  local go_config = require('languages/lspconfig').gopls
   local current_tags = go_config.settings.gopls.buildFlags[1]
   if not current_tags or current_tags == '' then
     current_tags = '-tags='
@@ -135,7 +135,7 @@ end
 function go.set_build_tags(args)
   -- local tags = vim.tbl_flatten(args.fargs[1])
   local tags = args.fargs[1]
-  local go_config = require('languages/config').gopls
+  local go_config = require('languages/lspconfig').gopls
 
   go_config.settings.gopls.buildFlags = { '-tags=' .. tags }
 
@@ -143,17 +143,26 @@ function go.set_build_tags(args)
 end
 
 function go.organize_imports()
-  local params = vim.lsp.util.make_range_params()
-  params.context = { only = { 'source.organizeImports' } }
-  local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 500)
-  for cid, res in pairs(result or {}) do
-    for _, r in pairs(res.result or {}) do
-      if r.edit then
-        local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
-        vim.lsp.util.apply_workspace_edit(r.edit, enc)
-      end
-    end
-  end
+  -- local params = vim.lsp.util.make_range_params()
+  -- params.context = { only = { 'source.organizeImports' } }
+  -- local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 500)
+  -- for cid, res in pairs(result or {}) do
+  --   for _, r in pairs(res.result or {}) do
+  --     if r.edit then
+  --       local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
+  --       vim.lsp.util.apply_workspace_edit(r.edit, enc)
+  --     end
+  --   end
+  -- end
+  pcall(function()
+    vim.lsp.buf.format()
+    vim.lsp.buf.code_action({
+      context = {
+        only = { 'source.organizeImports' },
+      },
+      apply = true,
+    })
+  end)
 end
 
 require('utils/augroup').create({
