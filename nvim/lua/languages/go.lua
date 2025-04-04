@@ -143,25 +143,49 @@ function go.set_build_tags(args)
 end
 
 function go.organize_imports()
-  -- local params = vim.lsp.util.make_range_params()
-  -- params.context = { only = { 'source.organizeImports' } }
-  -- local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 500)
-  -- for cid, res in pairs(result or {}) do
-  --   for _, r in pairs(res.result or {}) do
-  --     if r.edit then
-  --       local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or 'utf-16'
-  --       vim.lsp.util.apply_workspace_edit(r.edit, enc)
-  --     end
-  --   end
-  -- end
+  -- pcall(function()
+  --   vim.lsp.buf.format()
+  --   vim.lsp.buf.code_action({
+  --     context = {
+  --       only = { 'source.organizeImports' },
+  --     },
+  --     apply = true,
+  --   })
+  -- end)
+  -- have to check if we need to organize imports to prevent "No Code Actions Available" notification spam
   pcall(function()
     vim.lsp.buf.format()
-    vim.lsp.buf.code_action({
-      context = {
-        only = { 'source.organizeImports' },
-      },
-      apply = true,
-    })
+
+    -- Check for organize imports code action
+    local params = vim.lsp.util.make_range_params(0, 'utf-8')
+    ---@diagnostic disable-next-line: inject-field
+    params.context = {
+      only = { 'source.organizeImports' },
+      diagnostics = {},
+    }
+
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
+    if result then
+      for _, res in pairs(result) do
+        if res.result and #res.result > 0 then
+          for _, action in pairs(res.result) do
+            -- Check if the action is source.organizeImports
+            if
+              action.kind == 'source.organizeImports'
+              or (action.title and action.title:match('organize imports'))
+            then
+              vim.lsp.buf.code_action({
+                context = {
+                  only = { 'source.organizeImports' },
+                },
+                apply = true,
+              })
+              return
+            end
+          end
+        end
+      end
+    end
   end)
 end
 

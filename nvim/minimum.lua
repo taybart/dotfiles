@@ -7,6 +7,7 @@ vim.opt.number = true
 vim.opt.swapfile = false
 vim.opt.backup = false
 
+---@diagnostic disable-next-line: inject-field
 vim.g.mapleader = ' ' -- space as leader
 
 vim.opt.timeoutlen = 1000
@@ -36,22 +37,22 @@ mode_group('n', {
 }, { noremap = true })
 
 mode_group('n', {
- { 'zj', 'o<Esc>k' },
- { 'zk', 'O<Esc>j' },
+  { 'zj', 'o<Esc>k' },
+  { 'zk', 'O<Esc>j' },
 }, { silent = true })
 
 mode_group('n', {
- { 'j', 'gj' },
- { 'k', 'gk' },
- { 'H', '^' },
- { 'L', '$' },
- { '<c-d>', '15gj' }, 
- { '<c-u>', '15gk' } 
+  { 'j', 'gj' },
+  { 'k', 'gk' },
+  { 'H', '^' },
+  { 'L', '$' },
+  { '<c-d>', '15gj' },
+  { '<c-u>', '15gk' },
 })
 
 mode_group('v', {
-  { '<c-d>', '15gj' }, 
-  { '<c-u>', '15gk' }
-  {'<Tab>', '>gv'},
-  {'<S-Tab>', '<gv'}
+  { '<c-d>', '15gj' },
+  { '<c-u>', '15gk' },
+  { '<Tab>', '>gv' },
+  { '<S-Tab>', '<gv' },
 })

@@ -81,7 +81,7 @@ return {
       {
         'n',
         -- Live grep
-        { '<c-s>',  builtin.live_grep },
+        { '<c-s>', builtin.live_grep },
         -- { '<c-s>', telescope.extensions.live_grep_args.live_grep_args },
         -- Search under cursor
         { 'g<c-s>', search_cword },
@@ -93,9 +93,9 @@ return {
           end,
         },
         -- Find help tags
-        { '<c-h>',      builtin.help_tags },
+        { '<c-h>', builtin.help_tags },
         -- Find open buffers
-        { '<c-b>',      builtin.buffers },
+        { '<c-b>', builtin.buffers },
         { '<leader>of', builtin.oldfiles },
 
         { '<leader>ev', edit_config },
@@ -111,7 +111,9 @@ return {
       defaults = {
         prompt_prefix = '   ',
         -- selection_caret = '  ',
-        selection_caret = '❯ ',
+        selection_caret = '👉 ',
+        entry_prefix = '   ',
+        -- selection_caret = '❯ ',
         sorting_strategy = 'ascending',
         layout_config = {
           horizontal = {
