@@ -56,11 +56,11 @@ function go.add_tags(args)
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged == nil
-    or tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged['start'] == nil
-    or tagged['start'] == 0
+      tagged == nil
+      or tagged.errors ~= nil
+      or tagged.lines == nil
+      or tagged['start'] == nil
+      or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -84,11 +84,11 @@ function go.clear_tags()
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged == nil
-    or tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged['start'] == nil
-    or tagged['start'] == 0
+      tagged == nil
+      or tagged.errors ~= nil
+      or tagged.lines == nil
+      or tagged['start'] == nil
+      or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -153,40 +153,38 @@ function go.organize_imports()
   --   })
   -- end)
   -- have to check if we need to organize imports to prevent "No Code Actions Available" notification spam
-  pcall(function()
-    vim.lsp.buf.format()
+  vim.lsp.buf.format()
 
-    -- Check for organize imports code action
-    local params = vim.lsp.util.make_range_params(0, 'utf-8')
-    ---@diagnostic disable-next-line: inject-field
-    params.context = {
-      only = { 'source.organizeImports' },
-      diagnostics = {},
-    }
+  -- Check for organize imports code action
+  local params = vim.lsp.util.make_range_params(0, 'utf-8')
+  ---@diagnostic disable-next-line: inject-field
+  params.context = {
+    only = { 'source.organizeImports' },
+    diagnostics = {},
+  }
 
-    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
-    if result then
-      for _, res in pairs(result) do
-        if res.result and #res.result > 0 then
-          for _, action in pairs(res.result) do
-            -- Check if the action is source.organizeImports
-            if
+  local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
+  if result then
+    for _, res in pairs(result) do
+      if res.result and #res.result > 0 then
+        for _, action in pairs(res.result) do
+          -- Check if the action is source.organizeImports
+          if
               action.kind == 'source.organizeImports'
               or (action.title and action.title:match('organize imports'))
-            then
-              vim.lsp.buf.code_action({
-                context = {
-                  only = { 'source.organizeImports' },
-                },
-                apply = true,
-              })
-              return
-            end
+          then
+            vim.lsp.buf.code_action({
+              context = {
+                only = { 'source.organizeImports' },
+              },
+              apply = true,
+            })
+            return
           end
         end
       end
     end
-  end)
+  end
 end
 
 require('utils/augroup').create({

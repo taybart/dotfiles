@@ -6,8 +6,8 @@ return {
     config = function()
       local gb = require('gruvbox')
       local p = gb.palette
+      vim.o.background = 'dark'
       gb.setup({
-        inverse = false,
         overrides = {
           SignColumn = { bg = p.dark0 },
           DiagnosticSignError = { fg = p.neutral_red, bg = p.dark0 },
@@ -18,8 +18,6 @@ return {
         },
       })
       vim.cmd.colorscheme('gruvbox')
-      -- vim.api.nvim_set_hl(0, 'StatusLine', { reverse = false })
-      -- vim.api.nvim_set_hl(0, 'StatusLineNC', { reverse = false })
     end,
   },
   {
@@ -27,7 +25,28 @@ return {
     name = 'catppuccin',
     priority = 1000,
   },
-  { 'brenoprata10/nvim-highlight-colors', opts = {} },
+  {
+    'f-person/auto-dark-mode.nvim',
+    opts = {
+      set_dark_mode = function()
+        vim.api.nvim_set_option_value('background', 'dark', {})
+        vim.cmd.colorscheme('gruvbox')
+      end,
+      set_light_mode = function()
+        vim.api.nvim_set_option_value('background', 'light', {})
+        vim.cmd.colorscheme('catppuccin-latte')
+      end,
+      update_interval = 3000,
+      fallback = 'dark',
+    },
+  },
+  {
+    'brenoprata10/nvim-highlight-colors',
+    opts = {
+      render = 'foreground',
+      enable_tailwind = true,
+    },
+  },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
   {
     'folke/snacks.nvim',

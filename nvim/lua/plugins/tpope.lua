@@ -1,13 +1,13 @@
 return {
   {
     'tpope/vim-surround',
-    config = function()
+    init = function()
       -- make surround around [",',`] work as expected
-      vim.cmd([[
-      nmap ysa' ys2i'
-      nmap ysa" 'ys2i"
-      nmap ysa` 'ys2i`
-      ]])
+      -- vim.cmd([[
+      -- nmap ysa' ys2i'
+      -- nmap ysa" 'ys2i"
+      -- nmap ysa` 'ys2i`
+      -- ]])
     end,
   },
 

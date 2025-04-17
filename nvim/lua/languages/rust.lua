@@ -22,6 +22,7 @@ require('utils/augroup').create({
       event = 'FileType',
       pattern = 'rust',
       callback = function()
+        -- vim.lsp.inlay_hint.enable(true)
         vim.api.nvim_create_user_command('Run', rust.run, { nargs = '?' })
         vim.api.nvim_create_user_command('Test', rust.test, { nargs = '?' })
         vim.api.nvim_create_user_command('Rsx', function()

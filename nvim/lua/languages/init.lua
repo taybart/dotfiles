@@ -50,6 +50,13 @@ end
 M.on_attach = function()
   require('utils/augroup').create({
     lsp = {
+      -- {
+      --   event = 'LspAttach',
+      --   pattern = '*',
+      --   callback = function()
+      --     vim.lsp.inlay_hint.enable(true)
+      --   end,
+      -- },
       {
         event = 'BufWritePre',
         pattern = '*',
@@ -63,11 +70,11 @@ M.on_attach = function()
   local telescope = require('telescope.builtin')
   require('utils/maps').mode_group('n', {
     -- these have been mapped into default
-    -- { 'gi', vim.lsp.buf.implementation },
-    -- { 'gr', telescope.lsp_references },
-    -- { 'gD', telescope.lsp_type_definitions },
-    -- { 'gd', telescope.lsp_definitions },
-    -- { 'gi', telescope.lsp_implementations },
+    { 'gi', vim.lsp.buf.implementation },
+    { 'gr', telescope.lsp_references },
+    { 'gD', telescope.lsp_type_definitions },
+    { 'gd', telescope.lsp_definitions },
+    { 'gi', telescope.lsp_implementations },
     -- {
     --   '[d',
     --   function()
@@ -102,7 +109,7 @@ M.on_attach = function()
       end
     end
 
-    local position_params = vim.lsp.util.make_position_params(nil, 'utf-8')
+    local position_params = vim.lsp.util.make_position_params(0, 'utf-8')
     position_params.newName = new_name
     vim.lsp.buf_request(0, 'textDocument/rename', position_params)
   end, {

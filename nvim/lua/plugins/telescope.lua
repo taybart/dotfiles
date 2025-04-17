@@ -10,11 +10,11 @@ local function search_cword()
 end
 
 local function search_selection()
-  local reg_cache = vim.fn.getreg(0)
+  local reg_cache = vim.fn.getreg('b')
   -- Reselect the visual mode text, cut to reg b
-  vim.cmd('normal! gv"0y')
-  require('telescope.builtin').grep_string({ search = vim.fn.getreg(0) })
-  vim.fn.setreg(0, reg_cache)
+  vim.cmd('normal! gv"by')
+  require('telescope.builtin').grep_string({ search = vim.fn.getreg('b') })
+  vim.fn.setreg('b', reg_cache)
 end
 
 local function multiopen(prompt_bufnr, method)

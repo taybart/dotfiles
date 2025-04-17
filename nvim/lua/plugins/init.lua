@@ -1,5 +1,4 @@
 return {
-  { 'nvim-lua/plenary.nvim', priority = 1000 },
   {
     -- required with tmux
     'christoomey/vim-tmux-navigator',
@@ -25,8 +24,6 @@ return {
       })
     end,
   },
-
-  -- { 'zbirenbaum/copilot.lua', config = true },
 
   --[==================[
   --===  Probation  ===

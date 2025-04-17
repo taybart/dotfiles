@@ -5,6 +5,7 @@
 -- helpful things
 local map = require('utils/maps')
 
+---@diagnostic disable-next-line: inject-field
 vim.g.mapleader = ' ' -- space as leader
 
 -- Easy escape from insert
@@ -23,7 +24,7 @@ map.mode_group('c', {
 })
 
 map.mode_group('n', {
-  { '<F9>',  'cprev' },
+  { '<F9>', 'cprev' },
   { '<F10>', 'cnext' },
 })
 

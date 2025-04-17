@@ -35,6 +35,7 @@ return {
   clangd = {
     -- remove "proto" for now since i use protobuf more
     filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+    cmd = { 'clangd', '--offest-encoding=utf-16' },
   },
   denols = {
     root_dir = lcutil.root_pattern('deno.json', 'deno.jsonc'),
@@ -109,21 +110,24 @@ return {
   -- },
   pyright = {},
   ruff = {},
-  rust_analyzer = {
-    settings = {
-      ['rust-analyzer'] = {
-        procMacro = {
-          enable = true,
-          ignore = {
-            leptos_macro = {
-              'server',
-              'component',
-            },
-          },
-        },
-      },
-    },
-  },
+  -- rust_analyzer = {
+  --   settings = {
+  --     ['rust-analyzer'] = {
+  --       checkonsave = {
+  --         command = 'clippy',
+  --       },
+  --       procMacro = {
+  --         enable = true,
+  --         ignore = {
+  --           leptos_macro = {
+  --             'server',
+  --             'component',
+  --           },
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
   sqls = {
     on_attach = function(client, bufnr)
       client.server_capabilities.documentFormattingProvider = false
