@@ -1,6 +1,7 @@
 local go = {}
 
 local job = require('utils/job')
+local au = require('utils/augroup')
 
 function go.install_deps()
   job.run('go', { 'install', 'github.com/fatih/gomodifytags@latest' })
@@ -56,11 +57,11 @@ function go.add_tags(args)
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-      tagged == nil
-      or tagged.errors ~= nil
-      or tagged.lines == nil
-      or tagged['start'] == nil
-      or tagged['start'] == 0
+    tagged == nil
+    or tagged.errors ~= nil
+    or tagged.lines == nil
+    or tagged['start'] == nil
+    or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -84,11 +85,11 @@ function go.clear_tags()
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-      tagged == nil
-      or tagged.errors ~= nil
-      or tagged.lines == nil
-      or tagged['start'] == nil
-      or tagged['start'] == 0
+    tagged == nil
+    or tagged.errors ~= nil
+    or tagged.lines == nil
+    or tagged['start'] == nil
+    or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -170,8 +171,8 @@ function go.organize_imports()
         for _, action in pairs(res.result) do
           -- Check if the action is source.organizeImports
           if
-              action.kind == 'source.organizeImports'
-              or (action.title and action.title:match('organize imports'))
+            action.kind == 'source.organizeImports'
+            or (action.title and action.title:match('organize imports'))
           then
             vim.lsp.buf.code_action({
               context = {
@@ -187,36 +188,30 @@ function go.organize_imports()
   end
 end
 
-require('utils/augroup').create({
+au.create({
   go_lsp = {
     {
       event = 'BufWritePre',
       pattern = '*.go',
       callback = go.organize_imports,
     },
-    {
-      event = 'FileType',
-      pattern = 'gomod',
+    au.ft_cmd('gomod', {
       callback = function()
         vim.bo.commentstring = '// %s'
       end,
-    },
-    {
-      event = 'FileType',
-      pattern = 'go',
-      callback = function()
-        local command = vim.api.nvim_create_user_command
-        command('BuildTags', go.set_build_tags, { nargs = '+' })
-        command('BuildTagsAdd', go.add_build_tags, { nargs = '+' })
-        command('StructTags', go.add_tags, { nargs = '*' })
-        command('ClearStructTags', go.clear_tags, {})
-        command('Run', go.run, { nargs = '*' })
-        command('Test', go.test, { nargs = '?' })
-        command('Tidy', '!go mod tidy', { nargs = '?' })
-        command('R', 'LspRestart', { nargs = '?' })
-        command('Imports', go.organize_imports, {})
-      end,
-    },
+    }),
+    au.ft_cmd('go', {
+      run_cmd = go.run,
+      commands = {
+        { name = 'BuildTags', cmd = go.set_build_tags, opts = { nargs = '+' } },
+        { name = 'BuildTagsAdd', cmd = go.add_build_tags, opts = { nargs = '+' } },
+        { name = 'StructTags', cmd = go.add_tags },
+        { name = 'Test', cmd = go.test, { nargs = '?' } },
+        { name = 'Tidy', cmd = '!go mod tidy', { nargs = '?' } },
+        { name = 'R', cmd = 'LspRestart' },
+        { name = 'Imports', go.organize_imports, {} },
+      },
+    }),
   },
 })
 

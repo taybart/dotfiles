@@ -1,12 +1,6 @@
-require('utils/augroup').create({
+local au = require('utils/augroup')
+au.create({
   sh_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'sh',
-      callback = function()
-        local cmd = vim.api.nvim_create_user_command
-        cmd('Run', ':!chmod +x ./% && ./% %@', { nargs = '*' })
-      end,
-    },
+    au.ft_cmd('sh', { run_cmd = 'chmod +x ./% && ./% %@' }),
   },
 })

@@ -16,20 +16,16 @@ function rust.test(args)
   vim.api.nvim_command('!cargo test ' .. file_name)
 end
 
-require('utils/augroup').create({
+local au = require('utils/augroup')
+au.create({
   rust_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'rust',
-      callback = function()
-        -- vim.lsp.inlay_hint.enable(true)
-        vim.api.nvim_create_user_command('Run', rust.run, { nargs = '?' })
-        vim.api.nvim_create_user_command('Test', rust.test, { nargs = '?' })
-        vim.api.nvim_create_user_command('Rsx', function()
-          vim.api.nvim_command('!leptosfmt %')
-        end, {})
-      end,
-    },
+    au.ft_cmd('rust', {
+      run_cmd = rust.run,
+      commands = {
+        { name = 'Test', cmd = rust.test, opts = { nargs = '?' } },
+        { name = 'Rsx', cmd = '!leptosfmt %' },
+      },
+    }),
   },
 })
 

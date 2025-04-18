@@ -1,8 +1,6 @@
 ------------------------------
 ------------ init ------------
 ------------------------------
--- long live zsh
--- vim.opt.shell = '/bin/zsh'
 
 -- remove pauses after j in insert mode
 vim.opt.timeoutlen = 1000

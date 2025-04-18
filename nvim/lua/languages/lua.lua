@@ -1,11 +1,6 @@
-require('utils/augroup').create({
+local au = require('utils/augroup')
+au.create({
   lua_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'lua',
-      callback = function()
-        vim.api.nvim_create_user_command('Run', 'luafile %', {})
-      end,
-    },
+    au.ft_cmd('lua', { run_cmd = 'luafile %' }),
   },
 })

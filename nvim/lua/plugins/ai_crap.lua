@@ -16,7 +16,7 @@ return {
       }
     end,
     config = function()
-      vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
+      -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
       -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { fg = '#918273' })
       -- vim.api.nvim_set_hl(0, 'llama_hl_hint', { fg = '#70665A' })
     end,

@@ -16,15 +16,6 @@ function M.reload_module(name)
   require(name)
 end
 
-function M.reload_vim()
-  vim.cmd('source ' .. vim.fn.stdpath('config') .. '/lua/plugins/init.lua | PackerCompile')
-  M.reload_module('utils')
-  M.reload_module('keymaps')
-  M.reload_module('looks')
-  M.reload_module('lsp')
-  M.reload_module('init')
-end
-
 local function gen_github_url(include_line, branch)
   local buf_name = vim.api.nvim_buf_get_name(0)
   -- if [No Name] open the main page
@@ -58,42 +49,5 @@ end, {
   desc = 'Open file in GitHub including line',
   nargs = '?',
 })
-
--- local id = vim.api.nvim_create_augroup('startup', {
---   clear = false,
--- })
-
--- local persistbuffer = function(bufnr)
---   bufnr = bufnr or vim.api.nvim_get_current_buf()
---   vim.fn.setbufvar(bufnr, 'bufpersist', 1)
--- end
-
--- vim.api.nvim_create_autocmd({ 'BufRead' }, {
---   group = id,
---   pattern = { '*' },
---   callback = function()
---     vim.api.nvim_create_autocmd({ 'InsertEnter', 'BufModifiedSet' }, {
---       buffer = 0,
---       once = true,
---       callback = function()
---         persistbuffer()
---       end,
---     })
---   end,
--- })
-
--- vim.keymap.set('n', '<Leader>b', function()
---   local curbufnr = vim.api.nvim_get_current_buf()
---   local buflist = vim.api.nvim_list_bufs()
---   for _, bufnr in ipairs(buflist) do
---     if
---       vim.bo[bufnr].buflisted
---       and bufnr ~= curbufnr
---       and (vim.fn.getbufvar(bufnr, 'bufpersist') ~= 1)
---     then
---       vim.cmd('bd ' .. tostring(bufnr))
---     end
---   end
--- end, { silent = true, desc = 'Close unused buffers' })
 
 return M

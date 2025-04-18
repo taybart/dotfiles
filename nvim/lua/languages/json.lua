@@ -1,13 +1,11 @@
-require('utils/augroup').create({
+local au = require('utils/augroup')
+au.create({
   json_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'json',
-      callback = function()
-        local command = vim.api.nvim_create_user_command
-        command('Expand', '.!jq', {})
-        command('Compact', '%!jq -c .', {})
-      end,
-    },
+    au.ft_cmd('json', {
+      commands = {
+        { name = 'Expand', cmd = '.!jq' },
+        { name = 'Compact', cmd = '%!jq -c .' },
+      },
+    }),
   },
 })

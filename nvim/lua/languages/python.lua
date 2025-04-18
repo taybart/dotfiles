@@ -1,11 +1,6 @@
-require('utils/augroup').create({
+local au = require('utils/augroup')
+au.create({
   python_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'python',
-      callback = function()
-        vim.api.nvim_create_user_command('Run', '!python %', { nargs = '?' })
-      end,
-    },
+    au.ft_cmd('python', { run_cmd = 'python %' }),
   },
 })

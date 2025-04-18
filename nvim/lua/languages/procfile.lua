@@ -1,10 +1,10 @@
 -- procfile
+local au = require('utils/augroup')
+
 vim.filetype.add({ filename = { ['Procfile'] = 'procfile' } })
-require('utils/augroup').create({
+au.create({
   procfile = {
-    {
-      event = 'FileType',
-      pattern = 'procfile',
+    au.ft_cmd('procfile', {
       callback = function()
         vim.bo.commentstring = '# %s'
         vim.cmd([[
@@ -13,6 +13,6 @@ require('utils/augroup').create({
             syntax match ProcfileCmd "\v\w\+"
           ]])
       end,
-    },
+    }),
   },
 })

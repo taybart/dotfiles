@@ -2,6 +2,7 @@ local arduino = {}
 
 local job = require('utils/job')
 local picker = require('utils/picker')
+local au = require('utils/augroup')
 
 local board = 'm5stack:esp32:m5stick-c-plus'
 local port = ''
@@ -50,22 +51,22 @@ local function upload()
   vim.cmd('!arduino-cli --no-color upload -p ' .. port .. ' -b ' .. board)
 end
 
-require('utils/augroup').create({
+au.create({
   arduino_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'arduino',
-      callback = function()
-        local command = vim.api.nvim_create_user_command
-        command('Compile', compile, {})
-        command('Upload', function()
-          compile()
-          upload()
-        end, {})
-        command('SetBoard', set_board, {})
-        command('SetPort', set_port, {})
-      end,
-    },
+    au.ft_cmd('arduino', {
+      commands = {
+        { name = 'Compile', cmd = compile },
+        {
+          name = 'Upload',
+          cmd = function()
+            compile()
+            upload()
+          end,
+        },
+        { name = 'SetBoard', cmd = set_board },
+        { name = 'SetPort', cmd = set_port },
+      },
+    }),
   },
 })
 

@@ -1,3 +1,4 @@
+local h = require('utils/helpers')
 return {
   {
     'ellisonleao/gruvbox.nvim',
@@ -6,7 +7,6 @@ return {
     config = function()
       local gb = require('gruvbox')
       local p = gb.palette
-      vim.o.background = 'dark'
       gb.setup({
         overrides = {
           SignColumn = { bg = p.dark0 },
@@ -17,6 +17,7 @@ return {
           CursorLineNr = { fg = p.neutral_yellow, bg = p.dark0 },
         },
       })
+      h.background('dark')
       vim.cmd.colorscheme('gruvbox')
     end,
   },
@@ -29,12 +30,14 @@ return {
     'f-person/auto-dark-mode.nvim',
     opts = {
       set_dark_mode = function()
-        vim.api.nvim_set_option_value('background', 'dark', {})
+        h.background('dark')
         vim.cmd.colorscheme('gruvbox')
+        vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
       end,
       set_light_mode = function()
-        vim.api.nvim_set_option_value('background', 'light', {})
+        h.background('light')
         vim.cmd.colorscheme('catppuccin-latte')
+        vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
       end,
       update_interval = 3000,
       fallback = 'dark',
