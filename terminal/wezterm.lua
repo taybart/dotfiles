@@ -86,6 +86,8 @@ return {
   -- look
   -- color_scheme = 'GruvboxDark',
   color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
+  front_end = 'WebGpu',
+  max_fps = 120,
   font = wezterm.font('JetBrains Mono'),
   font_size = 18,
   cursor_blink_rate = 0,

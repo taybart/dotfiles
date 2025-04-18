@@ -76,6 +76,9 @@ function git() {
 function GH {
   gh repo view --web -b $(git branch --show-current)
 }
+function GHc {
+  git config --get remote.origin.url | copy
+}
 
 # K8s Aliases
 # alias kc="kubectl"

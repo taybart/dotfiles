@@ -209,7 +209,7 @@ au.create({
         { name = 'Test', cmd = go.test, { nargs = '?' } },
         { name = 'Tidy', cmd = '!go mod tidy', { nargs = '?' } },
         { name = 'R', cmd = 'LspRestart' },
-        { name = 'Imports', go.organize_imports, {} },
+        { name = 'Imports', cmd = go.organize_imports },
       },
     }),
   },

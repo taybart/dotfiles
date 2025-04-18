@@ -333,9 +333,21 @@ function addRedisTo() {
 
 # ~~ go ~~
 function gobuildall() {
-  GOOS=linux go build -ldflags '-s -w' -o $2_linux $1
-  GOOS=darwin go build -ldflags '-s -w' -o $2_darwin  $1
-  GOOS=windows go build -ldflags '-s -w' -o $2_windows.exe $1
+  if [ "$#" -ne 2 ]; then
+    echo "usage: $0 {dir} {name}"
+    return
+  fi
+oses=('linux' 'darwin' 'windows')
+arches=('arm' 'arm64' 'amd64')
+  for os in $oses; do
+    for arch in $arches; do
+      if [[ $os == "darwin" && $arch == "arm" ]]; then
+        continue
+      fi
+      echo "building ${2}_${os}_${arch}"
+      GOOS=$os GOARCH=$arch go build -ldflags '-s -w' -o "${2}_${os}_${arch}" $1
+    done
+  done
 }
 
 function sb() {
