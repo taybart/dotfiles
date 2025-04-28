@@ -252,13 +252,26 @@ function restsb() {
 }
 
 # ~~ docker ~~
+function ciddocker() {
+  docker ps | tail -n +2 | fzf | awk '{print $1}'
+}
 function rundocker() {
-  # TODO: take volume/ports
   docker run --rm "$@" $(docker build -q .)
 }
 
 function shdocker() {
-docker exec -it $1 /bin/bash
+  CID=$1
+  if [[ -z $1 ]]; then
+    CID=$(ciddocker)
+  fi
+  docker exec -it $CID /bin/sh
+}
+
+function killdocker() {
+  CID=$(ciddocker)
+  if [[ "$CID" != "" ]]; then
+    docker kill $CID
+  fi
 }
 
 # ~~ kubernetes ~~
