@@ -12,8 +12,8 @@ return {
   },
   {
     'taybart/serve.nvim',
-    opts = {},
     -- dir = '~/dev/taybart/serve.nvim',
+    opts = {},
     -- opts = { logs = { level = 'debug', no_color = true } },
   },
   {
@@ -28,8 +28,7 @@ return {
   },
   {
     'taybart/inline.nvim',
-    -- dir = '~/dev/taybart/inline.nvim',
-    -- dependencies = { 'nvim-telescope/telescope.nvim', 'kkharji/sqlite.lua' },
+    -- dir =  '~/dev/taybart/inline.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
     -- event = 'VeryLazy',
     config = function()

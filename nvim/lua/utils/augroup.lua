@@ -22,7 +22,11 @@ function M.ft_cmd(ft, opts)
     pattern = ft,
     callback = function()
       if type(opts.run_cmd) == 'string' then
-        vim.api.nvim_create_user_command('Run', '!' .. opts.run_cmd, { nargs = '*' })
+        local bang = '!'
+        if opts.run_no_bang then
+          bang = ''
+        end
+        vim.api.nvim_create_user_command('Run', bang .. opts.run_cmd, { nargs = '*' })
       end
       if type(opts.run_cmd) == 'function' then
         vim.api.nvim_create_user_command('Run', opts.run_cmd, { nargs = '*' })
