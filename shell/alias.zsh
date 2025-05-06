@@ -20,6 +20,7 @@ alias y="yarn"
 alias p="pnpm"
 alias tf="terraform"
 alias sshfingerprint="ssh-keygen -lvf"
+alias wget="curl -O -L"
 
 if is_installed nix; then
   function run() {
