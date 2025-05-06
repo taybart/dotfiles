@@ -22,9 +22,30 @@ au.create({
     au.ft_cmd('rust', {
       run_cmd = rust.run,
       commands = {
-        { name = 'Test', cmd = rust.test, opts = { nargs = '?' } },
-        { name = 'Rsx', cmd = '!leptosfmt %' },
+        { name = 'Test', cmd = rust.test,     opts = { nargs = '?' } },
+        { name = 'Rsx',  cmd = '!leptosfmt %' },
       },
+      -- needed because for some reason, rustaceanvim doesn't use lspconfig
+      callback = function()
+        vim.api.nvim_create_autocmd('BufWritePre', {
+          pattern = '*.rs',
+          callback = function()
+            vim.lsp.buf.format()
+          end,
+        })
+        local telescope = require('telescope.builtin')
+        require('utils/maps').mode_group('n', {
+          -- these have been mapped into default
+          { 'gi', vim.lsp.buf.implementation },
+          { 'gr', telescope.lsp_references },
+          { 'gD', telescope.lsp_type_definitions },
+          { 'gd', telescope.lsp_definitions },
+          { 'gi', telescope.lsp_implementations },
+          { 'K',  vim.lsp.buf.hover },
+          { 'E',  vim.diagnostic.open_float },
+          { 'ca', vim.lsp.buf.code_action },
+        }, { noremap = true, silent = true })
+      end,
     }),
   },
 })

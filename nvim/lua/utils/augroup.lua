@@ -36,7 +36,7 @@ function M.ft_cmd(ft, opts)
           vim.api.nvim_create_user_command(cmd.name, cmd.cmd, cmd.opts or { nargs = '*' })
         end
       end
-      if opts.callback ~= nil then
+      if opts.callback ~= nil and type(opts.callback) == 'function' then
         opts.callback()
       end
     end,
