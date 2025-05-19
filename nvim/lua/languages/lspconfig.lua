@@ -108,7 +108,7 @@ return {
   --     },
   --   },
   -- },
-  pyright = {},
+  -- pyright = {},
   ruff = {},
   -- rust_analyzer = {
   --   settings = {
