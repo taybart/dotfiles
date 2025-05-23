@@ -22,6 +22,8 @@ alias tf="terraform"
 alias sshfingerprint="ssh-keygen -lvf"
 alias wget="curl -O -L"
 
+alias ndev="nix develop -c $SHELL"
+
 if is_installed nix; then
   function run() {
     nix run nixpkgs#$1 -- $@
