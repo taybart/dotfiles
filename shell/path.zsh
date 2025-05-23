@@ -30,6 +30,7 @@ add_path "$HOME/.poetry/bin:.venv/bin"
 add_path "$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 
 # nixos
+add_path "/etc/profiles/per-user/$USER/bin"
 add_path "/run/wrappers/bin"
 add_path "/run/current-system/sw/bin"
 add_path "$HOME/.local/state/nix/profile/bin"
