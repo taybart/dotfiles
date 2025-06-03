@@ -15,6 +15,7 @@ return {
         'bash',
         'c',
         'cpp',
+        'css',
         'dockerfile',
         'go',
         'gomod',

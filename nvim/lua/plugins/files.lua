@@ -22,7 +22,7 @@ return {
   {
     'mikavilpas/yazi.nvim',
     dependencies = { 'folke/snacks.nvim', lazy = true },
-    event = 'VeryLazy',
+    -- event = 'VeryLazy',
     keys = {
       {
         '<leader>f',

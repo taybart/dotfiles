@@ -1,18 +1,11 @@
-# format = """$hostname$directory$git_branch$git_status$character"""
-format = """$python$hostname$directory$git_branch $character"""
-# format = """$hostname$directory$git_branch $character"""
-
-add_newline = false
-
-right_format = "$cmd_duration$status"
-
+format = "$hostname$directory$git_branch$git_status$character"
+# format = "$hostname$directory$git_branch $character"
+right_format = "$python$time$cmd_duration$status"
 
 [character]
 success_symbol = "[»](bold green)"
 error_symbol = "[»](red)"
 vimcmd_symbol = "[](bold green)"
-# vimcmd_symbol = "[«](bold green)"
-
 
 [hostname]
 ssh_only = false
@@ -27,17 +20,17 @@ format = '[$path]($style)[$read_only]($read_only_style) '
 format = '[$branch(:$remote_branch)]($style)'
 style = 'yellow'
 
-[git_status]
-ignore_submodules = true
-format = '[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed) ]($style)'
-style = 'cyan'
-conflicted = '​'
-untracked = '​'
-modified = '​'
-staged = '​'
-renamed = '​'
-deleted = '​'
-stashed = '≡'
+# [git_status]
+# ignore_submodules = true
+# format = '[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)($ahead_behind$stashed) ]($style)'
+# style = 'cyan'
+# conflicted = '​'
+# untracked = '​'
+# modified = '​'
+# staged = '​'
+# renamed = '​'
+# deleted = '​'
+# stashed = '≡'
 
 [status]
 disabled = false
@@ -46,3 +39,9 @@ format = '[$status ↵]($style)'
 
 [python]
 format = '[(\($virtualenv\)) ]($style)'
+
+[time]
+disabled = false
+format = '[$time]($style) '
+style = 'bold green'
+time_format = '%T'

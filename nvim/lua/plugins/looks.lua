@@ -48,6 +48,9 @@ return {
     opts = {
       render = 'foreground',
       enable_tailwind = true,
+      exclude_filetypes = {
+        'lazy',
+      },
     },
   },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },

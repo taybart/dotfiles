@@ -32,6 +32,9 @@ return {
         -- python
         -- null_ls.builtins.diagnostics.ruff,
         -- null_ls.builtins.formatting.ruff,
+        null_ls.builtins.diagnostics.sqlfluff.with({
+          extra_args = { '--dialect', 'sqlite' }, -- change to your dialect
+        }),
       },
       root_dir = require('lspconfig/util').root_pattern(
         '.null-ls-root',
