@@ -1,11 +1,11 @@
-format = "$hostname$directory$git_branch$git_status$character"
+format = "$hostname$directory$git_branch( $git_status)$character"
 # format = "$hostname$directory$git_branch $character"
 right_format = "$python$time$cmd_duration$status"
 
 [character]
-success_symbol = "[»](bold green)"
-error_symbol = "[»](red)"
-vimcmd_symbol = "[](bold green)"
+success_symbol = " [»](bold green)"
+error_symbol = " [»](red)"
+vimcmd_symbol = " [](bold green)"
 
 [hostname]
 ssh_only = false
@@ -19,6 +19,15 @@ format = '[$path]($style)[$read_only]($read_only_style) '
 [git_branch]
 format = '[$branch(:$remote_branch)]($style)'
 style = 'yellow'
+
+[git_status]
+ignore_submodules = true
+format = '[($conflicted)](red)[($staged)](green)[($untracked$modified)](bold purple)[($ahead_behind$stashed)](cyan)'
+conflicted = 'x'
+untracked = 'u'
+modified = 'm'
+staged = 's'
+stashed = '≡'
 
 # [git_status]
 # ignore_submodules = true
