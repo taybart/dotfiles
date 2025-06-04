@@ -1,7 +1,8 @@
-format = "$hostname$directory$git_branch([{$git_status}](green))$character"
+format = "$hostname$directory$git_branch($git_status)$character"
 # format = "$hostname$directory$git_branch $character"
 right_format = "$python$time$cmd_duration$status"
 
+add_newline = false
 
 [character]
 success_symbol = " [»](bold green)"
@@ -23,7 +24,7 @@ style = 'yellow'
 
 [git_status]
 ignore_submodules = true
-format = '[($untracked$modified)](bold purple)[($conflicted)](red)[($staged)](green)[($ahead_behind$stashed)](cyan)'
+format = '[(\[[($untracked$modified)](purple)[($conflicted)](red)[($staged)](green)[($ahead_behind$stashed)](cyan)\])](green)'
 conflicted = 'x'
 untracked = 'u'
 modified = 'm'
