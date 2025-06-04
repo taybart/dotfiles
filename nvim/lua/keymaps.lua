@@ -24,7 +24,7 @@ map.mode_group('c', {
 })
 
 map.mode_group('n', {
-  { '<F9>', 'cprev' },
+  { '<F9>',  'cprev' },
   { '<F10>', 'cnext' },
 })
 
@@ -72,6 +72,8 @@ map.mode_group('n', {
   { '[Q', ':cfirst<cr>' },
   { ']Q', ':clast<cr>' },
 })
+
+map.nnoremap('<C-w>T', ':tab split<CR>', { silent = true })
 
 -------------------
 ----- FORMAT ------
