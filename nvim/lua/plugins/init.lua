@@ -9,16 +9,16 @@ return {
       require('utils/maps').group({ noremap = true, silent = true }, {
         {
           'n',
-          { '<c-f><left>',  ':TmuxNavigateLeft<cr>' },
-          { '<c-f><down>',  ':TmuxNavigateDown<cr>' },
-          { '<c-f><up>',    ':TmuxNavigateUp<cr>' },
+          { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
+          { '<c-f><down>', ':TmuxNavigateDown<cr>' },
+          { '<c-f><up>', ':TmuxNavigateUp<cr>' },
           { '<c-f><right>', ':TmuxNavigateRight<cr>' },
         },
         {
           't',
-          { '<c-f><left>',  '<c-\\><c-n>:TmuxNavigateLeft<cr>' },
-          { '<c-f><down>',  '<c-\\><c-n>:TmuxNavigateDown<cr>' },
-          { '<c-f><up>',    '<c-\\><c-n>:TmuxNavigateUp<cr>' },
+          { '<c-f><left>', '<c-\\><c-n>:TmuxNavigateLeft<cr>' },
+          { '<c-f><down>', '<c-\\><c-n>:TmuxNavigateDown<cr>' },
+          { '<c-f><up>', '<c-\\><c-n>:TmuxNavigateUp<cr>' },
           { '<c-f><right>', '<c-\\><c-n>:TmuxNavigateRight<cr>' },
         },
       })
@@ -29,6 +29,21 @@ return {
   --===  Probation  ===
   --]==================]
 
+  {
+    'kndndrj/nvim-dbee',
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+    },
+    build = function()
+      -- Install tries to automatically detect the install method.
+      -- if it fails, try calling it with one of these parameters:
+      --    "curl", "wget", "bitsadmin", "go"
+      require('dbee').install()
+    end,
+    config = function()
+      require('dbee').setup( --[[optional config]])
+    end,
+  },
   {
     'toppair/peek.nvim',
     event = { 'VeryLazy' },

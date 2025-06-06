@@ -160,7 +160,14 @@ return {
         },
       },
       pickers = {
-        find_files = { hidden = true },
+        find_files = {
+          hidden = true,
+          mappings = {
+            i = {
+              ['<C-s>'] = actions.to_fuzzy_refine,
+            },
+          },
+        },
         live_grep = {
           mappings = {
             i = {

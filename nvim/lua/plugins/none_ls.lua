@@ -32,9 +32,10 @@ return {
         -- python
         -- null_ls.builtins.diagnostics.ruff,
         -- null_ls.builtins.formatting.ruff,
-        null_ls.builtins.diagnostics.sqlfluff.with({
-          extra_args = { '--dialect', 'sqlite' }, -- change to your dialect
-        }),
+        -- null_ls.builtins.diagnostics.sqlfluff.with({
+        --   extra_args = { '--dialect', 'sqlite' }, -- change to your dialect
+        -- }),
+        null_ls.builtins.diagnostics.sqruff,
       },
       root_dir = require('lspconfig/util').root_pattern(
         '.null-ls-root',
@@ -46,6 +47,7 @@ return {
     -- always map ca for gitsigns
     require('utils/maps').mode_group('n', {
       { 'ca', vim.lsp.buf.code_action },
+      { 'E', vim.diagnostic.open_float },
     }, { noremap = true, silent = true })
   end,
 }

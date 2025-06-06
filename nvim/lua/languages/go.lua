@@ -57,11 +57,11 @@ function go.add_tags(args)
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged == nil
-    or tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged['start'] == nil
-    or tagged['start'] == 0
+      tagged == nil
+      or tagged.errors ~= nil
+      or tagged.lines == nil
+      or tagged['start'] == nil
+      or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -85,11 +85,11 @@ function go.clear_tags()
   local data = job.run('gomodifytags', job_args, { return_all = true })
   local tagged = vim.fn.json_decode(data)
   if
-    tagged == nil
-    or tagged.errors ~= nil
-    or tagged.lines == nil
-    or tagged['start'] == nil
-    or tagged['start'] == 0
+      tagged == nil
+      or tagged.errors ~= nil
+      or tagged.lines == nil
+      or tagged['start'] == nil
+      or tagged['start'] == 0
   then
     print('failed to set tags' .. vim.inspect(tagged))
     return
@@ -171,8 +171,8 @@ function go.organize_imports()
         for _, action in pairs(res.result) do
           -- Check if the action is source.organizeImports
           if
-            action.kind == 'source.organizeImports'
-            or (action.title and action.title:match('organize imports'))
+              action.kind == 'source.organizeImports'
+              or (action.title and action.title:match('organize imports'))
           then
             vim.lsp.buf.code_action({
               context = {
@@ -203,13 +203,13 @@ au.create({
     au.ft_cmd('go', {
       run_cmd = go.run,
       commands = {
-        { name = 'BuildTags', cmd = go.set_build_tags, opts = { nargs = '+' } },
-        { name = 'BuildTagsAdd', cmd = go.add_build_tags, opts = { nargs = '+' } },
-        { name = 'StructTags', cmd = go.add_tags },
-        { name = 'Test', cmd = go.test, { nargs = '?' } },
-        { name = 'Tidy', cmd = '!go mod tidy', { nargs = '?' } },
-        { name = 'R', cmd = 'LspRestart' },
-        { name = 'Imports', cmd = go.organize_imports },
+        { name = 'BuildTags',    cmd = go.set_build_tags,  opts = { nargs = '+' } },
+        { name = 'BuildTagsAdd', cmd = go.add_build_tags,  opts = { nargs = '+' } },
+        { name = 'StructTags',   cmd = go.add_tags },
+        { name = 'Test',         cmd = go.test,            { nargs = '?' } },
+        { name = 'Tidy',         cmd = '!go mod tidy',     { nargs = '?' } },
+        { name = 'R',            cmd = 'LspRestart gopls' },
+        { name = 'Imports',      cmd = go.organize_imports },
       },
     }),
   },
