@@ -3,7 +3,7 @@ return {
   event = 'VeryLazy',
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
-    { 'nvim-treesitter/nvim-treesitter-context' },
+    { 'nvim-treesitter/nvim-treesitter-context',    opts = { enable = true } },
   },
   build = function()
     pcall(require('nvim-treesitter.install').update({ with_sync = true }))
@@ -30,6 +30,7 @@ return {
         'markdown',
         'python',
         'rust',
+        'sql',
         'tsx',
         'typescript',
         'vimdoc',
@@ -37,6 +38,9 @@ return {
         'yaml',
       },
       highlight = {
+        enable = true,
+      },
+      indent = {
         enable = true,
       },
       textobjects = {
