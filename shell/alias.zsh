@@ -77,6 +77,10 @@ function git() {
 }
 # shh this is still an alias
 function GH {
+  if [ $1 = "copy" ]; then
+    gh repo view --json url | jq -r '.url' | copy
+    return
+  fi
   gh repo view --web -b $(git branch --show-current)
 }
 function GHc {
