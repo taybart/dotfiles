@@ -1,3 +1,9 @@
 [flavor]
 dark = "gruvbox-dark"
 light = "catppuccin-latte"
+
+[icon]
+append_exts = [
+  { name = "rest", text= "󰒲", fg = "#26afe5" },
+]
+
