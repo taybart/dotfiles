@@ -97,8 +97,11 @@ return {
   { 'unblevable/quick-scope' },
   {
     'OXY2DEV/markview.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
-      require('markview').setup({})
+      require('markview').setup({
+        experimental = { check_rtp_message = false },
+      })
       require('utils/augroup').create({
         markview_ = {
           {

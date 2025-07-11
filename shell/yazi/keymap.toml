@@ -2,7 +2,7 @@
 
 [[mgr.prepend_keymap]]
 on   = "<C-s>"
-run  = 'shell "$SHELL" --block --interactive'
+run  = 'shell "$SHELL" --block'
 desc = "Open shell here"
 
 [[mgr.prepend_keymap]]
