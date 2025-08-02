@@ -20,4 +20,17 @@ function removeAll(query) {
 removeAll('.graphic')
 removeAll('.ipc-page-background.ipc-page-background--baseAlt.inline20-page-background')
 removeAll('[data-test-id="right-rail-content-block"]')
-removeAll('.nas-slot')
+removeAll('[aria-label]="Sponsored Content"')
+//removeAll('.nas-slot')
+
+
+function addGlobalStyle(css) {
+    let head = document.getElementsByTagName('head')[0];
+    if (!head) { return; }
+    let style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = css;
+    head.appendChild(style);
+}
+
+//addGobalStyle('.sc-e1aae3e0-1.eEFIsG.ipc-page-grid__item.ipc-page-grid__item--span-2 {grid-column: span 3 !important;}')
