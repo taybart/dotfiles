@@ -98,7 +98,7 @@ alias pt="printf '\033]2;%s\033\\'"
 # Platform Specific
 platform=$(uname)
 if [ "$platform" = "Darwin" ]; then
-  sife $DOTFILES/shell/macos.zsh
+  [ -f $DOTFILES/shell/macos.zsh ] && source $DOTFILES/shell/macos.zsh
 else
-  sife $DOTFILES/shell/linux.zsh
+  [ -f $DOTFILES/shell/linux.zsh ] && source $DOTFILES/shell/linux.zsh
 fi

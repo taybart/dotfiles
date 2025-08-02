@@ -24,12 +24,15 @@ map.mode_group('c', {
 })
 
 map.mode_group('n', {
-  { '<F9>',  'cprev' },
+  { '<F9>', 'cprev' },
   { '<F10>', 'cnext' },
 })
 
 -- see language specific definitions of Run in languages/{language}
 map.nnoremap('<leader>r', ':Run<cr>')
+
+-- turn on very magic everytime
+map.cnoremap('%s/', '%s/\\v')
 
 -------------------
 ---- MOVEMENT -----

@@ -1,5 +1,20 @@
 local wezterm = require('wezterm')
--- local action = wezterm.action
+local action = wezterm.action
+
+local function merge(t1, t2)
+  for k, v in pairs(t2) do
+    if type(v) == 'table' then
+      if type(t1[k] or false) == 'table' then
+        merge(t1[k] or {}, t2[k] or {})
+      else
+        t1[k] = v
+      end
+    else
+      t1[k] = v
+    end
+  end
+  return t1
+end
 
 local colors = {
   -- status_bg = '#071317',
@@ -19,7 +34,7 @@ local SOLID_RIGHT_ARROW = utf8.char(0xe0b0) -- The  symbol
 local SOLID_LEFT_ARROW = utf8.char(0xe0b2) -- The  symbol
 
 wezterm.on('update-right-status', function(window)
-  local date = wezterm.strftime(' %Y/%m/%d %H:%M:%S ')
+  local date = wezterm.strftime(' %Y-%m-%d %H:%M:%S ')
   local utc = wezterm.strftime_utc('[%H]')
 
   window:set_right_status(wezterm.format({
@@ -82,7 +97,9 @@ local function scheme_for_appearance(appearance)
   end
 end
 
-return {
+local replace_tmux = true
+
+local config = {
   -- look
   -- color_scheme = 'GruvboxDark',
   color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
@@ -118,67 +135,82 @@ return {
     },
   },
   enable_tab_bar = false,
-  --[=[
-  -- tmux-bindings
-  leader = { key = 'b', mods = 'CTRL' },
-  keys = {
-    { key = ':', mods = 'LEADER', action = 'ShowLauncher' },
-    {
-      key = '-',
-      mods = 'LEADER',
-      action = action({ SplitVertical = { domain = 'CurrentPaneDomain' } }),
-    },
-    {
-      key = '\\',
-      mods = 'LEADER',
-      action = action({ SplitHorizontal = { domain = 'CurrentPaneDomain' } }),
-    },
-    {
-      key = 'h',
-      mods = 'LEADER',
-      action = action({ ActivatePaneDirection = 'Left' }),
-    },
-    {
-      key = 'j',
-      mods = 'LEADER',
-      action = action({ ActivatePaneDirection = 'Down' }),
-    },
-    {
-      key = 'k',
-      mods = 'LEADER',
-      action = action({ ActivatePaneDirection = 'Up' }),
-    },
-    {
-      key = 'l',
-      mods = 'LEADER',
-      action = action({ ActivatePaneDirection = 'Right' }),
-    },
-    { key = 'H', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Left', 5 } }) },
-    { key = 'J', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Down', 5 } }) },
-    { key = 'K', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Up', 5 } }) },
-    { key = 'L', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Right', 5 } }) },
-
-    { key = 'n', mods = 'LEADER', action = action({ ActivateTabRelative = 1 }) },
-    { key = 'p', mods = 'LEADER', action = action({ ActivateTabRelative = -1 }) },
-    {
-      key = 'c',
-      mods = 'LEADER',
-      action = action({ SpawnTab = 'CurrentPaneDomain' }),
-    },
-    {
-      key = 'x',
-      mods = 'LEADER',
-      action = action({ CloseCurrentPane = { confirm = true } }),
-    },
-    {
-      key = 'r',
-      mods = 'LEADER',
-      action = action.EmitEvent('custom-event'),
-    },
-    { key = 'z', mods = 'LEADER', action = 'TogglePaneZoomState' },
-    { key = '[', mods = 'LEADER', action = 'ActivateCopyMode' },
-    { key = '{', mods = 'LEADER', action = action({ RotatePanes = 'Clockwise' }) },
-    { key = '}', mods = 'LEADER', action = action({ RotatePanes = 'CounterClockwise' }) },
-  },
-  --]=]
 }
+
+if replace_tmux then
+  merge(config, {
+    enable_tab_bar = true,
+    leader = { key = 'f', mods = 'CTRL' },
+    keys = {
+      { key = ':', mods = 'LEADER', action = 'ShowLauncher' },
+      {
+        key = '-',
+        mods = 'LEADER',
+        action = action({ SplitVertical = { domain = 'CurrentPaneDomain' } }),
+      },
+      {
+        key = '\\',
+        mods = 'LEADER',
+        action = action({ SplitHorizontal = { domain = 'CurrentPaneDomain' } }),
+      },
+      {
+        key = 'h',
+        mods = 'LEADER',
+        action = action({ ActivatePaneDirection = 'Left' }),
+      },
+      {
+        key = 'j',
+        mods = 'LEADER',
+        action = action({ ActivatePaneDirection = 'Down' }),
+      },
+      {
+        key = 'k',
+        mods = 'LEADER',
+        action = action({ ActivatePaneDirection = 'Up' }),
+      },
+      {
+        key = 'l',
+        mods = 'LEADER',
+        action = action({ ActivatePaneDirection = 'Right' }),
+      },
+      { key = 'H', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Left', 5 } }) },
+      { key = 'J', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Down', 5 } }) },
+      { key = 'K', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Up', 5 } }) },
+      { key = 'L', mods = 'LEADER', action = action({ AdjustPaneSize = { 'Right', 5 } }) },
+
+      { key = 'n', mods = 'LEADER', action = action({ ActivateTabRelative = 1 }) },
+      { key = 'p', mods = 'LEADER', action = action({ ActivateTabRelative = -1 }) },
+      {
+        key = 'c',
+        mods = 'LEADER',
+        action = action({ SpawnTab = 'CurrentPaneDomain' }),
+      },
+      {
+        key = 'x',
+        mods = 'LEADER',
+        action = action({ CloseCurrentPane = { confirm = true } }),
+      },
+      {
+        key = 'R',
+        mods = 'LEADER',
+        action = action.PromptInputLine({
+          description = 'Enter new name for tab',
+          -- initial_value = 'My Tab Name',
+          action = wezterm.action_callback(function(window, pane, line)
+            -- line will be `nil` if they hit escape without entering anything
+            -- An empty string if they just hit enter
+            -- Or the actual line of text they wrote
+            if line then
+              window:active_tab():set_title(line)
+            end
+          end),
+        }),
+      },
+      { key = 'z', mods = 'LEADER', action = 'TogglePaneZoomState' },
+      { key = '[', mods = 'LEADER', action = 'ActivateCopyMode' },
+      { key = '{', mods = 'LEADER', action = action({ RotatePanes = 'Clockwise' }) },
+      { key = '}', mods = 'LEADER', action = action({ RotatePanes = 'CounterClockwise' }) },
+    },
+  })
+end
+return config

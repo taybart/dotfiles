@@ -1,4 +1,5 @@
 export DOTFILES="$HOME/.dotfiles"
+# zmodload zsh/zprof
 
 # source if exists
 function sife() { [ -f $1 ] && source $1 }
@@ -8,7 +9,7 @@ sife $DOTFILES/shell/plugins/plugins.zsh
 sife $DOTFILES/shell/alias.zsh
 sife $DOTFILES/shell/functions.zsh
 sife $DOTFILES/shell/pms.zsh
-sife $DOTFILES/shell/op.zsh
+# sife $DOTFILES/shell/op.zsh
 
 
 if ! type nvim > /dev/null; then
@@ -39,7 +40,7 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
+HISTSIZE=10000000
 SAVEHIST=$HISTSIZE
 
 # 0 -- vanilla completion (abc => abc)
@@ -51,8 +52,14 @@ zstyle ':completion:*' matcher-list '' \
   'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
 zstyle ':completion:*' menu select
-autoload -Uz +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
+
+# recalculate completion cache once a day
+autoload -Uz +X compinit
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
 
 # -- overrides --
 sife $HOME/.zshrc.local
@@ -63,3 +70,4 @@ if ! type starship >> /dev/null; then
 fi
 
 source <(starship init zsh)
+# zprof

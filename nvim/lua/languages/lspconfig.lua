@@ -70,7 +70,7 @@ return {
     --   },
     -- },
   },
-  htmx = {},
+  -- htmx = {},
   lua_ls = {
     settings = {
       Lua = {

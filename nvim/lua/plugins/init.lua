@@ -28,20 +28,22 @@ return {
   --[==================[
   --===  Probation  ===
   --]==================]
-
   {
     'kndndrj/nvim-dbee',
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-    },
+    dependencies = { 'MunifTanjim/nui.nvim' },
     build = function()
-      -- Install tries to automatically detect the install method.
-      -- if it fails, try calling it with one of these parameters:
-      --    "curl", "wget", "bitsadmin", "go"
       require('dbee').install()
     end,
     config = function()
-      require('dbee').setup( --[[optional config]])
+      require('dbee').setup()
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'dbee',
+        callback = function()
+          vim.opt.sidescrolloff = 8
+          vim.keymap.set('n', '<c-l>', 'f│w', { noremap = true })
+          vim.keymap.set('n', '<c-h>', 'F│b', { noremap = true })
+        end,
+      })
     end,
   },
   {

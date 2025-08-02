@@ -22,7 +22,6 @@ return {
   {
     'mikavilpas/yazi.nvim',
     dependencies = { 'folke/snacks.nvim', lazy = true },
-    -- event = 'VeryLazy',
     keys = {
       {
         '<leader>f',
@@ -31,7 +30,6 @@ return {
         desc = 'Open yazi at the current file',
       },
       {
-        -- Open in the current working directory
         '<leader>cw',
         '<cmd>Yazi cwd<cr>',
         desc = "Open the file manager in nvim's working directory",
@@ -43,17 +41,19 @@ return {
         show_help = '<f1>',
       },
     },
+    init = function()
+      vim.g.loaded_netrwPlugin = 1
+    end,
   },
   {
     'stevearc/aerial.nvim',
     config = function()
       require('aerial').setup({
-        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
-        on_attach = function(bufnr)
-          -- Jump forwards/backwards with '{' and '}'
-          vim.keymap.set('n', '{', '<cmd>AerialPrev<cr>', { buffer = bufnr })
-          vim.keymap.set('n', '}', '<cmd>AerialNext<cr>', { buffer = bufnr })
-        end,
+        -- on_attach = function(bufnr)
+        --   -- Jump forwards/backwards with '{' and '}'
+        --   vim.keymap.set('n', '{', '<cmd>AerialPrev<cr>', { buffer = bufnr })
+        --   vim.keymap.set('n', '}', '<cmd>AerialNext<cr>', { buffer = bufnr })
+        -- end,
       })
       vim.keymap.set('n', '<F8>', '<cmd>AerialToggle<cr>', { noremap = true })
     end,

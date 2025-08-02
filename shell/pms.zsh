@@ -15,6 +15,8 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # bun completions
 [ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
 
+[ -f ${HOME}/.ghcup/env ] && source ${HOME}/.ghcup/env
+
 # Bun
 export BUN_INSTALL="/Users/taylor/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
