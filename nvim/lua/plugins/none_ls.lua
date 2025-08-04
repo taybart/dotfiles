@@ -49,5 +49,9 @@ return {
       { 'ca', vim.lsp.buf.code_action },
       { 'E', vim.diagnostic.open_float },
     }, { noremap = true, silent = true })
+
+    vim.api.nvim_create_user_command('Format', function()
+      vim.lsp.buf.format()
+    end, {})
   end,
 }

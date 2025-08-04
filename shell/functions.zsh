@@ -12,6 +12,33 @@ function config {
   esac
 }
 
+function git-unviewed {
+
+  if [ -z "$1" ]; then
+    echo "usage: $0 <PR>"
+    return 1
+  fi
+
+  REPO=$(git config --get remote.origin.url | sed 's/.*\/\([^ ]*\/[^.]*\).*/\1/')
+  OWNER=$(awk -F'/' '{print $1}' <<< "$REPO")
+  NAME=$(awk -F'/' '{print $2}' <<< "$REPO")
+  PR=$1
+
+  gh api graphql \
+    --jq '.data.repository.pullRequest.files.nodes.[] | select(.viewerViewedState != "VIEWED") | .path' \
+    -F owner="$OWNER" -F name="$NAME" -F pr="$PR" \
+    -f query='
+      query($name: String!, $owner: String!, $pr: Int!) {
+        repository(owner: $owner, name: $name) {
+          pullRequest(number: $pr) {
+            files(first: 100) {
+              nodes { path, viewerViewedState }
+            }
+          }
+        }
+      }'
+}
+
 function tab-title {
   printf "\x1b]1;>$1\x1b\\"
 }
