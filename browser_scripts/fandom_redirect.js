@@ -3,7 +3,10 @@
 // @namespace   https://fandom.com
 // @description fandom to antifandom
 // @include     https://*.fandom.*/*
+// @include     https://antifandom.com/*
 // ==/UserScript==
 
-const url = window.location.href
-window.location = url.replace('fandom', 'antifandom')
+const loc = window.location
+if (loc.host !== 'antifandom.com') {
+  window.location = loc.href.replace('fandom', 'antifandom')
+}
