@@ -53,6 +53,7 @@ return {
     },
   },
   gleam = {},
+  -- harper_ls = {},
   html = {
     -- opts = {
     --   settings = {
