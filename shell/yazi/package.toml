@@ -1,5 +1,14 @@
-[plugin]
-deps = []
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "d7588f6"
+hash = "d6f60c24d8c0cf57a855bf46115b2502"
 
-[flavor]
-deps = [{ use = "yazi-rs/flavors:catppuccin-latte", rev = "fd85060" }, { use = "bennyyip/gruvbox-dark", rev = "b4cc9f2" }]
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-latte"
+rev = "fd85060"
+hash = ""
+
+[[flavor.deps]]
+use = "bennyyip/gruvbox-dark"
+rev = "b4cc9f2"
+hash = ""

@@ -9,3 +9,13 @@ desc = "Open shell here"
 on   = "<esc>"
 run  = 'quit'
 desc = "quit"
+
+[[mgr.prepend_keymap]]
+on   = [ "T" ]
+run  = "plugin toggle-pane max-preview"
+desc = "Toggle preview pane maximization"
+
+[[mgr.prepend_keymap]]
+on   = [ "P" ]
+run  = "plugin toggle-pane min-preview"
+desc = "Toggle preview pane maximization"
