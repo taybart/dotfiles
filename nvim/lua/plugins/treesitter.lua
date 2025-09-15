@@ -1,9 +1,9 @@
 return {
   'nvim-treesitter/nvim-treesitter',
-  event = 'VeryLazy',
+  priority = 1000,
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
-    { 'nvim-treesitter/nvim-treesitter-context',    opts = { enable = true } },
+    { 'nvim-treesitter/nvim-treesitter-context', opts = { enable = true } },
   },
   build = function()
     pcall(require('nvim-treesitter.install').update({ with_sync = true }))
