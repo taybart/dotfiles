@@ -8,7 +8,7 @@ function config {
       nvim ~/.dotfiles/shell
       ;;
       *)
-      cd ~/.config/nvim && nvim init.vim
+      cd ~/.config/nvim && nvim
   esac
 }
 
@@ -391,11 +391,19 @@ arches=('arm' 'arm64' 'amd64')
 }
 
 function sb() {
-  ret=$(pwd)
-  r=$(head -c 8 /dev/random | base64 | tr -d '/')
-  folder=~/.tmp/sandbox_$r
-  mkdir -p $folder
-  cd $folder
+  local localBox=false
+  if [[ $1 == "-l" ]]; then
+    localBox=true
+    shift
+  fi
+
+  if [[ "$localBox" == "false" ]]; then
+    ret=$(pwd)
+    r=$(head -c 8 /dev/random | base64 | tr -d '/')
+    folder=~/.tmp/sandbox_$r
+    mkdir -p $folder
+    cd $folder
+  fi
   # create project
   if [[ $1 == "node" ]]; then
     echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.mjs", "license": "UNLICENSED","scripts":{"start":"node ."}}' > package.json
@@ -413,6 +421,15 @@ function sb() {
     source ./.venv/bin/activate
     nvim main.py
     deactivate
+  elif [[ $1 == "rest" ]]; then
+    touch sb.rest
+    echo "locals {}" > sb.rest
+    echo "\nrequest \"test\" {" >> sb.rest
+    echo "\turl = \"\"" >> sb.rest
+    echo "\t#post_hook = <<LUA" >> sb.rest
+    echo "\t#\tprint(inspect(rest.res))" >> sb.rest
+    echo "\t#LUA\n}" >> sb.rest
+    nvim sb.rest
   else
     go mod init sandbox
     echo "package main\n" > main.go
@@ -425,16 +442,18 @@ function sb() {
     nvim -c 'exe "15"' main.go
   fi
 
-  cd $ret
-  read "keep?Keep sandbox? [y/N] "
-  if [[ "$keep" =~ ^[Yy]$ ]]; then
-    while [ "$name" = "" ] ; do
-      read "name?Name: "
-    done
-    mkdir -p ~/dev/sandboxes
-    mv $folder ~/dev/sandboxes/$name
-  else
-    rm -rf $folder
+  if [[ "$localBox" == "false" ]]; then
+    cd $ret
+    read "keep?Keep sandbox? [y/N] "
+    if [[ "$keep" =~ ^[Yy]$ ]]; then
+      while [ "$name" = "" ] ; do
+        read "name?Name: "
+      done
+      mkdir -p ~/dev/sandboxes
+      mv $folder ~/dev/sandboxes/$name
+    else
+      rm -rf $folder
+    fi
   fi
 }
 
