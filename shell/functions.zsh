@@ -43,6 +43,10 @@ function tab-title {
   printf "\x1b]1;>$1\x1b\\"
 }
 
+function shrink-video {
+  ffmpeg -i $1 -vcodec libx265 -crf 28 $2
+}
+
 function tunnel {
   echo "forwarding $1..."
   # \ssh root@$TUNNEL 'pkill -o -u root sshd'
