@@ -35,6 +35,8 @@ return {
     event = 'BufEnter',
     opts = {
       default_mappings = true,
+      height = 25,
+      width = 105,
       post_open_hook = function(_, win)
         vim.api.nvim_win_set_option(win, 'winhighlight', 'Normal:')
       end,
