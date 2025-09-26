@@ -1,4 +1,38 @@
-return {}
+return {
+  'nvimtools/none-ls.nvim',
+
+  config = function()
+    local null_ls = require('null-ls')
+    null_ls.setup({
+      sources = {
+        -- git
+        null_ls.builtins.code_actions.gitsigns,
+        -- lua
+        null_ls.builtins.formatting.stylua.with({
+          extra_args = {
+            '--config-path',
+            vim.fn.expand('~/.dotfiles/nvim/stylua.toml'),
+          },
+        }),
+        -- go
+        null_ls.builtins.code_actions.gomodifytags,
+        -- sql
+        null_ls.builtins.diagnostics.sqruff,
+      },
+      root_dir = require('lspconfig/util').root_pattern(
+        '.null-ls-root',
+        'Makefile',
+        '.git',
+        'package.json'
+      ),
+    })
+    -- always map ca for gitsigns
+    require('utils/maps').mode_group('n', {
+      { 'ca', vim.lsp.buf.code_action },
+      { 'E',  vim.diagnostic.open_float },
+    }, { noremap = true, silent = true })
+  end,
+}
 -- return {
 --   'nvimtools/none-ls.nvim',
 --   event = 'VeryLazy',

@@ -1,2 +1,2 @@
-local cmds = require('utils/commands')
-cmds.set_run('python %')
+require('utils/commands')
+    .set_run('python %')

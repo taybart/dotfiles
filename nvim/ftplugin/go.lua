@@ -94,11 +94,6 @@ function go.clear_tags()
 end
 
 function go.run(args)
-  -- local file_name = args.fargs[1]
-  -- if file_name == '' or file_name == nil then
-  --   file_name = '.'
-  -- end
-  -- vim.api.nvim_command('!go run ' .. file_name)
   local cmd = '!go run . '
   for _, v in ipairs(args.fargs) do
     cmd = cmd .. v .. ' '
@@ -139,65 +134,38 @@ function go.set_build_tags(args)
 end
 
 function go.organize_imports()
-  -- pcall(function()
-  --   vim.lsp.buf.format()
-  --   vim.lsp.buf.code_action({
-  --     context = {
-  --       only = { 'source.organizeImports' },
-  --     },
-  --     apply = true,
-  --   })
-  -- end)
-  -- have to check if we need to organize imports to prevent "No Code Actions Available" notification spam
-  vim.lsp.buf.format()
-
-  -- Check for organize imports code action
-  local params = vim.lsp.util.make_range_params(0, 'utf-8')
-  ---@diagnostic disable-next-line: inject-field
-  params.context = {
-    only = { 'source.organizeImports' },
-    diagnostics = {},
-  }
-
-  local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, 1000)
-  if result then
-    for _, res in pairs(result) do
-      if res.result and #res.result > 0 then
-        for _, action in pairs(res.result) do
-          -- Check if the action is source.organizeImports
-          if
-              action.kind == 'source.organizeImports'
-              or (action.title and action.title:match('organize imports'))
-          then
-            vim.lsp.buf.code_action({
-              context = {
-                only = { 'source.organizeImports' },
-              },
-              apply = true,
-            })
-            return
-          end
-        end
+  local params = vim.lsp.util.make_range_params(0, 'utf-16')
+  params['context'] = { only = { "source.organizeImports" } }
+  -- buf_request_sync defaults to a 1000ms timeout. Depending on your
+  -- machine and codebase, you may want longer. Add an additional
+  -- argument after params if you find that you have to write the file
+  -- twice for changes to be saved.
+  -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+  local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 2000)
+  for cid, res in pairs(result or {}) do
+    for _, r in pairs(res.result or {}) do
+      if r.edit then
+        local enc = (vim.lsp.get_client_by_id(cid) or {})['offset_encoding'] or "utf-16"
+        vim.lsp.util.apply_workspace_edit(r.edit, enc)
       end
     end
   end
+  vim.lsp.buf.format({ async = false })
 end
 
-cmds.set_run({ cmd = go.run })
+cmds.set_run(go.run)
 vim.api.nvim_create_autocmd('BufWritePre', {
   pattern = '*.go',
   callback = go.organize_imports,
 })
 cmds.add({
-  cmds = {
-    { name = 'BuildTags',    cmd = go.set_build_tags,  opts = { nargs = '+' } },
-    { name = 'BuildTagsAdd', cmd = go.add_build_tags,  opts = { nargs = '+' } },
-    { name = 'StructTags',   cmd = go.add_tags },
-    { name = 'Test',         cmd = go.test,            { nargs = '?' } },
-    { name = 'Tidy',         cmd = '!go mod tidy',     { nargs = '?' } },
-    { name = 'R',            cmd = 'LspRestart gopls' },
-    { name = 'Imports',      cmd = go.organize_imports },
-  },
+  { 'BuildTags',    { cmd = go.set_build_tags, opts = { nargs = '+' } } },
+  { 'BuildTagsAdd', { cmd = go.add_build_tags, opts = { nargs = '+' } } },
+  { 'StructTags',   go.add_tags },
+  { 'Test',         { cmd = go.test, { nargs = '?' } } },
+  { 'Tidy',         { cmd = '!go mod tidy', { nargs = '?' } } },
+  { 'R',            'LspRestart gopls' },
+  { 'Imports',      go.organize_imports },
 })
 
 vim.treesitter.query.set(

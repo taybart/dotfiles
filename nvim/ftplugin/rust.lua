@@ -15,10 +15,8 @@ local function test(args)
 end
 
 local cmds = require('utils/commands')
-cmds.set_run({ cmd = run })
+cmds.set_run(run)
 cmds.add({
-  cmds = {
-    { name = 'Test', cmd = test,          opts = { nargs = '?' } },
-    { name = 'Rsx',  cmd = '!leptosfmt %' },
-  }
+  { 'Test', { cmd = test, opts = { nargs = '?' } } },
+  { 'Rsx',  '!leptosfmt %' },
 })

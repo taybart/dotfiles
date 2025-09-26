@@ -8,4 +8,4 @@ local function run(args)
   vim.api.nvim_command('!bun run ' .. file_name)
 end
 
-cmds.set_run({ cmd = run })
+cmds.set_run(run)
