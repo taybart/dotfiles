@@ -1,12 +1,7 @@
 local go = {}
 
 local job = require('utils/job')
-local au = require('utils/augroup')
-
-function go.install_deps()
-  job.run('go', { 'install', 'github.com/fatih/gomodifytags@latest' })
-  job.run('go', { 'install', 'github.com/jstemmer/gotags@latest' })
-end
+local cmds = require('utils/commands')
 
 function go.get_struct_name()
   local query = [[(
@@ -121,7 +116,7 @@ end
 
 function go.add_build_tags(args)
   local tags = args.fargs[1]
-  local go_config = require('languages/lspconfig').gopls
+  local go_config = require('languages/configs').gopls
   local current_tags = go_config.settings.gopls.buildFlags[1]
   if not current_tags or current_tags == '' then
     current_tags = '-tags='
@@ -136,7 +131,7 @@ end
 function go.set_build_tags(args)
   -- local tags = vim.tbl_flatten(args.fargs[1])
   local tags = args.fargs[1]
-  local go_config = require('languages/lspconfig').gopls
+  local go_config = require('languages/configs').gopls
 
   go_config.settings.gopls.buildFlags = { '-tags=' .. tags }
 
@@ -188,31 +183,34 @@ function go.organize_imports()
   end
 end
 
-au.create({
-  go_lsp = {
-    {
-      event = 'BufWritePre',
-      pattern = '*.go',
-      callback = go.organize_imports,
-    },
-    au.ft_cmd('gomod', {
-      callback = function()
-        vim.bo.commentstring = '// %s'
-      end,
-    }),
-    au.ft_cmd('go', {
-      run_cmd = go.run,
-      commands = {
-        { name = 'BuildTags',    cmd = go.set_build_tags,  opts = { nargs = '+' } },
-        { name = 'BuildTagsAdd', cmd = go.add_build_tags,  opts = { nargs = '+' } },
-        { name = 'StructTags',   cmd = go.add_tags },
-        { name = 'Test',         cmd = go.test,            { nargs = '?' } },
-        { name = 'Tidy',         cmd = '!go mod tidy',     { nargs = '?' } },
-        { name = 'R',            cmd = 'LspRestart gopls' },
-        { name = 'Imports',      cmd = go.organize_imports },
-      },
-    }),
+cmds.set_run({ cmd = go.run })
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.go',
+  callback = go.organize_imports,
+})
+cmds.add({
+  cmds = {
+    { name = 'BuildTags',    cmd = go.set_build_tags,  opts = { nargs = '+' } },
+    { name = 'BuildTagsAdd', cmd = go.add_build_tags,  opts = { nargs = '+' } },
+    { name = 'StructTags',   cmd = go.add_tags },
+    { name = 'Test',         cmd = go.test,            { nargs = '?' } },
+    { name = 'Tidy',         cmd = '!go mod tidy',     { nargs = '?' } },
+    { name = 'R',            cmd = 'LspRestart gopls' },
+    { name = 'Imports',      cmd = go.organize_imports },
   },
 })
 
+vim.treesitter.query.set(
+  'go',
+  'injections',
+  [[
+([
+    (raw_string_literal)
+    (interpreted_string_literal)
+] @injection.content
+(#match? @injection.content "(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|FROM|WHERE|JOIN)")
+(#set! injection.language "sql")
+(#offset! @injection.content 0 1 0 -1))
+    ]]
+)
 return go

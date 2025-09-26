@@ -1,7 +1,7 @@
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'j-hui/fidget.nvim', config = true },
+    { 'j-hui/fidget.nvim',       config = true },
     {
       'chrisgrieser/nvim-lsp-endhints',
       event = 'LspAttach',
@@ -22,6 +22,6 @@ return {
     'sh',
   },
   config = function()
-    require('languages').setup()
+    require('lsp').setup()
   end,
 }

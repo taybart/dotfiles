@@ -22,16 +22,4 @@ local function toggle()
   vim.api.nvim_win_set_cursor(0, cursor)
 end
 
-require('utils/augroup').create({
-  markdown_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'markdown',
-      callback = function()
-        vim.keymap.set('n', '<leader>td', function()
-          toggle()
-        end)
-      end,
-    },
-  },
-})
+vim.keymap.set('n', '<leader>td', toggle)

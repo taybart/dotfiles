@@ -62,6 +62,9 @@ vim.opt.smartcase = true
 
 -- vim.g.c_syntax_for_h=1
 
+-- FINALLY set global float border
+vim.o.winborder = 'single'
+
 -- speed up modules
 vim.loader.enable()
 

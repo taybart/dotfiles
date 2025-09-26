@@ -20,17 +20,17 @@ local function filterReactDTS(value)
 end
 
 return {
-  arduino_language_server = {
-    cmd = {
-      vim.fn.expand('$GOPATH/bin/arduino-language-server'),
-      '-cli-config',
-      vim.fn.expand('$HOME/.arduinoIDE/arduino-cli.yaml'),
-      '-cli',
-      'arduino-cli',
-      '-fqbn',
-      require('languages/arduino').get_board(),
-    },
-  },
+  -- arduino_language_server = {
+  --   cmd = {
+  --     vim.fn.expand('$GOPATH/bin/arduino-language-server'),
+  --     '-cli-config',
+  --     vim.fn.expand('$HOME/.arduinoIDE/arduino-cli.yaml'),
+  --     '-cli',
+  --     'arduino-cli',
+  --     '-fqbn',
+  --     require('languages/arduino').get_board(),
+  --   },
+  -- },
   astro = {},
   clangd = {
     -- remove "proto" for now since i use protobuf more
@@ -41,7 +41,7 @@ return {
     root_dir = lcutil.root_pattern('deno.json', 'deno.jsonc'),
   },
   gopls = {
-    root_dir = lcutil.root_pattern('go.work', 'go.mod', '.git'),
+    -- root_dir = lcutil.root_pattern('go.work', 'go.mod', '.git'),
     settings = {
       gopls = {
         buildFlags = { '-tags=' },
@@ -52,7 +52,7 @@ return {
       },
     },
   },
-  gleam = {},
+  -- gleam = {},
   -- harper_ls = {},
   html = {
     -- opts = {
