@@ -37,9 +37,8 @@ return {
         'vue',
         'yaml',
       },
-      highlight = {
-        enable = true,
-      },
+      highlight = { enable = true },
+      injections = { enabled = true },
       indent = {
         enable = true,
       },
