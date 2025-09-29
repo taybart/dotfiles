@@ -1,16 +1,8 @@
 local matlab = {}
 
-require('utils/augroup').create({
-  matlab_lsp = {
-    {
-      event = 'FileType',
-      pattern = 'matlab',
-      callback = function()
-        vim.api.nvim_create_user_command('Run', matlab.run, {})
-      end,
-    },
-  },
-})
+local cmds = require('utils/commands')
+
+cmds.set_run(matlab.run)
 
 local function strip_whitespace(tbl)
   local ret = {}
