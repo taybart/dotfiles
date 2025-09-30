@@ -183,7 +183,7 @@ if replace_tmux then
       {
         key = 'c',
         mods = 'LEADER',
-        action = action({ SpawnTab = 'CurrentPaneDomain' }),
+        action = action({ SpawnCommandInNewTab = { cwd = wezterm.home_dir } }),
       },
       {
         key = 'x',
