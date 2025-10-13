@@ -39,8 +39,19 @@ return {
       width = 105,
       post_open_hook = function(_, win)
         -- necessary as per https://github.com/rmagatti/goto-preview/issues/64#issuecomment-1159069253
-        vim.api.nvim_win_set_option(win, 'winhighlight', 'Normal:')
+        vim.api.nvim_set_option_value('winhighlight', 'Normal:', { win = win })
       end,
+    },
+  },
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua', -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+      },
     },
   },
   {
@@ -56,6 +67,7 @@ return {
     --   "BufNewFile path/to/my-vault/*.md",
     -- },
     opts = {
+      legacy_commands = false,
       workspaces = {
         {
           name = 'personal',

@@ -31,6 +31,7 @@ return {
         { name = 'copilot' },
         -- Other Sources
         { name = 'nvim_lsp' },
+        { name = 'lazydev', group_index = 0 },
         { name = 'path' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'buffer', keyword_length = 6 },

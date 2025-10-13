@@ -14,6 +14,11 @@ return {
             vim.fn.expand('~/.dotfiles/nvim/stylua.toml'),
           },
         }),
+        -- javascript
+        -- null_ls.builtins.formatting.prettier.with({
+        --   extra_args = { '--no-semi', '--single-quote' },
+        --   disabled_filetypes = { 'json' },
+        -- }),
         -- go
         null_ls.builtins.code_actions.gomodifytags,
         -- sql

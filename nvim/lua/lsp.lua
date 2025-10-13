@@ -63,7 +63,7 @@ function M.setup()
   local lsps = {
     'astro',
     'clangd',
-    'denols',
+    -- 'denols',
     'gopls',
     'html',
     'lua_ls',
