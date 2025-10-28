@@ -4,6 +4,11 @@ return {
       checkonsave = {
         command = 'clippy',
       },
+      cargo = {
+        buildScripts = {
+          enable = true,
+        },
+      },
       procMacro = {
         enable = true,
         ignore = {

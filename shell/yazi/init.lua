@@ -10,8 +10,10 @@ Status:children_add(function()
   if h == nil or ya.target_family() ~= 'unix' then
     return ''
   end
-
+  local mtime = os.date('%Y-%m-%d %H:%M:%S', tostring(h.cha.mtime):sub(1, 10))
   return ui.Line({
+    ui.Span(tostring(mtime)):fg('blue'),
+    ui.Span(' '),
     ui.Span(ya.user_name(h.cha.uid) or tostring(h.cha.uid)):fg('magenta'),
     ':',
     ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg('magenta'),
