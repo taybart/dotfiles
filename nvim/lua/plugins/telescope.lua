@@ -1,6 +1,6 @@
 local function edit_config()
   require('telescope.builtin').find_files({
-    search_dirs = { '~/.dotfiles/nvim/lua' },
+    search_dirs = { '~/.dotfiles/nvim' },
   })
 end
 
