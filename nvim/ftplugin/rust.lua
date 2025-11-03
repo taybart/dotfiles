@@ -14,9 +14,43 @@ local function test(args)
   vim.api.nvim_command('!cargo test ' .. file_name)
 end
 
+local function split(inputstr, sep)
+  if sep == nil then
+    sep = '%s'
+  end
+  local t = {}
+  for str in string.gmatch(inputstr, '([^' .. sep .. ']+)') do
+    table.insert(t, str)
+  end
+  return t
+end
+
+local function cfg_features(args)
+  local client = vim.lsp.get_clients({ name = 'rust_analyzer' })[1]
+  if client == nil then
+    print('no rust_analyzer client found')
+    return
+  end
+  local config = client.config.settings['rust-analyzer']
+  if config == nil then
+    config = {}
+  end
+  if config.cargo == nil then
+    config.cargo = {}
+  end
+  -- reset them just in case there weren't any passed
+  config.cargo.features = {}
+
+  local features = args.fargs[1]
+  if features ~= nil then
+    config.cargo.features = split(features, ',')
+  end
+  client.notify('workspace/didChangeConfiguration', { settings = config })
+end
+
 local cmds = require('utils/commands')
 cmds.set_run(run)
 cmds.add({
   { 'Test', { cmd = test, opts = { nargs = '?' } } },
-  { 'Rsx',  '!leptosfmt %' },
+  { 'Features', { cmd = cfg_features } },
 })

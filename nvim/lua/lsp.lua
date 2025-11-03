@@ -70,7 +70,7 @@ function M.setup()
     'marksman',
     'ruff',
     'rust_analyzer',
-    'ts_ls',
+    -- 'ts_ls',
   }
   for _, lsp in ipairs(lsps) do
     vim.lsp.enable(lsp)
