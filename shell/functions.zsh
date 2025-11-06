@@ -44,7 +44,7 @@ function tab-title {
 }
 
 function shrink-video {
-  ffmpeg -i $1 -vcodec libx265 -crf 28 $2
+  ffmpeg -i $1 -vcodec libx265 -crf 32 $2
 }
 
 function tunnel {

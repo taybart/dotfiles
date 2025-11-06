@@ -31,7 +31,9 @@ return {
     { trig = 'post_hook' },
     fmt(
       [[post_hook = <<LUA
-  local body = json.decode(rest.request.body) {}
+  local body = json.decode(rest.res.body)
+  inspect.print(body)
+  {}
 LUA]],
       { i(1, '') }
     )

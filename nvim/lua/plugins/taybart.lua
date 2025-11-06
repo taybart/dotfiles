@@ -1,7 +1,7 @@
 return {
   {
-    'taybart/rest.nvim',
-    -- dir = '~/dev/taybart/rest.nvim',
+    -- 'taybart/rest.nvim',
+    dir = '~/dev/taybart/rest.nvim',
     config = true,
   },
   {
@@ -14,6 +14,74 @@ return {
     'taybart/serve.nvim',
     -- dir = '~/dev/taybart/serve.nvim',
     opts = {},
+    -- opts = { logs = { level = 'debug', no_color = true } },
+  },
+  {
+    'taybart/code-actions.nvim',
+    -- dir = '~/dev/taybart/code-actions.nvim',
+    opts = {
+      actions = {
+        {
+          command = 'Expand',
+          show = function(ctx)
+            return ctx.filetype == 'json'
+          end,
+          fn = function()
+            vim.cmd([[Expand]])
+          end,
+        },
+        {
+          command = 'Compact',
+          show = function(ctx)
+            return ctx.filetype == 'json'
+          end,
+          fn = function()
+            vim.cmd([[Compact]])
+          end,
+        },
+      },
+      servers = {
+        gitsigns = {
+          ctx = {
+            action_exists = function(name)
+              local actions = require('gitsigns').get_actions()
+              return actions ~= nil and actions[name] ~= nil
+            end,
+            get_action = function(name)
+              local actions = require('gitsigns').get_actions()
+              if actions ~= nil and actions[name] ~= nil then
+                return actions[name]
+              end
+              return function() end
+            end,
+          },
+          -- stylua: ignore
+          actions = {
+            -- TODO turn this into ['preview hunk'] = { show = function(ctx)...
+            {
+              command = 'preview hunk',
+              show = function(ctx) return ctx.g.action_exists('preview_hunk') end,
+              fn = function(a) a.ctx.g.get_action('preview_hunk')() end,
+            },
+            {
+              command = 'reset hunk',
+              show = function(ctx) return ctx.g.action_exists('reset_hunk') end,
+              fn = function(a) a.ctx.g.get_action('reset_hunk')() end,
+            },
+            {
+              command = 'select hunk',
+              show = function(ctx) return ctx.g.action_exists('select_hunk') end,
+              fn = function(a) a.ctx.g.get_action('select_hunk')() end,
+            },
+            {
+              command = 'stage hunk',
+              show = function(ctx) return ctx.g.action_exists('stage_hunk') end,
+              fn = function(a) a.ctx.g.get_action('stage_hunk')() end,
+            },
+          },
+        },
+      },
+    },
     -- opts = { logs = { level = 'debug', no_color = true } },
   },
   {
