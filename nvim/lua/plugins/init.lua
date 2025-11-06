@@ -10,16 +10,16 @@ return {
       require('utils/maps').group({ noremap = true, silent = true }, {
         {
           'n',
-          { '<c-f><left>', ':TmuxNavigateLeft<cr>' },
-          { '<c-f><down>', ':TmuxNavigateDown<cr>' },
-          { '<c-f><up>', ':TmuxNavigateUp<cr>' },
+          { '<c-f><left>',  ':TmuxNavigateLeft<cr>' },
+          { '<c-f><down>',  ':TmuxNavigateDown<cr>' },
+          { '<c-f><up>',    ':TmuxNavigateUp<cr>' },
           { '<c-f><right>', ':TmuxNavigateRight<cr>' },
         },
         {
           't',
-          { '<c-f><left>', '<c-\\><c-n>:TmuxNavigateLeft<cr>' },
-          { '<c-f><down>', '<c-\\><c-n>:TmuxNavigateDown<cr>' },
-          { '<c-f><up>', '<c-\\><c-n>:TmuxNavigateUp<cr>' },
+          { '<c-f><left>',  '<c-\\><c-n>:TmuxNavigateLeft<cr>' },
+          { '<c-f><down>',  '<c-\\><c-n>:TmuxNavigateDown<cr>' },
+          { '<c-f><up>',    '<c-\\><c-n>:TmuxNavigateUp<cr>' },
           { '<c-f><right>', '<c-\\><c-n>:TmuxNavigateRight<cr>' },
         },
       })
@@ -45,11 +45,9 @@ return {
   },
   {
     'folke/lazydev.nvim',
-    ft = 'lua', -- only load on lua files
+    ft = 'lua',
     opts = {
       library = {
-        -- See the configuration section for more details
-        -- Load luvit types when the `vim.uv` word is found
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
       },
     },
@@ -58,5 +56,21 @@ return {
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {},
+  },
+  {
+    'stevearc/conform.nvim',
+    opts = {
+      format_on_save = {
+        -- These options will be passed to conform.format()
+        timeout_ms = 500,
+        lsp_format = 'fallback',
+      },
+      formatters_by_ft = {
+        lua = { 'stylua' },
+        rust = { 'rustfmt', lsp_format = 'fallback' },
+        -- Conform will run the first available formatter
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      },
+    },
   },
 }
