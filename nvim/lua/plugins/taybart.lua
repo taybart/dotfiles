@@ -2,6 +2,7 @@ return {
   {
     -- 'taybart/rest.nvim',
     dir = '~/dev/taybart/rest.nvim',
+    dependencies = { 'taybart/code-actions.nvim' },
     config = true,
   },
   {
@@ -20,24 +21,17 @@ return {
     'taybart/code-actions.nvim',
     -- dir = '~/dev/taybart/code-actions.nvim',
     opts = {
+      -- stylua: ignore
       actions = {
         {
           command = 'Expand',
-          show = function(ctx)
-            return ctx.filetype == 'json'
-          end,
-          fn = function()
-            vim.cmd([[Expand]])
-          end,
+          show = function(ctx) return ctx.filetype == 'json' end,
+          fn = function() vim.cmd([[Expand]]) end,
         },
         {
           command = 'Compact',
-          show = function(ctx)
-            return ctx.filetype == 'json'
-          end,
-          fn = function()
-            vim.cmd([[Compact]])
-          end,
+          show = function(ctx) return ctx.filetype == 'json' end,
+          fn = function() vim.cmd([[Compact]]) end,
         },
       },
       servers = {
@@ -59,22 +53,22 @@ return {
           actions = {
             -- TODO turn this into ['preview hunk'] = { show = function(ctx)...
             {
-              command = 'preview hunk',
+              command = 'Preview hunk',
               show = function(ctx) return ctx.g.action_exists('preview_hunk') end,
               fn = function(a) a.ctx.g.get_action('preview_hunk')() end,
             },
             {
-              command = 'reset hunk',
+              command = 'Reset hunk',
               show = function(ctx) return ctx.g.action_exists('reset_hunk') end,
               fn = function(a) a.ctx.g.get_action('reset_hunk')() end,
             },
             {
-              command = 'select hunk',
+              command = 'Select hunk',
               show = function(ctx) return ctx.g.action_exists('select_hunk') end,
               fn = function(a) a.ctx.g.get_action('select_hunk')() end,
             },
             {
-              command = 'stage hunk',
+              command = 'Stage hunk',
               show = function(ctx) return ctx.g.action_exists('stage_hunk') end,
               fn = function(a) a.ctx.g.get_action('stage_hunk')() end,
             },
@@ -82,7 +76,6 @@ return {
         },
       },
     },
-    -- opts = { logs = { level = 'debug', no_color = true } },
   },
   {
     'taybart/b64.nvim',
