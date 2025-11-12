@@ -8,6 +8,7 @@ return {
   },
   {
     'taybart/resurrect.nvim',
+    event = 'VeryLazy',
     -- dir = '~/dev/taybart/resurrect.nvim',
     dependencies = { 'kkharji/sqlite.lua' },
     opts = { quiet = true },
@@ -91,6 +92,7 @@ return {
   },
   {
     'taybart/inline.nvim',
+    enabled = false,
     -- dir =  '~/dev/taybart/inline.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
     -- event = 'VeryLazy',

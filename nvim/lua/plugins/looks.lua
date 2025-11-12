@@ -28,6 +28,7 @@ return {
   },
   {
     'f-person/auto-dark-mode.nvim',
+    event = 'VeryLazy',
     opts = {
       set_dark_mode = function()
         h.background('dark')
@@ -102,10 +103,11 @@ return {
     opts = {
       experimental = { check_rtp_message = false },
     },
-    keys = { { '<leader>m', '<cmd>Markview toggle<cr>' } },
+    keys = { { '<leader>m', '<cmd>Markview toggle<cr>', ft = 'markdown' } },
   },
   {
     'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     -- moved to lua/looks.lua because of stupid colorscheme bs
     opts = {
