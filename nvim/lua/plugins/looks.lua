@@ -98,22 +98,11 @@ return {
   {
     'OXY2DEV/markview.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function()
-      require('markview').setup({
-        experimental = { check_rtp_message = false },
-      })
-      require('utils/augroup').create({
-        markview_ = {
-          {
-            event = 'FileType',
-            pattern = 'markdown',
-            callback = function()
-              vim.keymap.set('n', '<leader>m', '<cmd>Markview toggle<cr>')
-            end,
-          },
-        },
-      })
-    end,
+    ft = { 'markdown' },
+    opts = {
+      experimental = { check_rtp_message = false },
+    },
+    keys = { { '<leader>m', '<cmd>Markview toggle<cr>' } },
   },
   {
     'nvim-lualine/lualine.nvim',

@@ -1,8 +1,9 @@
 return {
   {
     'taybart/rest.nvim',
-    -- dir = '~/dev/taybart/rest.nvim',
     dependencies = { 'taybart/code-actions.nvim' },
+    -- dir = '~/dev/taybart/rest.nvim',
+    -- dependencies = { dir = '~/dev/taybart/code-actions.nvim' },
     config = true,
   },
   {
@@ -25,13 +26,14 @@ return {
       actions = {
         {
           command = 'Expand',
-          show = function(ctx) return ctx.filetype == 'json' end,
+          show = { ft = { 'json' } },
           fn = function() vim.cmd([[Expand]]) end,
         },
         {
           command = 'Compact',
-          show = function(ctx) return ctx.filetype == 'json' end,
+          show = { ft = { 'json' } },
           fn = function() vim.cmd([[Compact]]) end,
+          cmd = 'Compact',
         },
       },
       servers = {

@@ -6,7 +6,7 @@ return {
       },
       cargo = {
         buildScripts = {
-          enable = true,
+          enable = false,
         },
       },
       procMacro = {

@@ -1,61 +1,43 @@
 return {
   {
-    'stevearc/oil.nvim',
-    config = function()
-      require('oil').setup()
-      vim.keymap.set('n', '-', '<cmd>Oil --float<cr>', { desc = 'Open parent directory' })
-      require('utils/augroup').create({
-        oil = {
-          {
-            event = 'FileType',
-            pattern = 'oil',
-            callback = function()
-              vim.keymap.set('n', 'q', '<cmd>wq<cr>', {})
-              -- TODO: only if floating
-              -- vim.keymap.set('n', '<esc>', '<cmd>wq<cr>', {})
-            end,
-          },
-        },
-      })
-    end,
-  },
-  {
-    'mikavilpas/yazi.nvim',
-    dependencies = { 'folke/snacks.nvim', lazy = true },
+    'stevearc/aerial.nvim',
     keys = {
       {
-        '<leader>f',
-        mode = { 'n', 'v' },
-        '<cmd>Yazi<cr>',
-        desc = 'Open yazi at the current file',
-      },
-      {
-        '<leader>cw',
-        '<cmd>Yazi cwd<cr>',
-        desc = "Open the file manager in nvim's working directory",
+        '<F8>',
+        '<cmd>AerialToggle<cr>',
+        { desc = 'Toggle aerial', noremap = true },
       },
     },
-    opts = {
-      open_for_directories = true,
-      keymaps = {
-        show_help = '<f1>',
-      },
-    },
-    init = function()
-      vim.g.loaded_netrwPlugin = 1
-    end,
+    opts = {},
   },
   {
-    'stevearc/aerial.nvim',
-    config = function()
-      require('aerial').setup({
-        -- on_attach = function(bufnr)
-        --   -- Jump forwards/backwards with '{' and '}'
-        --   vim.keymap.set('n', '{', '<cmd>AerialPrev<cr>', { buffer = bufnr })
-        --   vim.keymap.set('n', '}', '<cmd>AerialNext<cr>', { buffer = bufnr })
-        -- end,
-      })
-      vim.keymap.set('n', '<F8>', '<cmd>AerialToggle<cr>', { noremap = true })
-    end,
+    'rmagatti/goto-preview',
+    dependencies = { 'rmagatti/logger.nvim' },
+    event = 'BufEnter',
+    opts = {
+      default_mappings = true,
+      height = 25,
+      width = 105,
+      post_open_hook = function(_, win)
+        -- necessary as per https://github.com/rmagatti/goto-preview/issues/64#issuecomment-1159069253
+        vim.api.nvim_set_option_value('winhighlight', 'Normal:', { win = win })
+      end,
+    },
+  },
+  {
+    'stevearc/conform.nvim',
+    opts = {
+      format_on_save = {
+        -- These options will be passed to conform.format()
+        timeout_ms = 500,
+        lsp_format = 'fallback',
+      },
+      formatters_by_ft = {
+        lua = { 'stylua' },
+        rust = { 'rustfmt', lsp_format = 'fallback' },
+        -- Conform will run the first available formatter
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      },
+    },
   },
 }

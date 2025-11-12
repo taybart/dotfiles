@@ -1,8 +1,8 @@
 -- Idiot proofing
 local cmds = require('utils/commands')
 cmds.add({
-  { 'W', 'w' },
-  { 'Q', 'q' },
+  { 'W',  'w' },
+  { 'Q',  'q' },
   { 'WQ', 'wq' },
   { 'Wq', 'wq' },
 })

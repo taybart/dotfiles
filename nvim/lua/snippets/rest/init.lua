@@ -28,9 +28,9 @@ return {
   ),
   s({ trig = 'basic_auth' }, fmt([[ basic_auth =  "{}:{}" ]], { i(1, 'user'), i(2, 'password') })),
   s(
-    { trig = 'post_hook' },
+    { trig = 'after' },
     fmt(
-      [[post_hook = <<LUA
+      [[after = <<LUA
   local body = json.decode(rest.res.body)
   inspect.print(body)
   {}
@@ -51,7 +51,7 @@ LUA]],
   cookies = {{}}
   query = {{}}
   body = {{}}
-  post_hook = <<LUA
+  after = <<LUA
   LUA
 }}]],
       {

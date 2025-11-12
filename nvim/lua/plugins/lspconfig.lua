@@ -1,27 +1,38 @@
 return {
-  'neovim/nvim-lspconfig',
-  dependencies = {
-    { 'j-hui/fidget.nvim', config = true },
-    -- {
-    --   'chrisgrieser/nvim-lsp-endhints',
-    --   event = 'LspAttach',
-    --   opts = {}, -- required, even if empty
-    -- },
-    { 'williamboman/mason.nvim', opts = { ui = { border = 'single' } }, cmd = 'Mason' },
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      { 'j-hui/fidget.nvim',       config = true },
+      { 'williamboman/mason.nvim', opts = { ui = { border = 'single' } }, cmd = 'Mason' },
+    },
+    ft = {
+      'arduino',
+      'go',
+      'json',
+      'lua',
+      'markdown',
+      'matlab',
+      'python',
+      'rest',
+      'rust',
+      'sh',
+    },
+    config = function()
+      require('lsp').setup()
+    end,
   },
-  ft = {
-    'arduino',
-    'go',
-    'json',
-    'lua',
-    'markdown',
-    'matlab',
-    'python',
-    'rest',
-    'rust',
-    'sh',
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
   },
-  config = function()
-    require('lsp').setup()
-  end,
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+      },
+    },
+  },
 }
