@@ -45,19 +45,8 @@ return {
     },
   },
   {
-    'brenoprata10/nvim-highlight-colors',
-    opts = {
-      render = 'foreground',
-      enable_tailwind = true,
-      exclude_filetypes = {
-        'lazy',
-      },
-    },
-  },
-  { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
-  {
     'folke/snacks.nvim',
-    priority = 1000,
+    priority = 100,
     lazy = false,
     config = function()
       local s = require('snacks')
@@ -93,6 +82,17 @@ return {
       vim.api.nvim_create_user_command('Notifications', s.notifier.show_history, {})
     end,
   },
+  {
+    'brenoprata10/nvim-highlight-colors',
+    opts = {
+      render = 'foreground',
+      enable_tailwind = true,
+      exclude_filetypes = {
+        'lazy',
+      },
+    },
+  },
+  { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
 
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },

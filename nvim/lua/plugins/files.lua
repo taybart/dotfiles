@@ -1,5 +1,10 @@
 return {
   {
+    'folke/ts-comments.nvim',
+    opts = {},
+    event = 'VeryLazy',
+  },
+  {
     'stevearc/aerial.nvim',
     keys = {
       {
