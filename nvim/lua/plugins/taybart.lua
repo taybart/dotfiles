@@ -22,6 +22,7 @@ return {
   {
     'taybart/code-actions.nvim',
     -- dir = '~/dev/taybart/code-actions.nvim',
+    dependencies = { 'folke/snacks.nvim' },
     opts = {
       -- stylua: ignore
       actions = {
@@ -34,7 +35,6 @@ return {
           command = 'Compact',
           show = { ft = { 'json' } },
           fn = function() vim.cmd([[Compact]]) end,
-          cmd = 'Compact',
         },
       },
       servers = {
