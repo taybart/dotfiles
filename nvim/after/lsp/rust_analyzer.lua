@@ -1,3 +1,9 @@
+--[[
+rust-analyzer.toml
+[rustfmt]
+overrideCommand = ["dx", "fmt", "--all-code", "-f", "-"]
+]]
+
 return {
   settings = {
     ['rust-analyzer'] = {
