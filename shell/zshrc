@@ -8,7 +8,7 @@ sife $DOTFILES/shell/path.zsh
 sife $DOTFILES/shell/plugins/plugins.zsh
 sife $DOTFILES/shell/alias.zsh
 sife $DOTFILES/shell/functions.zsh
-sife $DOTFILES/shell/pms.zsh
+# sife $DOTFILES/shell/pms.zsh
 # sife $DOTFILES/shell/op.zsh
 
 

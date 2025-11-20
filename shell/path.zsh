@@ -3,7 +3,7 @@
 ###############
 source "$DOTFILES/shell/essentials.zsh"
 
-export PATH="$HOME/.local/bin"
+export PATH=""
 
 function add_path() {
   export PATH="$PATH:$1"
@@ -39,6 +39,7 @@ add_path "$HOME/.nix-profile/bin"
 # and finally regular system path
 add_path "/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
+
 ###############
 # Completion  #
 ###############
@@ -49,3 +50,28 @@ add_path "/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr
 # asdf completions
 # [ ! -f "${ASDF_DATA_DIR:-$HOME/.asdf}/completions" ] && mkdir -p "${ASDF_DATA_DIR:-$HOME/.asdf}/completions" && asdf completion zsh > "${ASDF_DATA_DIR:-$HOME/.asdf}/completions/_asdf"
 
+# fzf
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# gcloud
+if [ -f "$HOME/.google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/.google-cloud-sdk/path.zsh.inc"; fi
+if [ -f "$HOME/.google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/.google-cloud-sdk/completion.zsh.inc"; fi
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+# opam configuration
+[[ ! -r /Users/taylor/.opam/opam-init/init.zsh ]] || source /Users/taylor/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+# minio
+[ -f /usr/local/bin/mc ] && complete -o nospace -C /usr/local/bin/mc mc
+
+# bun completions
+[ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
+
+[ -f ${HOME}/.ghcup/env ] && source ${HOME}/.ghcup/env
+
+# Bun
+export BUN_INSTALL="/Users/taylor/.bun"
+export PATH="$PATH:$BUN_INSTALL/bin"
+
+# Ensure our local bin is priority
+export PATH="$HOME/.local/bin:$PATH"
