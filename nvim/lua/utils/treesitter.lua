@@ -112,13 +112,13 @@ M.nodes_at_cursor = function(query)
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   local nodes = M.get_all_nodes(query, ft, bufnr, row)
   if nodes == nil then
-    print('Unable to find any nodes. Is your query correct?')
+    error('Unable to find any nodes. Is your query correct?')
     return nil
   end
 
   nodes = sort_nodes(intersect_nodes(nodes, row, col))
   if nodes == nil or #nodes == 0 then
-    print('Unable to find any nodes at pos. ' .. tostring(row) .. ':' .. tostring(col))
+    error('Unable to find any nodes at pos. ' .. tostring(row) .. ':' .. tostring(col))
     return nil
   end
 

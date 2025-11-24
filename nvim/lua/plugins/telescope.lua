@@ -56,6 +56,9 @@ local keys = {
       search_dirs = { '~/.dotfiles/nvim' },
     })
   end,
+  symbols = function()
+    require('telescope').extensions.aerial.aerial()
+  end,
 }
 
 return {
@@ -72,6 +75,7 @@ return {
     { '<c-b>',      keys.buffers },
     { '<leader>of', keys.old_files },
     { '<leader>ev', keys.edit_config },
+    { '<leader>j',  keys.symbols },
   },
   config = function()
     local telescope = require('telescope')
@@ -120,6 +124,25 @@ return {
           mappings = { i = { ['<C-s>'] = actions.to_fuzzy_refine } },
         },
       },
+      extensions = {
+        aerial = {
+          -- Set the width of the first two columns (the second
+          -- is relevant only when show_columns is set to 'both')
+          col1_width = 4,
+          col2_width = 30,
+          -- How to format the symbols
+          format_symbol = function(symbol_path, filetype)
+            if filetype == 'json' or filetype == 'yaml' then
+              return table.concat(symbol_path, '.')
+            else
+              return symbol_path[#symbol_path]
+            end
+          end,
+          -- Available modes: symbols, lines, both
+          show_columns = 'both',
+        },
+      },
     })
+    telescope.load_extension('aerial')
   end,
 }

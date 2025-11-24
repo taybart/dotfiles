@@ -3,9 +3,11 @@ local M = {}
 -- LSP Setup
 function M.setup()
   vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
     pattern = '*',
     callback = function()
       vim.api.nvim_create_autocmd('BufWritePre', {
+        group = vim.api.nvim_create_augroup('lsp-format', { clear = true }),
         pattern = '*',
         callback = function()
           local clients = vim.lsp.get_clients({ bufnr = 0, method = 'textDocument/formatting' })

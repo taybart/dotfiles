@@ -58,7 +58,7 @@ function go.add_tags(args)
       or tagged['start'] == nil
       or tagged['start'] == 0
   then
-    print('failed to set tags' .. vim.inspect(tagged))
+    error('failed to set tags' .. vim.inspect(tagged))
     return
   end
   vim.api.nvim_buf_set_lines(0, tagged['start'] - 1, tagged['end'], false, tagged.lines)
@@ -86,7 +86,7 @@ function go.clear_tags()
       or tagged['start'] == nil
       or tagged['start'] == 0
   then
-    print('failed to set tags' .. vim.inspect(tagged))
+    error('failed to set tags' .. vim.inspect(tagged))
     return
   end
   vim.api.nvim_buf_set_lines(0, tagged['start'] - 1, tagged['end'], false, tagged.lines)
@@ -154,10 +154,10 @@ function go.organize_imports()
 end
 
 cmds.set_run(go.run)
-vim.api.nvim_create_autocmd('BufWritePre', {
-  pattern = '*.go',
-  callback = go.organize_imports,
-})
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   pattern = '*.go',
+--   callback = go.organize_imports,
+-- })
 cmds.add({
   { 'BuildTags',    { cmd = go.set_build_tags, opts = { nargs = '+' } } },
   { 'BuildTagsAdd', { cmd = go.add_build_tags, opts = { nargs = '+' } } },

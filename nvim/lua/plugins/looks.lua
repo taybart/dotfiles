@@ -87,13 +87,9 @@ return {
     opts = {
       render = 'foreground',
       enable_tailwind = true,
-      exclude_filetypes = {
-        'lazy',
-      },
+      exclude_filetypes = { 'lazy' },
     },
   },
-  { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
-
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
   {
@@ -107,7 +103,6 @@ return {
   },
   {
     'nvim-lualine/lualine.nvim',
-    event = 'VeryLazy',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     -- moved to lua/looks.lua because of stupid colorscheme bs
     opts = {

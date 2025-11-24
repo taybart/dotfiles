@@ -17,21 +17,21 @@ function M.run(cmd, args, opts)
   opts = opts or {}
   local ret
   require('plenary.job')
-    :new({
-      command = cmd,
-      args = args,
-      on_exit = function(j, return_val)
-        if return_val ~= 0 then
-          print('issue running command', vim.inspect(j:result()), vim.inspect(return_val))
-        end
-        if opts.return_all then
-          ret = j:result()
-        else
-          ret = j:result()[1]
-        end
-      end,
-    })
-    :sync(opts.timeout)
+      :new({
+        command = cmd,
+        args = args,
+        on_exit = function(j, return_val)
+          if return_val ~= 0 then
+            print('issue running command', vim.inspect(j:result()), vim.inspect(return_val))
+          end
+          if opts.return_all then
+            ret = j:result()
+          else
+            ret = j:result()[1]
+          end
+        end,
+      })
+      :sync(opts.timeout)
   return ret
 end
 
