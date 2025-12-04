@@ -28,6 +28,12 @@ return {
     config = function()
       vim.cmd([[ autocmd FileType sql nnoremap <leader>g <Plug>(DBUI_ExecuteQuery) ]])
       vim.cmd([[ autocmd FileType sql vnoremap <leader>g <Plug>(DBUI_ExecuteQuery) ]])
+      -- vim.api.nvim_create_autocmd('FileType', {
+      --   pattern = 'dbout',
+      --   callback = function(ev)
+      --     -- vim.opt.sidescrolloff = 8
+      --   end,
+      -- })
     end,
   },
 
