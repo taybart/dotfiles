@@ -1,0 +1,13 @@
+diff --git a/autoload/db.vim b/autoload/db.vim
+index a89a6db..dd9c990 100644
+--- a/autoload/db.vim
++++ b/autoload/db.vim
+@@ -327,7 +327,7 @@ function! s:query_callback(query, start_reltime, lines, status) abort
+     let status_msg .= ' (no window?)'
+   endif
+   exe 'doautocmd <nomodeline> User ' . fnameescape(a:query.output . '/DBExecutePost')
+-  echo status_msg
++  " echo status_msg
+ endfunction
+ 
+ function! db#connect(url) abort
