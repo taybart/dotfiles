@@ -18,17 +18,17 @@ function M.setup()
         end,
       })
 
-      local telescope = require('telescope.builtin')
+      local p = require('snacks').picker
       require('utils/maps').mode_group('n', {
         -- these have been mapped into default
-        { 'gi', vim.lsp.buf.implementation },
-        { 'gr', telescope.lsp_references },
-        { 'gD', telescope.lsp_type_definitions },
-        { 'gd', telescope.lsp_definitions },
-        { 'gi', telescope.lsp_implementations },
-        { 'K', vim.lsp.buf.hover },
-        { 'E', vim.diagnostic.open_float },
-        { 'ca', vim.lsp.buf.code_action },
+        { 'gi',         vim.lsp.buf.implementation },
+        { 'gr',         p.lsp_references },
+        { 'gD',         p.lsp_type_definitions },
+        { 'gd',         p.lsp_definitions },
+        { 'gi',         p.lsp_implementations },
+        { 'K',          vim.lsp.buf.hover },
+        { 'E',          vim.diagnostic.open_float },
+        { 'ca',         vim.lsp.buf.code_action },
         { '<leader>rn', vim.lsp.buf.rename },
       }, { noremap = true, silent = true })
 

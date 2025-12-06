@@ -1,5 +1,6 @@
 local h = require('utils/helpers')
 return {
+  -- Colorschemes
   {
     'ellisonleao/gruvbox.nvim',
     lazy = false,
@@ -15,6 +16,8 @@ return {
           DiagnosticSignInfo = { fg = p.neutral_blue, bg = p.dark0 },
           DiagnosticSignHing = { fg = p.neutral_aqua, bg = p.dark0 },
           CursorLineNr = { fg = p.neutral_yellow, bg = p.dark0 },
+          SnacksPickerBufFlags = { fg = p.neutral_aqua },
+          SnacksPickerDir = { fg = p.light0_soft },
         },
       })
       h.background('dark')
@@ -26,6 +29,7 @@ return {
     name = 'catppuccin',
     priority = 1000,
   },
+  -- Fix until OSC 11 is in nvim/tmux/ghostty
   {
     'f-person/auto-dark-mode.nvim',
     event = 'VeryLazy',
@@ -44,44 +48,7 @@ return {
       fallback = 'dark',
     },
   },
-  {
-    'folke/snacks.nvim',
-    priority = 100,
-    lazy = false,
-    config = function()
-      local s = require('snacks')
-      s.setup({
-        bigfile = { enabled = true },
-        indent = {
-          enabled = true,
-          animate = {
-            enabled = false,
-            duration = {
-              step = 10,
-              total = 200,
-            },
-          },
-        },
-        input = { enabled = true },
-        notifier = {
-          enabled = true,
-          timeout = 3000,
-        },
-        picker = {
-          enabled = true,
-          win = {
-            input = {
-              keys = {
-                ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
-              },
-            },
-          },
-        },
-        quickfile = { enabled = true },
-      })
-      vim.api.nvim_create_user_command('Notifications', s.notifier.show_history, {})
-    end,
-  },
+
   {
     'brenoprata10/nvim-highlight-colors',
     opts = {
@@ -92,6 +59,7 @@ return {
   },
   -- nice indicators for fF/tT
   { 'unblevable/quick-scope' },
+
   {
     'OXY2DEV/markview.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },

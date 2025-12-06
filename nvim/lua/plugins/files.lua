@@ -6,7 +6,14 @@ return {
   },
   {
     'stevearc/aerial.nvim',
-    keys = { { '<F8>', '<cmd>AerialToggle<cr>', noremap = true } },
+    dependencies = { 'folke/snacks.nvim' },
+    keys = {
+      { '<F8>', '<cmd>AerialToggle<cr>', noremap = true },
+      {
+        '<leader>j',
+        function() require('aerial').snacks_picker() end,
+      },
+    },
     opts = {},
   },
   {
