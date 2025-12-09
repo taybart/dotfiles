@@ -14,6 +14,8 @@ alias flushcache="sudo killall -HUP mDNSResponder;sudo killall mDNSResponderHelp
 alias airport="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport"
 alias resetaudio="sudo kill -9 $(ps ax|grep 'coreaudio[a-z]' | awk '{print $1}')"
 
+alias fixpip="osascript ~/.dotfiles/browser_scripts/reset_pip.scpt"
+
 function showhidden() {
   defaults write com.apple.finder AppleShowAllFiles -bool $1
   killall -HUP Finder

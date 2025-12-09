@@ -11,7 +11,17 @@ return {
     'pmizio/typescript-tools.nvim',
     ft = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {},
+    opts = {
+      settings = {
+        tsserver_file_preferences = {
+          -- TODO: this doesn't work
+          quotePreference = 'single',
+        },
+        tsserver_format_options = {
+          semicolons = 'remove',
+        },
+      },
+    },
   },
   {
     'folke/lazydev.nvim',
