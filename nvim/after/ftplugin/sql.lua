@@ -54,15 +54,24 @@ vim.api.nvim_create_autocmd('CursorMoved', {
 
 local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ''
 -- extract URL: -- DB url  or  /* DB url */
--- TODO: add env(PASSWORD) check and resolution
-local db_uri = first_line:match('^%-%-%s*DB%s+(%S+)') or first_line:match('^/%*%s*DB%s+(%S+)')
-if db_uri then
-  vim.keymap.set('v', '<leader>g', function(opts)
-    local range = ''
-    if opts.line1 and opts.line2 then range = opts.line1 .. ',' .. opts.line2 end
-    vim.cmd(range .. 'DB ' .. db_uri .. ' ' .. table.concat(opts.fargs, ' '))
+-- TODO: add env(PASSWORD) check and resolution, possibly use .nvim.lua
+local db_uri = first_line:match('^%-%-%s*DB%s+(%S+)')
+    or first_line:match('^/%*%s*DB%s+(%S+)')
+    or vim.g.local_db_uri
+if not db_uri then
+  print('no db uri found')
+else
+  vim.keymap.set('v', '<leader>g', function()
+    local line1 = vim.fn.getpos('v')[2]
+    local line2 = vim.fn.getpos('.')[2]
+    -- Ensure line1 is before line2
+    if line1 > line2 then
+      line1, line2 = line2, line1
+    end
+    vim.cmd(('%d,%dDB %s'):format(line1, line2, db_uri))
   end, { noremap = true, buffer = true })
 
+  -- TODO: fix this when i start running full files...if ever
   -- vim.keymap.set(
   --   'n',
   --   '<leader>g',

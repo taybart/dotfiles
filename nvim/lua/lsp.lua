@@ -12,9 +12,7 @@ function M.setup()
         callback = function()
           local clients = vim.lsp.get_clients({ bufnr = 0, method = 'textDocument/formatting' })
 
-          if #clients > 0 then
-            vim.lsp.buf.format()
-          end
+          if #clients > 0 then vim.lsp.buf.format() end
         end,
       })
 
@@ -39,14 +37,11 @@ function M.setup()
           'Rename',
           {
             cmd = function(args)
-              ---@diagnostic disable-next-line: undefined-field
               local new_name = args.fargs[1]
               local old_name = vim.fn.expand('<cword>')
               if not new_name then
                 new_name = vim.fn.input({ prompt = old_name .. ' to -> ', default = old_name })
-                if not new_name or new_name == '' then
-                  return
-                end
+                if not new_name or new_name == '' then return end
               end
 
               local position_params = vim.lsp.util.make_position_params(0, 'utf-8')
@@ -65,7 +60,6 @@ function M.setup()
   local lsps = {
     'astro',
     'clangd',
-    -- 'denols',
     'gopls',
     'html',
     'lua_ls',
@@ -73,6 +67,7 @@ function M.setup()
     'ruff',
     'rust_analyzer',
     -- 'ts_ls',
+    'zls',
   }
   for _, lsp in ipairs(lsps) do
     vim.lsp.enable(lsp)

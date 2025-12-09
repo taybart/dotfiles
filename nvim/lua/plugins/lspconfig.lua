@@ -5,15 +5,7 @@ return {
       { 'j-hui/fidget.nvim',       config = true },
       { 'williamboman/mason.nvim', opts = { ui = { border = 'single' } }, cmd = 'Mason' },
     },
-    -- stylua: ignore
-    ft = {
-      'arduino', 'go', 'json',
-      'lua', 'markdown', 'matlab',
-      'python', 'rest', 'rust', 'sh',
-    },
-    config = function()
-      require('lsp').setup()
-    end,
+    config = function() require('lsp').setup() end,
   },
   {
     'pmizio/typescript-tools.nvim',

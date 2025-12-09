@@ -10,22 +10,14 @@ return {
       local gs = require('gitsigns')
       vim.keymap.set('n', '<leader>gp', gs.preview_hunk)
       vim.keymap.set('n', ']c', function()
-        if vim.wo.diff then
-          return ']c'
-        end
-        vim.schedule(function()
-          gs.nav_hunk('next')
-        end)
+        if vim.wo.diff then return ']c' end
+        vim.schedule(function() gs.nav_hunk('next') end)
         return '<ignore>'
       end, { expr = true })
 
       vim.keymap.set('n', '[c', function()
-        if vim.wo.diff then
-          return '[c'
-        end
-        vim.schedule(function()
-          gs.nav_hunk('prev')
-        end)
+        if vim.wo.diff then return '[c' end
+        vim.schedule(function() gs.nav_hunk('prev') end)
         return '<ignore>'
       end, { expr = true })
     end,

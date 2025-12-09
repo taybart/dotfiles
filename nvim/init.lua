@@ -62,6 +62,10 @@ vim.opt.smartcase = true
 
 -- vim.g.c_syntax_for_h=1
 
+-- local configs
+vim.o.secure = true
+vim.o.exrc = true
+
 -- FINALLY set global float border
 vim.o.winborder = 'single'
 
@@ -102,6 +106,4 @@ require('keymaps')
 require('utils')
 require('commands')
 
-if vim.fn.has('mac') then
-  vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags'
-end
+if vim.fn.has('mac') then vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags' end

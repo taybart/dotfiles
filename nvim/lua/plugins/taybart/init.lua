@@ -29,6 +29,7 @@ return {
     end,
   },
   {
+    -- add visual -> :B for selected region only ops, forked to remove :S
     'taybart/vis',
     -- dir = '~/dev/taybart/vis',
   },

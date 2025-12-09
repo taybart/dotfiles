@@ -26,9 +26,7 @@ return {
           end,
           get_action = function(name)
             local actions = require('gitsigns').get_actions()
-            if actions ~= nil and actions[name] ~= nil then
-              return actions[name]
-            end
+            if actions ~= nil and actions[name] ~= nil then return actions[name] end
             return function() end
           end,
         },
