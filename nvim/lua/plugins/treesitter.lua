@@ -5,10 +5,9 @@ return {
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
     { 'nvim-treesitter/nvim-treesitter-context',    opts = { enable = true } },
   },
-  build = function()
-    pcall(require('nvim-treesitter.install').update({ with_sync = true }))
-  end,
+  build = function() pcall(require('nvim-treesitter.install').update({ with_sync = true })) end,
   config = function()
+    ---@diagnostic disable-next-line: missing-fields
     require('nvim-treesitter.configs').setup({
       -- stylua: ignore
       ensure_installed = {
@@ -24,15 +23,6 @@ return {
       injections = { enabled = true },
       indent = { enable = true },
       textobjects = {
-        -- swap = {
-        --   enable = true,
-        --   swap_next = {
-        --     ['<leader>a'] = '@parameter.inner',
-        --   },
-        --   swap_previous = {
-        --     ['<leader>A'] = '@parameter.inner',
-        --   },
-        -- },
         move = {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
@@ -73,18 +63,7 @@ return {
         keymaps = {
           init_selection = '<CR>',
           node_incremental = '<CR>',
-          scope_incremental = '<C-s>',
           node_decremental = '<BS>',
-
-          -- init_selection = '<C-n>',
-          -- node_incremental = '<C-n>',
-          -- scope_incremental = '<C-s>',
-          -- node_decremental = '<C-p>',
-
-          -- init_selection = 'gnn',
-          -- node_incremental = 'grn',
-          -- node_decremental = '<bs>',
-          -- scope_incremental = '<tab>',
         },
       },
       playground = {
