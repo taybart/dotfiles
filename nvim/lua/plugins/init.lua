@@ -7,7 +7,7 @@ return {
       vim.g.tmux_navigator_no_mappings = 1
     end,
     config = function()
-      require('utils/maps').group({ noremap = true, silent = true }, {
+      require('tools/maps').group({ noremap = true, silent = true }, {
         {
           'n',
           { '<c-f><left>',  ':TmuxNavigateLeft<cr>' },

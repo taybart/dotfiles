@@ -1,2 +1,2 @@
-local cmds = require('utils/commands')
+local cmds = require('tools/commands')
 cmds.set_run('chmod +x ./% && ./% %@')

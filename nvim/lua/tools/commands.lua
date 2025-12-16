@@ -1,8 +1,7 @@
 local M = {}
 
-function M.one(name, cmd, opts)
-  vim.api.nvim_create_user_command(name, cmd, opts or {})
-end
+-- alias for when this module is already in a file and we want a short alias
+function M.one(name, cmd, opts) vim.api.nvim_create_user_command(name, cmd, opts or {}) end
 
 function M.add(opts)
   -- TODO: also make this work for { name = "", ... }
@@ -23,9 +22,7 @@ function M.set_run(opts)
   end
   if type(opts.cmd) == 'string' then
     local bang = '!'
-    if opts.no_bang then
-      bang = ''
-    end
+    if opts.no_bang then bang = '' end
     vim.api.nvim_create_user_command('Run', bang .. opts.cmd, { nargs = '*' })
   end
   if type(opts.cmd) == 'function' then
@@ -46,9 +43,7 @@ function M.ft(ft, opts)
           vim.api.nvim_create_user_command(cmd.name, cmd.cmd, cmd.opts or { nargs = '*' })
         end
       end
-      if opts.callback ~= nil and type(opts.callback) == 'function' then
-        opts.callback()
-      end
+      if opts.callback ~= nil and type(opts.callback) == 'function' then opts.callback() end
     end,
   }
 end
@@ -95,25 +90,23 @@ function M.range(lhs, _rhs, opts)
   vim.api.nvim_create_user_command(lhs, rhs, { range = true })
 end
 
+-- generate a user command with completions
 function M.user_command(command_name, cmds)
   local function complete(arg_lead)
     local commands = {}
     for name in pairs(cmds) do
-      if name ~= 'default' then
-        table.insert(commands, name)
-      end
+      if name ~= 'default' then table.insert(commands, name) end
     end
     vim.print(commands)
 
-    local pattern = arg_lead:gsub('(.)', function(c)
-      return string.format('%s[^%s]*', c:lower(), c:lower())
-    end)
+    local pattern = arg_lead:gsub(
+      '(.)',
+      function(c) return string.format('%s[^%s]*', c:lower(), c:lower()) end
+    )
     -- Case-insensitive fuzzy matching
     local matches = {}
     for _, command in ipairs(commands) do
-      if string.find(command:lower(), pattern) then
-        table.insert(matches, command)
-      end
+      if string.find(command:lower(), pattern) then table.insert(matches, command) end
     end
     return matches
   end

@@ -90,7 +90,7 @@ local snippets = {
 
 return {
   new = function(opts)
-    local source = require('utils/blink_source')
+    local source = require('tools/blink_source')
     opts.ft = { 'go' }
     opts.items = source.fmt_items(snippets)
     return source.new(opts)

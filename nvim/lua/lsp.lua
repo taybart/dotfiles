@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     })
 
     local p = require('snacks').picker
-    require('utils/maps').mode_group('n', {
+    require('tools/maps').mode_group('n', {
       -- these have been mapped into default
       { 'gi',         vim.lsp.buf.implementation },
       { 'gr',         p.lsp_references },
@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       { '<leader>rn', vim.lsp.buf.rename },
     }, { noremap = true, silent = true })
 
-    require('utils/commands').add({
+    require('tools/commands').add({
       { 'Format', vim.lsp.buf.format },
       { 'Issues', vim.diagnostic.setqflist },
       {

@@ -1,19 +1,17 @@
 local arduino = {}
 
-local job = require('utils/job')
-local picker = require('utils/picker')
-local cmds = require('utils/commands')
+local job = require('tools/job')
+local picker = require('tools/picker')
+local cmds = require('tools/commands')
 
 local board = 'm5stack:esp32:m5stick-c-plus'
 local port = ''
 
-function arduino.get_board()
-  return board
-end
+function arduino.get_board() return board end
 
 local function set_board()
   local boards = job.run('arduino-cli', { 'board', 'listall' }, { return_all = true })
-  table.remove(boards, 1) -- remove title
+  table.remove(boards, 1)       -- remove title
   table.remove(boards, #boards) -- remove whitespace
 
   picker('boards', boards, function(res)
@@ -26,7 +24,7 @@ end
 
 local function set_port()
   local ports = job.run('arduino-cli', { 'board', 'list' }, { return_all = true })
-  table.remove(ports, 1) -- remove title
+  table.remove(ports, 1)      -- remove title
   table.remove(ports, #ports) -- remove whitespace
 
   picker('ports', ports, function(res)
@@ -52,7 +50,7 @@ local function upload()
 end
 
 cmds.add({
-  { name = 'Compile', cmd = compile },
+  { name = 'Compile',  cmd = compile },
   {
     name = 'Upload',
     cmd = function()
@@ -61,7 +59,7 @@ cmds.add({
     end,
   },
   { name = 'SetBoard', cmd = set_board },
-  { name = 'SetPort', cmd = set_port },
+  { name = 'SetPort',  cmd = set_port },
 })
 
 return arduino

@@ -37,7 +37,7 @@ local function cfg_features(args)
   end
 end
 
-local cmds = require('utils/commands')
+local cmds = require('tools/commands')
 cmds.set_run(run)
 cmds.add({
   { 'Test',     { cmd = test, opts = { nargs = '?' } } },

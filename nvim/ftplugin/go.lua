@@ -1,8 +1,8 @@
 local go = {}
 
-local job = require('utils/job')
-local cmds = require('utils/commands')
-local blink_source = require('utils/blink_source')
+local job = require('tools/job')
+local cmds = require('tools/commands')
+local blink_source = require('tools/blink_source')
 
 function go.get_struct_name()
   local query = [[(
@@ -12,7 +12,7 @@ function go.get_struct_name()
   (field_declaration name:(field_identifier) @definition.struct (struct_type)
   )]]
 
-  local ns = require('utils/treesitter').nodes_at_cursor(query)
+  local ns = require('tools/treesitter').nodes_at_cursor(query)
   if ns == nil then error('struct not found') end
   return ns[#ns].name
 end

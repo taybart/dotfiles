@@ -1,15 +1,9 @@
 local M = {}
 
 function M.handle_data(data)
-  if not data then
-    return nil
-  end
-  if data[#data] == '' then
-    table.remove(data, #data)
-  end
-  if #data < 1 then
-    return nil
-  end
+  if not data then return nil end
+  if data[#data] == '' then table.remove(data, #data) end
+  if #data < 1 then return nil end
   return data
 end
 
@@ -46,7 +40,7 @@ function M.open(args)
     return
   end
 
-  require('utils/job').run(opener, args)
+  require('tools/job').run(opener, args)
 end
 
 return M

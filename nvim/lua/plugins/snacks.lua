@@ -1,6 +1,4 @@
-local function p()
-  return require('snacks').picker
-end
+local function p() return require('snacks').picker end
 
 return {
   'folke/snacks.nvim',
@@ -57,14 +55,5 @@ return {
     })
     layouts.select_tall = vim.tbl_deep_extend('keep', { layout = { height = 0.8 } }, layouts.select)
     vim.api.nvim_create_user_command('Notifications', s.notifier.show_history, {})
-    vim.api.nvim_create_user_command('Sntest', function()
-      require('utils/picker')('test', {
-        { text = 'test1', value = 'a' },
-        { text = 'test2', value = 'b' },
-        { text = 'test3', value = 'c' },
-      }, function(choice)
-        print(choice)
-      end)
-    end, {})
   end,
 }

@@ -1,9 +1,7 @@
-require('utils/commands').set_run({
+require('tools/commands').set_run({
   cmd = function()
     local cmd = 'python'
-    if vim.fn.executable('uv') then
-      cmd = 'uv run'
-    end
+    if vim.fn.executable('uv') then cmd = 'uv run' end
     vim.cmd('!' .. cmd .. ' %')
   end,
 })

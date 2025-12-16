@@ -24,7 +24,7 @@ return {
     'taybart/b64.nvim',
     -- dir = '~/dev/taybart/b64.nvim',
     config = function()
-      require('utils/maps').mode_group('v', {
+      require('tools/maps').mode_group('v', {
         { '<leader>bd', require('b64').decode },
         { '<leader>be', require('b64').encode },
       }, { noremap = true, silent = true })

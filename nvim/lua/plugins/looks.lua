@@ -1,4 +1,3 @@
-local h = require('utils/helpers')
 return {
   -- Colorschemes
   {
@@ -20,6 +19,7 @@ return {
           SnacksPickerDir = { fg = p.light0_soft },
         },
       })
+      -- local h = require('tools/helpers')
       -- h.background('dark')
       vim.cmd.colorscheme('gruvbox')
     end,

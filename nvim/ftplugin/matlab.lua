@@ -1,6 +1,6 @@
 local matlab = {}
 
-local cmds = require('utils/commands')
+local cmds = require('tools/commands')
 
 cmds.set_run(matlab.run)
 
@@ -22,10 +22,8 @@ function matlab.run()
   local job = 'octave ' .. vim.fn.expand('%')
   vim.fn.jobstart(job, {
     on_stdout = function(_, data)
-      data = require('utils/job').handle_data(data)
-      if not data then
-        return
-      end
+      data = require('tools/job').handle_data(data)
+      if not data then return end
       -- Get file contents
       local lines = strip_whitespace(vim.api.nvim_buf_get_lines(0, 0, -1, true))
       data = strip_whitespace(data)

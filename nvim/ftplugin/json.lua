@@ -1,2 +1,1 @@
-require('utils/commands')
-    .add({ { 'Expand', '.!jq' }, { 'Compact', '%!jq -c .' }, })
+require('tools/commands').add({ { 'Expand', '.!jq' }, { 'Compact', '%!jq -c .' } })

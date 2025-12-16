@@ -2,8 +2,7 @@
 -------- Keybindings ---------
 ------------------------------
 
--- helpful things
-local map = require('utils/maps')
+local map = require('tools/maps')
 
 ---@diagnostic disable-next-line: inject-field
 vim.g.mapleader = ' ' -- space as leader
