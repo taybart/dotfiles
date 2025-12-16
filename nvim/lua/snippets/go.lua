@@ -51,13 +51,20 @@ local function go_ret_vals()
   end
 
   local query = vim.treesitter.query.get('go', 'goSnippetReturnTypes')
+  if not query then
+    error('could not parse ts query for goSnippetReturnTypes')
+    return ''
+  end
   local result = ''
   for _, node in query:iter_captures(function_node, 0) do
     if node:type() == 'parameter_list' then
       local count = node:named_child_count()
       for j = 0, count - 1 do
-        result = result .. get_zero_value(get_node_text(node:named_child(j), 0))
-        if j ~= count - 1 then result = result .. ', ' end
+        local child = node:named_child(j)
+        if child then
+          result = result .. get_zero_value(get_node_text(child, 0))
+          if j ~= count - 1 then result = result .. ', ' end
+        end
       end
     elseif node:type() == 'type_identifier' then
       result = get_zero_value(get_node_text(node, 0))
@@ -70,8 +77,7 @@ local function ife()
   return ([[if err != nil {
   return %s
 }
-$0
-]]):format(go_ret_vals())
+$0]]):format(go_ret_vals())
 end
 local snippets = {
   ['ife'] = {

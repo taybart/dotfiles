@@ -84,10 +84,9 @@ if not vim.uv.fs_stat(lazypath) then
     lazypath,
   })
 end
----@diagnostic disable-next-line: undefined-field
+
 vim.opt.rtp:prepend(lazypath)
 
----@diagnostic disable-next-line: inject-field
 vim.g.mapleader = ' '
 
 require('lazy').setup('plugins', {
@@ -103,7 +102,7 @@ vim.cmd([[pa cfilter]])
 
 require('looks')
 require('keymaps')
-require('utils')
 require('commands')
+require('lsp')
 
 if vim.fn.has('mac') then vim.g.tagbar_ctags_bin = '/opt/homebrew/bin/ctags' end

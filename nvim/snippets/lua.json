@@ -3,7 +3,7 @@
     "body": [
       "local function $1($2)",
       "\t$3",
-      "end",
+      "end"
     ]
   }
 }

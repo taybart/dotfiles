@@ -5,7 +5,6 @@ return {
       { 'j-hui/fidget.nvim',       config = true },
       { 'williamboman/mason.nvim', opts = { ui = { border = 'single' } }, cmd = 'Mason' },
     },
-    config = function() require('lsp').setup() end,
   },
   {
     'pmizio/typescript-tools.nvim',
