@@ -1,44 +1,38 @@
-local function p() return require('snacks').picker end
+local function p(mod, opts)
+  if mod then return require('snacks').picker[mod](opts) end
+  return require('snacks').picker
+end
 
 return {
   'folke/snacks.nvim',
-  priority = 100,
+  priority = 1000,
+  lazy = false,
   -- stylua: ignore
   keys = {
-    -- p().smart({
     { '<c-p>', function()
-      p().files({
+      p('files', {
         hidden = true,
         follow = true,
         layout = 'select_tall'
       })
-    end, },
-
-    { '<c-s>',      function() p().grep() end },
+    end,
+    },
+    { '<c-s>',      function() p('grep') end },
     {
+      -- grep with <cword>
       'g<c-s>',
       mode = { 'n', 'x' },
-      function() p().grep_word() end
+      function() p('grep_word') end
     },
-    { '<c-h>',      function() p().help({ layout = 'select' }) end },
-    { '<c-b>',      function() p().buffers() end },
-    { '<leader>ev', function() p().files({ cwd = vim.fn.stdpath('config') }) end },
+    { '<c-h>',      function() p('help', { layout = 'select' }) end },
+    { '<c-b>',      function() p('buffers') end },
+    { '<leader>ev', function() p('files', { cwd = vim.fn.stdpath('config') }) end },
   },
   config = function()
     local s = require('snacks')
-    local layouts = require('snacks.picker.config.layouts')
     s.setup({
       bigfile = { enabled = true },
-      indent = {
-        enabled = true,
-        animate = {
-          enabled = false,
-          duration = {
-            step = 10,
-            total = 200,
-          },
-        },
-      },
+      indent = { enabled = true },
       input = { enabled = true },
       notifier = { enabled = true, timeout = 3000 },
       picker = {
@@ -53,7 +47,11 @@ return {
       },
       quickfile = { enabled = true },
     })
+    -- better layouts
+    local layouts = require('snacks.picker.config.layouts')
     layouts.select_tall = vim.tbl_deep_extend('keep', { layout = { height = 0.8 } }, layouts.select)
+
+    -- see notification history
     vim.api.nvim_create_user_command('Notifications', s.notifier.show_history, {})
   end,
 }

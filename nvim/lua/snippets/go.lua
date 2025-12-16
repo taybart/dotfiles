@@ -1,20 +1,3 @@
-local ts_locals = require('nvim-treesitter.locals')
-local ts_utils = require('nvim-treesitter.ts_utils')
-
-local get_node_text = vim.treesitter.get_node_text
-
-vim.treesitter.query.set(
-  'go',
-  'goSnippetReturnTypes',
-  [[
-[
-(function_declaration result: (_) @id)
-(method_declaration result: (_) @id)
-(func_literal result: (_) @id)
-]
-]]
-)
-
 local function get_zero_value(text)
   if text:find('^int') or text:find('^uint') or text == 'byte' or text == 'rune' then
     return '0'
@@ -34,9 +17,10 @@ local function get_zero_value(text)
 end
 
 local function go_ret_vals()
-  local cursor_node = ts_utils.get_node_at_cursor()
+  local cursor_node = vim.treesitter.get_node()
   if cursor_node == nil then return '' end
-  local scope = ts_locals.get_scope_tree(cursor_node, 0)
+  -- TODO: keep up to date on locals, since its a very unpolished package
+  local scope = require('nvim-treesitter-locals/locals').get_scope_tree(cursor_node, 0)
 
   local function_node
   for _, v in ipairs(scope) do
@@ -50,9 +34,19 @@ local function go_ret_vals()
     end
   end
 
-  local query = vim.treesitter.query.get('go', 'goSnippetReturnTypes')
+  -- get return types
+  local query = vim.treesitter.query.parse(
+    'go',
+    [[
+[
+(function_declaration result: (_) @id)
+(method_declaration result: (_) @id)
+(func_literal result: (_) @id)
+]
+]]
+  )
   if not query then
-    error('could not parse ts query for goSnippetReturnTypes')
+    error('could not parse ts query for getting go return types')
     return ''
   end
   local result = ''
@@ -62,12 +56,12 @@ local function go_ret_vals()
       for j = 0, count - 1 do
         local child = node:named_child(j)
         if child then
-          result = result .. get_zero_value(get_node_text(child, 0))
+          result = result .. get_zero_value(vim.treesitter.get_node_text(child, 0))
           if j ~= count - 1 then result = result .. ', ' end
         end
       end
     elseif node:type() == 'type_identifier' then
-      result = get_zero_value(get_node_text(node, 0))
+      result = get_zero_value(vim.treesitter.get_node_text(node, 0))
     end
   end
   return result

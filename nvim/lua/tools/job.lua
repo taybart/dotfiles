@@ -9,24 +9,22 @@ end
 
 function M.run(cmd, args, opts)
   opts = opts or {}
-  local ret
-  require('plenary.job')
-      :new({
-        command = cmd,
-        args = args,
-        on_exit = function(j, return_val)
-          if return_val ~= 0 then
-            print('issue running command', vim.inspect(j:result()), vim.inspect(return_val))
-          end
-          if opts.return_all then
-            ret = j:result()
-          else
-            ret = j:result()[1]
-          end
-        end,
-      })
-      :sync(opts.timeout)
-  return ret
+
+  local result = vim
+      .system(vim.list_extend({ cmd }, args), { text = true }, function(obj)
+        if obj.code ~= 0 then
+          print('issue running command')
+          if obj.stdout ~= '' then vim.print('stdout:', obj.stdout) end
+          if obj.stderr ~= '' then vim.print('stderr:', obj.stderr) end
+          vim.print('exit code:', obj.code)
+        end
+      end)
+      :wait(opts.timeout or 30000)
+
+  if result.code ~= 0 then return nil end
+
+  local output = vim.split(result.stdout, '\n', { trimempty = true })
+  return opts.return_all and output or output[1]
 end
 
 function M.open(args)

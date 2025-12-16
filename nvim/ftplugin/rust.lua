@@ -27,13 +27,14 @@ local function cfg_features(args)
     end
     local config = client.config.settings['rust-analyzer']
     if config == nil then config = {} end
+    ---@diagnostic disable-next-line: inject-field
     if config.cargo == nil then config.cargo = {} end
     -- reset them just in case there weren't any passed
     config.cargo.features = {}
 
     local features = args.fargs[1]
     if features ~= nil then config.cargo.features = split(features, ',') end
-    client.notify('workspace/didChangeConfiguration', { settings = config })
+    client:notify('workspace/didChangeConfiguration', { settings = config })
   end
 end
 
