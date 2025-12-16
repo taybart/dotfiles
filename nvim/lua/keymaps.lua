@@ -24,7 +24,7 @@ map.mode_group('c', {
 })
 
 map.mode_group('n', {
-  { '<F9>', 'cprev' },
+  { '<F9>',  'cprev' },
   { '<F10>', 'cnext' },
 })
 
@@ -124,3 +124,28 @@ map.nnoremap('<leader>w<cr>', ':silent! %s/\\s\\+$//<cr>:silent! %s/\\%u200b//g<
 
 -- highlight pasted text
 map.nnoremap('gp', '`[v`]')
+
+-------------------
+---- SNIPPETS -----
+-------------------
+map.group({ silent = true }, {
+  {
+    { 'i', 's' },
+    '<c-j>',
+    function()
+      if vim.snippet.active({ direction = 1 }) then
+        vim.snippet.jump(1)
+      else
+        local seq = vim.api.nvim_replace_termcodes('<c-j>', true, true, true)
+        vim.api.nvim_feedkeys(seq, 'n', true)
+      end
+    end,
+  },
+  {
+    { 'i', 's' },
+    '<c-k>',
+    function()
+      if vim.snippet.active({ direction = -1 }) then vim.snippet.jump(-1) end
+    end,
+  },
+})

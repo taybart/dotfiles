@@ -1,0 +1,28 @@
+{
+  "sb": {
+    "body": [
+      "package main",
+      "",
+      "import (",
+      "	\"fmt\"",
+      "	\"os\"",
+      ")",
+      "func main(){",
+      "\tif err := run(); err != nil {",
+      "\t\tfmt.Println(err)",
+      "\t\tos.Exit(1)",
+      "\t}",
+      "}",
+      "func run() error {",
+      "\t\t$0",
+      "\t\treturn nil",
+      "}"
+    ]
+  },
+  "dbs": {
+    "body": [ "%+v $0" ]
+  },
+  "dbg": {
+    "body": [ "fmt.Printf(\"%+v\\n\", $0)" ]
+  }
+}

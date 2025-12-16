@@ -8,7 +8,7 @@ return {
   ---@type blink.cmp.Config
   opts = {
     keymap = { preset = 'default' },
-    snippets = { preset = 'luasnip' },
+    -- snippets = { preset = 'luasnip' },
     appearance = {
       nerd_font_variant = 'mono',
     },
@@ -24,7 +24,7 @@ return {
       },
     },
     sources = {
-      default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
+      default = { 'lazydev', 'lsp', 'path', 'tb_all', 'tb_go', 'snippets', 'buffer' },
       per_filetype = {
         sql = { 'dadbod' },
       },
@@ -34,6 +34,14 @@ return {
           name = 'LazyDev',
           module = 'lazydev.integrations.blink',
           score_offset = 100,
+        },
+        tb_all = {
+          name = 'all',
+          module = 'snippets',
+        },
+        tb_go = {
+          name = 'go',
+          module = 'snippets/go',
         },
       },
     },

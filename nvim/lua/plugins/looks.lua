@@ -20,7 +20,7 @@ return {
           SnacksPickerDir = { fg = p.light0_soft },
         },
       })
-      h.background('dark')
+      -- h.background('dark')
       vim.cmd.colorscheme('gruvbox')
     end,
   },
@@ -30,24 +30,24 @@ return {
     priority = 1000,
   },
   -- Fix until OSC 11 is in nvim/tmux/ghostty
-  {
-    'f-person/auto-dark-mode.nvim',
-    event = 'VeryLazy',
-    opts = {
-      set_dark_mode = function()
-        h.background('dark')
-        vim.cmd.colorscheme('gruvbox')
-        vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
-      end,
-      set_light_mode = function()
-        h.background('light')
-        vim.cmd.colorscheme('catppuccin-latte')
-        vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
-      end,
-      update_interval = 3000,
-      fallback = 'dark',
-    },
-  },
+  -- {
+  --   'f-person/auto-dark-mode.nvim',
+  --   event = 'VeryLazy',
+  --   opts = {
+  --     set_dark_mode = function()
+  --       h.background('dark')
+  --       vim.cmd.colorscheme('gruvbox')
+  --       vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
+  --     end,
+  --     set_light_mode = function()
+  --       h.background('light')
+  --       vim.cmd.colorscheme('catppuccin-latte')
+  --       vim.api.nvim_set_hl(0, 'llama_hl_hint', { link = 'Comment' })
+  --     end,
+  --     update_interval = 3000,
+  --     fallback = 'dark',
+  --   },
+  -- },
 
   {
     'brenoprata10/nvim-highlight-colors',

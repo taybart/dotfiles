@@ -1,23 +1,17 @@
 local function run(args)
   local file_name = args.fargs[1]
-  if file_name == '' or file_name == nil then
-    file_name = '.'
-  end
+  if file_name == '' or file_name == nil then file_name = '.' end
   vim.api.nvim_command('!cargo run ' .. file_name)
 end
 
 local function test(args)
   local file_name = args.fargs[1]
-  if file_name == '' or file_name == nil then
-    file_name = '.'
-  end
+  if file_name == '' or file_name == nil then file_name = '.' end
   vim.api.nvim_command('!cargo test ' .. file_name)
 end
 
 local function split(inputstr, sep)
-  if sep == nil then
-    sep = '%s'
-  end
+  if sep == nil then sep = '%s' end
   local t = {}
   for str in string.gmatch(inputstr, '([^' .. sep .. ']+)') do
     table.insert(t, str)
@@ -26,31 +20,26 @@ local function split(inputstr, sep)
 end
 
 local function cfg_features(args)
-  local client = vim.lsp.get_clients({ name = 'rust_analyzer' })[1]
-  if client == nil then
-    print('no rust_analyzer client found')
-    return
-  end
-  local config = client.config.settings['rust-analyzer']
-  if config == nil then
-    config = {}
-  end
-  if config.cargo == nil then
-    config.cargo = {}
-  end
-  -- reset them just in case there weren't any passed
-  config.cargo.features = {}
+  for _, client in ipairs(vim.lsp.get_clients({ name = 'rust_analyzer' })) do
+    if client == nil then
+      print('no rust_analyzer client found')
+      return
+    end
+    local config = client.config.settings['rust-analyzer']
+    if config == nil then config = {} end
+    if config.cargo == nil then config.cargo = {} end
+    -- reset them just in case there weren't any passed
+    config.cargo.features = {}
 
-  local features = args.fargs[1]
-  if features ~= nil then
-    config.cargo.features = split(features, ',')
+    local features = args.fargs[1]
+    if features ~= nil then config.cargo.features = split(features, ',') end
+    client.notify('workspace/didChangeConfiguration', { settings = config })
   end
-  client.notify('workspace/didChangeConfiguration', { settings = config })
 end
 
 local cmds = require('utils/commands')
 cmds.set_run(run)
 cmds.add({
-  { 'Test', { cmd = test, opts = { nargs = '?' } } },
+  { 'Test',     { cmd = test, opts = { nargs = '?' } } },
   { 'Features', { cmd = cfg_features } },
 })

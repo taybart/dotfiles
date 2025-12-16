@@ -4,19 +4,21 @@ return {
     dependencies = { 'taybart/code-actions.nvim' },
     -- dir = '~/dev/taybart/rest.nvim',
     -- dependencies = { dir = '~/dev/taybart/code-actions.nvim' },
-    config = true,
+    opts = {},
   },
   {
-    'taybart/resurrect.nvim',
+    -- 'taybart/resurrect.nvim',
     event = 'VeryLazy',
-    -- dir = '~/dev/taybart/resurrect.nvim',
+    dir = '~/dev/taybart/resurrect.nvim',
     dependencies = { 'kkharji/sqlite.lua' },
     opts = { quiet = true },
   },
   {
     'taybart/serve.nvim',
-    -- dir = '~/dev/taybart/serve.nvim',
+    build = 'make all',
     opts = {},
+    -- dir = '~/dev/taybart/serve.nvim',
+    -- opts = { logs = { level = 'debug' } },
   },
   {
     'taybart/b64.nvim',
@@ -32,19 +34,6 @@ return {
     -- add visual -> :B for selected region only ops, forked to remove :S
     'taybart/vis',
     -- dir = '~/dev/taybart/vis',
-  },
-  {
-    'taybart/inline.nvim',
-    -- dir = '~/dev/taybart/inline.nvim',
-    dependencies = {
-      'folke/snacks.nvim',
-      'taybart/code-actions.nvim',
-      'kkharji/sqlite.lua',
-    },
-    opts = {
-      signcolumn = { enabled = false },
-      virtual_text = { enabled = true, icon = '📝' },
-    },
   },
   require('plugins/taybart/code-actions'),
 }

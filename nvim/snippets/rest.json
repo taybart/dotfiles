@@ -1,0 +1,35 @@
+{
+  "locals": {
+    "body": [
+      "locals { $1 }"
+    ]
+  },
+  "request": {
+    "body": [
+      "request \"${1:test}\" {",
+      "\turl = \"${2:http://localhost:18080}\"",
+      "\tmethod = \"${3|GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS|}\"",
+      "\tbody = {$0}",
+      "}"
+    ]
+  },
+  "server": {
+    "body": [
+      "server {",
+      "\taddress = \"${1:localhost:18080}\"",
+      "\tresponse {",
+      "\tstatus = ${2:200}",
+      "\tbody = {$0}",
+      "\t}",
+      "}"
+    ]
+  },
+  "expect": {
+    "body": [
+      "expect {",
+      "\tstatus = ${1:200}",
+      "\tbody = {$0}",
+      "}"
+    ]
+  }
+}

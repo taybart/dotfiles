@@ -1,0 +1,15 @@
+{
+  "html": {
+    "body": [
+    "<!DOCTYPE html>",
+    "<html>",
+    "  <head>",
+    "    <title>index</title>",
+    "  </head>",
+    "  <body>",
+    "    <h1>$0</h1>",
+    "  </body>",
+    "</html>"
+    ]
+  }
+}
