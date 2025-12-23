@@ -6,8 +6,9 @@ return {
     lazy = false,
     build = ':TSUpdate',
     config = function()
+      local ts = require('nvim-treesitter')
       -- stylua: ignore
-      require('nvim-treesitter').install({
+      ts.install({
         'astro', 'bash', 'c', 'cpp', 'css',
         'dockerfile', 'go', 'gomod', 'gotmpl',
         'hcl', 'html', 'javascript', 'json',
@@ -17,7 +18,17 @@ return {
       })
 
       vim.api.nvim_create_autocmd('FileType', {
-        callback = function() pcall(vim.treesitter.start) end,
+        group = vim.api.nvim_create_augroup('TreesitterSetup', { clear = true }),
+        callback = function(ev)
+          local lang = vim.treesitter.language.get_lang(ev.match) or ev.match
+          local buf = ev.buf
+          pcall(vim.treesitter.start, buf, lang)
+          -- Enable treesitter indentation
+          vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+          -- Install missing parsers (async, no-op if already installed)
+          ts.install({ lang })
+        end,
       })
     end,
   },

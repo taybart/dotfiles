@@ -7,7 +7,10 @@ cmds.add({
   { 'Wq', 'wq' },
 })
 
-cmds.one('CopyPath', "let @+ = expand('%')")
+cmds.add({
+  { 'CopyPath', "let @+ = expand('%')" },
+  { 'Keymaps',  'lua Snacks.picker.keymaps()' },
+})
 
 if vim.fn.executable('unix-timestamp') then
   cmds.range('Date', 'unix-timestamp -u %s', { cli = true })

@@ -23,7 +23,7 @@ return {
       },
     },
     sources = {
-      default = { 'lazydev', 'lsp', 'path', 'tb_all', 'tb_go', 'snippets', 'buffer' },
+      default = { 'tb_all', 'tb_go', 'snippets', 'buffer', 'lazydev', 'lsp', 'path' },
       per_filetype = {
         sql = { 'dadbod' },
       },

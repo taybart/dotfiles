@@ -54,7 +54,6 @@ vim.api.nvim_create_autocmd('CursorMoved', {
 
 local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ''
 -- extract URL: -- DB url  or  /* DB url */
--- TODO: add env(PASSWORD) check and resolution, possibly use .nvim.lua
 local db_uri = first_line:match('^%-%-%s*DB%s+(%S+)')
     or first_line:match('^/%*%s*DB%s+(%S+)')
     or vim.g.local_db_uri
@@ -70,21 +69,11 @@ else
     end
     vim.cmd(('%d,%dDB %s'):format(line1, line2, db_uri))
   end, { noremap = true, buffer = true })
-
-  -- TODO: fix this when i start running full files...if ever
-  -- vim.keymap.set(
-  --   'n',
-  --   '<leader>g',
-  --   function() vim.cmd('DB ' .. db_uri .. '< ') end,
-  --   { noremap = true, buffer = true }
-  -- )
-
-  -- swp: save window position? its a plug keymap, not sure which one though
-  vim.keymap.del('n', '<space>swp')
   vim.keymap.set('n', '<leader>s', function()
     local stmt = get_stmt_under_cursor()
     if not stmt then return end
-    vim.notify(stmt)
     vim.cmd('DB ' .. db_uri .. ' ' .. stmt)
   end, { noremap = true, buffer = true })
+
+  vim.filetype.add({ extension = { dbout = 'dbout' } })
 end

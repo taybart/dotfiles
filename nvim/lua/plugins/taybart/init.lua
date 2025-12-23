@@ -8,7 +8,6 @@ return {
   },
   {
     -- 'taybart/resurrect.nvim',
-    event = 'VeryLazy',
     dir = '~/dev/taybart/resurrect.nvim',
     dependencies = { 'kkharji/sqlite.lua' },
     opts = { quiet = true },
@@ -31,7 +30,8 @@ return {
     end,
   },
   {
-    -- add visual -> :B for selected region only ops, forked to remove :S
+    -- add visual -> :B for selected region only ops,
+    -- forked to remove :S and cecutil
     'taybart/vis',
     -- dir = '~/dev/taybart/vis',
   },

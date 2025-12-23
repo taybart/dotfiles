@@ -32,7 +32,7 @@ return {
     local s = require('snacks')
     s.setup({
       bigfile = { enabled = true },
-      indent = { enabled = true },
+      indent = { enabled = true, animate = { enabled = false } },
       input = { enabled = true },
       notifier = { enabled = true, timeout = 3000 },
       picker = {

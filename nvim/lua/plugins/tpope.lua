@@ -12,7 +12,12 @@ return {
   },
 
   -- squeaaalll
-  { 'tpope/vim-dadbod', cmd = 'DB' },
+  {
+    'taybart/vim-dadbod',
+    -- dir = '~/.tmp/vim-dadbod',
+    init = function() vim.g.db_quiet = 1 end,
+    cmd = 'DB',
+  },
   -- {
   --   'kristijanhusak/vim-dadbod-ui',
   --   dependencies = {
@@ -45,9 +50,7 @@ return {
   -- git
   {
     'tpope/vim-fugitive',
-    config = function()
-      vim.cmd([[ autocmd FileType fugitive nnoremap <leader>gp :G push<cr> ]])
-    end,
+    config = function() vim.cmd([[ autocmd FileType fugitive nnoremap <leader>gp :G push<cr> ]]) end,
   },
   -- somebody come get her
   { 'tpope/vim-scriptease' },
