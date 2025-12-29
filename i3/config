@@ -30,10 +30,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+q kill
 
 # start program launcher
-# bindsym $mod+Shift+d exec --no-startup-id dmenu_recency
-# bindsym $mod+Shift+d exec --no-startup-id rofi -show run -theme ~/.config/rofi/theme
-bindsym $mod+Shift+d exec ~/.i3/fzfmenu.sh
-bindsym $mod+Tab exec rofi -show window -theme ~/.i3/rofi/window_select_theme.rasi
+bindsym $mod+Shift+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/theme
+bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/theme
 
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
@@ -45,7 +43,7 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # start a terminal
-bindsym $mod+Return exec kitty --title terminal
+bindsym $mod+Return exec ghostty
 
 # Screenshot
 bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
@@ -80,6 +78,7 @@ mode "resize" {
 # exec --no-startup-id pa-applet
 # exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id nitrogen --restore; sleep 1; picom -b -C
+exec --no-startup-id feh --bg-fill ~/Pictures/alfa.png
 # exec --no-startup-id nm-applet
 # exec --no-startup-id xfce4-power-manager
 # exec --no-startup-id pamac-tray
@@ -88,12 +87,12 @@ mode "resize" {
 # exec --no-startup-id blueman-tray
 # exec --no-startup-id $HOME/.screenlayout/dual.sh
 exec --no-startup-id picom -b -C
-exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
-exec --no-startup-id 1password
+# exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
+# exec --no-startup-id 1password
 # exec --no-startup-id timeular
-exec --no-startup-id slack
-exec --no-startup-id discord
-exec --no-startup-id zoom
+# exec --no-startup-id slack
+# exec --no-startup-id discord
+# exec --no-startup-id zoom
 
 
 ################################################################################
@@ -215,6 +214,11 @@ for_window [class="Oblogout"] fullscreen enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="qt5ct"] floating enable sticky enable border normal
 for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
+
+for_window [class="Xfce4-panel" title="Panel Preferences"] floating enable border normal
+for_window [class="Xfce4-panel" title="Add New Items"] floating enable border normal
+for_window [title="Whisker Menu"] floating enable
+
 # for_window [class="Simple-scan"] floating enable border normal
 # for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="zoom"] floating enable normal
@@ -225,7 +229,6 @@ for_window [class="SimpleScreenRecorder"] floating enable sticky enable normal
 for_window [class="Slack" title="screen share"] floating enable sticky enable normal
 for_window [class="GStreamer"] floating enable sticky enable normal
 for_window [class="SpeedCrunch"] floating enable sticky enable normal
-for_window [class="kitty" instance="fzfmenu"] floating enable
 for_window [class="1Password"] floating enable
 
 # popups
@@ -249,7 +252,7 @@ for_window [urgent=latest] focus
 ################################################################################
 
 # Fonts
-font xft:FiraCode Nerd Font 10
+# font xft:FiraCode Nerd Font 10
 
 # Borders
 default_border pixel 1
@@ -294,7 +297,7 @@ client.background       #2B2C2B
 gaps inner 10
 gaps outer 5
 
-gaps top 28
+gaps top 10
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
