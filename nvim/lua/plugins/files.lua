@@ -81,8 +81,8 @@ return {
   {
     'stevearc/conform.nvim',
     opts = {
-      format_on_save = { lsp_format = 'fallback' },
       -- format_on_save = format_hunks,
+      format_on_save = { lsp_format = 'fallback' },
       formatters_by_ft = {
         lua = { 'stylua' },
         rust = { 'rustfmt', lsp_format = 'fallback' },
@@ -92,6 +92,7 @@ return {
         sh = { 'shfmt' },
         css = { 'prettier' },
         html = { 'prettier' },
+        rest = { 'injected' },
       },
     },
   },
