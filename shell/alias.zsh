@@ -21,6 +21,9 @@ alias p="pnpm"
 alias tf="terraform"
 alias sshfingerprint="ssh-keygen -lvf"
 alias wget="curl -O -L"
+alias fm="yazi"
+alias ut="unix-timestamp"
+alias s="search"
 
 alias ndev="nix develop -c $SHELL"
 
