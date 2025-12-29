@@ -53,6 +53,9 @@ zstyle ':completion:*' matcher-list '' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
 zstyle ':completion:*' menu select
 
+autoload -Uz run-help
+autoload -Uz run-help-git
+unalias run-help
 # recalculate completion cache once a day
 autoload -Uz +X compinit
 if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
