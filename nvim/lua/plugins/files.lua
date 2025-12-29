@@ -89,6 +89,7 @@ return {
         go = { 'goimports', timeout_ms = 3000 }, -- 3s becaue big projects take forever
         javascript = { 'prettier' },
         typescript = { 'prettier' },
+        sh = { 'shfmt' },
         css = { 'prettier' },
         html = { 'prettier' },
       },

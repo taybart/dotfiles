@@ -4,7 +4,7 @@ return {
     dependencies = {
       { 'j-hui/fidget.nvim', opts = {} },
       {
-        'williamboman/mason.nvim',
+        'mason-org/mason.nvim',
         opts = { ui = { border = 'single' } },
         cmd = 'Mason',
       },
