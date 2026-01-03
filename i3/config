@@ -42,12 +42,19 @@ bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
 # start a terminal
 bindsym $mod+Return exec ghostty
 
 # Screenshot
 bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
 bindsym Print --release exec "import png:- | xclip -sel c -t image/png"
+
+# bindsym $mod+p exec --no-startup-id xfce4-panel -r --disable-wm-check
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -68,7 +75,7 @@ mode "resize" {
 # bindsym $mod+9 exec --no-startup-id blurlock
 
 # hide/unhide i3status bar
-# bindsym $mod+m bar mode toggle
+bindsym $mod+m bar mode toggle
 
 ################################################################################
 #####                         Startup Programs                             #####
@@ -78,7 +85,8 @@ mode "resize" {
 # exec --no-startup-id pa-applet
 # exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id nitrogen --restore; sleep 1; picom -b -C
-exec --no-startup-id feh --bg-fill ~/Pictures/alfa.png
+# exec --no-startup-id feh --bg-fill ~/Pictures/alfa.png
+exec --no-startup-id feh --bg-fill ~/Pictures/landscape2.jpg
 # exec --no-startup-id nm-applet
 # exec --no-startup-id xfce4-power-manager
 # exec --no-startup-id pamac-tray
@@ -87,6 +95,8 @@ exec --no-startup-id feh --bg-fill ~/Pictures/alfa.png
 # exec --no-startup-id blueman-tray
 # exec --no-startup-id $HOME/.screenlayout/dual.sh
 exec --no-startup-id picom -b -C
+# exec --no-startup-id polybar
+# exec --no-startup-id i3bar --bar_id=bar-0
 # exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
 # exec --no-startup-id 1password
 # exec --no-startup-id timeular
@@ -211,7 +221,7 @@ for_window [class="Lightdm-settings"] floating enable
 for_window [class="Lxappearance"] floating enable sticky enable border normal
 for_window [class="Nitrogen"] floating enable sticky enable border normal
 for_window [class="Oblogout"] fullscreen enable
-for_window [class="Pavucontrol"] floating enable
+for_window [class="pavucontrol"] floating enable border normal
 for_window [class="qt5ct"] floating enable sticky enable border normal
 for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
 
@@ -230,6 +240,8 @@ for_window [class="Slack" title="screen share"] floating enable sticky enable no
 for_window [class="GStreamer"] floating enable sticky enable normal
 for_window [class="SpeedCrunch"] floating enable sticky enable normal
 for_window [class="1Password"] floating enable
+for_window [class="Slippi Launcher"] floating enable
+
 
 # popups
 for_window [window_role="pop-up"] floating enable
@@ -245,6 +257,8 @@ for_window [title="Sign in - Google Accounts — Mozilla Firefox"] floating enab
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
 
+# yt app override
+for_window [class="crx_agimnkijcaahngcdmfeangaknmldooml" class="Vivaldi-stable"] floating disable
 
 
 ################################################################################
@@ -253,6 +267,7 @@ for_window [urgent=latest] focus
 
 # Fonts
 # font xft:FiraCode Nerd Font 10
+font xft:Jetbrains Mono 10
 
 # Borders
 default_border pixel 1
@@ -295,9 +310,9 @@ client.background       #2B2C2B
 
 # Set inner/outer gaps
 gaps inner 10
-gaps outer 5
+# gaps outer 5
 
-gaps top 10
+# gaps top 10
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
@@ -338,4 +353,10 @@ mode "$mode_gaps_outer" {
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
+}
+
+bar {
+  position top
+  status_command i3status 
+  tray_output primary
 }
