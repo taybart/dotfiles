@@ -82,6 +82,11 @@ return {
     'stevearc/conform.nvim',
     opts = {
       -- format_on_save = format_hunks,
+      formatters = {
+        prettier = {
+          prepend_args = { '--no-semi', '--single-quote' },
+        },
+      },
       format_on_save = { lsp_format = 'fallback' },
       formatters_by_ft = {
         lua = { 'stylua' },
