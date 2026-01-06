@@ -46,6 +46,7 @@ add_path "/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr
 
 # bun completions
 [ -s "/Users/taylor/.bun/_bun" ] && source "/Users/taylor/.bun/_bun"
+[ -s "/home/taylor/.bun/_bun" ] && source "/home/taylor/.bun/_bun"
 
 # asdf completions
 # [ ! -f "${ASDF_DATA_DIR:-$HOME/.asdf}/completions" ] && mkdir -p "${ASDF_DATA_DIR:-$HOME/.asdf}/completions" && asdf completion zsh > "${ASDF_DATA_DIR:-$HOME/.asdf}/completions/_asdf"
@@ -69,9 +70,9 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 [ -f ${HOME}/.ghcup/env ] && source ${HOME}/.ghcup/env
 
-# Bun
-export BUN_INSTALL="/Users/taylor/.bun"
-export PATH="$PATH:$BUN_INSTALL/bin"
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Ensure our local bin is priority
 export PATH="$HOME/.local/bin:$PATH"
