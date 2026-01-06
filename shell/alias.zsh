@@ -27,6 +27,13 @@ alias s="search"
 
 alias ndev="nix develop -c $SHELL"
 
+# named directories
+hash -d dot=~/.dotfiles
+hash -d dl=~/Downloads
+
+# no errors
+alias -g NE="2>/dev/null"
+
 if is_installed nix; then
   function run() {
     nix run nixpkgs#$1 -- $@
