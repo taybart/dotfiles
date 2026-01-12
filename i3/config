@@ -51,8 +51,8 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 bindsym $mod+Return exec ghostty
 
 # Screenshot
-bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
-bindsym Print --release exec "import png:- | xclip -sel c -t image/png"
+# bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
+# bindsym Print --release exec "import png:- | xclip -sel c -t image/png"
 
 # bindsym $mod+p exec --no-startup-id xfce4-panel -r --disable-wm-check
 
@@ -258,7 +258,7 @@ for_window [title="Sign in - Google Accounts — Mozilla Firefox"] floating enab
 for_window [urgent=latest] focus
 
 # yt app override
-for_window [class="crx_agimnkijcaahngcdmfeangaknmldooml" class="Vivaldi-stable"] floating disable
+for_window [instance="crx_agimnkijcaahngcdmfeangaknmldooml"] floating disable
 
 
 ################################################################################
