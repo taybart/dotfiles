@@ -1,21 +1,20 @@
 local config = require('pomodoro/config')
--- local db = require('pomodoro/db')
+local db = require('pomodoro/db')
 
 local state = {
-  _file_path = os.getenv('HOME') .. '/.pomo_state',
-
   sync_timer = nil,
   pomo_timer = nil,
 
   pomo = { running = false, name = '', paused = false, time = 0 },
   take_break = { running = false, time = 0 },
   can_recover = false,
-  -- old state recovered from file
+  -- old state recovered from db
   last = {},
+  current_pomo_id = nil,
 }
 
 function state.init()
-  -- db:setup_tables()
+  db:setup_tables()
   state.load()
 
   state.sync_timer = hs.timer.doEvery(config.INTERVAL_SECONDS, function()
@@ -28,42 +27,44 @@ end
 
 function state.load()
   print('loading pomo state')
-  -- local unfinished = db:unfinished()
-  -- if unfinished then
-  --   state.last.pomo = unfinished.pomo
-  --   state.last.take_break = db:get_break()
-  --   state.can_recover = true
-  -- end
-  local file = assert(io.open(state._file_path, 'r'))
-  if file then
-    local content = assert(file:read('*a'))
-    file:close()
-    print('content', content)
-    if not content or content == '' then
-      return
-    end
-    local decoded = assert(hs.json.decode(content))
-    state.last.pomo = decoded.pomo
-    state.last.take_break = decoded.take_break
-    if state.last.pomo.running or state.last.take_break.running then
-      state.can_recover = true
-    end
+  local unfinished = db:unfinished()
+  if unfinished and #unfinished > 0 then
+    local current = unfinished[1]
+    state.last.pomo = {
+      running = current.running,
+      name = current.name,
+      paused = current.paused,
+      time = current.time
+    }
+    state.last.take_break = {
+      running = current.break_running,
+      time = current.break_time
+    }
+    state.current_pomo_id = current.id
+    state.can_recover = true
   else
     print('no saved pomo state found')
   end
 end
 
 function state.save()
-  local file = assert(io.open(state._file_path, 'w'))
-  if file then
-    local encoded = assert(hs.json.encode({
-      pomo = state.pomo,
-      take_break = state.take_break,
-    }))
-    file:write(encoded)
-    file:close()
-  else
-    print('unable to save state')
+  if state.current_pomo_id then
+    local stmt = assert(db.conn:prepare([[
+      UPDATE pomos 
+      SET running = :running, paused = :paused, time = :time,
+          break_running = :break_running, break_time = :break_time
+      WHERE id = :id
+    ]]))
+    stmt:bind_names({
+      running = state.pomo.running,
+      paused = state.pomo.paused,
+      time = state.pomo.time,
+      break_running = state.take_break.running,
+      break_time = state.take_break.time,
+      id = state.current_pomo_id
+    })
+    stmt:step()
+    stmt:finalize()
   end
 end
 
@@ -73,6 +74,13 @@ function state:start(name, tick)
   end
   self.pomo = { running = true, time = config.POMO_LENGTH, name = name }
   self.pomo_timer = hs.timer.doEvery(config.INTERVAL_SECONDS, tick)
+  
+  -- Create new pomo in database
+  db:add_pomo(self.pomo)
+  local latest = db:get_latest_pomos(1)
+  if #latest > 0 then
+    self.current_pomo_id = latest[1].id
+  end
 end
 
 function state:recover(tick)
@@ -85,6 +93,10 @@ end
 function state:stop()
   self.pomo = { running = false, name = '', paused = false, time = 0 }
   self.take_break = { running = false, time = 0 }
+  if self.current_pomo_id then
+    db:mark_complete(self.current_pomo_id)
+    self.current_pomo_id = nil
+  end
 end
 
 function state:toggle_paused()
@@ -101,7 +113,10 @@ function state:done()
     self.pomo_timer:stop()
   end
   self.take_break = { running = false, time = 0 }
-  self:save() -- save that we are fully done
+  if self.current_pomo_id then
+    db:mark_complete(self.current_pomo_id)
+    self.current_pomo_id = nil
+  end
 end
 
 return state

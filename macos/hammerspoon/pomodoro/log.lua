@@ -1,5 +1,4 @@
 local log = {
-  _file_path = os.getenv('HOME') .. '/.pomo',
   contents = {},
 }
 
@@ -47,15 +46,13 @@ end
 
 -- Return a table of recent tasks ({text, subText}), most recent first
 log.get_recent_task_names = function()
-  local tasks = log.get_latest_items(12)
-  local non_empty_tasks = hs.fnutils.filter(tasks, function(t)
-    return t ~= ''
-  end)
-  local names = hs.fnutils.map(non_empty_tasks, function(task_with_timestamp)
-    local timestamp_end = string.find(task_with_timestamp, ']')
+  local db = require('pomodoro/db')
+  local pomos = db:get_latest_pomos(12)
+  
+  local names = hs.fnutils.map(pomos, function(pomo)
     return {
-      text = string.sub(task_with_timestamp, timestamp_end + 2),
-      subText = string.sub(task_with_timestamp, 2, timestamp_end - 1), -- slice braces off
+      text = pomo.name,
+      subText = pomo.created_at
     }
   end)
 

@@ -1,10 +1,10 @@
 local client = {}
-local db = hs.sqlite3.open(os.getenv('HOME') .. '/.pomodb')
+client.conn = hs.sqlite3.open(os.getenv("HOME") .. "/.pomos.db")
 
 function client:setup_tables()
   -- pomo = { running = false, name = '', paused = false, time = 0 },
   -- take_break = { running = false, time = 0 },
-  assert(db:exec([[
+  assert(self.conn:exec([[
     CREATE TABLE IF NOT EXISTS pomos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       -- pomo
@@ -25,7 +25,7 @@ function client:get_latest_pomos(count)
   if not count then
     count = 10
   end
-  local stmt = assert(db:prepare([[
+  local stmt = assert(self.conn:prepare([[
   SELECT * FROM pomos
   WHERE created_at IS NOT NULL
   ORDER BY created_at DESC
@@ -41,7 +41,7 @@ function client:get_latest_pomos(count)
 end
 
 function client:add_pomo(pomo)
-  local stmt = assert(db:prepare([[
+  local stmt = assert(self.conn:prepare([[
         INSERT INTO pomos
         (name, time, running, paused) VALUES
         (:name, :time, :running, :paused)
@@ -52,7 +52,7 @@ function client:add_pomo(pomo)
 end
 
 function client:completed_today()
-  local stmt = assert(client.conn:prepare([[
+  local stmt = assert(self.conn:prepare([[
     SELECT * FROM pomos
     WHERE date(created_at) = date('now')
     AND completed_at IS NOT NULL
@@ -67,11 +67,11 @@ function client:completed_today()
 end
 
 function client:unfinished()
-  local stmt = assert(client.conn:prepare([[
+  local stmt = assert(self.conn:prepare([[
     SELECT * FROM pomos
     WHERE date(created_at) = date('now')
     AND completed_at IS NULL
-    AND running=true OR break_running=true
+    AND (running=true OR break_running=true)
   ]]))
 
   local todays_pomos = {}
@@ -80,6 +80,17 @@ function client:unfinished()
   end
   stmt:finalize()
   return todays_pomos
+end
+
+function client:mark_complete(id)
+  local stmt = assert(self.conn:prepare([[
+    UPDATE pomos
+    SET completed_at = CURRENT_TIMESTAMP, running = false, break_running = false
+    WHERE id = ?
+  ]]))
+  stmt:bind(1, id)
+  stmt:step()
+  stmt:finalize()
 end
 
 return client
