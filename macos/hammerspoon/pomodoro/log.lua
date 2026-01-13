@@ -4,9 +4,7 @@ local log = {
 
 -- Read the last {count} lines of the log file, ordered with the most recent one first
 log.read = function(count)
-  if not count then
-    count = 10
-  end
+  if not count then count = 10 end
   return hs.execute('tail -' .. count .. ' ' .. log._file_path .. ' | sort -r ${inputfile}')
 end
 
@@ -23,9 +21,7 @@ end
 
 log.get_latest_items = function(count)
   local logs = log.read(count)
-  if not logs then
-    return
-  end
+  if not logs then return end
   local logItems = {}
   for match in logs:gmatch('(.-)\r?\n') do
     table.insert(logItems, match)
@@ -48,17 +44,18 @@ end
 log.get_recent_task_names = function()
   local db = require('pomodoro/db')
   local pomos = db:get_latest_pomos(12)
-  
-  local names = hs.fnutils.map(pomos, function(pomo)
-    return {
-      text = pomo.name,
-      subText = pomo.created_at
-    }
-  end)
 
-  if not names then
-    return
-  end
+  local names = hs.fnutils.map(
+    pomos,
+    function(pomo)
+      return {
+        text = pomo.name,
+        subText = pomo.created_at,
+      }
+    end
+  )
+
+  if not names then return end
 
   -- dedupe
   local res, hash = {}, {}

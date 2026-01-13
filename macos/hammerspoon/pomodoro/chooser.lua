@@ -3,12 +3,8 @@ local chooser = {}
 function chooser.show(items, callback)
   local ch = nil
   ch = hs.chooser.new(function(item)
-    if item then
-      callback(item.text)
-    end
-    if ch then
-      ch:delete()
-    end
+    if item then callback(item.text) end
+    if ch then ch:delete() end
   end)
 
   -- The table of choices to present to the user. It's comprised of one empty
@@ -26,9 +22,7 @@ function chooser.show(items, callback)
 
   -- Re-compute the choices every time a key is pressed, to ensure that the top
   -- choice is always the entered text:
-  ch:queryChangedCallback(function()
-    ch:refreshChoicesCallback()
-  end)
+  ch:queryChangedCallback(function() ch:refreshChoicesCallback() end)
 
   ch:show()
 end

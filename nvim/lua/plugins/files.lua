@@ -86,6 +86,15 @@ return {
         prettier = {
           prepend_args = { '--no-semi', '--single-quote' },
         },
+        stylua = {
+          -- stylua: ignore
+          prepend_args = {
+            '--column-width', '100',
+            '--indent-width', '2',
+            '--quote-style', 'AutoPreferSingle',
+            '--collapse-simple-statement', 'Always',
+          },
+        },
       },
       format_on_save = { lsp_format = 'fallback' },
       formatters_by_ft = {

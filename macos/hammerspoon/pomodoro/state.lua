@@ -34,11 +34,11 @@ function state.load()
       running = current.running,
       name = current.name,
       paused = current.paused,
-      time = current.time
+      time = current.time,
     }
     state.last.take_break = {
       running = current.break_running,
-      time = current.break_time
+      time = current.break_time,
     }
     state.current_pomo_id = current.id
     state.can_recover = true
@@ -50,7 +50,7 @@ end
 function state.save()
   if state.current_pomo_id then
     local stmt = assert(db.conn:prepare([[
-      UPDATE pomos 
+      UPDATE pomos
       SET running = :running, paused = :paused, time = :time,
           break_running = :break_running, break_time = :break_time
       WHERE id = :id
@@ -61,7 +61,7 @@ function state.save()
       time = state.pomo.time,
       break_running = state.take_break.running,
       break_time = state.take_break.time,
-      id = state.current_pomo_id
+      id = state.current_pomo_id,
     })
     stmt:step()
     stmt:finalize()
@@ -69,18 +69,14 @@ function state.save()
 end
 
 function state:start(name, tick)
-  if self.pomo_timer then
-    self.pomo_timer:stop()
-  end
+  if self.pomo_timer then self.pomo_timer:stop() end
   self.pomo = { running = true, time = config.POMO_LENGTH, name = name }
   self.pomo_timer = hs.timer.doEvery(config.INTERVAL_SECONDS, tick)
-  
+
   -- Create new pomo in database
   db:add_pomo(self.pomo)
   local latest = db:get_latest_pomos(1)
-  if #latest > 0 then
-    self.current_pomo_id = latest[1].id
-  end
+  if #latest > 0 then self.current_pomo_id = latest[1].id end
 end
 
 function state:recover(tick)
@@ -99,9 +95,7 @@ function state:stop()
   end
 end
 
-function state:toggle_paused()
-  self.pomo.paused = not self.pomo.paused
-end
+function state:toggle_paused() self.pomo.paused = not self.pomo.paused end
 
 function state:break_time()
   self.pomo = { running = false, name = '', paused = false, time = 0 }
@@ -109,9 +103,7 @@ function state:break_time()
 end
 
 function state:done()
-  if self.pomo_timer then
-    self.pomo_timer:stop()
-  end
+  if self.pomo_timer then self.pomo_timer:stop() end
   self.take_break = { running = false, time = 0 }
   if self.current_pomo_id then
     db:mark_complete(self.current_pomo_id)

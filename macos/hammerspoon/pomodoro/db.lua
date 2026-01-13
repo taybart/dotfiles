@@ -1,5 +1,5 @@
 local client = {}
-client.conn = hs.sqlite3.open(os.getenv("HOME") .. "/.pomos.db")
+client.conn = hs.sqlite3.open(os.getenv('HOME') .. '/.pomos.db')
 
 function client:setup_tables()
   -- pomo = { running = false, name = '', paused = false, time = 0 },
@@ -22,9 +22,7 @@ function client:setup_tables()
 end
 
 function client:get_latest_pomos(count)
-  if not count then
-    count = 10
-  end
+  if not count then count = 10 end
   local stmt = assert(self.conn:prepare([[
   SELECT * FROM pomos
   WHERE created_at IS NOT NULL

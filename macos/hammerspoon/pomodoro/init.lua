@@ -40,36 +40,26 @@ local function update_ui()
   local title = '🍅︎'
   if state.pomo.running then
     title = ('%s (%02d) ⏵'):format(state.pomo.name, state.pomo.time)
-    if state.pomo.paused then
-      title = ('%s (%02d) ⏸'):format(state.pomo.name, state.pomo.time)
-    end
+    if state.pomo.paused then title = ('%s (%02d) ⏸'):format(state.pomo.name, state.pomo.time) end
   elseif state.take_break.running then
     title = ('🌴 %02d'):format(state.take_break.time)
-    if state.take_break.paused then
-      title = ('🌴 %02d ⏸'):format(state.pomo.time)
-    end
+    if state.take_break.paused then title = ('🌴 %02d ⏸'):format(state.pomo.time) end
   end
   menu:setTitle(title)
 end
 
 local function tick()
   if state.pomo.running then
-    if state.pomo.paused then
-      return
-    end
+    if state.pomo.paused then return end
     state.pomo.time = state.pomo.time - 1
-    if state.pomo.time <= 0 then
-      complete_pomo()
-    end
+    if state.pomo.time <= 0 then complete_pomo() end
     update_ui()
     return
   end
 
   if state.take_break.running then
     state.take_break.time = state.take_break.time - 1
-    if state.take_break.time <= 0 then
-      complete_break()
-    end
+    if state.take_break.time <= 0 then complete_break() end
     update_ui()
     return
   end
@@ -78,9 +68,7 @@ end
 local function new()
   local options = log.get_recent_task_names()
   chooser.show(options, function(task_name)
-    if task_name then
-      state:start(task_name, tick)
-    end
+    if task_name then state:start(task_name, tick) end
     update_ui()
   end)
 end
@@ -107,9 +95,7 @@ local function menu_items()
   }
   if state.pomo.running or state.take_break.running then
     items[1] = { title = 'pause      ⏸', fn = toggle_paused }
-    if state.pomo.paused then
-      items[1].title = 'start        ⏵'
-    end
+    if state.pomo.paused then items[1].title = 'start        ⏵' end
     items[2] = { title = 'stop         ⏹', fn = stop }
     items[3] = { title = 'complete ✓', fn = complete }
   end
