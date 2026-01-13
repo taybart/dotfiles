@@ -19,12 +19,14 @@ return {
 
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('TreesitterSetup', { clear = true }),
+        pattern = { '<filetype>' },
         callback = function(ev)
           local lang = vim.treesitter.language.get_lang(ev.match) or ev.match
-          local buf = ev.buf
-          pcall(vim.treesitter.start, buf, lang)
+          pcall(vim.treesitter.start, ev.buf, lang)
           -- Enable treesitter indentation
-          vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+          vim.wo[0][0].foldmethod = 'expr'
 
           -- Install missing parsers (async, no-op if already installed)
           ts.install({ lang })
