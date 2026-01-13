@@ -54,7 +54,7 @@ bindsym $mod+Return exec ghostty
 # bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
 # bindsym Print --release exec "import png:- | xclip -sel c -t image/png"
 
-# bindsym $mod+p exec --no-startup-id xfce4-panel -r --disable-wm-check
+bindsym $mod+p exec --no-startup-id xfce4-panel -r --disable-wm-check
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -95,14 +95,16 @@ exec --no-startup-id feh --bg-fill ~/Pictures/landscape2.jpg
 # exec --no-startup-id blueman-tray
 # exec --no-startup-id $HOME/.screenlayout/dual.sh
 exec --no-startup-id picom -b -C
+exec --no-startup-id xfce4-panel -d
 # exec --no-startup-id polybar
 # exec --no-startup-id i3bar --bar_id=bar-0
 # exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
-# exec --no-startup-id 1password
+exec --no-startup-id 1password
 # exec --no-startup-id timeular
 # exec --no-startup-id slack
-# exec --no-startup-id discord
+exec --no-startup-id discord
 # exec --no-startup-id zoom
+exec --no-startup-id vivaldi
 
 
 ################################################################################
@@ -129,6 +131,9 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+# move workspace
+bindsym $mod+Ctrl+greater move workspace to output right
+bindsym $mod+Ctrl+less move workspace to output left
 
 # workspace back and forth (with/without active container)
 workspace_auto_back_and_forth yes
@@ -214,7 +219,7 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 ################################################################################
 # Open specific applications in floating mode
 for_window [class="Thunar"] floating enable normal
-for_window [title="alsamixer"] floating enable border pixel 1
+for_window [title="alsamixer"] floating enable
 for_window [title="File Transfer*"] floating enable
 # for_window [class="Galculator"] floating enable border pixel 1
 for_window [class="Lightdm-settings"] floating enable
@@ -257,8 +262,11 @@ for_window [title="Sign in - Google Accounts — Mozilla Firefox"] floating enab
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
 
-# yt app override
-for_window [instance="crx_agimnkijcaahngcdmfeangaknmldooml"] floating disable
+# pwa app override
+# for_window [instance="crx_agimnkijcaahngcdmfeangaknmldooml"] floating disable
+# for_window [instance="crx_flbgllmbmbkhnpfiggafbfkaomlpjgjg"] floating disable
+for_window [class="Vivaldi-stable"] floating disable
+
 
 
 ################################################################################
@@ -355,8 +363,8 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-bar {
-  position top
-  status_command i3status 
-  tray_output primary
-}
+# bar {
+#   position top
+#   status_command i3status 
+#   tray_output primary
+# }
