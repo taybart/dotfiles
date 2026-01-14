@@ -1,3 +1,13 @@
+-- stylua: ignore
+local ts_languages = {
+  'astro', 'bash', 'c', 'cpp', 'css',
+  'dockerfile', 'go', 'gomod', 'gotmpl',
+  'hcl', 'html', 'javascript', 'json',
+  'json5', 'lua', 'make', 'markdown',
+  'python', 'rust', 'sql', 'tsx',
+  'typescript', 'vimdoc', 'vue', 'yaml',
+}
+
 return {
   {
     'nvim-treesitter/nvim-treesitter',
@@ -7,19 +17,11 @@ return {
     build = ':TSUpdate',
     config = function()
       local ts = require('nvim-treesitter')
-      -- stylua: ignore
-      ts.install({
-        'astro', 'bash', 'c', 'cpp', 'css',
-        'dockerfile', 'go', 'gomod', 'gotmpl',
-        'hcl', 'html', 'javascript', 'json',
-        'json5', 'lua', 'make', 'markdown',
-        'python', 'rust', 'sql', 'tsx',
-        'typescript', 'vimdoc', 'vue', 'yaml',
-      })
+      ts.install(ts_languages)
 
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('TreesitterSetup', { clear = true }),
-        pattern = { '<filetype>' },
+        pattern = ts_languages,
         callback = function(ev)
           local lang = vim.treesitter.language.get_lang(ev.match) or ev.match
           pcall(vim.treesitter.start, ev.buf, lang)
@@ -27,10 +29,12 @@ return {
           vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
           vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
           vim.wo[0][0].foldmethod = 'expr'
-
-          -- Install missing parsers (async, no-op if already installed)
-          ts.install({ lang })
         end,
+      })
+      -- open folds by default
+      vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileReadPost' }, {
+        pattern = '*',
+        callback = function() vim.cmd('normal zR') end,
       })
     end,
   },
