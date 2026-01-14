@@ -1,5 +1,6 @@
 local log = {
   contents = {},
+  _file_path = '/Users/taylor/.pomo.log',
 }
 
 -- Read the last {count} lines of the log file, ordered with the most recent one first
