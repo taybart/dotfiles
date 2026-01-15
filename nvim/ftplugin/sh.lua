@@ -1,2 +1,2 @@
 local cmds = require('tools/commands')
-cmds.set_run('chmod +x ./% && ./% %@')
+cmds.set_run({ cmd = 'chmod +x ./% && ./% %@' })

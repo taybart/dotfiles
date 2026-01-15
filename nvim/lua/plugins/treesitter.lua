@@ -1,11 +1,16 @@
 -- stylua: ignore
-local ts_languages = {
+local ts_langs = {
   'astro', 'bash', 'c', 'cpp', 'css',
   'dockerfile', 'go', 'gomod', 'gotmpl',
   'hcl', 'html', 'javascript', 'json',
   'json5', 'lua', 'make', 'markdown',
   'python', 'rust', 'sql', 'tsx',
   'typescript', 'vimdoc', 'vue', 'yaml',
+}
+
+local ts_pattern_only = {
+  'typescriptreact',
+  'javascriptreact',
 }
 
 return {
@@ -17,11 +22,16 @@ return {
     build = ':TSUpdate',
     config = function()
       local ts = require('nvim-treesitter')
-      ts.install(ts_languages)
+      ts.install(ts_langs)
+
+      -- add non treesitter languages to au pattern
+      for _, lang in ipairs(ts_pattern_only) do
+        ts_langs[#ts_langs + 1] = lang
+      end
 
       vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('TreesitterSetup', { clear = true }),
-        pattern = ts_languages,
+        pattern = ts_langs,
         callback = function(ev)
           local lang = vim.treesitter.language.get_lang(ev.match) or ev.match
           pcall(vim.treesitter.start, ev.buf, lang)
