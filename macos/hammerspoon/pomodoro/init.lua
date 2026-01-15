@@ -193,10 +193,10 @@ local function menu_items()
     { title = 'new', fn = new },
   }
   if state.pomo.running or state.take_break.running then
-    items[1] = { title = 'pause      ⏸', fn = toggle_paused }
-    if state.pomo.paused then items[1].title = 'start        ⏵' end
-    items[2] = { title = 'stop         ⏹', fn = stop }
-    items[3] = { title = 'complete ✓', fn = complete }
+    items[1] = { title = '⏸ pause', fn = toggle_paused }
+    if state.pomo.paused then items[1].title = '⏵ start' end
+    items[2] = { title = '⏹ stop', fn = stop }
+    items[3] = { title = '✓ complete', fn = complete }
   end
   return items
 end
