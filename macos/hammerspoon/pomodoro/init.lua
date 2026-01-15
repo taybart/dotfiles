@@ -9,11 +9,7 @@ local state = require('pomodoro/state').init()
 local menu = assert(hs.menubar.new()):autosaveName('pomodoro_timer')
 
 local function complete_pomo()
-  print('🍅 Pomodoro complete, starting break...')
-
-  -- Add error handling for log.write
-  local success, err = pcall(log.write, state.pomo)
-  if not success then print('ERROR: log.write failed:', err) end
+  log:info('🍅 Pomodoro complete, starting break...')
 
   -- Add error handling for notification
   local notify_success, notify_err = pcall(
@@ -29,14 +25,14 @@ local function complete_pomo()
     end
   )
 
-  if not notify_success then print('ERROR: notification failed:', notify_err) end
+  if not notify_success then log:error('notification failed: %s', notify_err) end
 
   -- Add error handling for break_time transition
   local break_success, break_err = pcall(function() state:break_time() end)
   if not break_success then
-    print('ERROR: break_time transition failed:', break_err)
+    log:error('break_time transition failed: %s', break_err)
   else
-    print('DEBUG: complete_pomo() finished, break_time should be saved')
+    log:debug('complete_pomo() finished, break_time should be saved')
   end
 end
 
@@ -54,7 +50,7 @@ local function complete_break()
     end
   )
 
-  if not break_success then print('ERROR: break notification failed:', break_err) end
+  if not break_success then log:error('break notification failed: %s', break_err) end
 
   state:done()
 end
@@ -72,8 +68,8 @@ local function update_ui()
 end
 
 local function tick()
-  print(
-    ('DEBUG(tick): running=%s, break.running=%s, pomo.time=%d, break.time=%d'):format(
+  log:debug(
+    ('tick: running=%s, break.running=%s, pomo.time=%d, break.time=%d'):format(
       tostring(state.pomo.running),
       tostring(state.take_break.running),
       state.pomo.time,
@@ -83,10 +79,10 @@ local function tick()
 
   if state.pomo.running then
     if state.pomo.paused then
-      print('DEBUG: pomo is paused, checking if transition needed')
+      log:debug('pomo is paused, checking if transition needed')
       -- If timer is paused at 0, we should still transition when unpaused
       if state.pomo.time <= 0 then
-        print('DEBUG: pomo paused at time 0, will transition when unpaused')
+        log:debug('pomo paused at time 0, will transition when unpaused')
         -- Don't transition while paused, but show appropriate UI
         update_ui()
         return
@@ -96,9 +92,9 @@ local function tick()
       return
     end
     state.pomo.time = state.pomo.time - 1
-    print('DEBUG: pomo time decremented to ' .. state.pomo.time)
+    log:debug('pomo time decremented to ' .. state.pomo.time)
     if state.pomo.time <= 0 then
-      print('DEBUG: pomo time <= 0, calling complete_pomo()')
+      log:debug('pomo time <= 0, calling complete_pomo()')
       complete_pomo()
     end
     update_ui()
@@ -107,30 +103,52 @@ local function tick()
 
   if state.take_break.running then
     if state.take_break.paused then
-      print('DEBUG: break is paused, skipping')
+      log:debug('break is paused, skipping')
       update_ui()
       return
     end
     state.take_break.time = state.take_break.time - 1
-    print('DEBUG: break time decremented to ' .. state.take_break.time)
+    log:debug('break time decremented to ' .. state.take_break.time)
 
     -- Save break state immediately to ensure it's synced
     state:save()
 
     if state.take_break.time <= 0 then
-      print('DEBUG: break time <= 0, calling complete_break()')
+      log:debug('break time <= 0, calling complete_break()')
       complete_break()
     end
     update_ui()
     return
   end
 
-  print('DEBUG: Neither pomo nor break is running - timer should stop')
+  log:debug('neither pomo nor break is running - timer should stop')
 end
 
 local function new()
-  local options = log.get_recent_task_names()
-  chooser.show(options, function(task_name)
+  local db = require('pomodoro/db')
+  local pomos = db:get_latest_pomos(12)
+
+  local names = hs.fnutils.map(
+    pomos,
+    function(pomo)
+      return {
+        text = pomo.name,
+        subText = pomo.created_at,
+      }
+    end
+  )
+
+  if not names then return end
+
+  -- dedupe
+  local recents, hash = {}, {}
+  for _, v in ipairs(names) do
+    if not hash[v.text] then
+      recents[#recents + 1] = v
+      hash[v.text] = true
+    end
+  end
+  chooser.show(recents, function(task_name)
     if task_name then state:start(task_name, tick) end
     update_ui()
   end)
@@ -143,7 +161,7 @@ local function toggle_paused()
 
     -- If we just unpaused and time is 0, transition to break
     if was_paused and not state.pomo.paused and state.pomo.time <= 0 then
-      print('DEBUG: unpaused at time 0, transitioning to break')
+      log:debug('unpaused at time 0, transitioning to break')
       complete_pomo()
     end
   elseif state.take_break.running then
@@ -159,10 +177,10 @@ local function stop()
 end
 
 local function complete()
-  print('DEBUG: manual complete() called')
+  log:debug('manual complete() called')
   -- If completing a paused pomodoro at time 0, treat it as normal completion
   if state.pomo.running and state.pomo.paused and state.pomo.time <= 0 then
-    print('DEBUG: manual complete of paused pomodoro at time 0, calling complete_pomo()')
+    log:debug('manual complete of paused pomodoro at time 0, calling complete_pomo()')
     complete_pomo()
   else
     state:stop()
