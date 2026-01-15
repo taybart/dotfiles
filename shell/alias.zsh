@@ -25,7 +25,12 @@ alias fm="yazi"
 alias ut="unix-timestamp"
 alias s="search"
 
+# load current zsh shared history into session
+alias hist="fc -RI"
+
 alias ndev="nix develop -c $SHELL"
+
+
 
 # named directories
 hash -d dot=~/.dotfiles
