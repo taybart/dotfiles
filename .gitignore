@@ -10,6 +10,7 @@ nvim/plugin/packer_compiled.lua
 terminal/ghostty/config.local
 macos/hammerspoon/Spoons
 shell/plugins/*
+sway/outputs
 **/*.luarc.json
 **/.mind
 .resurrect
