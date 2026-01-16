@@ -3,7 +3,7 @@
 # --- Configuration ---
 CACHE_DIR="$HOME/.cache/waybar"
 CACHE_FILE="$CACHE_DIR/weather.txt"
-TTL_SECONDS=3600 # Update every 1 hour (3600 seconds)
+TTL_SECONDS=900 # Update every 15 minutes
 # -------------------
 
 # Ensure cache directory exists
@@ -23,11 +23,12 @@ if [ -f "$CACHE_FILE" ]; then
     cat "$CACHE_FILE"
     exit 0
   fi
+  notify-send "UPDATE weather cache $TIME_DIFF"
 fi
 
 # If we are here, the cache is old or missing. Fetch new data.
 # -s for silent, --max-time to prevent hanging.
-WEATHER=$(curl -s --max-time 10 'wttr.in/?format=%c+%f' 2>/dev/null)
+WEATHER=$(curl -s --max-time 10 'https://wttr.in/?format=%c+%f' 2>/dev/null)
 
 if [ -n "$WEATHER" ]; then
   # If fetch succeeded: Save to cache AND print to screen
