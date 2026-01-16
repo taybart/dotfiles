@@ -1,13 +1,46 @@
-#!/bin/sh
+#!/bin/zsh
 
-# get weather information
-text="$(curl -s "https://wttr.in/$LOC?format=1")"
-tooltip="$(curl -s "https://wttr.in/$LOC?0QT" |
-  sed 's/\\/\\\\/g' |
-  sed ':a;N;$!ba;s/\n/\\n/g' |
-  sed 's/"/\\"/g')"
+# --- Configuration ---
+CACHE_DIR="$HOME/.cache/waybar"
+CACHE_FILE="$CACHE_DIR/weather.txt"
+TTL_SECONDS=3600 # Update every 1 hour (3600 seconds)
+# -------------------
 
-# output for Waybar
-if ! echo "$text" | grep -q "Unknown location"; then
-  echo "{\"text\": \"$text\", \"tooltip\": \"<tt>$tooltip</tt>\", \"class\": \"weather\"}"
+# Ensure cache directory exists
+mkdir -p "$CACHE_DIR"
+
+# Get current time and cache file time
+CURRENT_TIME=$(date +%s)
+
+# Check if cache file exists
+if [ -f "$CACHE_FILE" ]; then
+  # Get modification time of the cache file (Stat -c %Y format is Linux specific)
+  CACHED_TIME=$(stat -c %Y "$CACHE_FILE")
+  TIME_DIFF=$((CURRENT_TIME - CACHED_TIME))
+
+  # If cache is fresh (less than TTL), use it
+  if [ "$TIME_DIFF" -lt "$TTL_SECONDS" ]; then
+    cat "$CACHE_FILE"
+    exit 0
+  fi
+fi
+
+# If we are here, the cache is old or missing. Fetch new data.
+# -s for silent, --max-time to prevent hanging.
+WEATHER=$(curl -s --max-time 10 'wttr.in/?format=%c+%f' 2>/dev/null)
+
+if [ -n "$WEATHER" ]; then
+  # If fetch succeeded: Save to cache AND print to screen
+  echo "$WEATHER" >"$CACHE_FILE"
+  echo "$WEATHER"
+else
+  # If fetch failed: Read the OLD cache file (if it exists).
+  # We do NOT overwrite the file here, so the timestamp remains,
+  # ensuring we try to update again on the next interval.
+  if [ -f "$CACHE_FILE" ]; then
+    cat "$CACHE_FILE"
+  else
+    # Fallback if no cache exists and offline
+    echo "Offline"
+  fi
 fi

@@ -7,10 +7,11 @@
   ],
   "modules-center": [ "sway/window" ],
   "modules-right": [
-    "custom/weather", 
     "pulseaudio", 
     "network#ethernet", "bluetooth",
-    "tray", "clock",
+    "tray", 
+    "custom/weather", 
+    "clock",
     "custom/notification"
   ],
   "custom/power": {
@@ -71,9 +72,10 @@
     "on-click": "blueman-manager"
   },
   "custom/weather": {
-    "exec": "curl 'wttr.in/?format=%c+%f'",
-    "interval": 3600,
-    "format": "{}"
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "interval": 300,
+    "format": "{}",
+    "tooltip": false
   },
   "clock": {
     "format": "  {:%a %b %d |   %H:%M:%S}",
