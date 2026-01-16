@@ -23,7 +23,6 @@ if [ -f "$CACHE_FILE" ]; then
     cat "$CACHE_FILE"
     exit 0
   fi
-  notify-send "UPDATE weather cache $TIME_DIFF"
 fi
 
 # If we are here, the cache is old or missing. Fetch new data.
