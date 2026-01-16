@@ -1,0 +1,103 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 25,
+  "spacing": 10,
+  "modules-left": [ "custom/power", "sway/workspaces"
+  ],
+  "modules-center": [ "sway/window" ],
+  "modules-right": [
+    "custom/weather", 
+    "pulseaudio", 
+    "network#ethernet", "bluetooth",
+    "tray", "clock",
+    "custom/notification"
+  ],
+  "custom/power": {
+    "format": "⏻",
+    "on-click": "wlogout",
+    "tooltip": false
+  },
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}"
+  },
+  "sway/window": {
+    "format": "{}",
+    "max-length": 50
+  },
+  "network#ethernet": {
+    "interface": "enp*",
+    "format-ethernet": "",
+    "format-wifi": "",
+    "format-linked": "",
+    "format-disconnected": "",
+    "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "scroll-step": 1,
+    // "format": "{icon} {volume}%{format_source}",
+    "format": "{icon}  {volume}%",
+    // "format-bluetooth": "{icon} {volume}%{format_source}",
+    // "format-bluetooth": "{icon} {volume}%",
+    // "format-bluetooth-muted": " {icon}{format_source}",
+    "format-bluetooth-muted": " {icon}",
+    // "format-muted": " {format_source}",
+    "format-muted": " ",
+    "format-source": "  {volume}%",
+    "format-source-muted": " ",
+    "format-icons": {
+      "headphone": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [ "", "", "" ]
+    },
+    "on-click": "pavucontrol"
+  },
+  "bluetooth": {
+    "format": "{icon}",
+    "format-disabled": "",
+    "format-off": "",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "format-icons": {
+      "disabled": "",
+      "connected": ""
+    },
+    "on-click": "blueman-manager"
+  },
+  "custom/weather": {
+    "exec": "curl 'wttr.in/?format=%c+%f'",
+    "interval": 3600,
+    "format": "{}"
+  },
+  "clock": {
+    "format": "  {:%a %b %d |   %H:%M:%S}",
+    "on-click-right": "date",
+    "interval": 1
+  },
+  "custom/notification": {
+    "tooltip": true,
+    "format": "<span size='16pt'>{icon}</span>",
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰂜",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰪓",
+      "inhibited-notification": "󰂛",
+      "inhibited-none": "󰪑",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰪑"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  }
+}

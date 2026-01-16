@@ -24,13 +24,13 @@ bindsym $mod+Shift+r restart
 # restart compositor
 # bindsym $mod+t exec --no-startup-id pkill picom
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "sway-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your X session.' -b 'Yes, exit sway' 'swaymsg exit'"
 
 # kill focused window
 bindsym $mod+q kill
 
 # start program launcher
-bindsym $mod+Shift+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/theme
+bindsym $mod+Shift+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/theme -drun-show-actions
 bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/theme
 
 # launch categorized menu
@@ -51,10 +51,10 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 bindsym $mod+Return exec ghostty
 
 # Screenshot
-# bindsym $mod+Ctrl+s --release exec "import png:- | xclip -sel c -t image/png"
-# bindsym Print --release exec "import png:- | xclip -sel c -t image/png"
+bindsym $mod+Ctrl+s exec --no-startup-id grim -g "$(slurp)" - | swappy -f -
+bindsym $mod+Ctrl+Shift+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy
 
-bindsym $mod+p exec --no-startup-id xfce4-panel -r --disable-wm-check
+# bindsym $mod+p exec --no-startup-id xfce4-panel -r --disable-wm-check
 
 # Resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -80,32 +80,13 @@ bindsym $mod+m bar mode toggle
 ################################################################################
 #####                         Startup Programs                             #####
 ################################################################################
-# exec --no-startup-id xautolock -time 10 -locker blurlock
-# exec --no-startup-id start-pulseaudio-x11
-# exec --no-startup-id pa-applet
-# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-# exec --no-startup-id nitrogen --restore; sleep 1; picom -b -C
-# exec --no-startup-id feh --bg-fill ~/Pictures/alfa.png
-# exec --no-startup-id feh --bg-fill ~/Pictures/landscape2.jpg
+exec --no-startup-id dbus-update-activation-environment DISPLAY
 exec --no-startup-id swaybg -m fill -i ~/Pictures/landscape2.jpg
-# exec --no-startup-id nm-applet
-# exec --no-startup-id xfce4-power-manager
-# exec --no-startup-id pamac-tray
-# exec_always --no-startup-id ff-theme-util
-# exec_always --no-startup-id fix_xcursor
-# exec --no-startup-id blueman-tray
-# exec --no-startup-id $HOME/.screenlayout/dual.sh
-# exec --no-startup-id picom -b -C
-# exec --no-startup-id xfce4-panel -d
-# exec --no-startup-id polybar
-# exec --no-startup-id i3bar --bar_id=bar-0
-# exec --no-startup-id $HOME/.dotfiles/i3/launch_polybar.sh
-exec --no-startup-id 1password
-# exec --no-startup-id timeular
-# exec --no-startup-id slack
-# exec --no-startup-id discord
-# exec --no-startup-id zoom
-# exec --no-startup-id vivaldi
+exec --no-startup-id sleep 15 && 1password
+exec --no-startup-id discord
+exec --no-startup-id vivaldi
+exec --no-startup-id ~/.config/sway/launch-waybar.sh
+exec swaync
 
 
 ################################################################################
@@ -218,56 +199,33 @@ bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 ################################################################################
 #####                             Windows                                 ######
 ################################################################################
+
+
+for_window  [shell="xwayland"] title_format "%title [XWayland]"
+ # popups
+for_window  [window_role="pop-up"] floating enable
+for_window  [window_role="bubble"] floating enable
+for_window  [window_role="task_dialog"] floating enable
+for_window  [window_role="Preferences"] floating enable
+for_window  [window_type="dialog"] floating enable
+for_window  [window_type="menu"] floating enable
+for_window  [window_role="pop-up"] floating enable
+for_window  [window_role="bubble"] floating enable
+for_window  [window_role="dialog"] floating enable
+for_window  [window_type="dialog"] floating enable
+
 # Open specific applications in floating mode
-for_window [class="Thunar"] floating enable normal
-for_window [title="alsamixer"] floating enable
-for_window [title="File Transfer*"] floating enable
-# for_window [class="Galculator"] floating enable border pixel 1
-for_window [class="Lightdm-settings"] floating enable
-for_window [class="Lxappearance"] floating enable sticky enable border normal
-for_window [class="Nitrogen"] floating enable sticky enable border normal
-for_window [class="Oblogout"] fullscreen enable
-for_window [class="pavucontrol"] floating enable border normal
-for_window [class="qt5ct"] floating enable sticky enable border normal
-for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
-
-for_window [class="Xfce4-panel" title="Panel Preferences"] floating enable border normal
-for_window [class="Xfce4-panel" title="Add New Items"] floating enable border normal
-for_window [title="Whisker Menu"] floating enable
-
-# for_window [class="Simple-scan"] floating enable border normal
-# for_window [class="(?i)System-config-printer.py"] floating enable border normal
-for_window [class="zoom"] floating enable normal
-for_window [class="Blueman-manager"] floating enable normal
-for_window [class="mpv"] floating enable normal
-for_window [title="Picture-in-Picture"] floating enable sticky enable normal
-for_window [class="SimpleScreenRecorder"] floating enable sticky enable normal
-for_window [class="Slack" title="screen share"] floating enable sticky enable normal
-for_window [class="GStreamer"] floating enable sticky enable normal
-for_window [class="SpeedCrunch"] floating enable sticky enable normal
-for_window [class="1Password"] floating enable
-for_window [class="Slippi Launcher"] floating enable
+for_window [app_id="org.pulseaudio.pavucontrol"] floating enable
+for_window [app_id="thunar"] floating enable
+for_window [app_id="blueman-manager"] floating enable
+for_window [app_id="1password"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
 
 
-# popups
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [window_type="dialog"] floating enable
-for_window [window_type="menu"] floating enable
-for_window [title="Sign in - Google Accounts — Mozilla Firefox"] floating enable
-
-# for_window [title="Slack | Slack call*"] floating enable
+# for_window  [app_id="vivaldi-stable"] floating disable
 
 # switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
-
-# pwa app override
-# for_window [instance="crx_agimnkijcaahngcdmfeangaknmldooml"] floating disable
-# for_window [instance="crx_flbgllmbmbkhnpfiggafbfkaomlpjgjg"] floating disable
-for_window [class="Vivaldi-stable"] floating disable
-
+for_window  [urgent=latest] focus
 
 
 ################################################################################
@@ -282,7 +240,7 @@ font xft:Jetbrains Mono 10
 default_border pixel 1
 default_floating_border pixel 1
 # Hide borders
-hide_edge_borders none
+# hide_edge_borders none
 
 
 # set_from_resource $term_background background
@@ -306,12 +264,16 @@ hide_edge_borders none
 
 # Theme colors
 # class                 border  backgr. text    indic.   child_border
-# client.focused          #556064 #556064 #80FFF9 #FDF6E3  #FCBA03
-# client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-# client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
-# client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-# client.placeholder      #000000 #0c0c0c #ffffff #000000
-# client.background       #2B2C2B
+client.focused          #556064 #556064 #80FFF9 #FDF6E3  #FCBA03
+client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
+client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
+client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
+client.placeholder      #000000 #0c0c0c #ffffff #000000
+client.background       #2B2C2B
+
+
+exec_always ~/.local/scripts/import-gsettings.sh
+
 
 ################################################################################
 #####                               Gaps                                   #####
@@ -321,7 +283,7 @@ hide_edge_borders none
 gaps inner 10
 # gaps outer 5
 
-# gaps top 10
+# gaps top 50
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace)
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
@@ -363,9 +325,3 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
-# bar {
-#   position top
-#   status_command i3status 
-#   tray_output primary
-# }

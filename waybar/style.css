@@ -1,0 +1,83 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: 'Jetbrians Mono Nerd Font';
+  font-size: 16px;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: rgba(43, 48, 59, 1);
+  color: #ffffff;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+window#waybar.empty {
+  color: rgba(0, 0, 0, 0);
+}
+
+.topbar {
+  border-bottom: 3px solid rgba(100, 114, 125, 1);
+}
+
+.bottombar {
+  border-top: 3px solid rgba(100, 114, 125, 1);
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+#workspaces button:hover {
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 3px #ffffff;
+}
+
+#workspaces button.focused {
+  background-color: #64727d;
+  box-shadow: inset 0 3px #ffffff;
+}
+
+#workspaces button.urgent {
+  background-color: #eb4d4b;
+}
+
+#mode {
+  background-color: #64727d;
+  border-top: 3px solid #ffffff;
+}
+
+#custom-power {
+  font-size: 24px;
+  padding: 0px 14px;
+}
+#custom-power:hover {
+  background-color: #64727d;
+}
+#custom-notification {
+  padding-right: 14px;
+}
+
+/* Select the modules you want to hide on the right side */
+#pulseaudio,
+#bluetooth,
+/* #custom-weather, */
+#tray,
+#network.ethernet {
+  opacity: 0.25; /* Hide them by default */
+  transition: opacity 0.3s ease-in-out; /* Smooth fade in/out effect */
+}
+
+/* Show them when hovering over the specific module */
+/* Note: Since they are faded out visually but still take up space, */
+/* scrolling over their position will make them appear. */
+#pulseaudio:hover,
+#bluetooth:hover,
+/* #custom-weather:hover, */
+#tray:hover,
+#network.ethernet:hover {
+  opacity: 1;
+}

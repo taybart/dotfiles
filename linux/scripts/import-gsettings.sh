@@ -1,0 +1,1 @@
+/home/taylor/.dotfiles/sway/import-gsettings.sh
