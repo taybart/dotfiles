@@ -1,6 +1,11 @@
 alias ls="ls -lh --color"
 alias xup="xrdb ~/.Xresources"
-alias copy="xclip -sel clip"
+
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  alias copy="wl-copy"
+else
+  alias copy="xclip -sel clip"
+fi
 
 function open {
   xdg-open "$@" >/dev/null 2>&1
