@@ -25,8 +25,15 @@
     "format": "{name}"
   },
   "sway/window": {
-    "format": "{}",
-    "max-length": 50
+    "format": "{shell}@@{app_id}@@{title}",
+    "max-length": 50,
+	  "rewrite": {
+	    // "(.*)@@(vialdi-stable)@@(.*)": "$1@@vivaldi@@$3", // replace a specific app_id
+      // "(xdg_shell)@@(.*)@@(.*)": "[$2] $3", // replace shell information
+      "(xdg_shell)@@(.*)@@(.*)": "$3", // replace shell information
+	    "(xwayland)@@(.*)@@(.*)": "<span color=\"#FF9999\">[X]</span> $3", // replace shell information
+	    "@@@@": "" // in case no window is focused
+	  }
   },
   "network#ethernet": {
     "interface": "enp*",
@@ -75,7 +82,8 @@
   "clock": {
     "format": "  {:%a %b %d |   %H:%M:%S}",
     "on-click-right": "date",
-    "interval": 1
+    "interval": 1,
+    "on-click": "zenity --calendar"
   },
   "custom/notification": {
     "tooltip": true,

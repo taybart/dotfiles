@@ -13,9 +13,9 @@ window#waybar {
   transition-duration: 0.5s;
 }
 
-window#waybar.empty {
-  color: rgba(0, 0, 0, 0);
-}
+/* window#waybar.empty { */
+/*   color: rgba(0, 0, 0, 0); */
+/* } */
 
 .topbar {
   border-bottom: 3px solid rgba(100, 114, 125, 1);
@@ -61,22 +61,16 @@ window#waybar.empty {
   padding-right: 14px;
 }
 
-/* Select the modules you want to hide on the right side */
 #pulseaudio,
 #bluetooth,
-/* #custom-weather, */
 #tray,
 #network.ethernet {
-  opacity: 0.25; /* Hide them by default */
-  transition: opacity 0.3s ease-in-out; /* Smooth fade in/out effect */
+  opacity: 0.25;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* Show them when hovering over the specific module */
-/* Note: Since they are faded out visually but still take up space, */
-/* scrolling over their position will make them appear. */
 #pulseaudio:hover,
 #bluetooth:hover,
-/* #custom-weather:hover, */
 #tray:hover,
 #network.ethernet:hover {
   opacity: 1;
