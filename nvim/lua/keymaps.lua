@@ -31,7 +31,7 @@ map.mode_group('n', {
 map.nnoremap('<leader>r', ':Run<cr>')
 
 -- turn on very magic everytime
-map.cnoremap('%s/', '%s/\\v')
+-- map.cnoremap('%s/', '%s/\\v')
 
 -------------------
 ---- MOVEMENT -----

@@ -10,30 +10,31 @@
 ################################################################################
 ####                            Keybindings                                 ####
 ################################################################################
-# Set mod key to <Super>
-set $mod Mod4
+# Set super
+set $super Mod4
+set $alt Mod1
 
 # Use Mouse+$mod to drag floating windows
-floating_modifier $mod
+floating_modifier $super
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $super+Shift+c reload
 # restart sway inplace (preserves your layout/session, can be used to upgrade sway)
-bindsym $mod+Shift+r restart
+bindsym $super+Shift+r restart
 # restart compositor
-# bindsym $mod+t exec --no-startup-id pkill picom
+# bindsym $super+t exec --no-startup-id pkill picom
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "sway-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your X session.' -b 'Yes, exit sway' 'swaymsg exit'"
+bindsym $super+Shift+e exec "sway-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your X session.' -b 'Yes, exit sway' 'swaymsg exit'"
 
 # kill focused window
-bindsym $mod+q kill
+bindsym $super+q kill
 
 # start program launcher
-bindsym $mod+Shift+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/theme -drun-show-actions
-bindsym $mod+Tab exec rofi -show window -theme ~/.config/rofi/theme
+bindsym $super+Shift+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/theme -drun-show-actions
+bindsym $super+Tab exec rofi -show window -theme ~/.config/rofi/theme
 
 # launch categorized menu
-bindsym $mod+z exec --no-startup-id morc_menu
+bindsym $super+z exec --no-startup-id morc_menu
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -47,18 +48,18 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # start a terminal
-bindsym $mod+Return exec ghostty
+bindsym $super+Return exec ghostty
 
 # Screenshot
-bindsym $mod+Ctrl+s exec --no-startup-id grim -g "$(slurp)" - | swappy -f -
-bindsym $mod+Ctrl+Shift+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy
+bindsym $super+Ctrl+s exec --no-startup-id grim -g "$(slurp)" - | swappy -f -
+bindsym $super+Ctrl+Shift+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy
 
-bindsym $mod+Ctrl+p exec --no-startup-id 1password --quick-access
+bindsym $super+Ctrl+p exec --no-startup-id 1password --quick-access
 
-# bindsym $mod+p exec --no-startup-id xfce4-panel -r --disable-wm-check
+# bindsym $super+p exec --no-startup-id xfce4-panel -r --disable-wm-check
 
 # Resize window (you can also use the mouse for that)
-bindsym $mod+r mode "resize"
+bindsym $super+r mode "resize"
 mode "resize" {
         bindsym j resize shrink width 5 px or 5 ppt
         bindsym k resize grow height 5 px or 5 ppt
@@ -73,10 +74,10 @@ mode "resize" {
 }
 
 # Lock screen
-# bindsym $mod+9 exec --no-startup-id blurlock
+# bindsym $super+9 exec --no-startup-id blurlock
 
 # # hide/unhide i3status bar
-# bindsym $mod+m bar mode toggle
+# bindsym $super+m bar mode toggle
 
 # nwg-looks output
 include ~/.config/sway/outputs
@@ -100,62 +101,62 @@ exec --no-startup-id ~/.config/sway/launch-waybar.sh
 #####                         Workspace Controls                           #####
 ################################################################################
 # change focus
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-bindsym $mod+h focus left
+bindsym $super+j focus down
+bindsym $super+k focus up
+bindsym $super+l focus right
+bindsym $super+h focus left
 # also cursor keys
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-bindsym $mod+Shift+h move left
+bindsym $super+Shift+j move down
+bindsym $super+Shift+k move up
+bindsym $super+Shift+l move right
+bindsym $super+Shift+h move left
 # also cursor keys
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
 # move workspace
-bindsym $mod+Ctrl+greater move workspace to output right
-bindsym $mod+Ctrl+less move workspace to output left
+bindsym $super+Ctrl+greater move workspace to output right
+bindsym $super+Ctrl+less move workspace to output left
 
 # workspace back and forth (with/without active container)
 workspace_auto_back_and_forth yes
-bindsym $mod+b workspace back_and_forth
-bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
+bindsym $super+b workspace back_and_forth
+bindsym $super+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # split orientation
-bindsym $mod+backslash split h;exec notify-send 'tile horizontally'
-bindsym $mod+minus split v;exec notify-send 'tile vertically'
+bindsym $super+backslash split h;exec notify-send 'tile horizontally'
+bindsym $super+minus split v;exec notify-send 'tile vertically'
 
 # toggle fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+bindsym $super+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $super+s layout stacking
+bindsym $super+w layout tabbed
+bindsym $super+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $super+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $super+space focus mode_toggle
 
 # toggle sticky
-bindsym $mod+Shift+s sticky toggle
+bindsym $super+Shift+s sticky toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+bindsym $super+a focus parent
 
 #navigate workspaces next / previous
-bindsym $mod+Ctrl+Right workspace next
-bindsym $mod+Ctrl+Left workspace prev
+bindsym $super+Ctrl+Right workspace next
+bindsym $super+Ctrl+Left workspace prev
 
 # Workspace names
 # to display names or symbols instead of plain workspace numbers you can use
@@ -174,42 +175,43 @@ set $ws7 7
 set $ws8 8
 
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
+bindsym $super+1 workspace $ws1
+bindsym $super+2 workspace $ws2
+bindsym $super+3 workspace $ws3
+bindsym $super+4 workspace $ws4
+bindsym $super+5 workspace $ws5
+bindsym $super+6 workspace $ws6
+bindsym $super+7 workspace $ws7
+bindsym $super+8 workspace $ws8
 
 # Move focused container to workspace
-bindsym $mod+Ctrl+1 move container to workspace $ws1
-bindsym $mod+Ctrl+2 move container to workspace $ws2
-bindsym $mod+Ctrl+3 move container to workspace $ws3
-bindsym $mod+Ctrl+4 move container to workspace $ws4
-bindsym $mod+Ctrl+5 move container to workspace $ws5
-bindsym $mod+Ctrl+6 move container to workspace $ws6
-bindsym $mod+Ctrl+7 move container to workspace $ws7
-bindsym $mod+Ctrl+8 move container to workspace $ws8
+bindsym $super+Ctrl+1 move container to workspace $ws1
+bindsym $super+Ctrl+2 move container to workspace $ws2
+bindsym $super+Ctrl+3 move container to workspace $ws3
+bindsym $super+Ctrl+4 move container to workspace $ws4
+bindsym $super+Ctrl+5 move container to workspace $ws5
+bindsym $super+Ctrl+6 move container to workspace $ws6
+bindsym $super+Ctrl+7 move container to workspace $ws7
+bindsym $super+Ctrl+8 move container to workspace $ws8
 
 # Move to workspace with focused container
-bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $super+Shift+1 move container to workspace $ws1; workspace $ws1
+bindsym $super+Shift+2 move container to workspace $ws2; workspace $ws2
+bindsym $super+Shift+3 move container to workspace $ws3; workspace $ws3
+bindsym $super+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $super+Shift+5 move container to workspace $ws5; workspace $ws5
+bindsym $super+Shift+6 move container to workspace $ws6; workspace $ws6
+bindsym $super+Shift+7 move container to workspace $ws7; workspace $ws7
+bindsym $super+Shift+8 move container to workspace $ws8; workspace $ws8
 
 ################################################################################
 #####                             Windows                                 ######
 ################################################################################
 
 
+# rat on x11 apps
 for_window  [shell="xwayland"] title_format "%title [XWayland]"
- # popups
+# popups
 for_window  [window_role="pop-up"] floating enable
 for_window  [window_role="bubble"] floating enable
 for_window  [window_role="task_dialog"] floating enable
@@ -301,11 +303,11 @@ gaps inner 10
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
 smart_borders no_gaps
 
-# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+# Press $super+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
+bindsym $super+Shift+g mode "$mode_gaps"
 
 mode "$mode_gaps" {
         bindsym o      mode "$mode_gaps_outer"

@@ -1,3 +1,4 @@
+// vim: ft=json
 {
   "layer": "top",
   "position": "top",
@@ -7,8 +8,10 @@
   ],
   "modules-center": [ "sway/window" ],
   "modules-right": [
+    "disk",
     "pulseaudio", 
-    "network#ethernet", "bluetooth",
+    // "network#ethernet", 
+    "bluetooth",
     "tray", 
     "custom/weather", 
     "clock",
@@ -35,15 +38,6 @@
 	    "@@@@": "" // in case no window is focused
 	  }
   },
-  "network#ethernet": {
-    "interface": "enp*",
-    "format-ethernet": "",
-    "format-wifi": "",
-    "format-linked": "",
-    "format-disconnected": "",
-    "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
-    "on-click": "nm-connection-editor"
-  },
   "pulseaudio": {
     "scroll-step": 1,
     "format": "{icon}  {volume}%",
@@ -60,6 +54,14 @@
     },
     "on-click": "pavucontrol"
   },
+  "disk": {
+    // "format": "{percentage_used}%[{used}]",
+    "format": "{specific_free:0.2f}TB",
+    "unit": "TB",
+    "on-click": "thunar"
+
+  },
+
   "bluetooth": {
     "format": "{icon}",
     "format-disabled": "",
@@ -83,7 +85,8 @@
     "format": "  {:%a %b %d |   %H:%M:%S}",
     "on-click-right": "date",
     "interval": 1,
-    "on-click": "zenity --calendar"
+    // "on-click": "zenity --calendar"
+    "on-click": "datepicker"
   },
   "custom/notification": {
     "tooltip": true,
