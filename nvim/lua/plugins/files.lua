@@ -101,8 +101,8 @@ return {
         lua = { 'stylua' },
         rust = { 'rustfmt', lsp_format = 'fallback' },
         go = { 'goimports', timeout_ms = 3000 }, -- 3s becaue big projects take forever
-        javascript = { 'prettier' },
-        typescript = { 'prettier' },
+        javascript = { 'biome', 'prettier', stop_after_first = true },
+        typescript = { 'biome', 'prettier', stop_after_first = true },
         sh = { 'shfmt' },
         css = { 'prettier' },
         html = { 'prettier' },
