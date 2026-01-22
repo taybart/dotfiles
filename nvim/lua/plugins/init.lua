@@ -1,3 +1,28 @@
+-- future pack add (v0.12)
+-- local/dev plugins are a problem though https://github.com/neovim/neovim/issues/34765
+-- local my_plugin = require('plugins/my_plugin')
+--return {
+-- src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+-- version = 'main',
+-- data = {
+-- setup = function() end
+-- }
+-- }
+-- vim.pack.add({
+--   my_plugin,
+-- },{
+--   load = function(plug)
+--     local data = plug.spec.data or {}
+--     local setup = data.setup
+--
+--     vim.cmd.packadd(plug.spec.name)
+--
+--     if setup ~= nil and type(setup) == 'function' then
+--       setup()
+--     end
+--   end
+-- });
+
 return {
   {
     -- required with tmux
