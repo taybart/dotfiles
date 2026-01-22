@@ -53,6 +53,8 @@ bindsym $super+Return exec ghostty
 # Screenshot
 bindsym $super+Ctrl+s exec --no-startup-id grim -g "$(slurp)" - | swappy -f -
 bindsym $super+Ctrl+Shift+4 exec --no-startup-id grim -g "$(slurp)" - | wl-copy
+bindsym $super+Ctrl+Shift+Print exec wf-recorder -g "$(slurp)" -f ~/recording_$(date +"%Y-%m-%d_%H:%M:%S.mp4")
+bindsym $super+Ctrl+Shift+BackSpace exec killall -s SIGINT wf-recorder
 
 bindsym $super+Ctrl+p exec --no-startup-id 1password --quick-access
 
