@@ -1,5 +1,6 @@
 return {
   {
+    enabled = false,
     'stevearc/oil.nvim',
     ---@module 'oil'
     ---@type oil.SetupOpts
@@ -32,6 +33,7 @@ return {
         show_help = '<f1>',
       },
     },
+    event = 'VeryLazy',
     init = function() vim.g.loaded_netrwPlugin = 1 end,
   },
 }
