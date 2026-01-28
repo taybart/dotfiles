@@ -56,13 +56,20 @@ local function complete_break()
 end
 
 local function update_ui()
-  local title = '🍅︎'
+  -- local title = '🍅︎'
+  local title = ''
   if state.pomo.running then
     title = ('%s (%02d) ⏵'):format(state.pomo.name, state.pomo.time)
     if state.pomo.paused then title = ('%s (%02d) ⏸'):format(state.pomo.name, state.pomo.time) end
   elseif state.take_break.running then
     title = ('🌴 %02d'):format(state.take_break.time)
     if state.take_break.paused then title = ('🌴 %02d ⏸'):format(state.take_break.time) end
+  end
+  local icon = hs.image.imageFromPath(hs.spoons.resourcePath('tomato.png'))
+  if icon then
+    icon = icon:setSize({ w = 18, h = 18 })
+    icon:template(true)
+    menu:setIcon(icon)
   end
   menu:setTitle(title)
 end

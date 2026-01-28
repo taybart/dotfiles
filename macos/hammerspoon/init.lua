@@ -1,7 +1,9 @@
 local mash = { 'ctrl', 'alt', 'cmd' }
 hs.hotkey.bind(mash, 'r', hs.reload)
 
-hs.loadSpoon('EmmyLua')
+hs.console.darkMode(true)
+
+-- hs.loadSpoon('EmmyLua')
 
 -- local db = require('pomodoro/db')
 -- db:setup_tables()
