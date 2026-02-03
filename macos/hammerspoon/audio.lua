@@ -1,7 +1,7 @@
 local alert = hs.alert.show
 hs.hotkey.bind({ 'cmd', 'ctrl', 'shift' }, 'a', function()
   local source = 'TAPs'
-  local _, _, _, rc = hs.execute('blueutil --connect A4-E9-75-F0-CF-A3', true)
+  local _, _, _, rc = hs.execute('blueutil --connect 98-1c-a2-e3-a6-22', true)
   if rc ~= 0 then
     alert('could not connect to device')
     return
@@ -24,9 +24,7 @@ hs.hotkey.bind({ 'cmd', 'ctrl', 'shift' }, 'a', function()
   local input = hs.audiodevice.findInputByName(source)
   if input ~= nil then
     success = input:setDefaultInputDevice()
-    if not success then
-      alert('could not set default input device')
-    end
+    if not success then alert('could not set default input device') end
   end
   alert('switched output to ' .. source)
 end)
@@ -51,9 +49,7 @@ hs.hotkey.bind({ 'cmd', 'alt', 'ctrl' }, 'a', function()
   local input = hs.audiodevice.findInputByName(source)
   if input ~= nil then
     success = input:setDefaultInputDevice()
-    if not success then
-      alert('could not set input device')
-    end
+    if not success then alert('could not set input device') end
   end
   alert('switched output to ' .. source)
 end)

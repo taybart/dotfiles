@@ -6,6 +6,7 @@ local ts_langs = {
   'json5', 'lua', 'make', 'markdown',
   'python', 'rust', 'sql', 'tsx',
   'typescript', 'vimdoc', 'vue', 'yaml',
+  'zsh',
 }
 
 local ts_pattern_only = {
