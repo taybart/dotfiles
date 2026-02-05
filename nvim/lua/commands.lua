@@ -22,6 +22,7 @@ end
 
 -- local function gen_github_url(include_line, branch)
 local function gen_github_url(opts)
+  local opts = opts or {}
   local job = require('tools/job')
   local buf_name = vim.api.nvim_buf_get_name(0)
   -- if [No Name] open the main page
@@ -33,6 +34,10 @@ local function gen_github_url(opts)
       .. blob_tree
       .. opts.branch
       .. buf_name:gsub(job.run('git', { 'rev-parse', '--show-toplevel' }):gsub('%p', '%%%1'), '')
+
+  if url:match('git@github.com:.*') then
+    url = url:gsub('git@github.com:', 'https://github.com/')
+  end
 
   if opts.include_line then url = url .. '#L' .. vim.api.nvim_win_get_cursor(0)[1] end
   return url
