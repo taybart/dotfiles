@@ -1,7 +1,12 @@
 local alert = hs.alert.show
+-- NOTE: this will need bluetooth permission in Privacy & Security, otherwise it will give code 134
 hs.hotkey.bind({ 'cmd', 'ctrl', 'shift' }, 'a', function()
   local source = 'TAPs'
-  local _, _, _, rc = hs.execute('blueutil --connect 98-1c-a2-e3-a6-22', true)
+  local _, status, _, rc = hs.execute('blueutil --connect 98-1c-a2-e3-a6-22', true)
+  if not status then
+    alert('could not execute blueutil: ' .. rc)
+    return
+  end
   if rc ~= 0 then
     alert('could not connect to device')
     return
