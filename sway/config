@@ -24,7 +24,7 @@ bindsym $super+Shift+r restart
 # restart compositor
 # bindsym $super+t exec --no-startup-id pkill picom
 # exit i3 (logs you out of your X session)
-bindsym $super+Shift+e exec "sway-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your X session.' -b 'Yes, exit sway' 'swaymsg exit'"
+bindsym $super+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your X session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # kill focused window
 bindsym $super+q kill
@@ -34,7 +34,7 @@ bindsym $super+Shift+d exec --no-startup-id rofi -show drun -theme ~/.config/rof
 bindsym $super+Tab exec rofi -show window -theme ~/.config/rofi/theme
 
 # launch categorized menu
-bindsym $super+z exec --no-startup-id morc_menu
+# bindsym $super+z exec --no-startup-id morc_menu
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -46,6 +46,12 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86MonBrightnessUp exec light -A 10
+bindsym XF86MonBrightnessDown exec light -U 10
+
+# 3 finger swipe for moving workspaces
+bindgesture swipe:3:right workspace prev
+bindgesture swipe:3:left workspace next
 
 # start a terminal
 bindsym $super+Return exec ghostty
@@ -61,19 +67,19 @@ bindsym $super+Ctrl+p exec --no-startup-id 1password --quick-access
 # bindsym $super+p exec --no-startup-id xfce4-panel -r --disable-wm-check
 
 # Resize window (you can also use the mouse for that)
-bindsym $super+r mode "resize"
-mode "resize" {
-        bindsym j resize shrink width 5 px or 5 ppt
-        bindsym k resize grow height 5 px or 5 ppt
-        bindsym l resize shrink height 5 px or 5 ppt
-        bindsym semicolon resize grow width 5 px or 5 ppt
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
+# bindsym $super+r mode "resize"
+# mode "resize" {
+#         bindsym j resize shrink width 5 px or 5 ppt
+#         bindsym k resize grow height 5 px or 5 ppt
+#         bindsym l resize shrink height 5 px or 5 ppt
+#         bindsym semicolon resize grow width 5 px or 5 ppt
+#         bindsym Left resize shrink width 10 px or 10 ppt
+#         bindsym Down resize grow height 10 px or 10 ppt
+#         bindsym Up resize shrink height 10 px or 10 ppt
+#         bindsym Right resize grow width 10 px or 10 ppt
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+# }
 
 # Lock screen
 # bindsym $super+9 exec --no-startup-id blurlock
@@ -82,21 +88,26 @@ mode "resize" {
 # bindsym $super+m bar mode toggle
 
 # nwg-looks output
-include ~/.config/sway/outputs
-include ~/.config/sway/workspaces
+# include ~/.config/sway/outputs
+# include ~/.config/sway/workspaces
 
 ################################################################################
 #####                         Startup Programs                             #####
 ################################################################################
-# daemon space
-exec swaync
-exec --no-startup-id dbus-update-activation-environment DISPLAY
-exec --no-startup-id swaybg -m fill -i ~/Pictures/landscape2.jpg
-# user programs
-exec --no-startup-id sleep 15 && 1password
-exec --no-startup-id discord
-exec --no-startup-id vivaldi
+### daemon space
+# notifications
+exec --no-startup-id swaync
+# displays
+exec --no-startup-id kanshi
+# network
+exec --no-startup-id nm-applet
 exec --no-startup-id ~/.config/sway/launch-waybar.sh
+exec --no-startup-id dbus-update-activation-environment DISPLAY
+exec --no-startup-id swaybg -m fill -i ~/Pictures/background
+# user programs
+exec --no-startup-id 1password
+# exec --no-startup-id discord
+exec --no-startup-id vivaldi
 
 
 ################################################################################
@@ -112,7 +123,6 @@ bindsym $super+Left focus left
 bindsym $super+Down focus down
 bindsym $super+Up focus up
 bindsym $super+Right focus right
-
 # move focused window
 bindsym $super+Shift+j move down
 bindsym $super+Shift+k move up
@@ -126,6 +136,9 @@ bindsym $super+Shift+Right move right
 # move workspace
 bindsym $super+Ctrl+greater move workspace to output right
 bindsym $super+Ctrl+less move workspace to output left
+# switch workspace
+bindsym $super+Ctrl+l workspace next
+bindsym $super+Ctrl+h workspace prev
 
 # workspace back and forth (with/without active container)
 workspace_auto_back_and_forth yes
@@ -317,6 +330,7 @@ mode "$mode_gaps" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_inner" {
         bindsym plus  gaps inner current plus 5
         bindsym minus gaps inner current minus 5
@@ -329,6 +343,7 @@ mode "$mode_gaps_inner" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+
 mode "$mode_gaps_outer" {
         bindsym plus  gaps outer current plus 5
         bindsym minus gaps outer current minus 5
@@ -340,4 +355,8 @@ mode "$mode_gaps_outer" {
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
+}
+
+input type:keyboard {
+  xkb_options ctrl:nocaps
 }

@@ -4,8 +4,7 @@
   "position": "top",
   "height": 25,
   "spacing": 10,
-  "modules-left": [ "custom/power", "sway/workspaces"
-  ],
+  "modules-left": [ "custom/power", "sway/workspaces" ],
   "modules-center": [ "sway/window" ],
   "modules-right": [
     "disk",
@@ -14,8 +13,9 @@
     "bluetooth",
     "tray", 
     "custom/weather", 
+    "battery",
     "clock",
-    "custom/notification"
+    "custom/notification",
   ],
   "custom/power": {
     "format": "⏻",
@@ -74,6 +74,20 @@
       "connected": ""
     },
     "on-click": "blueman-manager"
+  },
+  "battery": {
+    "format": "{icon} {capacity}% - {time}",
+    "format-icons": ["", "", "", "", ""],
+    "format-time": "{H}h{M}m",
+    "format-charging": "{icon}  {capacity}% - {time}",
+    "format-full": "{icon}  Charged",
+    "interval": 30,
+    "states": {
+        "warning": 25,
+        "critical": 10
+    },
+    "tooltip": false,
+    "on-click": "2"
   },
   "custom/weather": {
     "exec": "~/.config/waybar/scripts/weather.sh",
