@@ -41,5 +41,5 @@
   "vim-surround": { "branch": "master", "commit": "3d188ed2113431cf8dac77be61b842acb64433d9" },
   "vim-tmux-navigator": { "branch": "master", "commit": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432" },
   "vis": { "branch": "master", "commit": "250e1daf32aa6f5048097c5c93d0c3d55ccc99a4" },
-  "yazi.nvim": { "branch": "main", "commit": "91bf23923f0d2315f953a625def1d7de90f07ace" }
+  "yazi.nvim": { "branch": "main", "commit": "7d3649fc07eb5ff809c3556f81e7f0509278a141" }
 }
