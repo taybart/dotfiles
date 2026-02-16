@@ -91,8 +91,8 @@ bindsym $super+Ctrl+p exec --no-startup-id 1password --quick-access
 # bindsym $super+m bar mode toggle
 
 # nwg-looks output
-# include ~/.config/sway/outputs
-# include ~/.config/sway/workspaces
+include ~/.config/sway/outputs
+include ~/.config/sway/workspaces
 
 ################################################################################
 #####                         Startup Programs                             #####
@@ -363,3 +363,6 @@ mode "$mode_gaps_outer" {
 input type:keyboard {
   xkb_options ctrl:nocaps
 }
+
+
+include ~/.config/sway/config.local

@@ -11,5 +11,6 @@ terminal/ghostty/config.local
 macos/hammerspoon/Spoons
 shell/plugins/*
 sway/outputs
+sway/config.local
 **/.mind
 .resurrect
