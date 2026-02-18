@@ -16,9 +16,7 @@ vim.opt.ttimeoutlen = 0
 local function mode_group(mode, maps, opts)
   opts = opts or {}
   for _, v in ipairs(maps) do
-    if v[3] then
-      vim.tbl_deep_extend('force', opts, v[3])
-    end
+    if v[3] then vim.tbl_deep_extend('force', opts, v[3]) end
     vim.keymap.set(mode, v[1], v[2], opts)
   end
 end
@@ -42,17 +40,17 @@ mode_group('n', {
 }, { silent = true })
 
 mode_group('n', {
-  { 'j', 'gj' },
-  { 'k', 'gk' },
-  { 'H', '^' },
-  { 'L', '$' },
+  { 'j',     'gj' },
+  { 'k',     'gk' },
+  { 'H',     '^' },
+  { 'L',     '$' },
   { '<c-d>', '15gj' },
   { '<c-u>', '15gk' },
 })
 
 mode_group('v', {
-  { '<c-d>', '15gj' },
-  { '<c-u>', '15gk' },
-  { '<Tab>', '>gv' },
+  { '<c-d>',   '15gj' },
+  { '<c-u>',   '15gk' },
+  { '<Tab>',   '>gv' },
   { '<S-Tab>', '<gv' },
 })

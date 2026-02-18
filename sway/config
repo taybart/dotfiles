@@ -240,8 +240,7 @@ for_window  [window_role="pop-up"] floating enable
 for_window  [window_role="bubble"] floating enable
 for_window  [window_role="dialog"] floating enable
 for_window  [window_type="dialog"] floating enable
-for_window  [title="Picture in picture"] floating enable
-for_window [app_id="mpv"] floating enable
+for_window  [title="Picture in picture"] floating enable, sticky enable
 
 # Open specific applications in floating mode
 for_window [app_id="org.pulseaudio.pavucontrol"] floating enable
@@ -252,12 +251,13 @@ for_window [app_id="nm-connection-editor"] floating enable
 for_window [app_id="xdg-desktop-portal-gtk"] floating enable
 for_window [app_id="nwg-displays"] floating enable
 for_window [app_id="nwg-look"] floating enable
+for_window [app_id="mpv"] floating enable
 
 
 # for_window  [app_id="vivaldi-stable"] floating disable
 
 # switch to workspace with urgent window automatically
-for_window  [urgent=latest] focus
+for_window [urgent=latest] focus
 
 
 ################################################################################
@@ -364,5 +364,12 @@ input type:keyboard {
   xkb_options ctrl:nocaps
 }
 
+input type:touchpad {
+  dwt enabled
+  tap enabled
+  natural_scroll enabled
+  middle_emulation enabled
+  scroll_factor 0.5
+}
 
 include ~/.config/sway/config.local
