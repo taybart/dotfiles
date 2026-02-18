@@ -101,7 +101,7 @@ include ~/.config/sway/workspaces
 # notifications
 exec --no-startup-id swaync
 # displays
-exec --no-startup-id kanshi
+exec_always --no-startup-id kanshi
 # network
 exec --no-startup-id nm-applet
 exec --no-startup-id ~/.config/sway/launch-waybar.sh
@@ -371,5 +371,8 @@ input type:touchpad {
   middle_emulation enabled
   scroll_factor 0.5
 }
+# output eDP-1 {
+#   background ~/Pictures/background fill
+# }
 
 include ~/.config/sway/config.local

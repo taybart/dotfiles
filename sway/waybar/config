@@ -4,8 +4,8 @@
   "position": "top",
   "height": 25,
   "spacing": 10,
-  "modules-left": [ "custom/power", "sway/workspaces" ],
-  "modules-center": [ "sway/window" ],
+  "modules-left": [ "custom/power", "sway/workspaces", "sway/window" ],
+  // "modules-center": [ "sway/window" ],
   "modules-right": [
     "disk",
     "pulseaudio", 
