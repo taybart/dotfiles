@@ -58,6 +58,7 @@ bindsym $super+Return exec ghostty
 
 # files
 bindsym $super+shift+f exec thunar
+bindsym $super+z exec ~/.local/bin/wooz --mouse-track
 
 # Screenshot
 bindsym $super+Ctrl+s exec --no-startup-id grim -g "$(slurp)" - | swappy -f -
@@ -365,7 +366,7 @@ input type:keyboard {
 
 input type:touchpad {
   dwt enabled
-  tap enabled
+  tap disabled
   natural_scroll enabled
   middle_emulation enabled
   scroll_factor 0.5
