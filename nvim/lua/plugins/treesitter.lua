@@ -1,7 +1,7 @@
 -- stylua: ignore
 local ts_langs = {
   'astro', 'bash', 'c', 'cpp', 'css',
-  'dockerfile', 'go', 'gomod', 'gotmpl',
+  'go', 'gomod', 'gotmpl',
   'hcl', 'html', 'javascript', 'json',
   'json5', 'lua', 'make', 'markdown',
   'python', 'rust', 'sql', 'tsx',

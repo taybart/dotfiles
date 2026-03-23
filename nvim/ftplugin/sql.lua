@@ -5,7 +5,10 @@ local function get_stmt_ts_node()
   row = row - 1 -- 0-based for treesitter
 
   local ok, parser = pcall(vim.treesitter.get_parser, buf, 'sql')
-  if not ok or not parser then return nil end
+  if not ok or not parser then
+    vim.notify('No parser found for sql', vim.log.levels.ERROR)
+    return nil
+  end
 
   local root = parser:parse()[1]:root()
   local node = root:named_descendant_for_range(row, col, row, col)
@@ -71,7 +74,10 @@ else
   end, { noremap = true, buffer = true })
   vim.keymap.set('n', '<leader>s', function()
     local stmt = get_stmt_under_cursor()
-    if not stmt then return end
+    if not stmt then
+      print('no statement found')
+      return
+    end
     vim.cmd('DB ' .. db_uri .. ' ' .. stmt)
   end, { noremap = true, buffer = true })
 

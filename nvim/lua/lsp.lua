@@ -29,6 +29,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     require('tools/commands').add({
       { 'Format', vim.lsp.buf.format },
       { 'Issues', vim.diagnostic.setqflist },
+      { 'Errors', function()
+        vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
+      end
+      },
       {
         'Rename',
         {
