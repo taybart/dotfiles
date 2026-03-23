@@ -65,6 +65,7 @@ window#waybar {
 #bluetooth,
 #tray,
 #disk,
+/* #battery, */
 #network.ethernet {
   opacity: 0.25;
   transition: opacity 0.3s ease-in-out;
@@ -74,6 +75,7 @@ window#waybar {
 #bluetooth:hover,
 #disk:hover,
 #tray:hover,
+#battery:hover,
 #network.ethernet:hover {
   opacity: 1;
 }
