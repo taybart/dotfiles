@@ -1,3 +1,5 @@
+vim.g.mapleader = ' ' -- space as leader
+
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
@@ -7,11 +9,11 @@ vim.opt.number = true
 vim.opt.swapfile = false
 vim.opt.backup = false
 
----@diagnostic disable-next-line: inject-field
-vim.g.mapleader = ' ' -- space as leader
 
 vim.opt.timeoutlen = 1000
 vim.opt.ttimeoutlen = 0
+
+vim.opt.clipboard:prepend({ 'unnamedplus' })
 
 local function mode_group(mode, maps, opts)
   opts = opts or {}
