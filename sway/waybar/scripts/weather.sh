@@ -27,7 +27,7 @@ fi
 
 # If we are here, the cache is old or missing. Fetch new data.
 # -s for silent, --max-time to prevent hanging.
-WEATHER=$(curl -s --max-time 10 'https://wttr.in/?format=%c+%f' 2>/dev/null)
+WEATHER=$(curl -s --max-time 10 'https://wttr.in/?u&format=3' 2>/dev/null)
 
 if [ -n "$WEATHER" ]; then
   # If fetch succeeded: Save to cache AND print to screen
