@@ -24,7 +24,7 @@ bindsym $super+Shift+r restart
 # restart compositor
 # bindsym $super+t exec --no-startup-id pkill picom
 # exit i3 (logs you out of your X session)
-bindsym $super+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your X session.' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym $super+Shift+e exec swaynag -t warning -m 'Exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
 
 # kill focused window
 bindsym $super+q kill
@@ -266,7 +266,8 @@ for_window [urgent=latest] focus
 
 # Fonts
 # font xft:FiraCode Nerd Font 10
-font xft:Jetbrains Mono 10
+# font xft:Jetbrains Mono 10
+font pango: Open Sans 10, pango:Noto Color Emoji 10
 
 # Borders
 default_border pixel 1
