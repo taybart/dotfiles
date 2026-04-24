@@ -50,7 +50,9 @@ function shrink-video {
 function tunnel {
   echo "forwarding $1..."
   # \ssh root@$TUNNEL 'pkill -o -u root sshd'
-  \ssh -o "ExitOnForwardFailure yes" -N -R 9000:localhost:$1 root@$TUNNEL
+  \ssh -o "ExitOnForwardFailure yes" \
+    -o "TCPKeepAlive yes" \
+  -N -R 9000:localhost:$1 root@$TUNNEL
 }
 
 function send {

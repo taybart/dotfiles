@@ -12,6 +12,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end,
     })
 
+    -- hold off until we have a css lsp that can do this
+    -- vim.lsp.document_color.enable(true, nil, { style = 'virtual' })
+
     local p = require('snacks').picker
     require('tools/maps').mode_group('n', {
       -- these have been mapped into default

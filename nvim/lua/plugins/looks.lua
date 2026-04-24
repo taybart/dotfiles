@@ -49,10 +49,11 @@ return {
   --   },
   -- },
 
+  -- TODO: remove this in favor of native lsp version, still need to figure out css lsp
   {
     'brenoprata10/nvim-highlight-colors',
     opts = {
-      render = 'foreground',
+      render = 'virtual',
       enable_tailwind = true,
       exclude_filetypes = { 'lazy' },
     },
