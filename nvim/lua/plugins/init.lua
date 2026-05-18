@@ -54,8 +54,8 @@ return {
   --[==================[
   --===  Probation  ===
   --]==================]
-  {
-    "Loukis-13/paint.nvim",
-    opts = {}
-  }
+  -- {
+  --   "Loukis-13/paint.nvim",
+  --   opts = {}
+  -- }
 }

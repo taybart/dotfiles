@@ -25,7 +25,8 @@ alias fm="yazi"
 alias ut="unix-timestamp"
 alias s="search"
 
-alias longest="find . -type f -print0 | xargs -0 wc -l | sort -n"
+# alias longest="find . -type f -print0 | xargs -0 wc -l | sort -n"
+# alias longest="git ls-files | xargs wc -l | sort -n | rg -v '.lock' | tail -n 11 | head -n 10"
 
 # load current zsh shared history into session
 alias hist="fc -RI"

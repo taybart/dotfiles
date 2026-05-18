@@ -39,6 +39,10 @@ function git-unviewed {
       }'
 }
 
+function longest {
+  git ls-files | xargs wc -l | sort -n | rg -v -e '\.lock' "${@}" | tail -n 11 | head -n 10
+}
+
 function tab-title {
   printf "\x1b]1;>$1\x1b\\"
 }

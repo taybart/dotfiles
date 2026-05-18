@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       callback = function()
         local clients = vim.lsp.get_clients({ bufnr = 0, method = 'textDocument/formatting' })
 
-        if #clients > 0 then vim.lsp.buf.format() end
+        if #clients > 0 then vim.lsp.buf.format({ timeout_ms = 5000 }) end
       end,
     })
 
@@ -69,7 +69,7 @@ local lsps = {
   'marksman',
   'ruff',
   'rust_analyzer',
-  -- 'ts_ls',
+  'ts_ls',
   'zls',
 }
 for _, lsp in ipairs(lsps) do

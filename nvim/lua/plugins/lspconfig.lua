@@ -9,31 +9,16 @@ return {
         cmd = 'Mason',
       },
     },
-    init = function()
-      -- Fix: https://github.com/neovim/neovim/issues/28058
-      local make_client_capabilities = vim.lsp.protocol.make_client_capabilities
-      function vim.lsp.protocol.make_client_capabilities()
-        local caps = make_client_capabilities()
-        if caps.workspace then caps.workspace.didChangeWatchedFiles = nil end
-        return caps
-      end
-    end,
-  },
-  {
-    'pmizio/typescript-tools.nvim',
-    ft = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {
-      settings = {
-        -- tsserver_file_preferences = {
-        --   -- TODO: this doesn't work
-        --   quotePreference = 'single',
-        -- },
-        tsserver_format_options = {
-          semicolons = 'remove',
-        },
-      },
-    },
+    -- init = function()
+    -- Fix: https://github.com/neovim/neovim/issues/28058
+    -- local make_client_capabilities = vim.lsp.protocol.make_client_capabilities
+    -- function vim.lsp.protocol.make_client_capabilities()
+    --   local caps = make_client_capabilities()
+    --   caps.workspace.didChangeWatchedFiles.dynamicRegistration = false
+    --   if caps.workspace then caps.workspace.didChangeWatchedFiles = nil end
+    --   return caps
+    -- end
+    -- end,
   },
   {
     'folke/lazydev.nvim',

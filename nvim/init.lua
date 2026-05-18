@@ -72,6 +72,12 @@ vim.o.winborder = 'single'
 -- speed up modules
 vim.loader.enable()
 
+-- some weird pcre lpeg thing is causing this to fail
+package.loaded['vim.lsp._watchfiles'] = {
+  register = function() end,
+  unregister = function() end,
+  cancel = function() end,
+}
 -- ensure lazy is installed
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
