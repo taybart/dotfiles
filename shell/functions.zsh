@@ -12,6 +12,21 @@ function config {
   esac
 }
 
+function gdeploy {
+  if [ -z "$1" ]; then
+    echo "usage: $0 <branch>"
+    return 1
+  fi
+  CURRENT_BRANCH=$(git branch --show-current)
+  DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+  git checkout $DEFAULT_BRANCH
+  git pull
+  git branch -D "$1"
+  git checkout -b "$1"
+  git push origin "$1" --force-with-lease
+  git checkout $CURRENT_BRANCH
+}
+
 function git-unviewed {
 
   if [ -z "$1" ]; then
@@ -293,7 +308,27 @@ function ciddocker() {
   docker ps | tail -n +2 | fzf | awk '{print $1}'
 }
 function rundocker() {
-  docker run --rm "$@" $(docker build -q .)
+  local dockerfile=""
+  local args=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -f)
+        dockerfile="$2"
+        shift 2
+        ;;
+      *)
+        args+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  local build_cmd=(docker build -q)
+  [[ -n "$dockerfile" ]] && build_cmd+=(-f "$dockerfile")
+  build_cmd+=(.)
+
+  docker run --rm "${args[@]}" "$("${build_cmd[@]}")"
 }
 
 function shdocker() {
