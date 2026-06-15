@@ -72,6 +72,10 @@ vim.o.winborder = 'single'
 -- speed up modules
 vim.loader.enable()
 
+-- recurse/wildcard path for native fin[d]
+vim.o.path = vim.o.path .. ',**'
+
+
 -- some weird pcre lpeg thing is causing this to fail
 package.loaded['vim.lsp._watchfiles'] = {
   register = function() end,
