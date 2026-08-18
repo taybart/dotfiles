@@ -346,6 +346,10 @@ function killdocker() {
   fi
 }
 
+function compose-up() {
+  docker compose pull && docker compose up -d --force-recreate && docker compose logs --no-log-prefix -f 
+}
+
 # ~~ kubernetes ~~
 function kcxt() {
   if [[ -z $1 ]]; then
