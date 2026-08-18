@@ -27,4 +27,6 @@ vim.diagnostic.config({
   },
 })
 
+vim.filetype.add({ extension = { caddyfile = 'caddy' } })
+
 return M
