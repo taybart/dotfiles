@@ -347,7 +347,8 @@ function killdocker() {
 }
 
 function compose-up() {
-  docker compose pull && docker compose up -d --force-recreate && docker compose logs --no-log-prefix -f 
+  docker compose pull && docker compose up -d --force-recreate
+  docker compose logs --no-log-prefix -f 
 }
 
 # ~~ kubernetes ~~
