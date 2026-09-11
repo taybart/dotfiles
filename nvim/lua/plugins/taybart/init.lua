@@ -14,7 +14,6 @@ return {
   },
   {
     'taybart/serve.nvim',
-    build = 'make all',
     opts = {},
     -- dir = '~/dev/taybart/serve.nvim',
     -- opts = { logs = { level = 'debug' } },

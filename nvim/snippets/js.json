@@ -1,0 +1,14 @@
+{
+  "elm": {
+    "body": [
+      "export default class $0 extends HTMLElement {",
+        "static observedAttributes = []",
+        "constructor() {", "super()", "}",
+        "// prettier-ignore",
+        "// get width() { return this.getAttribute('width') ?? '' }",
+        "connectedCallback() { }",
+        "attributeChangedCallback(name, oldValue, newValue) { }",
+      "}",
+    ]
+  }
+}

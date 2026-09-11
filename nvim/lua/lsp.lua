@@ -2,15 +2,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
   pattern = '*',
   callback = function()
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      group = vim.api.nvim_create_augroup('lsp-format', { clear = true }),
-      pattern = '*',
-      callback = function()
-        local clients = vim.lsp.get_clients({ bufnr = 0, method = 'textDocument/formatting' })
-
-        if #clients > 0 then vim.lsp.buf.format({ timeout_ms = 5000 }) end
-      end,
-    })
+    -- vim.api.nvim_create_autocmd('BufWritePre', {
+    --   group = vim.api.nvim_create_augroup('lsp-format', { clear = true }),
+    --   pattern = '*',
+    --   callback = function()
+    --     local clients = vim.lsp.get_clients({ bufnr = 0, method = 'textDocument/formatting' })
+    --
+    --     if #clients > 0 then vim.lsp.buf.format({ timeout_ms = 5000 }) end
+    --   end,
+    -- })
 
     -- hold off until we have a css lsp that can do this
     -- vim.lsp.document_color.enable(true, nil, { style = 'virtual' })
