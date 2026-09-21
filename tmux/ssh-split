@@ -1,0 +1,56 @@
+#!/bin/sh
+# usage: ssh-split [-t pane] <split-window flags...>
+# Splits a pane (default: the current one). When that pane's foreground process
+# is an ssh or mosh session, the new pane reconnects with the same command line;
+# otherwise it is a plain split-window.
+set -u
+
+pane=${TMUX_PANE:-}
+if [ "${1:-}" = "-t" ] && [ $# -ge 2 ]; then
+  pane=$2
+  shift 2
+fi
+
+target=
+[ -n "$pane" ] && target="-t $pane"
+
+tty=$(tmux display-message -p $target '#{pane_tty}')
+cwd=$(tmux display-message -p $target '#{pane_current_path}')
+
+# the foreground process group of the pane's terminal, re-quoted for the shell.
+# argument boundaries are lost in ps output, so words are quoted individually:
+# shell metacharacters stay part of the remote command instead of running here.
+tpgid=$(ps -o tpgid= -t "$tty" 2>/dev/null | head -n 1 | tr -d '[:space:]')
+cmd=$(ps -o pgid=,args= -t "$tty" 2>/dev/null | awk -v g="$tpgid" '
+  BEGIN { q = sprintf("%c", 39); esc = q "\\" q q }
+  function base(path,   parts, n) { n = split(path, parts, "/"); return parts[n] }
+  function remote(name) { return name == "ssh" || name == "mosh" || name == "mosh-client" }
+  function shellquote(s,   parts, i, n, out) {
+    n = split(s, parts, q)
+    out = parts[1]
+    for (i = 2; i <= n; i++) out = out esc parts[i]
+    return q out q
+  }
+  $1 != g { next }
+  {
+    sub(/^[[:space:]]*[0-9]+[[:space:]]+/, "")
+    if (!remote(base($1))) {
+      # mosh is a perl script, so it can show up as its interpreter
+      if (base($1) !~ /^(env|perl|python[0-9.]*|ruby|node|sh|bash|zsh)$/) exit
+      found = 0
+      for (i = 2; i <= NF; i++) if (remote(base($i))) found = 1
+      if (!found) exit
+    }
+    n = split($0, words, /[[:space:]]+/)
+    for (i = 1; i <= n; i++) printf "%s%s", shellquote(words[i]), (i < n ? " " : "")
+    printf "\n"
+    exit
+  }')
+
+shell=${SHELL:-/bin/sh}
+
+if [ -n "$cmd" ]; then
+  tmux split-window $target $* -c "${cwd:-$HOME}" "$shell" -ic "$cmd; exec $shell"
+else
+  tmux split-window $target $* -c "${cwd:-$HOME}"
+fi
