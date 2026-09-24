@@ -1,0 +1,12 @@
+browser = "com.vivaldi.Vivaldi"
+include = ["./work.toml"]
+
+[[rule]]
+name = "Linear"
+regex = '^https://linear\.app/([^/]+/(issue|project|view|team)/.*)$'
+rewrite = 'linear://$1'
+
+[[rule]]
+name = "Zoom"
+match = ["zoom.us"]
+rewrite = "zoom"
