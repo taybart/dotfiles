@@ -10,3 +10,16 @@ rewrite = 'linear://$1'
 name = "Zoom"
 match = ["zoom.us"]
 rewrite = "zoom"
+
+# Notion workspace pages go to the desktop app; public *.notion.site pages
+  # stay in the browser.
+[[rule]]
+name = "Notion"
+regex = '^https://(www\.)?notion\.so/(.*)$'
+rewrite = 'notion://www.notion.so/$2'
+
+# unsure if this works
+[[rule]]
+name = "Slack"
+match = ["*.slack.com/archives/*"]
+app = "Slack"
