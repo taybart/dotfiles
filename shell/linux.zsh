@@ -8,7 +8,8 @@ else
 fi
 
 function open {
-  xdg-open "$@" >/dev/null 2>&1
+  xdg-open "$@" >/dev/null 2>&1 &
+  disown
 }
 
 if [ -f /etc/debian_version ]; then
