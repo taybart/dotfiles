@@ -546,3 +546,47 @@ function llm() {
   fi
 }
 
+# Set to your 1Password SSH key item (vault/item), real items set in local env
+: ${AGE_OP_ITEM:="op://Private/taybart"}
+: ${AGE_OP_ACCOUNT:="my.1password.com"}
+
+# encrypt [-k pubkey_file|-] [-o out] file
+#   -k FILE   recipients file (ssh pubkeys)
+#   -k -      read recipients from stdin (also auto if stdin is a pipe)
+#   no -k     your own key from 1Password
+encrypt() {
+  local -a key out
+  zparseopts -D -E k:=key o:=out || return 1
+  local in=$1
+  [[ -f $in ]] || { print -u2 "usage: [curl ... |] encrypt [-k pubkey_file|-] [-o out] file"; return 1 }
+  local dest=${out[2]:-$in.age}
+
+  if [[ ${key[2]} == - || ( -z $key && -p /dev/stdin ) ]]; then
+    local keys
+    keys=$(grep -E '^(ssh-ed25519|ssh-rsa) ') || { print -u2 "encrypt: no supported ssh keys on stdin"; return 1 }
+    print -r -- "$keys" | age -R - -o "$dest" "$in"
+  elif [[ -n $key ]]; then
+    age -R "${key[2]}" -o "$dest" "$in"
+  else
+    local pub
+    pub=$(op read --account "$AGE_OP_ACCOUNT" "$AGE_OP_ITEM/public key") || return 1
+    age -r "$pub" -o "$dest" "$in"
+  fi
+}
+
+# decrypt [-k private_key_file] [-o out] file.age   (default out: file without .age)
+decrypt() {
+  local -a key out
+  zparseopts -D -E k:=key o:=out || return 1
+  local in=$1
+  [[ -f $in ]] || { print -u2 "usage: decrypt [-k private_key_file] [-o out] file.age"; return 1 }
+  local dest=${out[2]:-${in%.age}}
+  [[ $dest == $in ]] && dest=$in.dec
+
+  if [[ -n $key ]]; then
+    age -d -i "${key[2]}" -o "$dest" "$in"
+  else
+    op read --account "$AGE_OP_ACCOUNT" "$AGE_OP_ITEM/private key?ssh-format=openssh" | age -d -i - -o "$dest" "$in"
+  fi
+}
+
