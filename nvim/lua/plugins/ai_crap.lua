@@ -8,6 +8,8 @@ return {
         keymap_fim_accept_full = '<c-e>',
         keymap_fim_accept_line = '<c-l>',
         keymap_fim_accept_word = '<c-space>',
+        keymap_fim_next = '',
+        keymap_fim_prev = '',
         keymap_inst_trigger = '',
         keymap_inst_rerun = '',
         keymap_inst_continue = '',

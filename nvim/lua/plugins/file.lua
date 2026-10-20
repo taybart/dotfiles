@@ -106,7 +106,7 @@ return {
         sh = { 'shfmt' },
         css = { 'prettier' },
         html = { 'prettier' },
-        rest = { 'injected' },
+        rest = { 'hcl', 'injected' },
       },
     },
   },
