@@ -64,7 +64,48 @@ vim.opt.smartcase = true
 
 -- local configs
 vim.o.secure = true
-vim.o.exrc = true
+-- vim.o.exrc = true
+
+-- load exrc's from buffer to cwd
+local exrc_loaded = {} ---@type table<string, true>
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
+  group = vim.api.nvim_create_augroup('RecursiveExrc', { clear = true }),
+  callback = function(ev)
+    if vim.bo[ev.buf].buftype ~= '' then return end
+    local name = vim.api.nvim_buf_get_name(ev.buf)
+    if name == '' then return end
+
+
+    local cwd = vim.fs.normalize(vim.uv.cwd())
+    local dir = vim.fs.dirname(name)
+    -- only files inside the cwd
+    if dir ~= cwd and not vim.startswith(dir, cwd .. '/') then return end
+
+    local found = vim.fs.find('.nvim.lua', {
+      path = vim.fs.dirname(name),
+      upward = true,
+      -- stop = vim.uv.os_homedir(),
+      stop = vim.fs.dirname(cwd), -- `stop` is exclusive, so use the parent to include cwd itself
+      limit = math.huge,
+    })
+    for i = #found, 1, -1 do -- outermost directory first
+      local f = found[i]
+      if not exrc_loaded[f] then
+        exrc_loaded[f] = true
+        local content = vim.secure.read(f)
+        if content then
+          local chunk, lerr = load(content, '@' .. f)
+          if chunk then
+            local ok, rerr = pcall(chunk)
+            if not ok then vim.notify(f .. ': ' .. rerr, vim.log.levels.ERROR) end
+          else
+            vim.notify(f .. ': ' .. lerr, vim.log.levels.ERROR)
+          end
+        end
+      end
+    end
+  end,
+})
 
 -- FINALLY set global float border
 vim.o.winborder = 'single'

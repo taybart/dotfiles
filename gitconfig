@@ -8,7 +8,15 @@
   co = checkout
   br = branch
   st = stash
-	fpush = push
+	pushf = push --force-with-lease
+
+  # List branches in most-recently-modified order
+  recent = for-each-ref --sort='-authordate:iso8601' --format='%(authordate:relative)%09%(refname:short)' refs/heads
+  # FIXME Roulette!
+  fixme-roulette = "!f() { \
+      echo 'Abandon hope, all ye who enter here!'; \
+      git grep -Ein '(FIXME|TODO)' | shuf -n1; \
+  }; f"
 [push]
   default = current
 [pull]
