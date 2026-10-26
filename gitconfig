@@ -10,8 +10,6 @@
   st = stash
 	pushf = push --force-with-lease
 
-  # Log, in a single-line format
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   # List branches in most-recently-modified order
   recent = for-each-ref --sort='-authordate:iso8601' --format='%(authordate:relative)%09%(refname:short)' refs/heads
   # FIXME Roulette!
