@@ -12,6 +12,11 @@ cmds.add({
   { 'Keymaps',  'lua Snacks.picker.keymaps()' },
 })
 
+cmds.add({
+  { 'Expand',  { cmd = '<line1>,<line2>!jq .',    opts = { range = '%' } } },
+  { 'Compact', { cmd = '<line1>,<line2>!jq -c .', opts = { range = '%' } } },
+})
+
 if vim.fn.executable('unix-timestamp') then
   cmds.range('Date', 'unix-timestamp -u %s', { cli = true })
 elseif vim.fn.has('mac') then

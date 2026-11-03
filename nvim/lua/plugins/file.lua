@@ -95,10 +95,16 @@ return {
             '--collapse-simple-statement', 'Always',
           },
         },
+        erde_fmt = {
+          command = 'erde',
+          args = { 'fmt', '-X', 'match', '-' },
+          stdin = true,
+        },
       },
       format_on_save = { lsp_format = 'fallback' },
       formatters_by_ft = {
         lua = { 'stylua' },
+        erde = { 'erde_fmt' },
         rust = { 'rustfmt', lsp_format = 'fallback' },
         go = { 'goimports', timeout_ms = 3000 }, -- 3s becaue big projects take forever
         javascript = { 'biome', 'prettier', stop_after_first = true },
@@ -109,6 +115,35 @@ return {
         rest = { 'hcl', 'injected' },
       },
     },
+  },
+  {
+    'mfussenegger/nvim-lint',
+    event = { 'BufReadPost', 'BufWritePost', 'InsertLeave' },
+    config = function()
+      local lint = require('lint')
+
+      lint.linters.erde = {
+        cmd = 'erde',
+        args = { 'lint', '-X', 'match', '-' },
+        stdin = true,
+        ignore_exitcode = true, -- exits 1 when there are problems
+        parser = require('lint.parser').from_pattern(
+          '^[^:]+:(%d+): (.+) %((.+)%)$',
+          { 'lnum', 'message', 'code' },
+          nil,
+          { source = 'erde lint', severity = vim.diagnostic.severity.WARN }
+        ),
+      }
+
+      lint.linters_by_ft = {
+        erde = { 'erde' },
+      }
+
+      vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost', 'InsertLeave' }, {
+        group = vim.api.nvim_create_augroup('nvim-lint', { clear = true }),
+        callback = function() lint.try_lint() end,
+      })
+    end,
   },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
 }

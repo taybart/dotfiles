@@ -6,7 +6,7 @@ local ts_langs = {
   'json5', 'lua', 'make', 'markdown',
   'python', 'rust', 'sql', 'tsx',
   'typescript', 'vimdoc', 'vue', 'yaml',
-  'zsh',
+  'zsh', 'erde',
 }
 
 local ts_pattern_only = {
@@ -22,6 +22,22 @@ return {
     lazy = false,
     build = ':TSUpdate',
     config = function()
+      -- local erde grammar checkout; `:TSInstall! erde` after grammar changes
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'TSUpdate',
+        callback = function()
+          require('nvim-treesitter.parsers').erde = {
+            install_info = {
+              path = '~/dev/taybart/erde/tree-sitter-erde',
+              generate = true,
+              generate_from_json = false,
+              queries = 'queries',
+            },
+          }
+        end,
+      })
+      vim.filetype.add({ extension = { erde = 'erde' } })
+
       local ts = require('nvim-treesitter')
       ts.install(ts_langs)
 
