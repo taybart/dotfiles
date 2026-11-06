@@ -1,0 +1,121 @@
+#!/usr/bin/env rest
+
+# OpenAI-compatible completion clients.
+# Works with OpenAI, vLLM, llama.cpp, Ollama, LM Studio, etc.
+#
+#   LLM_BASE_URL=http://localhost:8000 LLM_MODEL=my-model rest -f completions.rest
+#   rest -f completions.rest -l "chat"
+#
+# - "complete" is raw /v1/completions: the model just continues `prompt`. Good for
+#   base models; instruct/reasoning models want "chat" instead.
+# - "chat" is /v1/chat/completions with a system + user message.
+#
+# Also usable as a library: import it, `copy_from = "completions::chat"` (or
+# "completions::complete") and set exports.system / exports.prompt, or override
+# `body`. The response text, minus any <think>...</think>, lands in
+# exports.completion.
+#
+# locals are prefixed with llm_ so they don't collide with the importing file's.
+
+locals {
+  llm_url    = env("LLM_BASE_URL", "http://localhost:8000")
+  llm_key    = env("LLM_API_KEY", "none")
+  llm_model  = env("LLM_MODEL", "default")
+  llm_system = "You are a helpful assistant. Be concise."
+  llm_prompt = "The capital of France is"
+}
+
+request "models" {
+  url          = "${locals.llm_url}/v1/models"
+  bearer_token = locals.llm_key
+  expect       = 200
+  after        = [lib.expected, lib.inspect_res]
+}
+
+request "complete" {
+  url          = "${locals.llm_url}/v1/completions"
+  method       = "POST"
+  bearer_token = locals.llm_key
+  body = {
+    model       = locals.llm_model
+    prompt      = try_exports("prompt", locals.llm_prompt)
+    max_tokens  = 64
+    temperature = 0.7
+    stream      = false
+    stop        = ["\n\n"]
+  }
+  expect = 200
+  after = [
+    lib.expected,
+    <<-ERDE
+      local res = json.decode(rest.res.body)
+      local choice = res.choices && res.choices[1]
+      if type(choice) != 'table' {
+        fail('no choices in response: ' .. rest.res.body)
+        return
+      }
+
+      local text = choice.text || (choice.message && choice.message.content) || ''
+      -- reasoning models: drop the thinking, keep the answer
+      text = text:gsub('<think>.-</think>', '')
+      if text:find('<think>', 1, true) {
+        return fail("model thought too long (finish_reason={choice.finish_reason}), raise max_tokens")
+      }
+      text = text:gsub('^%s+', ''):gsub('%s+$', '')
+      if text == '' { return fail("empty completion (finish_reason={choice.finish_reason})") }
+
+      rest.exports.completion = text
+      print(text)
+
+      local u = res.usage
+      if u && (u.prompt_tokens || 0) > 0 {
+        print("\n[{u.prompt_tokens} in / {u.completion_tokens} out, {choice.finish_reason}]")
+      }
+    ERDE
+  ]
+}
+
+request "chat" {
+  url          = "${locals.llm_url}/v1/chat/completions"
+  method       = "POST"
+  bearer_token = locals.llm_key
+  body = {
+    model       = locals.llm_model
+    max_tokens  = 1024
+    temperature = 0.7
+    stream      = false
+    messages = [
+      { role = "system", content = try_exports("system", locals.llm_system) },
+      { role = "user", content = try_exports("prompt", locals.llm_prompt) },
+    ]
+  }
+  expect = 200
+  after = [
+    lib.expected,
+    <<-ERDE
+      local res = json.decode(rest.res.body)
+      local choice = res.choices && res.choices[1]
+      if type(choice) != 'table' {
+        fail('no choices in response: ' .. rest.res.body)
+        return
+      }
+
+      local text = choice.text || (choice.message && choice.message.content) || ''
+      -- reasoning models: drop the thinking, keep the answer
+      text = text:gsub('<think>.-</think>', '')
+      if text:find('<think>', 1, true) {
+        return fail("model thought too long (finish_reason={choice.finish_reason}), raise max_tokens")
+      }
+      text = text:gsub('^%s+', ''):gsub('%s+$', '')
+      if text == '' { return fail("empty completion (finish_reason={choice.finish_reason})") }
+
+      rest.exports.completion = text
+      print(text)
+
+      local u = res.usage
+      if u && (u.prompt_tokens || 0) > 0 {
+        print("\n[{u.prompt_tokens} in / {u.completion_tokens} out, {choice.finish_reason}]")
+      }
+    ERDE
+  ]
+}

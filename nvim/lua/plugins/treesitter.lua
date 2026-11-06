@@ -21,23 +21,9 @@ return {
     priority = 1000,
     lazy = false,
     build = ':TSUpdate',
+    -- registers the erde parser (see plugins/file.lua)
+    dependencies = { 'taybart/erde.nvim' },
     config = function()
-      -- local erde grammar checkout; `:TSInstall! erde` after grammar changes
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'TSUpdate',
-        callback = function()
-          require('nvim-treesitter.parsers').erde = {
-            install_info = {
-              path = '~/dev/taybart/erde/tree-sitter-erde',
-              generate = true,
-              generate_from_json = false,
-              queries = 'queries',
-            },
-          }
-        end,
-      })
-      vim.filetype.add({ extension = { erde = 'erde' } })
-
       local ts = require('nvim-treesitter')
       ts.install(ts_langs)
 

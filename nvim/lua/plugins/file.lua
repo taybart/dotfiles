@@ -95,11 +95,7 @@ return {
             '--collapse-simple-statement', 'Always',
           },
         },
-        erde_fmt = {
-          command = 'erde',
-          args = { 'fmt', '-X', 'match', '-' },
-          stdin = true,
-        },
+        erde_fmt = function() return require('erde').formatter() end,
       },
       format_on_save = { lsp_format = 'fallback' },
       formatters_by_ft = {
@@ -119,21 +115,12 @@ return {
   {
     'mfussenegger/nvim-lint',
     event = { 'BufReadPost', 'BufWritePost', 'InsertLeave' },
+    dependencies = { 'taybart/erde.nvim' },
     config = function()
       local lint = require('lint')
 
-      lint.linters.erde = {
-        cmd = 'erde',
-        args = { 'lint', '-X', 'match', '-' },
-        stdin = true,
-        ignore_exitcode = true, -- exits 1 when there are problems
-        parser = require('lint.parser').from_pattern(
-          '^[^:]+:(%d+): (.+) %((.+)%)$',
-          { 'lnum', 'message', 'code' },
-          nil,
-          { source = 'erde lint', severity = vim.diagnostic.severity.WARN }
-        ),
-      }
+      -- (erde heredocs in .rest files are linted by erde.nvim itself)
+      lint.linters.erde = require('erde').linter()
 
       lint.linters_by_ft = {
         erde = { 'erde' },
@@ -143,7 +130,24 @@ return {
         group = vim.api.nvim_create_augroup('nvim-lint', { clear = true }),
         callback = function() lint.try_lint() end,
       })
+      -- the event that loaded this plugin has already fired (and before the
+      -- buffer's filetype is set)
+      vim.schedule(function() lint.try_lint() end)
     end,
   },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
+  {
+    'taybart/erde.nvim',
+    dir = '~/dev/taybart/erde/erde.nvim',
+    -- not just ft = 'erde': it also handles erde in .rest files (comments,
+    -- linting heredocs) and registers the parser for nvim-treesitter
+    lazy = false,
+    opts = {
+      -- local grammar checkout; `:TSInstall! erde` after grammar changes
+      treesitter = { path = '~/dev/taybart/erde/tree-sitter-erde' },
+      -- set up above (conform / nvim-lint replace their tables on setup)
+      conform = false,
+      lint = false,
+    },
+  },
 }
