@@ -6,7 +6,7 @@ local ts_langs = {
   'json5', 'lua', 'make', 'markdown',
   'python', 'rust', 'sql', 'tsx',
   'typescript', 'vimdoc', 'vue', 'yaml',
-  'zsh', 'erde',
+  'zsh', 'midnight',
 }
 
 local ts_pattern_only = {
@@ -21,8 +21,8 @@ return {
     priority = 1000,
     lazy = false,
     build = ':TSUpdate',
-    -- registers the erde parser (see plugins/file.lua)
-    dependencies = { 'taybart/erde.nvim' },
+    -- registers the midnight parser (see plugins/file.lua)
+    dependencies = { 'taybart/midnight.nvim' },
     config = function()
       local ts = require('nvim-treesitter')
       ts.install(ts_langs)

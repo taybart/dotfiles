@@ -95,12 +95,12 @@ return {
             '--collapse-simple-statement', 'Always',
           },
         },
-        erde_fmt = function() return require('erde').formatter() end,
+        midnight_fmt = function() return require('midnight').formatter() end,
       },
       format_on_save = { lsp_format = 'fallback' },
       formatters_by_ft = {
         lua = { 'stylua' },
-        erde = { 'erde_fmt' },
+        midnight = { 'midnight_fmt' },
         rust = { 'rustfmt', lsp_format = 'fallback' },
         go = { 'goimports', timeout_ms = 3000 }, -- 3s becaue big projects take forever
         javascript = { 'biome', 'prettier', stop_after_first = true },
@@ -115,15 +115,15 @@ return {
   {
     'mfussenegger/nvim-lint',
     event = { 'BufReadPost', 'BufWritePost', 'InsertLeave' },
-    dependencies = { 'taybart/erde.nvim' },
+    dependencies = { 'taybart/midnight.nvim' },
     config = function()
       local lint = require('lint')
 
-      -- (erde heredocs in .rest files are linted by erde.nvim itself)
-      lint.linters.erde = require('erde').linter()
+      -- (midnight heredocs in .rest files are linted by midnight.nvim itself)
+      lint.linters.midnight = require('midnight').linter()
 
       lint.linters_by_ft = {
-        erde = { 'erde' },
+        midnight = { 'midnight' },
       }
 
       vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost', 'InsertLeave' }, {
@@ -137,14 +137,14 @@ return {
   },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
   {
-    'taybart/erde.nvim',
-    dir = '~/dev/taybart/erde/erde.nvim',
-    -- not just ft = 'erde': it also handles erde in .rest files (comments,
+    'taybart/midnight.nvim',
+    dir = '~/dev/taybart/midnight/midnight.nvim',
+    -- not just ft = 'midnight': it also handles midnight in .rest files (comments,
     -- linting heredocs) and registers the parser for nvim-treesitter
     lazy = false,
     opts = {
-      -- local grammar checkout; `:TSInstall! erde` after grammar changes
-      treesitter = { path = '~/dev/taybart/erde/tree-sitter-erde' },
+      -- local grammar checkout; `:TSInstall! midnight` after grammar changes
+      treesitter = { path = '~/dev/taybart/midnight/tree-sitter-midnight' },
       -- set up above (conform / nvim-lint replace their tables on setup)
       conform = false,
       lint = false,

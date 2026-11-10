@@ -5,5 +5,7 @@ light = "catppuccin-latte"
 [icon]
 append_exts = [
   { name = "rest", text= "󰒲", fg = "#26afe5" },
+  { name = "mn", text = "󰖔", fg = "#5b8fd9" },
+  { name = "midnight", text = "󰖔", fg = "#5b8fd9" },
 ]
 
