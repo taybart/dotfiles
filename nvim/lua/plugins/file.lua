@@ -138,13 +138,13 @@ return {
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
   {
     'taybart/midnight.nvim',
-    dir = '~/dev/taybart/midnight/midnight.nvim',
+    -- dir = '~/dev/taybart/midnight/midnight.nvim',
     -- not just ft = 'midnight': it also handles midnight in .rest files (comments,
     -- linting heredocs) and registers the parser for nvim-treesitter
     lazy = false,
     opts = {
       -- local grammar checkout; `:TSInstall! midnight` after grammar changes
-      treesitter = { path = '~/dev/taybart/midnight/tree-sitter-midnight' },
+      -- treesitter = { path = '~/dev/taybart/midnight/tree-sitter-midnight' },
       -- set up above (conform / nvim-lint replace their tables on setup)
       conform = false,
       lint = false,
