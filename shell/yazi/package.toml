@@ -8,6 +8,11 @@ use = "yazi-rs/plugins:types"
 rev = "8f1d971"
 hash = "1e047e1b13b5e3fc6ab1f5d0d04a14e2"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "1ef5fe0"
+hash = "347cc6b190eb0c2fd60513cc7ae37412"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-latte"
 rev = "fd85060"
