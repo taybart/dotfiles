@@ -58,6 +58,30 @@ function longest {
   git ls-files | xargs wc -l | sort -n | rg -v -e '\.lock' "${@}" | tail -n 11 | head -n 10
 }
 
+function overloaded {
+
+# Rule of thumb, not a rule: files over 500 lines are too big
+#
+#   overloaded.sh              files over 500 lines
+#   overloaded.sh 800          files over 800 lines
+#   overloaded.sh --tests      include test files
+#   overloaded.sh -e 'api/'    extra args are more `rg -v` patterns to exclude
+#
+# Tests are left out by default: they shrink when the code they cover is split,
+# and the split code's tests move with it.
+	local limit=500 tests=(-e '\.test\.[jt]sx?$' -e '[/_]tests?\.rs$')
+	while [[ $1 == --tests || $1 == <-> ]]; do
+		[[ $1 == --tests ]] && tests=() || limit=$1
+		shift
+	done
+	git ls-files -z | xargs -0 wc -l 2>/dev/null \
+		| rg -v ' total$' \
+		| rg -v -e '\.lock' -e '-lock\.' -e 'tools/' -e '/vendor/' -e 'src-tauri/icons' -e '\.pbxproj' \
+			-e '\.(png|jpe?g|gif|svg|ico|webp|woff2?|ttf|mp3|wav|ogg|wasm|zip)$' "${tests[@]}" "${@}" \
+		| awk -v limit="$limit" '$1 > limit' \
+		| sort -n
+}
+
 function tab-title {
   printf "\x1b]1;>$1\x1b\\"
 }
