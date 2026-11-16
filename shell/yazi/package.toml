@@ -13,6 +13,11 @@ use = "yazi-rs/plugins:git"
 rev = "1ef5fe0"
 hash = "347cc6b190eb0c2fd60513cc7ae37412"
 
+[[plugin.deps]]
+use = "llanosrocas/githead"
+rev = "317d09f"
+hash = "41dc37a724b2afd21da4f1ea6c1182d8"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-latte"
 rev = "fd85060"

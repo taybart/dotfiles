@@ -3,6 +3,8 @@ require("git"):setup {
 	order = 1500,
 }
 
+require("githead"):setup()
+
 Header:children_add(function()
   if ya.target_family() ~= 'unix' then
     return ''
