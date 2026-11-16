@@ -1,0 +1,33 @@
+require('git'):setup({
+  -- Order of status signs showing in the linemode
+  order = 1500,
+})
+
+require('githead'):setup()
+
+Header:children_add(() -> {
+  if ya.target_family() != 'unix' {
+    return ''
+  }
+  return ui.Span("{ya.user_name()}@{ya.host_name()}:"):fg('blue')
+}, 500, Header.LEFT)
+
+Status:children_add(() -> {
+  local h = cx.active.current.hovered
+  if h == nil || ya.target_family() != 'unix' {
+    return ''
+  }
+  local mtime = os.date('%Y-%m-%d %H:%M:%S', tostring(h.cha.mtime):sub(1, 10))
+  return ui.Line({
+    ui.Span(tostring(mtime)):fg('blue'),
+    ui.Span(' '),
+    ui.Span(ya.user_name(h.cha.uid) || tostring(h.cha.uid)):fg('magenta'),
+    ':',
+    ui.Span(ya.group_name(h.cha.gid) || tostring(h.cha.gid)):fg('magenta'),
+    ' ',
+  })
+}, 500, Status.RIGHT)
+
+-- if os.getenv('NVIM') then
+--   require('toggle-pane'):entry('min-preview')
+-- end
