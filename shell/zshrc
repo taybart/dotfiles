@@ -58,9 +58,9 @@ zstyle ':completion:*' matcher-list '' \
   'r:|?=** m:{a-z\-}={A-Z\_}'
 zstyle ':completion:*' menu select
 
+(( ${+aliases[run-help]} )) && unalias run-help
 autoload -Uz run-help
 autoload -Uz run-help-git
-unalias run-help
 
 # edit command when in vi mode "v"
 autoload edit-command-line
