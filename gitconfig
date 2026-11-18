@@ -9,6 +9,7 @@
   br = branch
   st = stash
 	pushf = push --force-with-lease
+	lc = "!git-last-commit"
 
   # List branches in most-recently-modified order
   recent = for-each-ref --sort='-authordate:iso8601' --format='%(authordate:relative)%09%(refname:short)' refs/heads

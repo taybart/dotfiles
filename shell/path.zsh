@@ -36,6 +36,9 @@ add_path "/run/current-system/sw/bin"
 add_path "$HOME/.local/state/nix/profile/bin"
 add_path "$HOME/.nix-profile/bin"
 
+# my scripts
+add_path "$DOTFILES/shell/bin"
+
 # and finally regular system path
 add_path "/opt/homebrew/sbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 

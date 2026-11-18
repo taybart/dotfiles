@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+#
+# git last-commit            last commit with patch
+# git last-commit 3          last 3 commits
+# git last-commit 3 main     last 3 commits on main
+# git last-commit <args>     anything else is passed straight to `git log`
+case "$1" in
+  ''|-)   set -- -n 1 ;;
+  [0-9]*) n="$1"; shift; set -- -n "$n" "$@" ;;
+esac
+
+git --no-pager log -p \
+  --color=always \
+  --format='%n%C(bold cyan)━━━ %h ━ %s%C(reset)%n%C(blue)    %an · %ar%C(reset)%n' \
+  "$@" | less -RFX
