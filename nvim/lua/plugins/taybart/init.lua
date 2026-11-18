@@ -1,26 +1,26 @@
 return {
   {
     'taybart/rest.nvim',
+    dev = true,
     dependencies = { 'taybart/code-actions.nvim' },
-    -- dir = '~/dev/taybart/rest.nvim',
-    -- dependencies = { dir = '~/dev/taybart/code-actions.nvim' },
     opts = {},
   },
   {
     'taybart/resurrect.nvim',
-    -- dir = '~/dev/taybart/resurrect.nvim',
+    dev = true,
     dependencies = { 'kkharji/sqlite.lua' },
     opts = { quiet = true },
   },
   {
     'taybart/serve.nvim',
-    opts = {},
-    -- dir = '~/dev/taybart/serve.nvim',
-    -- opts = { logs = { level = 'debug' } },
+    dev = true,
+    opts = {
+      -- logs = { level = 'debug' }
+    },
   },
   {
     'taybart/b64.nvim',
-    -- dir = '~/dev/taybart/b64.nvim',
+    dev = true,
     config = function()
       require('tools/maps').mode_group('v', {
         { '<leader>bd', require('b64').decode },

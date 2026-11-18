@@ -101,7 +101,34 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = ' '
 
+-- plugins marked `dev = true` load from ~/dev/taybart when checked out there,
+-- and fall back to github everywhere else
+local dev_root = vim.fn.expand('~/dev/taybart')
+local dev_paths = { ['midnight.nvim'] = dev_root .. '/midnight/midnight.nvim' }
+
+-- lazy drops local plugins from the lockfile; keep their remote pins so
+-- `:Lazy update` here doesn't strip them for other machines
+local Lock = require('lazy.manage.lock')
+local lock_update = Lock.update
+---@diagnostic disable-next-line: duplicate-set-field -- intentional monkey-patch
+Lock.update = function(...)
+  local Spec = require('lazy.core.config').spec
+  local disabled = Spec.disabled
+  local keep = setmetatable({}, { __index = disabled })
+  for name, p in pairs(require('lazy.core.config').plugins) do
+    if p.dev then keep[name] = p end
+  end
+  Spec.disabled = keep
+  local ok, err = pcall(lock_update, ...)
+  Spec.disabled = disabled
+  if not ok then error(err) end
+end
+
 require('lazy').setup('plugins', {
+  dev = {
+    path = function(plugin) return dev_paths[plugin.name] or (dev_root .. '/' .. plugin.name) end,
+    fallback = true,
+  },
   change_detection = {
     notify = false,
   },

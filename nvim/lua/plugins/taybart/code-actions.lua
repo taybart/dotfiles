@@ -1,6 +1,6 @@
 return {
   'taybart/code-actions.nvim',
-  -- dir = '~/dev/taybart/code-actions.nvim',
+  dev = true,
   dependencies = { 'folke/snacks.nvim' },
   opts = {
     register_keymap = true,
