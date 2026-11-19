@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+#
+# git longest              10 longest text files in the repo
+# git longest -e 'api/'    extra args are more `rg -v` patterns to exclude
+#
+# Binary files (png, wasm, compiled bins, ...) are skipped using git's own
+# binary detection, so no extension list is needed.
+
+# `git grep -I` drops binary files; -z keeps paths with spaces intact
+git grep -I -z --name-only -e '' \
+  | xargs -0 wc -l \
+  | rg -v ' total$' \
+  | rg -v -e '\.lock' -e '-lock\.' "${@}" \
+  | sort -n \
+  | tail -n 10

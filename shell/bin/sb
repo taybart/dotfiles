@@ -1,0 +1,126 @@
+#!/usr/bin/env zsh
+#
+# sb [-l] [go|node|bun|ts|rust|python|rest]
+#   spin up a throwaway project (default: go), open it in nvim,
+#   then choose whether to keep it in ~/dev/sandboxes
+#   -l   scaffold into the current directory instead (nothing is cleaned up)
+
+SANDBOXES=~/dev/sandboxes
+
+usage() {
+  print -u2 "usage: sb [-l] [go|node|bun|ts|rust|python|rest]"
+  exit 1
+}
+
+# each new_* scaffolds into the current dir and sets $open (and optionally $line)
+
+new_go() {
+  go mod init sandbox || return
+  cat > main.go <<'EOF'
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	if err := run(); err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
+}
+
+func run() error {
+	return nil
+}
+EOF
+  open=main.go line=15
+}
+
+new_node() {
+  cat > package.json <<'EOF'
+{
+  "name": "sandbox",
+  "version": "1.0.0",
+  "description": "sandybox",
+  "main": "index.mjs",
+  "license": "UNLICENSED",
+  "scripts": { "start": "node ." }
+}
+EOF
+  touch index.mjs
+  open=index.mjs
+}
+
+new_bun() {
+  bun init || return
+  open=index.ts
+}
+
+new_rust() {
+  cargo init --name sandbox . || return
+  open=src/main.rs
+}
+
+new_python() {
+  python3 -m venv .venv || return
+  touch main.py
+  # active only for this script, so nvim sees the venv and nothing leaks out
+  source .venv/bin/activate
+  open=main.py
+}
+
+new_rest() {
+  cat > sb.rest <<'EOF'
+locals {}
+
+request "test" {
+	url = ""
+	#post_hook = <<LUA
+	#	print(inspect(rest.res))
+	#LUA
+}
+EOF
+  open=sb.rest
+}
+
+# ~~ main ~~
+
+in_place=false
+if [[ $1 == -l ]]; then
+  in_place=true
+  shift
+fi
+
+case ${1:-go} in
+  go|node|bun|rust|python|rest) kind=${1:-go} ;;
+  ts) kind=bun ;;
+  *) usage ;;
+esac
+
+if ! $in_place; then
+  mkdir -p ~/.tmp
+  dir=$(mktemp -d ~/.tmp/sandbox_XXXXXX) || exit 1
+  # remove the sandbox on any exit (errors, ctrl-c) unless it gets kept below
+  trap 'rm -rf "$dir"' EXIT
+  trap 'exit 130' INT
+  cd "$dir"
+fi
+
+new_$kind || { print -u2 "sb: setting up $kind sandbox failed"; exit 1 }
+nvim ${line:++$line} $open
+
+$in_place && exit 0
+
+read "keep?Keep sandbox? [y/N] "
+[[ $keep == [Yy]* ]] || exit 0
+
+name=
+while [[ -z $name || -e $SANDBOXES/$name ]]; do
+  [[ -n $name ]] && print -u2 "$SANDBOXES/$name already exists"
+  read "name?Name: "
+done
+mkdir -p $SANDBOXES
+mv "$dir" "$SANDBOXES/$name" && trap - EXIT
+print "kept at $SANDBOXES/$name"

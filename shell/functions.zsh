@@ -1,207 +1,6 @@
 source "$DOTFILES/shell/essentials.zsh"
 
-# bring up configs
-function config {
-  read "t?[sh/vi] "
-  case "${t}" in
-    'sh')
-      nvim ~/.dotfiles/shell
-      ;;
-      *)
-      cd ~/.config/nvim && nvim
-  esac
-}
-
-function gdeploy {
-  if [ -z "$1" ]; then
-    echo "usage: $0 <branch>"
-    return 1
-  fi
-  CURRENT_BRANCH=$(git branch --show-current)
-  DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
-  git checkout $DEFAULT_BRANCH
-  git pull
-  git branch -D "$1"
-  git checkout -b "$1"
-  git push origin "$1" --force-with-lease
-  git checkout $CURRENT_BRANCH
-}
-
-function git-unviewed {
-
-  if [ -z "$1" ]; then
-    echo "usage: $0 <PR>"
-    return 1
-  fi
-
-  REPO=$(git config --get remote.origin.url | sed 's/.*\/\([^ ]*\/[^.]*\).*/\1/')
-  OWNER=$(awk -F'/' '{print $1}' <<< "$REPO")
-  NAME=$(awk -F'/' '{print $2}' <<< "$REPO")
-  PR=$1
-
-  gh api graphql \
-    --jq '.data.repository.pullRequest.files.nodes.[] | select(.viewerViewedState != "VIEWED") | .path' \
-    -F owner="$OWNER" -F name="$NAME" -F pr="$PR" \
-    -f query='
-      query($name: String!, $owner: String!, $pr: Int!) {
-        repository(owner: $owner, name: $name) {
-          pullRequest(number: $pr) {
-            files(first: 100) {
-              nodes { path, viewerViewedState }
-            }
-          }
-        }
-      }'
-}
-
-function longest {
-  git ls-files | xargs wc -l | sort -n | rg -v -e '\.lock' "${@}" | tail -n 11 | head -n 10
-}
-
-function overloaded {
-
-# Rule of thumb, not a rule: files over 500 lines are too big
-#
-#   overloaded.sh              files over 500 lines
-#   overloaded.sh 800          files over 800 lines
-#   overloaded.sh --tests      include test files
-#   overloaded.sh -e 'api/'    extra args are more `rg -v` patterns to exclude
-#
-# Tests are left out by default: they shrink when the code they cover is split,
-# and the split code's tests move with it.
-	local limit=500 tests=(-e '\.test\.[jt]sx?$' -e '[/_]tests?\.rs$')
-	while [[ $1 == --tests || $1 == <-> ]]; do
-		[[ $1 == --tests ]] && tests=() || limit=$1
-		shift
-	done
-	git ls-files -z | xargs -0 wc -l 2>/dev/null \
-		| rg -v ' total$' \
-		| rg -v -e '\.lock' -e '-lock\.' -e 'tools/' -e '/vendor/' -e 'src-tauri/icons' -e '\.pbxproj' \
-			-e '\.(png|jpe?g|gif|svg|ico|webp|woff2?|ttf|mp3|wav|ogg|wasm|zip)$' "${tests[@]}" "${@}" \
-		| awk -v limit="$limit" '$1 > limit' \
-		| sort -n
-}
-
-function tab-title {
-  printf "\x1b]1;>$1\x1b\\"
-}
-
-function shrink-video {
-  ffmpeg -i $1 -vcodec libx265 -crf 32 $2
-}
-
-function tunnel {
-  echo "forwarding $1..."
-  # \ssh root@$TUNNEL 'pkill -o -u root sshd'
-  \ssh -o "ExitOnForwardFailure yes" \
-    -o "TCPKeepAlive yes" \
-  -N -R 9000:localhost:$1 root@$TUNNEL
-}
-
-function send {
-  local ssh_pid
-  local server_pid
-  local cwd=$(pwd)
-
-  mkdir -p ~/.send_server
-  cd ~/.send_server
-
-  # Setup trap to handle interrupts (SIGINT)
-  trap 'echo "Shutting down tunnel and server..."; kill $ssh_pid $server_pid 2>/dev/null; cd $cwd' INT TERM
-
-  \ssh -o "ExitOnForwardFailure yes" -N -R 9002:localhost:12000 root@$TUNNEL &
-  ssh_pid=$!
-  ~/.local/bin/send_server &
-  server_pid=$!
-  echo "listening for files... ssh: $ssh_pid server: $server_pid"
-
-  wait $ssh_pid $server_pid
-
-  trap - INT TERM
-}
-
-
-
-# find and replace
-function far() {
-  if [ $# -lt 2 ]; then
-    echo "usage $0 ./dir \"match in .* files\" \"s:match:replace:g\""
-    return 1
-  fi
-  dir=$1
-  search=$2
-
-  if [ $# -eq 3 ]; then
-    far=$3
-    if [ "$(uname)" = "Darwin" ]; then
-      rg $search $dir --files-with-matches | xargs sed -i '' $far
-    else
-      rg $search $dir --files-with-matches | xargs sed -i $far
-    fi
-  else
-    rg $search $dir
-  fi
-}
-
-# toggle do-not-disturb
-function dnd() {
-  if [ "$1" != "" ]; then
-    if [[ "$1" =~ "^true|false$" ]]; then
-      xfconf-query -c xfce4-notifyd -p /do-not-disturb -s $1
-      return
-    else
-      echo "unknown parameter $1"
-      return
-    fi
-  fi
-  is_dnd=$(xfconf-query -c xfce4-notifyd -p /do-not-disturb)
-  if [ "$is_dnd" = "true" ]; then
-    xfconf-query -c xfce4-notifyd -p /do-not-disturb -s false
-    notify-send "dnd off"
-    echo "🔔"
-  else
-    xfconf-query -c xfce4-notifyd -p /do-not-disturb -s true
-    echo "🔕"
-  fi
-}
-
-function notes() {
-  mkdir -p ~/.notes && touch ~/.notes/new
-  note=$(\ls ~/.notes | fzf)
-  if [ "$note" = "new" ]; then
-    read "note?Name: "
-  fi
-  if [ ! -z "$note" ]; then
-    nvim ~/.notes/$note
-  fi
-}
-
-function cnotes() {
-  local_notes_dir=~/.cloud_notes
-  cloud_notes_dir=tb/taybart/notes
-  if [ "$1" = "-pull" ]; then
-    mcli cp --recursive $cloud_notes_dir/ $local_notes_dir
-  elif [ "$1" = "-push" ]; then
-    mcli cp --recursive $local_notes_dir/ $cloud_notes_dir
-    return
-  else
-    mcli cp --recursive $cloud_notes_dir/ $local_notes_dir
-    if [ -z $1 ]; then
-      nvim $local_notes_dir/$(\ls $local_notes_dir | fzf)
-    else
-      nvim $local_notes_dir/$1
-    fi
-    mcli cp --recursive $local_notes_dir/ $cloud_notes_dir
-  fi
-}
-
-function gitclean() {
-  git remote prune origin
-  DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
-  git branch --merged $DEFAULT_BRANCH | \grep -v $DEFAULT_BRANCH | xargs -n 1 git branch -d
-}
-
-
+# ~~ env ~~
 function envup {
   do_paths=false
   if [ "$1" = "paths" ]; then
@@ -245,20 +44,57 @@ function envup {
 
 }
 
-function formatenv {
-  sed -i '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $1
-}
+# ~~ files ~~
+# find and replace
+function far() {
+  if [ $# -lt 2 ]; then
+    echo "usage $0 ./dir \"match in .* files\" \"s:match:replace:g\""
+    return 1
+  fi
+  dir=$1
+  search=$2
 
-function kp {
-  local pid=$(ps -ef | sed 1d | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[kill:process]'" | awk '{print $2}')
-
-  if [ "x$pid" != "x" ]; then
-    echo $pid | xargs kill -${1:-9}
-    echo "killed $pid"
-    # kp
+  if [ $# -eq 3 ]; then
+    far=$3
+    if [ "$(uname)" = "Darwin" ]; then
+      rg $search $dir --files-with-matches | xargs sed -i '' $far
+    else
+      rg $search $dir --files-with-matches | xargs sed -i $far
+    fi
+  else
+    rg $search $dir
   fi
 }
 
+function overloaded {
+
+# Rule of thumb, not a rule: files over 500 lines are too big
+#
+#   overloaded.sh              files over 500 lines
+#   overloaded.sh 800          files over 800 lines
+#   overloaded.sh --tests      include test files
+#   overloaded.sh -e 'api/'    extra args are more `rg -v` patterns to exclude
+#
+# Tests are left out by default: they shrink when the code they cover is split,
+# and the split code's tests move with it.
+	local limit=500 tests=(-e '\.test\.[jt]sx?$' -e '[/_]tests?\.rs$')
+	while [[ $1 == --tests || $1 == <-> ]]; do
+		[[ $1 == --tests ]] && tests=() || limit=$1
+		shift
+	done
+	git ls-files -z | xargs -0 wc -l 2>/dev/null \
+		| rg -v ' total$' \
+		| rg -v -e '\.lock' -e '-lock\.' -e 'tools/' -e '/vendor/' -e 'src-tauri/icons' -e '\.pbxproj' \
+			-e '\.(png|jpe?g|gif|svg|ico|webp|woff2?|ttf|mp3|wav|ogg|wasm|zip)$' "${tests[@]}" "${@}" \
+		| awk -v limit="$limit" '$1 > limit' \
+		| sort -n
+}
+
+function biggest() {
+  du -a $1 | sort -n -r | head -n 5
+}
+
+# ~~ network ~~
 function usingport {
   if [[ $(uname) == "Darwin" ]]; then
     if [[ $2 == "-kill" ]]; then
@@ -272,6 +108,226 @@ function usingport {
     else
       sudo ss -lptn "sport = :$1"
     fi
+  fi
+}
+
+function whereisip() {
+  curl ipinfo.io/$1
+}
+
+function tunnel {
+  echo "forwarding $1..."
+  # \ssh root@$TUNNEL 'pkill -o -u root sshd'
+  \ssh -o "ExitOnForwardFailure yes" \
+    -o "TCPKeepAlive yes" \
+  -N -R 9000:localhost:$1 root@$TUNNEL
+}
+
+function send {
+  local ssh_pid
+  local server_pid
+  local cwd=$(pwd)
+
+  mkdir -p ~/.send_server
+  cd ~/.send_server
+
+  # Setup trap to handle interrupts (SIGINT)
+  trap 'echo "Shutting down tunnel and server..."; kill $ssh_pid $server_pid 2>/dev/null; cd $cwd' INT TERM
+
+  \ssh -o "ExitOnForwardFailure yes" -N -R 9002:localhost:12000 root@$TUNNEL &
+  ssh_pid=$!
+  ~/.local/bin/send_server &
+  server_pid=$!
+  echo "listening for files... ssh: $ssh_pid server: $server_pid"
+
+  wait $ssh_pid $server_pid
+
+  trap - INT TERM
+}
+
+
+# ~~ git ~~
+function gitclean() {
+  git remote prune origin
+  DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+  git branch --merged $DEFAULT_BRANCH | \grep -v $DEFAULT_BRANCH | xargs -n 1 git branch -d
+}
+
+# ~~ docker ~~
+function rundocker() {
+  local dockerfile=""
+  local args=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -f)
+        dockerfile="$2"
+        shift 2
+        ;;
+      *)
+        args+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  local build_cmd=(docker build -q)
+  [[ -n "$dockerfile" ]] && build_cmd+=(-f "$dockerfile")
+  build_cmd+=(.)
+
+  docker run --rm "${args[@]}" "$("${build_cmd[@]}")"
+}
+
+function killdocker() {
+  CID=$(ciddocker)
+  if [[ "$CID" != "" ]]; then
+    docker kill $CID
+  fi
+}
+
+function ciddocker() {
+  docker ps | tail -n +2 | fzf | awk '{print $1}'
+}
+
+function compose-up() {
+  docker compose pull && docker compose up -d --force-recreate
+  docker compose logs --no-log-prefix -f 
+}
+
+# ~~ encryption ~~
+# Set to your 1Password SSH key item (vault/item), real items set in local env
+: ${AGE_OP_ITEM:="op://Private/taybart"}
+: ${AGE_OP_ACCOUNT:="my.1password.com"}
+
+# encrypt [-k pubkey_file|-] [-o out] file
+#   -k FILE   recipients file (ssh pubkeys)
+#   -k -      read recipients from stdin (also auto if stdin is a pipe)
+#   no -k     your own key from 1Password
+encrypt() {
+  local -a key out
+  zparseopts -D -E k:=key o:=out || return 1
+  local in=$1
+  [[ -f $in ]] || { print -u2 "usage: [curl ... |] encrypt [-k pubkey_file|-] [-o out] file"; return 1 }
+  local dest=${out[2]:-$in.age}
+
+  if [[ ${key[2]} == - || ( -z $key && -p /dev/stdin ) ]]; then
+    local keys
+    keys=$(grep -E '^(ssh-ed25519|ssh-rsa) ') || { print -u2 "encrypt: no supported ssh keys on stdin"; return 1 }
+    print -r -- "$keys" | age -R - -o "$dest" "$in"
+  elif [[ -n $key ]]; then
+    age -R "${key[2]}" -o "$dest" "$in"
+  else
+    local pub
+    pub=$(op read --account "$AGE_OP_ACCOUNT" "$AGE_OP_ITEM/public key") || return 1
+    age -r "$pub" -o "$dest" "$in"
+  fi
+}
+
+# decrypt [-k private_key_file] [-o out] file.age   (default out: file without .age)
+decrypt() {
+  local -a key out
+  zparseopts -D -E k:=key o:=out || return 1
+  local in=$1
+  [[ -f $in ]] || { print -u2 "usage: decrypt [-k private_key_file] [-o out] file.age"; return 1 }
+  local dest=${out[2]:-${in%.age}}
+  [[ $dest == $in ]] && dest=$in.dec
+
+  if [[ -n $key ]]; then
+    age -d -i "${key[2]}" -o "$dest" "$in"
+  else
+    op read --account "$AGE_OP_ACCOUNT" "$AGE_OP_ITEM/private key?ssh-format=openssh" | age -d -i - -o "$dest" "$in"
+  fi
+}
+
+# ~~ notes ~~
+function notes() {
+  mkdir -p ~/.notes && touch ~/.notes/new
+  note=$(\ls ~/.notes | fzf)
+  if [ "$note" = "new" ]; then
+    read "note?Name: "
+  fi
+  if [ ! -z "$note" ]; then
+    nvim ~/.notes/$note
+  fi
+}
+
+
+###################################################################################
+###########################    DEPRECATED   #######################################
+###################################################################################
+
+# bring up configs
+function config {
+  read "t?[sh/vi] "
+  case "${t}" in
+    'sh')
+      nvim ~/.dotfiles/shell
+      ;;
+      *)
+      cd ~/.config/nvim && nvim
+  esac
+}
+
+function tab-title {
+  printf "\x1b]1;>$1\x1b\\"
+}
+
+function shrink-video {
+  ffmpeg -i $1 -vcodec libx265 -crf 32 $2
+}
+
+# toggle do-not-disturb
+function dnd() {
+  if [ "$1" != "" ]; then
+    if [[ "$1" =~ "^true|false$" ]]; then
+      xfconf-query -c xfce4-notifyd -p /do-not-disturb -s $1
+      return
+    else
+      echo "unknown parameter $1"
+      return
+    fi
+  fi
+  is_dnd=$(xfconf-query -c xfce4-notifyd -p /do-not-disturb)
+  if [ "$is_dnd" = "true" ]; then
+    xfconf-query -c xfce4-notifyd -p /do-not-disturb -s false
+    notify-send "dnd off"
+    echo "🔔"
+  else
+    xfconf-query -c xfce4-notifyd -p /do-not-disturb -s true
+    echo "🔕"
+  fi
+}
+
+function cnotes() {
+  local_notes_dir=~/.cloud_notes
+  cloud_notes_dir=tb/taybart/notes
+  if [ "$1" = "-pull" ]; then
+    mcli cp --recursive $cloud_notes_dir/ $local_notes_dir
+  elif [ "$1" = "-push" ]; then
+    mcli cp --recursive $local_notes_dir/ $cloud_notes_dir
+    return
+  else
+    mcli cp --recursive $cloud_notes_dir/ $local_notes_dir
+    if [ -z $1 ]; then
+      nvim $local_notes_dir/$(\ls $local_notes_dir | fzf)
+    else
+      nvim $local_notes_dir/$1
+    fi
+    mcli cp --recursive $local_notes_dir/ $cloud_notes_dir
+  fi
+}
+
+function formatenv {
+  sed -i '/^#.*/d; /^[[:space:]]*$/d; s/^export //' $1
+}
+
+function kp {
+  local pid=$(ps -ef | sed 1d | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[kill:process]'" | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]; then
+    echo $pid | xargs kill -${1:-9}
+    echo "killed $pid"
+    # kp
   fi
 }
 
@@ -301,14 +357,6 @@ function copyrand() {
   fi
 }
 
-function biggest() {
-  du -a $1 | sort -n -r | head -n 5
-}
-
-function whereisip() {
-  curl ipinfo.io/$1
-}
-
 function b64 {
   if [ "$1" = "-d" ]; then
     echo -n $2 | base64 -d
@@ -317,7 +365,6 @@ function b64 {
   fi
 }
 
-# ~~ rest ~~
 function restsb() {
   if [ -d './.rest' ]; then
     nvim ./.rest/*.rest
@@ -325,34 +372,6 @@ function restsb() {
   fi
   mkdir -p $HOME/.tmp
   nvim $HOME/.tmp/sandbox.rest
-}
-
-# ~~ docker ~~
-function ciddocker() {
-  docker ps | tail -n +2 | fzf | awk '{print $1}'
-}
-function rundocker() {
-  local dockerfile=""
-  local args=()
-
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      -f)
-        dockerfile="$2"
-        shift 2
-        ;;
-      *)
-        args+=("$1")
-        shift
-        ;;
-    esac
-  done
-
-  local build_cmd=(docker build -q)
-  [[ -n "$dockerfile" ]] && build_cmd+=(-f "$dockerfile")
-  build_cmd+=(.)
-
-  docker run --rm "${args[@]}" "$("${build_cmd[@]}")"
 }
 
 function shdocker() {
@@ -363,19 +382,6 @@ function shdocker() {
   docker exec -it $CID /bin/sh
 }
 
-function killdocker() {
-  CID=$(ciddocker)
-  if [[ "$CID" != "" ]]; then
-    docker kill $CID
-  fi
-}
-
-function compose-up() {
-  docker compose pull && docker compose up -d --force-recreate
-  docker compose logs --no-log-prefix -f 
-}
-
-# ~~ kubernetes ~~
 function kcxt() {
   if [[ -z $1 ]]; then
     kubectl config get-contexts | awk '/^[^*|current]/{print $1} /^\*/{print "\033[1;32m" $2 "\033[0m "}'
@@ -445,7 +451,6 @@ function addRedisTo() {
   helm install -n $1 redis bitnami/redis --set cluster.enabled=false --set usePassword=false
 }
 
-# ~~ go ~~
 function gobuildall() {
   if [ "$#" -ne 2 ]; then
     echo "usage: $0 {dir} {name}"
@@ -464,74 +469,6 @@ arches=('arm' 'arm64' 'amd64')
   done
 }
 
-function sb() {
-  local localBox=false
-  if [[ $1 == "-l" ]]; then
-    localBox=true
-    shift
-  fi
-
-  if [[ "$localBox" == "false" ]]; then
-    ret=$(pwd)
-    r=$(head -c 8 /dev/random | base64 | tr -d '/')
-    folder=~/.tmp/sandbox_$r
-    mkdir -p $folder
-    cd $folder
-  fi
-  # create project
-  if [[ $1 == "node" ]]; then
-    echo '{"name":"sandbox","version":"1.0.0","description":"sandybox","main":"index.mjs", "license": "UNLICENSED","scripts":{"start":"node ."}}' > package.json
-    touch index.mjs
-    nvim index.mjs
-  elif [[ $1 == "bun" || $1 == "ts" ]]; then
-    bun init
-    nvim index.ts
-  elif [[ $1 == "rust" ]]; then
-    cargo init --name sandbox .
-    nvim src/main.rs
-  elif [[ $1 == "python" ]]; then
-    touch main.py
-    python3 -m venv .venv
-    source ./.venv/bin/activate
-    nvim main.py
-    deactivate
-  elif [[ $1 == "rest" ]]; then
-    touch sb.rest
-    echo "locals {}" > sb.rest
-    echo "\nrequest \"test\" {" >> sb.rest
-    echo "\turl = \"\"" >> sb.rest
-    echo "\t#post_hook = <<LUA" >> sb.rest
-    echo "\t#\tprint(inspect(rest.res))" >> sb.rest
-    echo "\t#LUA\n}" >> sb.rest
-    nvim sb.rest
-  else
-    go mod init sandbox
-    echo "package main\n" > main.go
-    echo "import (\"fmt\"\n\"os\")" >> main.go
-    echo "func main() {" >> main.go
-    echo "if err := run(); err != nil{" >> main.go
-    echo 'fmt.Fprintf(os.Stderr, "%v\\n",err)\nos.Exit(1)}}' >> main.go
-    echo "func run() error {\nreturn nil\n}" >> main.go
-    go fmt main.go
-    nvim -c 'exe "15"' main.go
-  fi
-
-  if [[ "$localBox" == "false" ]]; then
-    cd $ret
-    read "keep?Keep sandbox? [y/N] "
-    if [[ "$keep" =~ ^[Yy]$ ]]; then
-      while [ "$name" = "" ] ; do
-        read "name?Name: "
-      done
-      mkdir -p ~/dev/sandboxes
-      mv $folder ~/dev/sandboxes/$name
-    else
-      rm -rf $folder
-    fi
-  fi
-}
-
-# ~~ llm ~~
 function llm() {
   if command_exists ollama; then
     if [[ "$1" == "local" ]]; then
@@ -569,48 +506,3 @@ function llm() {
     fi
   fi
 }
-
-# Set to your 1Password SSH key item (vault/item), real items set in local env
-: ${AGE_OP_ITEM:="op://Private/taybart"}
-: ${AGE_OP_ACCOUNT:="my.1password.com"}
-
-# encrypt [-k pubkey_file|-] [-o out] file
-#   -k FILE   recipients file (ssh pubkeys)
-#   -k -      read recipients from stdin (also auto if stdin is a pipe)
-#   no -k     your own key from 1Password
-encrypt() {
-  local -a key out
-  zparseopts -D -E k:=key o:=out || return 1
-  local in=$1
-  [[ -f $in ]] || { print -u2 "usage: [curl ... |] encrypt [-k pubkey_file|-] [-o out] file"; return 1 }
-  local dest=${out[2]:-$in.age}
-
-  if [[ ${key[2]} == - || ( -z $key && -p /dev/stdin ) ]]; then
-    local keys
-    keys=$(grep -E '^(ssh-ed25519|ssh-rsa) ') || { print -u2 "encrypt: no supported ssh keys on stdin"; return 1 }
-    print -r -- "$keys" | age -R - -o "$dest" "$in"
-  elif [[ -n $key ]]; then
-    age -R "${key[2]}" -o "$dest" "$in"
-  else
-    local pub
-    pub=$(op read --account "$AGE_OP_ACCOUNT" "$AGE_OP_ITEM/public key") || return 1
-    age -r "$pub" -o "$dest" "$in"
-  fi
-}
-
-# decrypt [-k private_key_file] [-o out] file.age   (default out: file without .age)
-decrypt() {
-  local -a key out
-  zparseopts -D -E k:=key o:=out || return 1
-  local in=$1
-  [[ -f $in ]] || { print -u2 "usage: decrypt [-k private_key_file] [-o out] file.age"; return 1 }
-  local dest=${out[2]:-${in%.age}}
-  [[ $dest == $in ]] && dest=$in.dec
-
-  if [[ -n $key ]]; then
-    age -d -i "${key[2]}" -o "$dest" "$in"
-  else
-    op read --account "$AGE_OP_ACCOUNT" "$AGE_OP_ITEM/private key?ssh-format=openssh" | age -d -i - -o "$dest" "$in"
-  fi
-}
-

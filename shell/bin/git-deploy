@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+#
+# git deploy <target>          reset <target> to the default branch and force push it
+# git deploy <from> <target>   reset <target> to <from> and force push it
+set -e
+
+case $# in
+  1) FROM=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'); TARGET=$1 ;;
+  2) FROM=$1; TARGET=$2 ;;
+  *) echo "usage: git deploy [from] <target>" >&2; exit 1 ;;
+esac
+
+CURRENT_BRANCH=$(git branch --show-current)
+git checkout "$FROM"
+git pull
+git branch -D "$TARGET" 2>/dev/null || true
+git checkout -b "$TARGET"
+git push origin "$TARGET" --force-with-lease
+git checkout "$CURRENT_BRANCH"
