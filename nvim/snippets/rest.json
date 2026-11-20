@@ -24,6 +24,15 @@
       "}"
     ]
   },
+  "handler": {
+    "body": [
+      "handler \"${1|GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS|}\" \"${2:test}\" {",
+      "\tfn = <<-MIDNIGHT",
+      "\t\t$0",
+      "\tMIDNIGHT",
+      "}"
+    ]
+  },
   "expect": {
     "body": [
       "expect {",

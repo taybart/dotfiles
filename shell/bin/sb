@@ -73,13 +73,16 @@ new_python() {
 
 new_rest() {
   cat > sb.rest <<'EOF'
-locals {}
+locals {
+  url = "localhost:18080"
+}
 
 request "test" {
-	url = ""
-	#post_hook = <<LUA
+	url = "${locals.url}/test"
+	#after = [lib.expected, <<-MIDNIGHT
 	#	print(inspect(rest.res))
-	#LUA
+	#MIDNIGHT
+  #]
 }
 EOF
   open=sb.rest

@@ -12,7 +12,7 @@ esac
 
 CURRENT_BRANCH=$(git branch --show-current)
 git checkout "$FROM"
-git pull
+git pull origin "$FROM"
 git branch -D "$TARGET" 2>/dev/null || true
 git checkout -b "$TARGET"
 git push origin "$TARGET" --force-with-lease
