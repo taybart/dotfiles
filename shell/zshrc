@@ -85,3 +85,6 @@ fi
 
 source <(starship init zsh)
 # zprof
+
+# Added by codebase-memory-mcp install
+export PATH="/Users/taylor/.local/bin:$PATH"

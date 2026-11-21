@@ -2,6 +2,9 @@
 ------------ init ------------
 ------------------------------
 
+-- record custom filetypes for the yazi previewer (must run before plugins load)
+require('tools.filetype_export')
+
 -- remove pauses after j in insert mode
 vim.opt.timeoutlen = 1000
 vim.opt.ttimeoutlen = 0

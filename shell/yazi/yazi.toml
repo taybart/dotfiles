@@ -12,3 +12,15 @@ group = "git"
 url   = "*/"
 run   = "git"
 group = "git"
+
+# Text files preview through Neovim's tree-sitter highlighting (same grammars,
+# filetypes and colorscheme as the editor; see nvim-preview/README.md). Files
+# nvim has no parser for, or that are >512 KiB, fall back to the built-in
+# `code` previewer. Mimes mirror yazi's default `code` rules.
+[[plugin.prepend_previewers]]
+mime = "text/*"
+run  = "nvim-preview"
+
+[[plugin.prepend_previewers]]
+mime = "*/{xml,javascript,wine-extension-ini}"
+run  = "nvim-preview"
