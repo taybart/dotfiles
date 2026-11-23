@@ -54,12 +54,10 @@ return {
             '--collapse-simple-statement', 'Always',
           },
         },
-        midnight_fmt = function() return require('midnight').formatter() end,
       },
       format_on_save = { lsp_format = 'fallback' },
       formatters_by_ft = {
         lua = { 'stylua' },
-        midnight = { 'midnight_fmt' },
         rust = { 'rustfmt', lsp_format = 'fallback' },
         go = { 'goimports', timeout_ms = 3000 }, -- 3s becaue big projects take forever
         javascript = { 'biome', 'prettier', stop_after_first = true },
@@ -71,35 +69,13 @@ return {
       },
     },
   },
-  {
-    'mfussenegger/nvim-lint',
-    event = { 'BufReadPost', 'BufWritePost', 'InsertLeave' },
-    dependencies = { 'taybart/midnight.nvim' },
-    config = function()
-      local lint = require('lint')
-
-      -- (midnight heredocs in .rest files are linted by midnight.nvim itself)
-      lint.linters.midnight = require('midnight').linter()
-
-      lint.linters_by_ft = {
-        midnight = { 'midnight' },
-      }
-
-      vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost', 'InsertLeave' }, {
-        group = vim.api.nvim_create_augroup('nvim-lint', { clear = true }),
-        callback = function() lint.try_lint() end,
-      })
-      -- the event that loaded this plugin has already fired (and before the
-      -- buffer's filetype is set)
-      vim.schedule(function() lint.try_lint() end)
-    end,
-  },
   { 'stevearc/quicker.nvim', ft = 'qf', opts = {} },
   {
     'taybart/midnight.nvim',
     dev = true,
     -- not just ft = 'midnight': it also handles midnight in .rest files (comments,
-    -- linting heredocs) and registers the parser for nvim-treesitter
+    -- linting heredocs) and registers the parser for nvim-treesitter. Its LSP
+    -- (`midnight lsp`) lints and formats .mn files (conform falls back to it)
     lazy = false,
     opts = {
       -- local grammar checkout if present (else github); `:TSInstall! midnight` after grammar changes
@@ -108,9 +84,6 @@ return {
             and '~/dev/taybart/midnight/tree-sitter-midnight'
           or nil,
       },
-      -- set up above (conform / nvim-lint replace their tables on setup)
-      conform = false,
-      lint = false,
     },
   },
 }

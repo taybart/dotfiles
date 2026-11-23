@@ -44,6 +44,12 @@ function envup {
 
 }
 
+claude-mode() {  # usage: claude-mode personal|work
+ local dir; case $1 in personal) dir=~/.claude-personal ;; work) dir=~/.claude ;; *)  echo
+  "personal|work"; return 1 ;; esac
+  tmux set-environment CLAUDE_CONFIG_DIR $dir && export CLAUDE_CONFIG_DIR=$dir
+}
+
 # ~~ files ~~
 # find and replace
 function far() {
