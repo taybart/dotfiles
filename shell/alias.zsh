@@ -86,8 +86,7 @@ alias gco="git checkout"
 alias gdc="git diff --cached"
 alias gd="git diff --patience --ignore-space-change"
 function git() {
-    if [ $1 = "clone" ]
-    then 
+    if [ "$1" = "clone" ]; then
         command git $@ && cd "$(basename "$_" .git)" && $EDITOR
     else
         command git $@
@@ -95,7 +94,7 @@ function git() {
 }
 # shh this is still an alias
 function GH {
-  if [ $1 = "copy" ]; then
+  if [ "$1" = "copy" ]; then
     gh repo view --json url | jq -r '.url' | copy
     return
   fi
